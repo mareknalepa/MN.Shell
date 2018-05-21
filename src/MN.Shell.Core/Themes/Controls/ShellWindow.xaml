@@ -34,7 +34,7 @@
                 <Setter Property="Background" Value="#FF3F3F46"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="#FF007ACC"/>
+                <Setter Property="Background" Value="{DynamicResource AccentActiveBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -43,7 +43,7 @@
         <Border x:Name="WindowBorder" CornerRadius="0" SnapsToDevicePixels="True"
                 BorderThickness="0" BorderBrush="Transparent" 
                 Margin="{Binding Source={x:Static SystemParameters.WindowResizeBorderThickness}}">
-            <Border Background="#FF2D2D30" BorderBrush="#FF007ACC" BorderThickness="1" SnapsToDevicePixels="True">
+            <Border Background="#FF2D2D30" BorderBrush="{DynamicResource AccentActiveBrush}" BorderThickness="1" SnapsToDevicePixels="True">
                 <AdornerDecorator>
                     <Grid x:Name="WindowLayout">
                         <Grid.ColumnDefinitions>
