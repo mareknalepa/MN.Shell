@@ -1,10 +1,12 @@
 ﻿using Caliburn.Micro;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +15,8 @@ namespace MN.Shell.Core.Framework
 {
     public class AppBootstrapper : BootstrapperBase
     {
+        private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         private CompositionContainer _container;
 
         public AppBootstrapper()
@@ -20,8 +24,20 @@ namespace MN.Shell.Core.Framework
             Initialize();
         }
 
+        protected override IEnumerable<Assembly> SelectAssemblies()
+        {
+            return new[]
+            {
+                Assembly.GetExecutingAssembly(),
+            };
+        }
+
         protected override void Configure()
         {
+            _logger.Info("Configuring AppBootstrapper...");
+
+            Caliburn.Micro.LogManager.GetLog = type => new CaliburnMicroLogger(type);
+
             var catalog = new AggregateCatalog(AssemblySource.Instance
                 .Select(x => new AssemblyCatalog(x))
                 .OfType<ComposablePartCatalog>());
@@ -34,6 +50,8 @@ namespace MN.Shell.Core.Framework
             batch.AddExportedValue(_container);
 
             _container.Compose(batch);
+
+            _logger.Info("AppBootstrapper configured.");
         }
 
         protected override object GetInstance(Type service, string key)
@@ -59,6 +77,8 @@ namespace MN.Shell.Core.Framework
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
+            _logger.Info("Application startup");
+
             DisplayRootViewFor<IShell>();
         }
     }
