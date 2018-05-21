@@ -12,7 +12,7 @@ namespace MN.Shell.Core.Modules.MainWindow
     /// <summary>
     /// Interaction logic for MainWindowView.xaml
     /// </summary>
-    public partial class MainWindowView : Window
+    public partial class MainWindowView : UserControl
     {
         public MainWindowView()
         {

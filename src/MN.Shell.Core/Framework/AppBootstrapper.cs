@@ -45,7 +45,7 @@ namespace MN.Shell.Core.Framework
             _container = new CompositionContainer(catalog);
             var batch = new CompositionBatch();
 
-            batch.AddExportedValue<IWindowManager>(new WindowManager());
+            batch.AddExportedValue<IWindowManager>(new AppWindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
             batch.AddExportedValue(_container);
 

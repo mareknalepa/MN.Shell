@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Base color -->
+    <Color x:Key="BaseColor">#FF2D2D30</Color>
+    <SolidColorBrush x:Key="BaseBrush" Color="#FF2D2D30"/>
+
+
+    <!-- Normal colors -->
+    <Color x:Key="BackgroundColor">#FF1B1B1C</Color>
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#FF1B1B1C"/>
+
+    <Color x:Key="ForegroundColor">#FFF1F1F1</Color>
+    <SolidColorBrush x:Key="ForegroundBrush" Color="#FFF1F1F1"/>
+
+    <Color x:Key="BorderColor">#FF3F3F46</Color>
+    <SolidColorBrush x:Key="BorderBrush" Color="#FF3F3F46"/>
+
+
+    <!-- Active colors -->
+    <Color x:Key="ActiveBackgroundColor">#FF3F3F46</Color>
+    <SolidColorBrush x:Key="ActiveBackgroundBrush" Color="#FF3F3F41"/>
+
+    <Color x:Key="ActiveForegroundColor">#FFFFFFFF</Color>
+    <SolidColorBrush x:Key="ActiveForegroundBrush" Color="#FFFFFFFF"/>
+
+    <Color x:Key="ActiveBorderColor">#FF3F3F46</Color>
+    <SolidColorBrush x:Key="ActiveBorderBrush" Color="#FF3F3F46"/>
+
+
+    <!-- Inactive colors -->
+    <Color x:Key="InactiveBackgroundColor">#FF2D2D30</Color>
+    <SolidColorBrush x:Key="InactiveBackgroundBrush" Color="#FF2D2D30"/>
+
+    <Color x:Key="InactiveForegroundColor">#FF787878</Color>
+    <SolidColorBrush x:Key="InactiveForegroundBrush" Color="#FF787878"/>
+
+    <Color x:Key="InactiveBorderColor">#FF3C3C41</Color>
+    <SolidColorBrush x:Key="InactiveBorderBrush" Color="#FF3C3C41"/>
+
+</ResourceDictionary>

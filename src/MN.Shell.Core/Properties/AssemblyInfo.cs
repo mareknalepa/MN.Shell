@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Markup;
 
 // General Information about an assembly is controlled through the following
@@ -14,4 +15,10 @@ using System.Windows.Markup;
 [assembly: Guid("1b0ab020-9553-4cca-846b-c71ce1f0691d")]
 
 [assembly: XmlnsPrefix("https://github.com/mareknalepa/MN.Shell", "mnshell")]
+[assembly: XmlnsDefinition("https://github.com/mareknalepa/MN.Shell", "MN.Shell.Core.Controls")]
 [assembly: XmlnsDefinition("https://github.com/mareknalepa/MN.Shell", "MN.Shell.Core.Framework")]
+
+[assembly: ThemeInfo(
+    ResourceDictionaryLocation.None,
+    ResourceDictionaryLocation.SourceAssembly
+)]
