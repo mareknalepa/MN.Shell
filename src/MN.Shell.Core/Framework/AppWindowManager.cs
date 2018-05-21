@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using MN.Shell.Core.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace MN.Shell.Core.Framework
 
             if (window == null)
             {
-                window = new Window()
+                window = new ShellWindow()
                 {
                     Content = view,
                 };

@@ -68,6 +68,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Controls\ShellWindow.cs" />
     <Compile Include="Framework\AppBootstrapper.cs" />
     <Compile Include="Framework\AppWindowManager.cs" />
     <Compile Include="Framework\CaliburnMicroLogger.cs" />

@@ -1,4 +1,5 @@
-﻿using MN.Shell.Core.Framework;
+﻿using Caliburn.Micro;
+using MN.Shell.Core.Framework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -9,7 +10,19 @@ using System.Threading.Tasks;
 namespace MN.Shell.Core.Modules.MainWindow
 {
     [Export(typeof(IShell))]
-    public class MainWindowViewModel : IShell
+    public class MainWindowViewModel : PropertyChangedBase, IShell, IHaveDisplayName
     {
+        public MainWindowViewModel()
+        {
+            DisplayName = "MN.Shell Main Window";
+        }
+
+        private string _displayName;
+
+        public string DisplayName
+        {
+            get => _displayName;
+            set { _displayName = value; NotifyOfPropertyChange(); }
+        }
     }
 }
