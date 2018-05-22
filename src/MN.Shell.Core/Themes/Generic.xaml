@@ -9,6 +9,7 @@
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/Label.xaml"/>
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/PasswordBox.xaml"/>
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/RadioButton.xaml"/>
+        <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/TextBlock.xaml"/>
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/TextBox.xaml"/>
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/ShellWindow.xaml"/>
     </ResourceDictionary.MergedDictionaries>
