@@ -3,6 +3,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/BaseColors/Dark.xaml"/>
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/AccentColors/Blue.xaml"/>
+        <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/Button.xaml"/>
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/ShellWindow.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
