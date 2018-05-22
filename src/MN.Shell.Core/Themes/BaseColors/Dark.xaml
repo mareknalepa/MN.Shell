@@ -19,13 +19,13 @@
 
     <!-- Active colors -->
     <Color x:Key="ActiveBackgroundColor">#FF3F3F46</Color>
-    <SolidColorBrush x:Key="ActiveBackgroundBrush" Color="#FF3F3F41"/>
+    <SolidColorBrush x:Key="ActiveBackgroundBrush" Color="#FF3F3F46"/>
 
-    <Color x:Key="ActiveForegroundColor">#FFFFFFFF</Color>
-    <SolidColorBrush x:Key="ActiveForegroundBrush" Color="#FFFFFFFF"/>
+    <Color x:Key="ActiveForegroundColor">#FFF1F1F1</Color>
+    <SolidColorBrush x:Key="ActiveForegroundBrush" Color="#FFF1F1F1"/>
 
-    <Color x:Key="ActiveBorderColor">#FF3F3F46</Color>
-    <SolidColorBrush x:Key="ActiveBorderBrush" Color="#FF3F3F46"/>
+    <Color x:Key="ActiveBorderColor">#FF5F5F69</Color>
+    <SolidColorBrush x:Key="ActiveBorderBrush" Color="#FF5F5F69"/>
 
 
     <!-- Inactive colors -->
@@ -37,5 +37,16 @@
 
     <Color x:Key="InactiveBorderColor">#FF3C3C41</Color>
     <SolidColorBrush x:Key="InactiveBorderBrush" Color="#FF3C3C41"/>
+
+
+    <!-- Highlight colors -->
+    <Color x:Key="HighlightBackgroundColor">#FF3F3F46</Color>
+    <SolidColorBrush x:Key="HighlightBackgroundBrush" Color="#FF3F3F46"/>
+
+    <Color x:Key="HighlightForegroundColor">#FFFFFFFF</Color>
+    <SolidColorBrush x:Key="HighlightForegroundBrush" Color="#FFFFFFFF"/>
+
+    <Color x:Key="HighlightBorderColor">#FF3F3F46</Color>
+    <SolidColorBrush x:Key="HighlightBorderBrush" Color="#FF3F3F46"/>
 
 </ResourceDictionary>
