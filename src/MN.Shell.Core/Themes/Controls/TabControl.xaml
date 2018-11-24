@@ -5,8 +5,6 @@
         <Setter Property="Background" Value="{DynamicResource ActiveBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource ActiveBorderBrush}"/>
-        <Setter Property="MinWidth" Value="200"/>
-        <Setter Property="MinHeight" Value="160"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -37,8 +35,6 @@
                                 BorderThickness="1"
                                 CornerRadius="0"
                                 Background="{TemplateBinding Background}"
-                                MinWidth="{TemplateBinding MinWidth}"
-                                MinHeight="{TemplateBinding MinHeight}"
                                 Name="ContentPanel"
                                 KeyboardNavigation.TabIndex="2"
                                 KeyboardNavigation.TabNavigation="Local"
@@ -49,7 +45,7 @@
                                               ContentSource="SelectedContent"
                                               Name="PART_SelectedContentHost"
                                               Margin="{TemplateBinding Padding}"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                     </Grid>
 
@@ -104,8 +100,8 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Padding" Value="5"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>
