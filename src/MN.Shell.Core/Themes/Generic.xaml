@@ -6,6 +6,7 @@
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/CheckBox.xaml"/>
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/ComboBox.xaml"/>
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/Label.xaml"/>
+        <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/Menu.xaml"/>
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/PasswordBox.xaml"/>
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/RadioButton.xaml"/>
         <ResourceDictionary Source="/MN.Shell.Core;component/Themes/Controls/ScrollBar.xaml"/>
