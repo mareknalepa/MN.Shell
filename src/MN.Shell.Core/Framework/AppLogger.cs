@@ -1,20 +1,16 @@
 ﻿using Caliburn.Micro;
 using NLog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MN.Shell.Core.Framework
 {
-    public class CaliburnMicroLogger : ILog
+    public class AppLogger : ILog
     {
         private readonly Logger _logger;
 
-        public CaliburnMicroLogger(Type type)
+        public AppLogger(Logger logger)
         {
-            _logger = NLog.LogManager.GetLogger(type.Name);
+            _logger = logger;
         }
 
         public void Error(Exception exception)

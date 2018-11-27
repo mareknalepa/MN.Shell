@@ -72,8 +72,8 @@
     </Compile>
     <Compile Include="Controls\ShellWindow.cs" />
     <Compile Include="Framework\AppBootstrapper.cs" />
+    <Compile Include="Framework\AppLogger.cs" />
     <Compile Include="Framework\AppWindowManager.cs" />
-    <Compile Include="Framework\CaliburnMicroLogger.cs" />
     <Compile Include="Framework\IShell.cs" />
     <Compile Include="Modules\MainWindow\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>

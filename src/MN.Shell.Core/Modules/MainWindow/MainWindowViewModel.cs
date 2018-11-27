@@ -1,17 +1,17 @@
 ﻿using Caliburn.Micro;
 using MN.Shell.Core.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MN.Shell.Core.Modules.MainWindow
 {
     public class MainWindowViewModel : PropertyChangedBase, IShell, IHaveDisplayName
     {
-        public MainWindowViewModel()
+        private readonly ILog _log;
+
+        public MainWindowViewModel(ILog log)
         {
+            _log = log;
+            _log.Info("Creating MainWindowViewModel instance...");
+
             DisplayName = "MN.Shell Main Window";
         }
 

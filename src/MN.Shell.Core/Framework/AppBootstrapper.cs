@@ -1,10 +1,8 @@
 ﻿using Caliburn.Micro;
 using MN.Shell.Core.Modules.MainWindow;
 using Ninject;
-using NLog;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Windows;
 
@@ -12,7 +10,7 @@ namespace MN.Shell.Core.Framework
 {
     public class AppBootstrapper : BootstrapperBase
     {
-        private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        private readonly ILog _log = new AppLogger(NLog.LogManager.GetLogger(typeof(AppBootstrapper).Name));
 
         private IKernel _kernel;
 
@@ -31,17 +29,20 @@ namespace MN.Shell.Core.Framework
 
         protected override void Configure()
         {
-            _logger.Info("Configuring AppBootstrapper...");
+            _log.Info("Configuring AppBootstrapper...");
 
-            Caliburn.Micro.LogManager.GetLog = type => new CaliburnMicroLogger(type);
+            LogManager.GetLog = type => new AppLogger(NLog.LogManager.GetLogger(type.Name));
 
             _kernel = new StandardKernel();
             _kernel.Bind<IWindowManager>().To<AppWindowManager>().InSingletonScope();
             _kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
 
+            _kernel.Bind<ILog>().ToMethod(c => new AppLogger(NLog.LogManager.GetLogger(
+                c.Request.Target.Member.DeclaringType.Name)));
+
             _kernel.Bind<IShell>().To<MainWindowViewModel>().InSingletonScope();
 
-            _logger.Info("AppBootstrapper configured.");
+            _log.Info("AppBootstrapper configured.");
         }
 
         protected override object GetInstance(Type service, string key)
@@ -67,7 +68,7 @@ namespace MN.Shell.Core.Framework
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            _logger.Info("Application startup");
+            _log.Info("Application startup");
 
             DisplayRootViewFor<IShell>();
         }
@@ -76,7 +77,7 @@ namespace MN.Shell.Core.Framework
         {
             _kernel.Dispose();
 
-            _logger.Info("Application exit");
+            _log.Info("Application exit");
         }
     }
 }
