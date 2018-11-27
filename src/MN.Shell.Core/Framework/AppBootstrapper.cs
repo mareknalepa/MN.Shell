@@ -1,14 +1,11 @@
 ﻿using Caliburn.Micro;
+using MN.Shell.Core.Modules.MainWindow;
+using Ninject;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
-using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace MN.Shell.Core.Framework
@@ -17,7 +14,7 @@ namespace MN.Shell.Core.Framework
     {
         private static readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private CompositionContainer _container;
+        private IKernel _kernel;
 
         public AppBootstrapper()
         {
@@ -38,41 +35,34 @@ namespace MN.Shell.Core.Framework
 
             Caliburn.Micro.LogManager.GetLog = type => new CaliburnMicroLogger(type);
 
-            var catalog = new AggregateCatalog(AssemblySource.Instance
-                .Select(x => new AssemblyCatalog(x))
-                .OfType<ComposablePartCatalog>());
+            _kernel = new StandardKernel();
+            _kernel.Bind<IWindowManager>().To<AppWindowManager>().InSingletonScope();
+            _kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
 
-            _container = new CompositionContainer(catalog);
-            var batch = new CompositionBatch();
-
-            batch.AddExportedValue<IWindowManager>(new AppWindowManager());
-            batch.AddExportedValue<IEventAggregator>(new EventAggregator());
-            batch.AddExportedValue(_container);
-
-            _container.Compose(batch);
+            _kernel.Bind<IShell>().To<MainWindowViewModel>().InSingletonScope();
 
             _logger.Info("AppBootstrapper configured.");
         }
 
         protected override object GetInstance(Type service, string key)
         {
-            string contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(service) : key;
-            var exports = _container.GetExportedValues<object>(contract);
+            if (service == null)
+                throw new ArgumentNullException(nameof(service));
 
-            if (exports.Any())
-                return exports.First();
-
-            throw new Exception($"Could not locate any instances of contract {contract}.");
+            return _kernel.Get(service);
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-            return _container.GetExportedValues<object>(AttributedModelServices.GetContractName(service));
+            if (service == null)
+                throw new ArgumentNullException(nameof(service));
+
+            return _kernel.GetAll(service);
         }
 
         protected override void BuildUp(object instance)
         {
-            _container.SatisfyImportsOnce(instance);
+            _kernel.Inject(instance);
         }
 
         protected override void OnStartup(object sender, StartupEventArgs e)
@@ -80,6 +70,13 @@ namespace MN.Shell.Core.Framework
             _logger.Info("Application startup");
 
             DisplayRootViewFor<IShell>();
+        }
+
+        protected override void OnExit(object sender, EventArgs e)
+        {
+            _kernel.Dispose();
+
+            _logger.Info("Application exit");
         }
     }
 }
