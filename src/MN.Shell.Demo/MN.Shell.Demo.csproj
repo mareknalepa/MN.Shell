@@ -78,6 +78,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoModule.cs" />
+    <Compile Include="DemoPanel\DemoPanelView.xaml.cs">
+      <DependentUpon>DemoPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DemoPanel\DemoPanelViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -111,6 +116,12 @@
       <Project>{1b0ab020-9553-4cca-846b-c71ce1f0691d}</Project>
       <Name>MN.Shell.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="DemoPanel\DemoPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

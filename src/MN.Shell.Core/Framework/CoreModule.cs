@@ -6,7 +6,7 @@ namespace MN.Shell.Core.Framework
 {
     public class CoreModule : NinjectModule
     {
-        public override string Name => "MN.Shell Core Module";
+        public override string Name => "MN.Shell.Core";
 
         public override void Load()
         {

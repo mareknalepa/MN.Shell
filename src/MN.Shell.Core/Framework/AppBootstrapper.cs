@@ -20,10 +20,7 @@ namespace MN.Shell.Core.Framework
 
         protected override IEnumerable<Assembly> SelectAssemblies()
         {
-            return new[]
-            {
-                Assembly.GetExecutingAssembly(),
-            };
+            return AppDomain.CurrentDomain.GetAssemblies();
         }
 
         protected override void Configure()

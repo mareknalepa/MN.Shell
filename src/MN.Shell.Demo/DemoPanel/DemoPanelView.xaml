@@ -1,0 +1,390 @@
+﻿<UserControl x:Class="MN.Shell.Demo.DemoPanel.DemoPanelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MN.Shell.Demo.DemoPanel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="26"/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0" Grid.ColumnSpan="2">
+            <MenuItem Header="File">
+                <MenuItem Header="Recent files">
+                    <MenuItem Header="app.xaml"/>
+                    <MenuItem Header="Test.cs"/>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Exit"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Cut" InputGestureText="Ctrl+X"/>
+                <MenuItem Header="Copy" InputGestureText="Ctrl+C"/>
+                <Separator/>
+                <MenuItem Header="Paste" InputGestureText="Ctrl+V"/>
+            </MenuItem>
+            <MenuItem Header="Help"/>
+            <MenuItem Header="{Binding RelativeSource={RelativeSource Self}, Path=Role}">
+                <MenuItem Header="{Binding RelativeSource={RelativeSource Self}, Path=Role}">
+                    <MenuItem Header="{Binding RelativeSource={RelativeSource Self}, Path=Role}"/>
+                </MenuItem>
+                <MenuItem Header="{Binding RelativeSource={RelativeSource Self}, Path=Role}"/>
+            </MenuItem>
+        </Menu>
+
+        <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Margin="2,0,5,0">
+            <TabItem Header="Folders" IsSelected="True">
+                <TreeView>
+                    <TreeView.Items>
+                        <TreeViewItem Header="Folder1" IsExpanded="True">
+                            <TreeViewItem.Items>
+                                <TreeViewItem Header="Subfolder1"/>
+                                <TreeViewItem Header="Subfolder2"/>
+                                <TreeViewItem Header="Subfolder3"/>
+                            </TreeViewItem.Items>
+                        </TreeViewItem>
+                        <TreeViewItem Header="Folder2" IsExpanded="False">
+                            <TreeViewItem.Items>
+                                <TreeViewItem Header="Subfolder4"/>
+                                <TreeViewItem Header="Subfolder5"/>
+                                <TreeViewItem Header="Subfolder6"/>
+                            </TreeViewItem.Items>
+                        </TreeViewItem>
+                        <TreeViewItem Header="Folder3" IsExpanded="False">
+                            <TreeViewItem.Items>
+                                <TreeViewItem Header="Subfolder7"/>
+                                <TreeViewItem Header="Subfolder8"/>
+                                <TreeViewItem Header="Subfolder9"/>
+                            </TreeViewItem.Items>
+                        </TreeViewItem>
+                    </TreeView.Items>
+                </TreeView>
+            </TabItem>
+            <TabItem Header="Tools">
+            </TabItem>
+            <TabItem Header="Properties">
+            </TabItem>
+        </TabControl>
+
+        <TabControl Grid.Row="1" Grid.Column="1" Margin="5,0,0,0">
+            <TabItem Header="Buttons">
+                <StackPanel Width="240" Margin="20"  Background="{DynamicResource BackgroundBrush}">
+                    <Button Content="Sample button" Margin="5" />
+                    <Button Content="Disabled button" Margin="5" IsEnabled="False"/>
+                    <Button Content="Default button" Margin="5" IsDefault="True" />
+                    <Button Content="Cancel button" Margin="5" IsCancel="True"/>
+
+                    <ToggleButton Content="Toggle button" Margin="5"/>
+                    <ToggleButton Content="Disabled toggle button" Margin="5" IsEnabled="False"/>
+                    <ToggleButton Content="Checked toggle button" Margin="5" IsChecked="True"/>
+
+                    <RepeatButton Content="Repeat button" Margin="5"/>
+                    <RepeatButton Content="Disabled repeat button" Margin="5" IsEnabled="False"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Input">
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Width="240" Margin="20" Background="{DynamicResource BackgroundBrush}">
+                            <ComboBox Margin="5">
+                                <ComboBox.Items>
+                                    <ComboBoxItem Content="Default ComboBox"/>
+                                    <ComboBoxItem Content="Option 2"/>
+                                    <ComboBoxItem Content="Option 3"/>
+                                    <ComboBoxItem Content="Option 4"/>
+                                </ComboBox.Items>
+                            </ComboBox>
+
+                            <ComboBox Margin="5" IsEnabled="False">
+                                <ComboBox.Items>
+                                    <ComboBoxItem Content="Disabled ComboBox" IsSelected="True"/>
+                                </ComboBox.Items>
+                            </ComboBox>
+
+                            <ComboBox Margin="5" IsEditable="True">
+                                <ComboBox.Items>
+                                    <ComboBoxItem Content="Editable ComboBox" IsSelected="True"/>
+                                </ComboBox.Items>
+                            </ComboBox>
+
+                            <TextBox Margin="5">Default TextBox</TextBox>
+                            <TextBox Margin="5" IsEnabled="False">Disabled TextBox</TextBox>
+                            <TextBox Margin="5" IsReadOnly="True">Read-only TextBox</TextBox>
+
+                            <PasswordBox Margin="5" Password="SecretPassword"/>
+                            <PasswordBox Margin="5" Password="SecretPassword" IsEnabled="False"/>
+
+                            <RichTextBox Margin="5">
+                                <FlowDocument>
+                                    <Paragraph>
+                                        Default
+                                        <Bold>RichTextBox</Bold>
+                                    </Paragraph>
+                                </FlowDocument>
+                            </RichTextBox>
+                            <RichTextBox Margin="5" IsEnabled="False">
+                                <FlowDocument>
+                                    <Paragraph>
+                                        Disabled
+                                        <Bold>RichTextBox</Bold>
+                                    </Paragraph>
+                                </FlowDocument>
+                            </RichTextBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Width="240" Margin="20" Background="{DynamicResource BackgroundBrush}">
+                            <CheckBox Content="Default checkbox" Margin="5"/>
+                            <CheckBox Content="Disabled checkbox" Margin="5" IsEnabled="False"/>
+                            <CheckBox Content="Disabled checked checkbox" Margin="5" IsEnabled="False" IsChecked="True"/>
+                            <CheckBox Content="Checked checkbox" Margin="5" IsChecked="True"/>
+                            <CheckBox Content="Three-state checkbox" Margin ="5" IsThreeState="True" IsChecked="{x:Null}"/>
+
+                            <RadioButton Content="Option" Margin="5" />
+                            <RadioButton Content="Checked Option" Margin="5" IsChecked="True" />
+                            <RadioButton Content="Disabled option" Margin="5" IsEnabled="False"/>
+                            <RadioButton Content="Disabled checked option" Margin="5" IsEnabled="False" IsChecked="True"/>
+
+                            <Label Content="Default label" Margin="5"/>
+                            <Label Content="Disabled label" Margin="5" IsEnabled="False"/>
+
+                            <TextBlock Margin="5">Example of TextBlock</TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Context Menu">
+                <StackPanel Width="240" Margin="20" Background="{DynamicResource BackgroundBrush}">
+                    <Button Content="Button with context menu" Margin="5">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <ContextMenu.Items>
+                                    <MenuItem Header="{Binding RelativeSource={RelativeSource Self}, Path=Role}">
+                                        <MenuItem Header="{Binding RelativeSource={RelativeSource Self}, Path=Role}"/>
+                                    </MenuItem>
+                                    <MenuItem Header="{Binding RelativeSource={RelativeSource Self}, Path=Role}"/>
+                                    <MenuItem Header="Default item"/>
+                                    <MenuItem Header="Item with gesture" InputGestureText="Ctrl+Q"/>
+                                    <Separator/>
+                                    <MenuItem Header="Disabled item" IsEnabled="False"/>
+                                    <MenuItem Header="Checked item" IsChecked="True"/>
+                                    <MenuItem Header="Checkable item" IsCheckable="True"/>
+                                    <MenuItem Header="Disabled checked item" IsEnabled="False" IsChecked="True"/>
+                                    <MenuItem Header="Item with submenu">
+                                        <MenuItem.Items>
+                                            <MenuItem Header="Subitem 1"/>
+                                            <MenuItem Header="Subitem 2"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                            <MenuItem Header="Subitem n"/>
+                                        </MenuItem.Items>
+                                    </MenuItem>
+                                </ContextMenu.Items>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Tabbed interface">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Row="0" Grid.Column="0"
+                            Background="{DynamicResource InactiveBackgroundBrush}"
+                            Margin="10"
+                            Padding="10">
+                        <TabControl TabStripPlacement="Top">
+                            <TabItem Header="Example">
+                                <Button Content="Test" Margin="20"/>
+                            </TabItem>
+                            <TabItem Header="Tabs">
+                                <Button Content="Test" Margin="20"/>
+                            </TabItem>
+                        </TabControl>
+                    </Border>
+
+                    <Border Grid.Row="1" Grid.Column="0"
+                            Background="{DynamicResource InactiveBackgroundBrush}"
+                            Margin="10"
+                            Padding="10">
+                        <TabControl TabStripPlacement="Bottom">
+                            <TabItem Header="Example">
+                                <Button Content="Test" Margin="20"/>
+                            </TabItem>
+                            <TabItem Header="Tabs">
+                                <Button Content="Test" Margin="20"/>
+                            </TabItem>
+                        </TabControl>
+                    </Border>
+
+                    <Border Grid.Row="0" Grid.Column="1"
+                            Background="{DynamicResource InactiveBackgroundBrush}"
+                            Margin="10"
+                            Padding="10">
+                        <TabControl TabStripPlacement="Left">
+                            <TabItem Header="Example">
+                                <Button Content="Test" Margin="20"/>
+                            </TabItem>
+                            <TabItem Header="Tabs">
+                                <Button Content="Test" Margin="20"/>
+                            </TabItem>
+                        </TabControl>
+                    </Border>
+
+                    <Border Grid.Row="1" Grid.Column="1"
+                            Background="{DynamicResource InactiveBackgroundBrush}"
+                            Margin="10"
+                            Padding="10">
+                        <TabControl TabStripPlacement="Right" IsEnabled="False">
+                            <TabItem Header="Example">
+                                <Button Content="Test" Margin="20"/>
+                            </TabItem>
+                            <TabItem Header="Tabs">
+                                <Button Content="Test" Margin="20"/>
+                            </TabItem>
+                        </TabControl>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Progressbar">
+                <Border Width="240" Background="{DynamicResource BackgroundBrush}">
+                    <StackPanel>
+                        <Label Margin="5,15,5,5">Normal progress bar</Label>
+                        <ProgressBar Value="66" Margin="5"/>
+
+                        <Label Margin="5,15,5,5">Indeterminate progress bar</Label>
+                        <ProgressBar IsIndeterminate="True" Margin="5"/>
+
+                        <Label Margin="5,15,5,5">Disabled progress bar</Label>
+                        <ProgressBar Value="40" IsEnabled="False" Margin="5"/>
+
+                        <Label Margin="5,15,5,5">Disabled indeterminate progress bar</Label>
+                        <ProgressBar IsIndeterminate="True" IsEnabled="False" Margin="5"/>
+
+                        <Label Margin="5,15,5,5">Animated progress bar</Label>
+                        <ProgressBar Margin="5" Name="AnimatedProgressBar">
+                            <ProgressBar.Triggers>
+                                <EventTrigger RoutedEvent="ProgressBar.Loaded" SourceName="AnimatedProgressBar">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="AnimatedProgressBar"
+                                                             Storyboard.TargetProperty="Value"
+                                                             From="0" To="100" Duration="0:0:3"
+                                                             RepeatBehavior="Forever"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ProgressBar.Triggers>
+                        </ProgressBar>
+                    </StackPanel>
+                </Border>
+            </TabItem>
+        </TabControl>
+
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="2">
+            <StatusBarItem Content="Ready"/>
+            <Separator/>
+            <StatusBarItem Content="Inactive item" IsEnabled="False"/>
+            <Separator/>
+            <StatusBarItem Content="Yet another item"/>
+            <Separator/>
+            <StatusBarItem Content="StatusBarItem with very, very, very long description..."/>
+            <Separator/>
+            <StatusBarItem Content="CAPS"/>
+        </StatusBar>
+    </Grid>
+</UserControl>

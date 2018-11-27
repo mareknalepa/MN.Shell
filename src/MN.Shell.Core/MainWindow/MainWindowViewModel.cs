@@ -22,5 +22,13 @@ namespace MN.Shell.Core.MainWindow
             get => _displayName;
             set { _displayName = value; NotifyOfPropertyChange(); }
         }
+
+        private object _content;
+
+        public object Content
+        {
+            get => _content;
+            set { _content = value; NotifyOfPropertyChange(); }
+        }
     }
 }
