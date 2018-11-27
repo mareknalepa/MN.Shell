@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using MN.Shell.Core.Modules.MainWindow;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -34,13 +33,7 @@ namespace MN.Shell.Core.Framework
             LogManager.GetLog = type => new AppLogger(NLog.LogManager.GetLogger(type.Name));
 
             _kernel = new StandardKernel();
-            _kernel.Bind<IWindowManager>().To<AppWindowManager>().InSingletonScope();
-            _kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
-
-            _kernel.Bind<ILog>().ToMethod(c => new AppLogger(NLog.LogManager.GetLogger(
-                c.Request.Target.Member.DeclaringType.Name)));
-
-            _kernel.Bind<IShell>().To<MainWindowViewModel>().InSingletonScope();
+            _kernel.Load(SelectAssemblies());
 
             _log.Info("AppBootstrapper configured.");
         }

@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using MN.Shell.Core.Framework;
 
-namespace MN.Shell.Core.Modules.MainWindow
+namespace MN.Shell.Core.MainWindow
 {
     public class MainWindowViewModel : PropertyChangedBase, IShell, IHaveDisplayName
     {

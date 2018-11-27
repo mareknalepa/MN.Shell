@@ -74,11 +74,12 @@
     <Compile Include="Framework\AppBootstrapper.cs" />
     <Compile Include="Framework\AppLogger.cs" />
     <Compile Include="Framework\AppWindowManager.cs" />
+    <Compile Include="Framework\CoreModule.cs" />
     <Compile Include="Framework\IShell.cs" />
-    <Compile Include="Modules\MainWindow\MainWindowView.xaml.cs">
+    <Compile Include="MainWindow\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\MainWindow\MainWindowViewModel.cs" />
+    <Compile Include="MainWindow\MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -87,7 +88,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Modules\MainWindow\MainWindowView.xaml">
+    <Page Include="MainWindow\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

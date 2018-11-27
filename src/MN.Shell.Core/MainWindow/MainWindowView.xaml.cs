@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace MN.Shell.Core.Modules.MainWindow
+namespace MN.Shell.Core.MainWindow
 {
     /// <summary>
     /// Interaction logic for MainWindowView.xaml
