@@ -39,6 +39,12 @@ namespace MN.Shell.Core.Framework
                 }
             }
 
+            if (isDialog)
+            {
+                window.SizeToContent = SizeToContent.WidthAndHeight;
+                window.ResizeMode = ResizeMode.NoResize;
+            }
+
             return window;
         }
     }

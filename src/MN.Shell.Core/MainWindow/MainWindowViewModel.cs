@@ -3,7 +3,7 @@ using MN.Shell.Core.Framework;
 
 namespace MN.Shell.Core.MainWindow
 {
-    public class MainWindowViewModel : PropertyChangedBase, IShell, IHaveDisplayName
+    public class MainWindowViewModel : Screen, IShell
     {
         private readonly ILog _log;
 
@@ -13,14 +13,6 @@ namespace MN.Shell.Core.MainWindow
             _log.Info("Creating MainWindowViewModel instance...");
 
             DisplayName = "MN.Shell Main Window";
-        }
-
-        private string _displayName;
-
-        public string DisplayName
-        {
-            get => _displayName;
-            set { _displayName = value; NotifyOfPropertyChange(); }
         }
 
         private object _content;

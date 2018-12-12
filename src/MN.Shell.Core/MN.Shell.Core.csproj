@@ -71,6 +71,9 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Controls\ShellWindow.cs" />
+    <Compile Include="Dialogs\DialogButton.cs" />
+    <Compile Include="Dialogs\DialogButtonType.cs" />
+    <Compile Include="Dialogs\DialogViewModelBase.cs" />
     <Compile Include="Framework\AppBootstrapper.cs" />
     <Compile Include="Framework\AppLogger.cs" />
     <Compile Include="Framework\AppWindowManager.cs" />
