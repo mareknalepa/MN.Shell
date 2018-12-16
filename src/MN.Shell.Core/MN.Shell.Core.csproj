@@ -81,10 +81,16 @@
     <Compile Include="Framework\CoreModule.cs" />
     <Compile Include="Framework\IShell.cs" />
     <Compile Include="Framework\IShellContent.cs" />
+    <Compile Include="Framework\RelayCommand.cs" />
     <Compile Include="MainWindow\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow\MainWindowViewModel.cs" />
+    <Compile Include="MessageBox\DtMessageBoxViewModel.cs" />
+    <Compile Include="MessageBox\MessageBoxView.xaml.cs">
+      <DependentUpon>MessageBoxView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageBox\MessageBoxViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +102,10 @@
     <Page Include="MainWindow\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MessageBox\MessageBoxView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\AccentColors\Blue.xaml">
       <SubType>Designer</SubType>

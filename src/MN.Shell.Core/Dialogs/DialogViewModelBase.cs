@@ -1,9 +1,6 @@
 ﻿using Caliburn.Micro;
-using System;
+using MN.Shell.Core.Framework;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MN.Shell.Core.Dialogs
 {
@@ -11,11 +8,20 @@ namespace MN.Shell.Core.Dialogs
     {
         public BindableCollection<DialogButton> Buttons { get; } = new BindableCollection<DialogButton>();
 
+        public DialogButton SelectedButton { get; private set; }
+
         protected void CreateButtons(IEnumerable<DialogButtonType> dialogButtonTypes)
         {
             foreach (DialogButtonType type in dialogButtonTypes)
             {
-                Buttons.Add(DialogButton.Create(type));
+                DialogButton button = DialogButton.Create(type);
+
+                if (button.IsCancel)
+                    button.Command = new RelayCommand(o => { TryClose(false); SelectedButton = button; });
+                else
+                    button.Command = new RelayCommand(o => { TryClose(true); SelectedButton = button; });
+
+                Buttons.Add(button);
             }
         }
     }

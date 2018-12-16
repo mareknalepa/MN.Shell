@@ -78,7 +78,7 @@
         <TabControl Grid.Row="1" Grid.Column="1" Margin="5,0,0,0">
             <TabItem Header="Buttons">
                 <StackPanel Width="240" Margin="20"  Background="{DynamicResource BackgroundBrush}">
-                    <Button Content="Sample button" Margin="5" />
+                    <Button Content="Sample button" Margin="5" x:Name="RunDialog" />
                     <Button Content="Disabled button" Margin="5" IsEnabled="False"/>
                     <Button Content="Default button" Margin="5" IsDefault="True" />
                     <Button Content="Cancel button" Margin="5" IsCancel="True"/>
