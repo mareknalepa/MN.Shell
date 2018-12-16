@@ -79,6 +79,7 @@
     <Compile Include="Framework\AppWindowManager.cs" />
     <Compile Include="Framework\CoreModule.cs" />
     <Compile Include="Framework\IShell.cs" />
+    <Compile Include="Framework\IShellContent.cs" />
     <Compile Include="MainWindow\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>

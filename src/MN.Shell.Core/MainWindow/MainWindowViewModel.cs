@@ -1,5 +1,7 @@
 ﻿using Caliburn.Micro;
 using MN.Shell.Core.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MN.Shell.Core.MainWindow
 {
@@ -7,12 +9,13 @@ namespace MN.Shell.Core.MainWindow
     {
         private readonly ILog _log;
 
-        public MainWindowViewModel(ILog log)
+        public MainWindowViewModel(ILog log, IEnumerable<IShellContent> contents)
         {
             _log = log;
             _log.Info("Creating MainWindowViewModel instance...");
 
             DisplayName = "MN.Shell Main Window";
+            Content = contents.FirstOrDefault();
         }
 
         private object _content;
