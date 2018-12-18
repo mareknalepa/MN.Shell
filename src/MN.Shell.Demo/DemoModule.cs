@@ -1,4 +1,4 @@
-﻿using MN.Shell.Core.Framework;
+﻿using MN.Shell.Framework;
 using MN.Shell.Demo.DemoPanel;
 using Ninject.Modules;
 

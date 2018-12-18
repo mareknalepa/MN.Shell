@@ -112,16 +112,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MN.Shell.Core\MN.Shell.Core.csproj">
-      <Project>{1b0ab020-9553-4cca-846b-c71ce1f0691d}</Project>
-      <Name>MN.Shell.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="DemoPanel\DemoPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MN.Shell\MN.Shell.csproj">
+      <Project>{a20fc2d4-0190-495f-b179-206aacb80670}</Project>
+      <Name>MN.Shell</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

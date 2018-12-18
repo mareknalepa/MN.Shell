@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
-using MN.Shell.Core.Dialogs;
-using MN.Shell.Core.Framework;
-using MN.Shell.Core.MessageBox;
+using MN.Shell.Dialogs;
+using MN.Shell.Framework;
+using MN.Shell.MessageBox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
