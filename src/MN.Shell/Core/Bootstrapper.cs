@@ -8,15 +8,15 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 
-namespace MN.Shell.Framework
+namespace MN.Shell.Core
 {
-    public class AppBootstrapper : BootstrapperBase
+    public class Bootstrapper : BootstrapperBase
     {
-        private readonly ILog _log = new AppLogger(NLog.LogManager.GetLogger(typeof(AppBootstrapper).Name));
+        private readonly ILog _log = new Logger(NLog.LogManager.GetLogger(typeof(Bootstrapper).Name));
 
         private IKernel _kernel;
 
-        public AppBootstrapper()
+        public Bootstrapper()
         {
             Initialize();
         }
@@ -27,7 +27,7 @@ namespace MN.Shell.Framework
         {
             _log.Info("Configuring AppBootstrapper...");
 
-            LogManager.GetLog = type => new AppLogger(NLog.LogManager.GetLogger(type.Name));
+            LogManager.GetLog = type => new Logger(NLog.LogManager.GetLogger(type.Name));
 
             _kernel = new StandardKernel();
 

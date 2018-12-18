@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 using MN.Shell.Dialogs;
-using MN.Shell.Framework;
+using MN.Shell.Core;
 using MN.Shell.MessageBox;
 using System;
 using System.Collections.Generic;

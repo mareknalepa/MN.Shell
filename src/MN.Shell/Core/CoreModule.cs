@@ -2,18 +2,18 @@
 using MN.Shell.MainWindow;
 using Ninject.Modules;
 
-namespace MN.Shell.Framework
+namespace MN.Shell.Core
 {
     public class CoreModule : NinjectModule
     {
-        public override string Name => "MN.Shell";
+        public override string Name => "MN.Shell.Core";
 
         public override void Load()
         {
-            Bind<ILog>().ToMethod(c => new AppLogger(NLog.LogManager.GetLogger(
+            Bind<ILog>().ToMethod(c => new Logger(NLog.LogManager.GetLogger(
                 c.Request.Target.Member.DeclaringType.Name)));
 
-            Bind<IWindowManager>().To<AppWindowManager>().InSingletonScope();
+            Bind<IWindowManager>().To<WindowManager>().InSingletonScope();
             Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
 
             Bind<IShell>().To<MainWindowViewModel>().InSingletonScope();

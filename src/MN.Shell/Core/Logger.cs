@@ -1,14 +1,13 @@
 ﻿using Caliburn.Micro;
-using NLog;
 using System;
 
-namespace MN.Shell.Framework
+namespace MN.Shell.Core
 {
-    public class AppLogger : ILog
+    public class Logger : ILog
     {
-        private readonly Logger _logger;
+        private readonly NLog.Logger _logger;
 
-        public AppLogger(Logger logger)
+        public Logger(NLog.Logger logger)
         {
             _logger = logger;
         }

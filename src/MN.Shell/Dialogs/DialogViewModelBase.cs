@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using MN.Shell.Framework;
+using MN.Shell.Core;
 using System.Collections.Generic;
 
 namespace MN.Shell.Dialogs

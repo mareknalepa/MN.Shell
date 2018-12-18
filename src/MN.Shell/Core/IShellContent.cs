@@ -1,4 +1,4 @@
-﻿namespace MN.Shell.Framework
+﻿namespace MN.Shell.Core
 {
     public interface IShellContent
     {

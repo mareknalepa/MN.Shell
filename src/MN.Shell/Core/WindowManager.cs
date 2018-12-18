@@ -2,15 +2,13 @@
 using MN.Shell.Controls;
 using System.Windows;
 
-namespace MN.Shell.Framework
+namespace MN.Shell.Core
 {
-    public class AppWindowManager : WindowManager
+    public class WindowManager : Caliburn.Micro.WindowManager
     {
         protected override Window EnsureWindow(object model, object view, bool isDialog)
         {
-            var window = view as Window;
-
-            if (window == null)
+            if (!(view is Window window))
             {
                 window = new ShellWindow()
                 {
