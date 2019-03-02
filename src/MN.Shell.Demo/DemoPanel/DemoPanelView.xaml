@@ -11,37 +11,8 @@
             <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="26"/>
-        </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0" Grid.ColumnSpan="2">
-            <MenuItem Header="File">
-                <MenuItem Header="Recent files">
-                    <MenuItem Header="app.xaml"/>
-                    <MenuItem Header="Test.cs"/>
-                </MenuItem>
-                <Separator/>
-                <MenuItem Header="Exit"/>
-            </MenuItem>
-            <MenuItem Header="Edit">
-                <MenuItem Header="Cut" InputGestureText="Ctrl+X"/>
-                <MenuItem Header="Copy" InputGestureText="Ctrl+C"/>
-                <Separator/>
-                <MenuItem Header="Paste" InputGestureText="Ctrl+V"/>
-            </MenuItem>
-            <MenuItem Header="Help"/>
-            <MenuItem Header="{Binding RelativeSource={RelativeSource Self}, Path=Role}">
-                <MenuItem Header="{Binding RelativeSource={RelativeSource Self}, Path=Role}">
-                    <MenuItem Header="{Binding RelativeSource={RelativeSource Self}, Path=Role}"/>
-                </MenuItem>
-                <MenuItem Header="{Binding RelativeSource={RelativeSource Self}, Path=Role}"/>
-            </MenuItem>
-        </Menu>
-
-        <TabControl TabStripPlacement="Left" Grid.Row="1" Grid.Column="0" Margin="2,0,5,0">
+        <TabControl TabStripPlacement="Left" Grid.Column="0" Margin="2,0,5,0">
             <TabItem Header="Folders" IsSelected="True">
                 <TreeView>
                     <TreeView.Items>
@@ -75,7 +46,7 @@
             </TabItem>
         </TabControl>
 
-        <TabControl Grid.Row="1" Grid.Column="1" Margin="5,0,0,0">
+        <TabControl Grid.Column="1" Margin="5,0,0,0">
             <TabItem Header="Buttons">
                 <StackPanel Width="240" Margin="20"  Background="{DynamicResource BackgroundBrush}">
                     <Button Content="Sample button" Margin="5" x:Name="RunDialog" />
@@ -374,17 +345,5 @@
                 </Border>
             </TabItem>
         </TabControl>
-
-        <StatusBar Grid.Row="2" Grid.ColumnSpan="2">
-            <StatusBarItem Content="Ready"/>
-            <Separator/>
-            <StatusBarItem Content="Inactive item" IsEnabled="False"/>
-            <Separator/>
-            <StatusBarItem Content="Yet another item"/>
-            <Separator/>
-            <StatusBarItem Content="StatusBarItem with very, very, very long description..."/>
-            <Separator/>
-            <StatusBarItem Content="CAPS"/>
-        </StatusBar>
     </Grid>
 </UserControl>

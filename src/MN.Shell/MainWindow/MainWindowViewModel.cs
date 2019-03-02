@@ -14,7 +14,7 @@ namespace MN.Shell.MainWindow
             _log = log;
             _log.Info("Creating MainWindowViewModel instance...");
 
-            DisplayName = "MN.Shell Main Window";
+            DisplayName = "MN.Shell";
             Content = contents.FirstOrDefault();
         }
 
