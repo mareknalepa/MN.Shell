@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="MN.Shell.Demo.TabbedInterface.TabbedInterfaceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MN.Shell.Demo.TabbedInterface"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0" Grid.Column="0"
+                            Background="{DynamicResource InactiveBackgroundBrush}"
+                            Margin="10"
+                            Padding="10">
+            <TabControl TabStripPlacement="Top">
+                <TabItem Header="Example">
+                    <Button Content="Test" Margin="20"/>
+                </TabItem>
+                <TabItem Header="Tabs">
+                    <Button Content="Test" Margin="20"/>
+                </TabItem>
+            </TabControl>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="0"
+                            Background="{DynamicResource InactiveBackgroundBrush}"
+                            Margin="10"
+                            Padding="10">
+            <TabControl TabStripPlacement="Bottom">
+                <TabItem Header="Example">
+                    <Button Content="Test" Margin="20"/>
+                </TabItem>
+                <TabItem Header="Tabs">
+                    <Button Content="Test" Margin="20"/>
+                </TabItem>
+            </TabControl>
+        </Border>
+
+        <Border Grid.Row="0" Grid.Column="1"
+                            Background="{DynamicResource InactiveBackgroundBrush}"
+                            Margin="10"
+                            Padding="10">
+            <TabControl TabStripPlacement="Left">
+                <TabItem Header="Example">
+                    <Button Content="Test" Margin="20"/>
+                </TabItem>
+                <TabItem Header="Tabs">
+                    <Button Content="Test" Margin="20"/>
+                </TabItem>
+            </TabControl>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="1"
+                            Background="{DynamicResource InactiveBackgroundBrush}"
+                            Margin="10"
+                            Padding="10">
+            <TabControl TabStripPlacement="Right" IsEnabled="False">
+                <TabItem Header="Example">
+                    <Button Content="Test" Margin="20"/>
+                </TabItem>
+                <TabItem Header="Tabs">
+                    <Button Content="Test" Margin="20"/>
+                </TabItem>
+            </TabControl>
+        </Border>
+    </Grid>
+</UserControl>

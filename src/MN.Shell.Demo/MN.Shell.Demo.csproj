@@ -43,6 +43,9 @@
     <Reference Include="Caliburn.Micro.Platform.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -73,8 +76,25 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FolderExplorer\FolderExplorerView.xaml.cs">
+      <DependentUpon>FolderExplorerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FolderExplorer\FolderExplorerViewModel.cs" />
+    <Compile Include="ProgressBars\ProgressBarsView.xaml.cs">
+      <DependentUpon>ProgressBarsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProgressBars\ProgressBarsViewModel.cs" />
+    <Compile Include="TabbedInterface\TabbedInterfaceView.xaml.cs">
+      <DependentUpon>TabbedInterfaceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TabbedInterface\TabbedInterfaceViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlsDemo\ControlsDemoView.xaml.cs">
+      <DependentUpon>ControlsDemoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlsDemo\ControlsDemoViewModel.cs" />
+    <Compile Include="DemoModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -92,7 +112,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -102,9 +124,27 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MN.Shell.Core\MN.Shell.Core.csproj">
-      <Project>{1b0ab020-9553-4cca-846b-c71ce1f0691d}</Project>
-      <Name>MN.Shell.Core</Name>
+    <Page Include="ControlsDemo\ControlsDemoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FolderExplorer\FolderExplorerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProgressBars\ProgressBarsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabbedInterface\TabbedInterfaceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MN.Shell\MN.Shell.csproj">
+      <Project>{a20fc2d4-0190-495f-b179-206aacb80670}</Project>
+      <Name>MN.Shell</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

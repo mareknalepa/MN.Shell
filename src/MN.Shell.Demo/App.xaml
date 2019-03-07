@@ -7,9 +7,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <mnshell:AppBootstrapper x:Key="bootstrapper"/>
+                    <mnshell:Bootstrapper x:Key="bootstrapper"/>
                 </ResourceDictionary>
-                <ResourceDictionary Source="pack://application:,,,/MN.Shell.Core;component/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MN.Shell;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
