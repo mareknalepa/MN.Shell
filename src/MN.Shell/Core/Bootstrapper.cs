@@ -25,7 +25,7 @@ namespace MN.Shell.Core
 
         protected override void Configure()
         {
-            _log.Info("Configuring AppBootstrapper...");
+            _log.Info("Configuring Bootstrapper...");
 
             LogManager.GetLog = type => new Logger(NLog.LogManager.GetLogger(type.Name));
 
@@ -36,6 +36,8 @@ namespace MN.Shell.Core
 
             if (string.IsNullOrEmpty(path))
                 throw new InvalidOperationException("Cannot scan empty directory path");
+
+            _log.Info($"Directory to scan for modules: {path}");
 
             IEnumerable<Assembly> assemblies = Directory.GetFiles(path, "*.dll")
                 .Union(Directory.GetFiles(path, "*.exe"))

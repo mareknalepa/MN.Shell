@@ -16,6 +16,7 @@ using System.Windows.Markup;
 [assembly: XmlnsPrefix("https://github.com/mareknalepa/MN.Shell", "mnshell")]
 [assembly: XmlnsDefinition("https://github.com/mareknalepa/MN.Shell", "MN.Shell.Controls")]
 [assembly: XmlnsDefinition("https://github.com/mareknalepa/MN.Shell", "MN.Shell.Core")]
+[assembly: XmlnsDefinition("https://github.com/mareknalepa/MN.Shell", "MN.Shell.Framework")]
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None,
