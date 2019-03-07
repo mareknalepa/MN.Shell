@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MN.Shell.MessageBox
+namespace MN.Shell.Framework.Shell
 {
     /// <summary>
-    /// Interaction logic for MessageBoxView.xaml
+    /// Interaction logic for ShellView.xaml
     /// </summary>
-    public partial class MessageBoxView : UserControl
+    public partial class ShellView : UserControl
     {
-        public MessageBoxView()
+        public ShellView()
         {
             InitializeComponent();
         }

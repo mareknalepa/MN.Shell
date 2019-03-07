@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using System.Windows.Input;
 
-namespace MN.Shell.Dialogs
+namespace MN.Shell.Framework.Dialogs
 {
     public class DialogButton : PropertyChangedBase
     {

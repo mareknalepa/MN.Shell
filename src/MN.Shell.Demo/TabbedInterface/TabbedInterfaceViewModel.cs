@@ -1,8 +1,9 @@
 ﻿using Caliburn.Micro;
+using MN.Shell.Framework;
 
 namespace MN.Shell.Demo.TabbedInterface
 {
-    public class TabbedInterfaceViewModel : Screen
+    public class TabbedInterfaceViewModel : Screen, IDocument
     {
         public TabbedInterfaceViewModel()
         {

@@ -2,7 +2,7 @@
 using MN.Shell.Core;
 using System.Collections.Generic;
 
-namespace MN.Shell.Dialogs
+namespace MN.Shell.Framework.Dialogs
 {
     public abstract class DialogViewModelBase : Screen
     {

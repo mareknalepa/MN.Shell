@@ -73,24 +73,27 @@
     </Compile>
     <Compile Include="Controls\DialogButtons.cs" />
     <Compile Include="Controls\ShellWindow.cs" />
-    <Compile Include="Dialogs\DialogButton.cs" />
-    <Compile Include="Dialogs\DialogButtonType.cs" />
-    <Compile Include="Dialogs\DialogViewModelBase.cs" />
+    <Compile Include="Framework\Dialogs\DialogButton.cs" />
+    <Compile Include="Framework\Dialogs\DialogButtonType.cs" />
+    <Compile Include="Framework\Dialogs\DialogViewModelBase.cs" />
     <Compile Include="Core\Bootstrapper.cs" />
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Core\WindowManager.cs" />
     <Compile Include="Core\CoreModule.cs" />
     <Compile Include="Core\IShell.cs" />
     <Compile Include="Core\RelayCommand.cs" />
-    <Compile Include="MainWindow\MainWindowView.xaml.cs">
-      <DependentUpon>MainWindowView.xaml</DependentUpon>
+    <Compile Include="Framework\FrameworkModule.cs" />
+    <Compile Include="Framework\IDocument.cs" />
+    <Compile Include="Framework\ITool.cs" />
+    <Compile Include="Framework\Shell\ShellView.xaml.cs">
+      <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow\MainWindowViewModel.cs" />
-    <Compile Include="MessageBox\DtMessageBoxViewModel.cs" />
-    <Compile Include="MessageBox\MessageBoxView.xaml.cs">
+    <Compile Include="Framework\Shell\ShellViewModel.cs" />
+    <Compile Include="Framework\MessageBox\DtMessageBoxViewModel.cs" />
+    <Compile Include="Framework\MessageBox\MessageBoxView.xaml.cs">
       <DependentUpon>MessageBoxView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MessageBox\MessageBoxViewModel.cs" />
+    <Compile Include="Framework\MessageBox\MessageBoxViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,11 +102,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MainWindow\MainWindowView.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Framework\Shell\ShellView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MessageBox\MessageBoxView.xaml">
+    <Page Include="Framework\MessageBox\MessageBoxView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

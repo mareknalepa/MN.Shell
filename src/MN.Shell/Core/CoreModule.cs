@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using MN.Shell.MainWindow;
 using Ninject.Modules;
 
 namespace MN.Shell.Core
@@ -15,8 +14,6 @@ namespace MN.Shell.Core
 
             Bind<IWindowManager>().To<WindowManager>().InSingletonScope();
             Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
-
-            Bind<IShell>().To<MainWindowViewModel>().InSingletonScope();
         }
     }
 }
