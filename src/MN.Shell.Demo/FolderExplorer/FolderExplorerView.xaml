@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="MN.Shell.Demo.FolderExplorer.FolderExplorerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MN.Shell.Demo.FolderExplorer"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="300">
+    <Grid>
+        <TreeView>
+            <TreeView.Items>
+                <TreeViewItem Header="Folder1" IsExpanded="True">
+                    <TreeViewItem.Items>
+                        <TreeViewItem Header="Subfolder1"/>
+                        <TreeViewItem Header="Subfolder2"/>
+                        <TreeViewItem Header="Subfolder3"/>
+                    </TreeViewItem.Items>
+                </TreeViewItem>
+                <TreeViewItem Header="Folder2" IsExpanded="False">
+                    <TreeViewItem.Items>
+                        <TreeViewItem Header="Subfolder4"/>
+                        <TreeViewItem Header="Subfolder5"/>
+                        <TreeViewItem Header="Subfolder6"/>
+                    </TreeViewItem.Items>
+                </TreeViewItem>
+                <TreeViewItem Header="Folder3" IsExpanded="False">
+                    <TreeViewItem.Items>
+                        <TreeViewItem Header="Subfolder7"/>
+                        <TreeViewItem Header="Subfolder8"/>
+                        <TreeViewItem Header="Subfolder9"/>
+                    </TreeViewItem.Items>
+                </TreeViewItem>
+            </TreeView.Items>
+        </TreeView>
+    </Grid>
+</UserControl>

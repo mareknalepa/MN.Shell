@@ -9,13 +9,12 @@ namespace MN.Shell.MainWindow
     {
         private readonly ILog _log;
 
-        public MainWindowViewModel(ILog log, IEnumerable<IShellContent> contents)
+        public MainWindowViewModel(ILog log)
         {
             _log = log;
             _log.Info("Creating MainWindowViewModel instance...");
 
             DisplayName = "MN.Shell";
-            Content = contents.FirstOrDefault();
         }
 
         private object _content;

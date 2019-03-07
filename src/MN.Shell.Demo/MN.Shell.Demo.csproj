@@ -76,13 +76,25 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FolderExplorer\FolderExplorerView.xaml.cs">
+      <DependentUpon>FolderExplorerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FolderExplorer\FolderExplorerViewModel.cs" />
+    <Compile Include="ProgressBars\ProgressBarsView.xaml.cs">
+      <DependentUpon>ProgressBarsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProgressBars\ProgressBarsViewModel.cs" />
+    <Compile Include="TabbedInterface\TabbedInterfaceView.xaml.cs">
+      <DependentUpon>TabbedInterfaceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TabbedInterface\TabbedInterfaceViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DemoModule.cs" />
-    <Compile Include="DemoPanel\DemoPanelView.xaml.cs">
-      <DependentUpon>DemoPanelView.xaml</DependentUpon>
+    <Compile Include="ControlsDemo\ControlsDemoView.xaml.cs">
+      <DependentUpon>ControlsDemoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DemoPanel\DemoPanelViewModel.cs" />
+    <Compile Include="ControlsDemo\ControlsDemoViewModel.cs" />
+    <Compile Include="DemoModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -112,7 +124,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DemoPanel\DemoPanelView.xaml">
+    <Page Include="ControlsDemo\ControlsDemoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FolderExplorer\FolderExplorerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProgressBars\ProgressBarsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabbedInterface\TabbedInterfaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

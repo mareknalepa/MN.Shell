@@ -81,7 +81,6 @@
     <Compile Include="Core\WindowManager.cs" />
     <Compile Include="Core\CoreModule.cs" />
     <Compile Include="Core\IShell.cs" />
-    <Compile Include="Core\IShellContent.cs" />
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="MainWindow\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>

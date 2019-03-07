@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MN.Shell.Demo.DemoPanel
+namespace MN.Shell.Demo.ProgressBars
 {
     /// <summary>
-    /// Interaction logic for DemoPanelView.xaml
+    /// Interaction logic for ProgressBarsView.xaml
     /// </summary>
-    public partial class DemoPanelView : UserControl
+    public partial class ProgressBarsView : UserControl
     {
-        public DemoPanelView()
+        public ProgressBarsView()
         {
             InitializeComponent();
         }

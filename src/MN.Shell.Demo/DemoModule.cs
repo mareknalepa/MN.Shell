@@ -1,6 +1,4 @@
-﻿using MN.Shell.Core;
-using MN.Shell.Demo.DemoPanel;
-using Ninject.Modules;
+﻿using Ninject.Modules;
 
 namespace MN.Shell.Demo
 {
@@ -10,7 +8,6 @@ namespace MN.Shell.Demo
 
         public override void Load()
         {
-            Bind<IShellContent>().To<DemoPanelViewModel>();
         }
     }
 }
