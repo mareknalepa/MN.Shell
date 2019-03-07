@@ -112,8 +112,19 @@
                           Foreground="{TemplateBinding Foreground}"
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}"
-                          Padding="0,0,0,10"
-                          IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                          Margin="0"
+                          Padding="0,0,16,0"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                <TextBox x:Name="PART_EditableTextBox"
+                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                         IsHitTestVisible="False"
+                         IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
+                         Margin="{TemplateBinding Padding}"
+                         Style="{StaticResource EditableComboBoxTextBox}"/>
+            </ToggleButton>
             <Path Name="DropDownArrow"
                   Grid.ColumnSpan="2"
                   Margin="3,1,8,0"
@@ -122,14 +133,6 @@
                   HorizontalAlignment="Right"
                   VerticalAlignment="Center"
                   IsHitTestVisible="False"/>
-            <TextBox x:Name="PART_EditableTextBox"
-                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                     IsHitTestVisible="False"
-                     IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
-                     Margin="{TemplateBinding Padding}"
-                     Style="{StaticResource EditableComboBoxTextBox}"/>
         </Grid>
 
         <ControlTemplate.Triggers>
@@ -171,7 +174,11 @@
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="Padding" Value="6"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="MinWidth" Value="90"/>
+        <Setter Property="MinHeight" Value="24"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
@@ -226,8 +233,20 @@
                                       Foreground="{TemplateBinding Foreground}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       BorderThickness="{TemplateBinding BorderThickness}"
-                                      Padding="0,0,0,10"
-                                      IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                                      Margin="0"
+                                      Padding="0,0,16,0"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              IsHitTestVisible="False"
+                                              Margin="{TemplateBinding Padding}"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"/>
+                        </ToggleButton>
                         <Path Name="DropDownArrow"
                               Grid.ColumnSpan="2"
                               Margin="3,1,8,0"
@@ -236,15 +255,6 @@
                               HorizontalAlignment="Right"
                               VerticalAlignment="Center"
                               IsHitTestVisible="False"/>
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                          IsHitTestVisible="False"
-                                          Margin="{TemplateBinding Padding}"
-                                          Content="{TemplateBinding SelectionBoxItem}"
-                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                          ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"/>
                     </Grid>
 
                     <ControlTemplate.Triggers>
