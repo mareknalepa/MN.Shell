@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using MN.Shell.Core;
+using MN.Shell.Framework;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MN.Shell.Framework.Shell
+namespace MN.Shell.Modules.Shell
 {
     public class ShellViewModel : Screen, IShell
     {

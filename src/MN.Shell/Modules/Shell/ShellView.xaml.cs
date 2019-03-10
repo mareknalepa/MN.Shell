@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MN.Shell.Framework.Shell
+namespace MN.Shell.Modules.Shell
 {
     /// <summary>
     /// Interaction logic for ShellView.xaml

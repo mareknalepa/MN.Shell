@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MN.Shell.Framework.MessageBox
+namespace MN.Shell.Modules.MessageBox
 {
     /// <summary>
     /// Interaction logic for MessageBoxView.xaml

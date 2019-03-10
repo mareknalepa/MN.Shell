@@ -1,6 +1,6 @@
 ﻿using MN.Shell.Framework.Dialogs;
 
-namespace MN.Shell.Framework.MessageBox
+namespace MN.Shell.Modules.MessageBox
 {
     public class DtMessageBoxViewModel : MessageBoxViewModel
     {
