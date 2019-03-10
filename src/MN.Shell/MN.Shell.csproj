@@ -82,8 +82,16 @@
     <Compile Include="Core\CoreModule.cs" />
     <Compile Include="Core\IShell.cs" />
     <Compile Include="Core\RelayCommand.cs" />
+    <Compile Include="Framework\FrameworkModule.cs" />
     <Compile Include="Framework\IDocument.cs" />
     <Compile Include="Framework\ITool.cs" />
+    <Compile Include="Framework\Menu\IMenuAggregator.cs" />
+    <Compile Include="Framework\Menu\IMenuProvider.cs" />
+    <Compile Include="Framework\Menu\MenuAggregator.cs" />
+    <Compile Include="Modules\MainMenu\MainMenuView.xaml.cs">
+      <DependentUpon>MainMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\MainMenu\MainMenuViewModel.cs" />
     <Compile Include="Modules\MainModule.cs" />
     <Compile Include="Modules\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -102,6 +110,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Modules\MainMenu\MainMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modules\Shell\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
