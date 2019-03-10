@@ -3,6 +3,7 @@ using MN.Shell.Demo.FolderExplorer;
 using MN.Shell.Demo.ProgressBars;
 using MN.Shell.Demo.TabbedInterface;
 using MN.Shell.Framework;
+using MN.Shell.Framework.Menu;
 using Ninject.Modules;
 
 namespace MN.Shell.Demo
@@ -13,6 +14,8 @@ namespace MN.Shell.Demo
 
         public override void Load()
         {
+            Bind<IMenuProvider>().To<DemoMenuProvider>();
+
             Bind<ITool>().To<FolderExplorerViewModel>();
 
             Bind<IDocument>().To<ControlsDemoViewModel>();

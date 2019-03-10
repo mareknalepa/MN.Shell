@@ -76,6 +76,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DemoMenuProvider.cs" />
     <Compile Include="FolderExplorer\FolderExplorerView.xaml.cs">
       <DependentUpon>FolderExplorerView.xaml</DependentUpon>
     </Compile>
