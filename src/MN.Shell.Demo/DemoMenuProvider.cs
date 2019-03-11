@@ -1,9 +1,5 @@
 ﻿using MN.Shell.Framework.Menu;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MN.Shell.Demo
 {
@@ -11,7 +7,20 @@ namespace MN.Shell.Demo
     {
         public IEnumerable<MenuItem> GetMenuItems()
         {
-            throw new NotImplementedException();
+            yield return new MenuItem()
+            {
+                Name = "New Demo Project...",
+                Path = new[] { "File" },
+                GroupId = 10,
+                GroupOrder = 10,
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Demo",
+                GroupId = 0,
+                GroupOrder = 35,
+            };
         }
     }
 }

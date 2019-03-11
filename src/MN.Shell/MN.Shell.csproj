@@ -87,6 +87,7 @@
     <Compile Include="Framework\ITool.cs" />
     <Compile Include="Framework\Menu\IMenuAggregator.cs" />
     <Compile Include="Framework\Menu\IMenuProvider.cs" />
+    <Compile Include="Framework\Menu\InconsistentMenuException.cs" />
     <Compile Include="Framework\Menu\MenuAggregator.cs" />
     <Compile Include="Framework\Menu\MenuItem.cs" />
     <Compile Include="Framework\Menu\MenuItemViewModel.cs" />

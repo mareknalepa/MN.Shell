@@ -17,11 +17,16 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Menu Grid.Row="0" Grid.ColumnSpan="2">
-            <MenuItem Header="File"/>
-            <MenuItem Header="Edit"/>
-            <MenuItem Header="View"/>
-            <MenuItem Header="Help"/>
+        <Menu Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding MenuItems}">
+
+            <Menu.ItemContainerStyle>
+                <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItemStyle}">
+                    <Setter Property="Header" Value="{Binding Name}"/>
+                    <Setter Property="ItemsSource" Value="{Binding SubItems}"/>
+                    <Setter Property="Icon" Value="{Binding Icon}"/>
+                    <Setter Property="Command" Value="{Binding Command}"/>
+                </Style>
+            </Menu.ItemContainerStyle>
         </Menu>
 
         <TabControl x:Name="Tools" Grid.Row="1" Grid.Column="0" TabStripPlacement="Left"/>
