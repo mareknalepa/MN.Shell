@@ -249,7 +249,7 @@
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
                           Visibility="Collapsed"
-                          IsChecked="{TemplateBinding IsChecked}"/>
+                          IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
                 <ContentPresenter x:Name="HeaderHost1"
                                   Grid.Column="1"
                                   ContentSource="Header"

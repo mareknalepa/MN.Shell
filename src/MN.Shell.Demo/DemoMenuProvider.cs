@@ -69,6 +69,16 @@ namespace MN.Shell.Demo
                 GroupId = 30,
                 GroupOrder = 10,
             };
+
+            yield return new MenuItem()
+            {
+                Name = "Demo mode",
+                Path = new[] { "Demo" },
+                GroupId = 10,
+                GroupOrder = 5,
+                IsCheckable = true,
+                OnIsCheckedChanged = isChecked => System.Windows.MessageBox.Show($"New value: {isChecked}", "Info"),
+            };
         }
     }
 }

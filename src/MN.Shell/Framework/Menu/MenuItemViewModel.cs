@@ -26,20 +26,23 @@ namespace MN.Shell.Framework.Menu
             set { _icon = value; NotifyOfPropertyChange(); }
         }
 
-        private bool _isSelectable;
+        public bool IsCheckable { get; set; }
 
-        public bool IsSelectable
+        public Action<bool> OnIsCheckedChanged { get; set; }
+
+        private bool _isChecked;
+
+        public bool IsChecked
         {
-            get => _isSelectable;
-            set { _isSelectable = value; NotifyOfPropertyChange(); }
-        }
+            get => _isChecked;
+            set
+            {
+                if (_isChecked != value)
+                    OnIsCheckedChanged(value);
 
-        private bool _isSelected;
-
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set { _isSelected = value; NotifyOfPropertyChange(); }
+                _isChecked = value;
+                NotifyOfPropertyChange();
+            }
         }
 
         private ICommand _command;
@@ -50,12 +53,6 @@ namespace MN.Shell.Framework.Menu
             set { _command = value; NotifyOfPropertyChange(); }
         }
 
-        private bool _isSeparator;
-
-        public bool IsSeparator
-        {
-            get => _isSeparator;
-            set { _isSeparator = value; NotifyOfPropertyChange(); }
-        }
+        public bool IsSeparator { get; set; }
     }
 }

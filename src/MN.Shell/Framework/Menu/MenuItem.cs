@@ -14,9 +14,13 @@ namespace MN.Shell.Framework.Menu
 
         public int GroupOrder { get; set; }
 
-        public ICommand Command { get; set; }
-
         public Uri Icon { get; set; }
+
+        public bool IsCheckable { get; set; }
+
+        public Action<bool> OnIsCheckedChanged { get; set; }
+
+        public ICommand Command { get; set; }
 
         public override string ToString()
         {

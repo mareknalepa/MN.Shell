@@ -67,6 +67,8 @@ namespace MN.Shell.Framework.Menu
             {
                 Name = menuItem.Name,
                 Icon = menuItem.Icon,
+                IsCheckable = menuItem.IsCheckable,
+                OnIsCheckedChanged = menuItem.OnIsCheckedChanged,
                 Command = menuItem.Command,
             };
         }
