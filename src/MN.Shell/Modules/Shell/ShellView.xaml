@@ -18,13 +18,23 @@
         </Grid.ColumnDefinitions>
 
         <Menu Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding MenuItems}">
-
             <Menu.ItemContainerStyle>
                 <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItemStyle}">
                     <Setter Property="Header" Value="{Binding Name}"/>
                     <Setter Property="ItemsSource" Value="{Binding SubItems}"/>
                     <Setter Property="Icon" Value="{Binding Icon}"/>
                     <Setter Property="Command" Value="{Binding Command}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSeparator}" Value="True">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Separator Style="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </Menu.ItemContainerStyle>
         </Menu>

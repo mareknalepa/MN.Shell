@@ -9,6 +9,14 @@ namespace MN.Shell.Demo
         {
             yield return new MenuItem()
             {
+                Name = "Select All",
+                Path = new[] { "Edit" },
+                GroupId = 20,
+                GroupOrder = 10,
+            };
+
+            yield return new MenuItem()
+            {
                 Name = "New Demo Project...",
                 Path = new[] { "File" },
                 GroupId = 10,
@@ -20,6 +28,46 @@ namespace MN.Shell.Demo
                 Name = "Demo",
                 GroupId = 0,
                 GroupOrder = 35,
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Cut",
+                Path = new[] { "Edit" },
+                GroupId = 10,
+                GroupOrder = 10,
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Copy",
+                Path = new[] { "Edit" },
+                GroupId = 10,
+                GroupOrder = 20,
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Paste",
+                Path = new[] { "Edit" },
+                GroupId = 10,
+                GroupOrder = 30,
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Run Demo...",
+                Path = new[] { "Demo" },
+                GroupId = 10,
+                GroupOrder = 10,
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Preferences...",
+                Path = new[] { "Edit" },
+                GroupId = 30,
+                GroupOrder = 10,
             };
         }
     }

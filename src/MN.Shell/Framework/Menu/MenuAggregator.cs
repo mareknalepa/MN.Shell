@@ -5,6 +5,8 @@ namespace MN.Shell.Framework.Menu
 {
     public class MenuAggregator : IMenuAggregator
     {
+        private static readonly IComparer<MenuItem> _menuItemComparer = new MenuItemComparer();
+
         public IEnumerable<MenuItemViewModel> ComposeMenu(IEnumerable<IMenuProvider> menuProviders)
         {
             var aggregatedMenuItems = AggregateMenuItems(menuProviders);
@@ -18,9 +20,7 @@ namespace MN.Shell.Framework.Menu
         {
             IEnumerable<MenuItem> result = menuProviders
                 .SelectMany(menuProvider => menuProvider.GetMenuItems())
-                .OrderBy(menuItem => menuItem.Path?.Length ?? 0)
-                .ThenBy(menuItem => menuItem.GroupId)
-                .ThenBy(menuItem => menuItem.GroupOrder);
+                .OrderBy(menuItem => menuItem, _menuItemComparer);
 
             return result;
         }
@@ -32,13 +32,25 @@ namespace MN.Shell.Framework.Menu
                 Name = "[ROOT]",
             };
 
+            var prevParent = rootViewModel;
+            int prevGroupId = 0;
+
             foreach (var menuItem in menuItems)
             {
                 if (menuItem.Path?.Length > 0)
                 {
                     var viewModel = CreateViewModelForItem(menuItem);
                     var parent = ResolveParentForItem(rootViewModel, menuItem);
+
+                    if (parent == prevParent && menuItem.GroupId != prevGroupId)
+                    {
+                        parent.SubItems.Add(CreateViewModelForSeparator());
+                    }
+
                     parent.SubItems.Add(viewModel);
+
+                    prevParent = parent;
+                    prevGroupId = menuItem.GroupId;
                 }
                 else
                 {
@@ -56,6 +68,14 @@ namespace MN.Shell.Framework.Menu
                 Name = menuItem.Name,
                 Icon = menuItem.Icon,
                 Command = menuItem.Command,
+            };
+        }
+
+        private MenuItemViewModel CreateViewModelForSeparator()
+        {
+            return new MenuItemViewModel()
+            {
+                IsSeparator = true,
             };
         }
 

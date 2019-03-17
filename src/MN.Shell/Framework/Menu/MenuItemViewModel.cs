@@ -49,5 +49,13 @@ namespace MN.Shell.Framework.Menu
             get => _command;
             set { _command = value; NotifyOfPropertyChange(); }
         }
+
+        private bool _isSeparator;
+
+        public bool IsSeparator
+        {
+            get => _isSeparator;
+            set { _isSeparator = value; NotifyOfPropertyChange(); }
+        }
     }
 }

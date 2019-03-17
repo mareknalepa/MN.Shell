@@ -90,6 +90,7 @@
     <Compile Include="Framework\Menu\InconsistentMenuException.cs" />
     <Compile Include="Framework\Menu\MenuAggregator.cs" />
     <Compile Include="Framework\Menu\MenuItem.cs" />
+    <Compile Include="Framework\Menu\MenuItemComparer.cs" />
     <Compile Include="Framework\Menu\MenuItemViewModel.cs" />
     <Compile Include="Modules\MainMenu\MainMenuProvider.cs" />
     <Compile Include="Modules\MainMenu\MainMenuView.xaml.cs">
