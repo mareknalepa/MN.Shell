@@ -1,11 +1,5 @@
-﻿using MN.Shell.Core;
-using MN.Shell.Framework.Shell;
+﻿using MN.Shell.Framework.Menu;
 using Ninject.Modules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MN.Shell.Framework
 {
@@ -15,7 +9,7 @@ namespace MN.Shell.Framework
 
         public override void Load()
         {
-            Bind<IShell>().To<ShellViewModel>();
+            Bind<IMenuAggregator>().To<MenuAggregator>();
         }
     }
 }

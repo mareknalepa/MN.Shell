@@ -1,7 +1,7 @@
 ﻿using MN.Shell.Framework.Dialogs;
 using System.Collections.Generic;
 
-namespace MN.Shell.Framework.MessageBox
+namespace MN.Shell.Modules.MessageBox
 {
     public class MessageBoxViewModel : DialogViewModelBase
     {

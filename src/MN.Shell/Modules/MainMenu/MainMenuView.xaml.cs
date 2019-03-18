@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MN.Shell.Framework.Shell
+namespace MN.Shell.Modules.MainMenu
 {
     /// <summary>
-    /// Interaction logic for ShellView.xaml
+    /// Interaction logic for MainMenuView.xaml
     /// </summary>
-    public partial class ShellView : UserControl
+    public partial class MainMenuView : UserControl
     {
-        public ShellView()
+        public MainMenuView()
         {
             InitializeComponent();
         }
