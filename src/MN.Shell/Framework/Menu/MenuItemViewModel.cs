@@ -38,7 +38,7 @@ namespace MN.Shell.Framework.Menu
             set
             {
                 if (_isChecked != value)
-                    OnIsCheckedChanged(value);
+                    OnIsCheckedChanged?.Invoke(value);
 
                 _isChecked = value;
                 NotifyOfPropertyChange();

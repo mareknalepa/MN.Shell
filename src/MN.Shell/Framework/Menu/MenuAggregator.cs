@@ -42,6 +42,10 @@ namespace MN.Shell.Framework.Menu
                     var viewModel = CreateViewModelForItem(menuItem);
                     var parent = ResolveParentForItem(rootViewModel, menuItem);
 
+                    if ((parent.Command != null || parent.IsCheckable) &&
+                        (menuItem.Command != null || menuItem.IsCheckable))
+                        throw new InconsistentMenuException("Command or selectable item cannot have subitems");
+
                     if (parent == prevParent && menuItem.GroupId != prevGroupId)
                     {
                         parent.SubItems.Add(CreateViewModelForSeparator());
