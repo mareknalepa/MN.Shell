@@ -13,7 +13,7 @@ namespace MN.Shell.Tests.Core
         private Thread _fakeUiThread;
 
         [Test]
-        [Timeout(5000)]
+        [Timeout(10000)]
         public void BootstrapperInitTest()
         {
             ManualResetEventSlim manualResetEventSlim = new ManualResetEventSlim();
@@ -42,7 +42,7 @@ namespace MN.Shell.Tests.Core
             Assert.NotNull(app);
             Assert.NotNull(app.Dispatcher);
 
-            app.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
+            app.Dispatcher.Invoke(() => app.Shutdown());
         }
 
         [TearDown]
