@@ -37,13 +37,15 @@ namespace MN.Shell.Framework.Menu
 
             foreach (var menuItem in menuItems)
             {
+                if (menuItem.Command != null && menuItem.IsCheckable)
+                    throw new InconsistentMenuException("Item cannot have command and be checkable at the same time");
+
                 if (menuItem.Path?.Length > 0)
                 {
                     var viewModel = CreateViewModelForItem(menuItem);
                     var parent = ResolveParentForItem(rootViewModel, menuItem);
 
-                    if ((parent.Command != null || parent.IsCheckable) &&
-                        (menuItem.Command != null || menuItem.IsCheckable))
+                    if (parent.Command != null || parent.IsCheckable)
                         throw new InconsistentMenuException("Command or selectable item cannot have subitems");
 
                     if (parent == prevParent && menuItem.GroupId != prevGroupId)
