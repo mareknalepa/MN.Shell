@@ -10,6 +10,9 @@ namespace MN.Shell.Tests.Mocks
         public override void Load()
         {
             Rebind<IShell>().To<MockShell>();
+
+            Bind<IMockService>().To<MockService1>();
+            Bind<IMockService>().To<MockService2>();
         }
     }
 }

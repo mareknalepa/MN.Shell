@@ -1,55 +1,76 @@
-﻿using MN.Shell.Core;
+﻿using Caliburn.Micro;
+using MN.Shell.Core;
+using MN.Shell.Tests.Mocks;
 using NUnit.Framework;
 using System;
-using System.Threading;
-using System.Windows;
-using System.Windows.Threading;
+using System.Linq;
 
 namespace MN.Shell.Tests.Core
 {
     [TestFixture]
     public class BootstrapperTests
     {
-        private Thread _fakeUiThread;
-
-        [Test]
-        [Timeout(10000)]
-        public void BootstrapperInitTest()
+        [SetUp]
+        [TearDown]
+        public void SetUpTearDown()
         {
-            ManualResetEventSlim manualResetEventSlim = new ManualResetEventSlim();
-            Application app = null;
-
-            _fakeUiThread = new Thread(() =>
-            {
-                app = new Application();
-                Bootstrapper bootstrapper = new Bootstrapper();
-
-                app.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() =>
-                {
-                    manualResetEventSlim.Set();
-                }));
-
-                app.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
-
-                app.Run();
-            });
-
-            _fakeUiThread.SetApartmentState(ApartmentState.STA);
-            _fakeUiThread.Start();
-
-            manualResetEventSlim.Wait();
-
-            Assert.NotNull(app);
-            Assert.NotNull(app.Dispatcher);
-
-            app.Dispatcher.Invoke(() => app.Shutdown());
+            AssemblySource.Instance.Clear();
         }
 
-        [TearDown]
-        public void TearDown()
+        [Test]
+        public void BootstrapperInitTest()
         {
-            if (!_fakeUiThread?.Join(500) ?? false)
-                _fakeUiThread?.Abort();
+            Bootstrapper bootstrapper = new Bootstrapper(false);
+            Assert.NotNull(bootstrapper);
+        }
+
+        [Test]
+        public void BootstrapperGetInstanceTest()
+        {
+            MockBootstrapper bootstrapper = new MockBootstrapper();
+            var instance = bootstrapper.GetInstance(typeof(IShell), string.Empty);
+
+            Assert.NotNull(instance);
+            Assert.AreEqual(typeof(MockShell), instance.GetType());
+        }
+
+        [Test]
+        public void BootstrapperGetInstanceNullServiceTest()
+        {
+            MockBootstrapper bootstrapper = new MockBootstrapper();
+            Assert.Throws<ArgumentNullException>(() => bootstrapper.GetInstance(null, string.Empty));
+        }
+
+        [Test]
+        public void BootstrapperGetAllInstancesTest()
+        {
+            MockBootstrapper bootstrapper = new MockBootstrapper();
+            var instances = bootstrapper.GetAllInstances(typeof(IMockService));
+
+            Assert.IsNotEmpty(instances);
+            Assert.AreEqual(typeof(MockService1), instances.First().GetType());
+            Assert.AreEqual(typeof(MockService2), instances.Skip(1).First().GetType());
+        }
+
+        [Test]
+        public void BootstrapperGetAllInstancesNullServiceTest()
+        {
+            MockBootstrapper bootstrapper = new MockBootstrapper();
+            Assert.Throws<ArgumentNullException>(() => bootstrapper.GetAllInstances(null));
+        }
+
+        [Test]
+        public void BootstrapperBuildUpTest()
+        {
+            MockBootstrapper bootstrapper = new MockBootstrapper();
+            MockServiceConsumer mockServiceConsumer = new MockServiceConsumer();
+            Assert.Null(mockServiceConsumer.Services);
+
+            bootstrapper.BuildUp(mockServiceConsumer);
+
+            Assert.IsNotEmpty(mockServiceConsumer.Services);
+            Assert.AreEqual(typeof(MockService1), mockServiceConsumer.Services.First().GetType());
+            Assert.AreEqual(typeof(MockService2), mockServiceConsumer.Services.Skip(1).First().GetType());
         }
     }
 }

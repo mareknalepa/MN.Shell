@@ -86,8 +86,13 @@
     <Compile Include="Framework\Dialogs\DialogViewModelBaseTests.cs" />
     <Compile Include="Framework\Menu\MenuAggregatorTests.cs" />
     <Compile Include="Framework\Menu\MenuItemViewModelTests.cs" />
+    <Compile Include="Mocks\IMockService.cs" />
+    <Compile Include="Mocks\MockBootstrapper.cs" />
     <Compile Include="Mocks\MockDialogViewModel.cs" />
     <Compile Include="Mocks\MockModule.cs" />
+    <Compile Include="Mocks\MockService1.cs" />
+    <Compile Include="Mocks\MockService2.cs" />
+    <Compile Include="Mocks\MockServiceConsumer.cs" />
     <Compile Include="Mocks\MockShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

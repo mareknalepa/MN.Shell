@@ -21,6 +21,11 @@ namespace MN.Shell.Core
             Initialize();
         }
 
+        public Bootstrapper(bool useApplication) : base(useApplication)
+        {
+            Initialize();
+        }
+
         protected override IEnumerable<Assembly> SelectAssemblies() => Enumerable.Empty<Assembly>();
 
         protected override void Configure()
