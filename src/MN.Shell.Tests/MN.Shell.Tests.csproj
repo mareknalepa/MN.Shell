@@ -72,6 +72,7 @@
     <Compile Include="Core\BootstrapperTests.cs" />
     <Compile Include="Core\RelayCommandTests.cs" />
     <Compile Include="Framework\Menu\MenuAggregatorTests.cs" />
+    <Compile Include="Framework\Menu\MenuItemViewModelTests.cs" />
     <Compile Include="Mocks\MockModule.cs" />
     <Compile Include="Mocks\MockShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
