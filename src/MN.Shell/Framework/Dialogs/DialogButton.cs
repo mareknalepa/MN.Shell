@@ -41,7 +41,7 @@ namespace MN.Shell.Framework.Dialogs
         {
             Caption = caption;
             IsDefault = isDefault;
-            IsCancel = IsCancel;
+            IsCancel = isCancel;
             Command = command;
         }
 
@@ -54,7 +54,7 @@ namespace MN.Shell.Framework.Dialogs
                 case DialogButtonType.Cancel:
                     return new DialogButton("Cancel", false, true, null);
                 case DialogButtonType.Yes:
-                    return new DialogButton("Yes", true, false, null);
+                    return new DialogButton("Yes", false, false, null);
                 case DialogButtonType.No:
                     return new DialogButton("No", false, false, null);
                 default:
