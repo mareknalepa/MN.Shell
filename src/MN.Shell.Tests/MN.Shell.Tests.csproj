@@ -69,6 +69,7 @@
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -83,6 +84,7 @@
     </Compile>
     <Compile Include="Core\BootstrapperTests.cs" />
     <Compile Include="Core\RelayCommandTests.cs" />
+    <Compile Include="Core\WindowManagerTests.cs" />
     <Compile Include="Framework\Dialogs\DialogViewModelBaseTests.cs" />
     <Compile Include="Framework\Menu\MenuAggregatorTests.cs" />
     <Compile Include="Framework\Menu\MenuItemViewModelTests.cs" />
@@ -94,6 +96,15 @@
     <Compile Include="Mocks\MockService2.cs" />
     <Compile Include="Mocks\MockServiceConsumer.cs" />
     <Compile Include="Mocks\MockShell.cs" />
+    <Compile Include="Mocks\MockUserControlView.xaml.cs">
+      <DependentUpon>MockUserControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Mocks\MockUserControlViewModel.cs" />
+    <Compile Include="Mocks\MockWindowManager.cs" />
+    <Compile Include="Mocks\MockWindowView.xaml.cs">
+      <DependentUpon>MockWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Mocks\MockWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +117,16 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Mocks\MockUserControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Mocks\MockWindowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
