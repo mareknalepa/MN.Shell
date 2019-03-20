@@ -4,6 +4,7 @@ using MN.Shell.Tests.Mocks;
 using NUnit.Framework;
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace MN.Shell.Tests.Core
 {
@@ -22,6 +23,9 @@ namespace MN.Shell.Tests.Core
         {
             Bootstrapper bootstrapper = new Bootstrapper(false);
             Assert.NotNull(bootstrapper);
+
+            Assert.That(AssemblySource.Instance, Contains.Item(typeof(Bootstrapper).Assembly));
+            Assert.That(AssemblySource.Instance, Contains.Item(Assembly.GetExecutingAssembly()));
         }
 
         [Test]

@@ -16,9 +16,8 @@ namespace MN.Shell.Core
 
         private IKernel _kernel;
 
-        public Bootstrapper()
+        public Bootstrapper() : this(true)
         {
-            Initialize();
         }
 
         public Bootstrapper(bool useApplication) : base(useApplication)
