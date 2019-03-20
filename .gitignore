@@ -130,7 +130,9 @@ _TeamCity*
 
 # AxoCover is a Code Coverage Tool
 .axoCover/*
+src/.axoCover/*
 !.axoCover/settings.json
+!src/.axoCover/settings.json
 
 # Visual Studio code coverage results
 *.coverage
