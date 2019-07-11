@@ -1,6 +1,6 @@
 ﻿namespace MN.Shell.Framework
 {
-    public interface IDocument
+    public interface IDocument : ILayoutModule
     {
     }
 }

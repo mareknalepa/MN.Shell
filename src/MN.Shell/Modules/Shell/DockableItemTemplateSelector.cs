@@ -10,7 +10,7 @@ namespace MN.Shell.Modules.Shell
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is ITool || item is IDocument)
+            if (item is ILayoutModule)
                 return Template;
 
             return base.SelectTemplate(item, container);

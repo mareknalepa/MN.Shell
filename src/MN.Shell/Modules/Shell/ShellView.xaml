@@ -42,7 +42,7 @@
         <xcad:DockingManager Grid.Row="1"
                              AnchorablesSource="{Binding Tools}"
                              DocumentsSource="{Binding Items}"
-                             ActiveContent="{Binding ActiveItem, Mode=TwoWay}">
+                             ActiveContent="{Binding ActiveLayoutModule, Mode=TwoWay}">
 
             <xcad:DockingManager.Theme>
                 <xcad:Vs2013DarkTheme/>

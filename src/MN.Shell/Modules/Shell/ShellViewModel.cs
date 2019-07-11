@@ -16,6 +16,21 @@ namespace MN.Shell.Modules.Shell
 
         public ObservableCollection<ITool> Tools { get; }
 
+        private ILayoutModule _activeLayoutModule;
+
+        public ILayoutModule ActiveLayoutModule
+        {
+            get => _activeLayoutModule;
+            set
+            {
+                _activeLayoutModule = value;
+                if (_activeLayoutModule is IDocument document)
+                    ActivateItem(document);
+
+                NotifyOfPropertyChange();
+            }
+        }
+
         public ShellViewModel(ILog log, IMenuAggregator menuAggregator,
             IEnumerable<IMenuProvider> menuProviders, IEnumerable<ITool> tools, IEnumerable<IDocument> documents)
         {

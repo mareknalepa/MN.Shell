@@ -66,6 +66,7 @@
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Framework\FrameworkModule.cs" />
     <Compile Include="Framework\IDocument.cs" />
+    <Compile Include="Framework\ILayoutModule.cs" />
     <Compile Include="Framework\ITool.cs" />
     <Compile Include="Framework\Menu\IMenuAggregator.cs" />
     <Compile Include="Framework\Menu\IMenuProvider.cs" />

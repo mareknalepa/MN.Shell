@@ -1,6 +1,6 @@
 ﻿namespace MN.Shell.Framework
 {
-    public interface ITool
+    public interface ITool : ILayoutModule
     {
     }
 }
