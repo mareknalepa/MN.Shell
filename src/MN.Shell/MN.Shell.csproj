@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Modules\MainMenu\MainMenuViewModel.cs" />
     <Compile Include="Modules\MainModule.cs" />
+    <Compile Include="Modules\Shell\DockableItemTemplateSelector.cs" />
     <Compile Include="Modules\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>

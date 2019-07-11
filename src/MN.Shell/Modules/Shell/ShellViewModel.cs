@@ -4,18 +4,17 @@ using MN.Shell.Framework;
 using MN.Shell.Framework.Menu;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MN.Shell.Modules.Shell
 {
-    public class ShellViewModel : Screen, IShell
+    public class ShellViewModel : Conductor<IDocument>.Collection.OneActive, IShell
     {
         private readonly ILog _log;
 
         public ObservableCollection<MenuItemViewModel> MenuItems { get; }
 
         public ObservableCollection<ITool> Tools { get; }
-
-        public ObservableCollection<IDocument> Documents { get; }
 
         public ShellViewModel(ILog log, IMenuAggregator menuAggregator,
             IEnumerable<IMenuProvider> menuProviders, IEnumerable<ITool> tools, IEnumerable<IDocument> documents)
@@ -28,7 +27,7 @@ namespace MN.Shell.Modules.Shell
             MenuItems = new ObservableCollection<MenuItemViewModel>(menuAggregator.ComposeMenu(menuProviders));
 
             Tools = new ObservableCollection<ITool>(tools);
-            Documents = new ObservableCollection<IDocument>(documents);
+            Items.AddRange(documents);
         }
     }
 }
