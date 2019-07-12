@@ -31,7 +31,7 @@ namespace MN.Shell.Core
         {
             _log.Info("Configuring Bootstrapper...");
 
-            LogManager.GetLog = type => new Logger(NLog.LogManager.GetLogger(type.Name));
+            LogManager.GetLog = type => new DebugLog(type);
 
             _kernel = new StandardKernel();
 
