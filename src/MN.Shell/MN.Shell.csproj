@@ -64,6 +64,7 @@
     <Compile Include="Core\CoreModule.cs" />
     <Compile Include="Core\IShell.cs" />
     <Compile Include="Core\RelayCommand.cs" />
+    <Compile Include="Framework\Docking\ConductorBehavior.cs" />
     <Compile Include="Framework\FrameworkModule.cs" />
     <Compile Include="Framework\IDocument.cs" />
     <Compile Include="Framework\ILayoutModule.cs" />
@@ -81,7 +82,6 @@
     </Compile>
     <Compile Include="Modules\MainMenu\MainMenuViewModel.cs" />
     <Compile Include="Modules\MainModule.cs" />
-    <Compile Include="Modules\Shell\DockableItemTemplateSelector.cs" />
     <Compile Include="Modules\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
