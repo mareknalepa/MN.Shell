@@ -1,9 +1,8 @@
-﻿using Caliburn.Micro;
-using MN.Shell.Framework;
+﻿using MN.Shell.Framework;
 
 namespace MN.Shell.Demo.Output
 {
-    public class OutputViewModel : Screen, ITool
+    public class OutputViewModel : ToolBase
     {
         public OutputViewModel()
         {

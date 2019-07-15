@@ -1,9 +1,8 @@
-﻿using Caliburn.Micro;
-using MN.Shell.Framework;
+﻿using MN.Shell.Framework;
 
 namespace MN.Shell.Demo.ProgressBars
 {
-    public class ProgressBarsViewModel : Screen, IDocument
+    public class ProgressBarsViewModel : DocumentBase
     {
         public ProgressBarsViewModel()
         {

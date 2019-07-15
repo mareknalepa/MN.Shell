@@ -65,10 +65,12 @@
     <Compile Include="Core\IShell.cs" />
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Framework\Docking\ConductorBehavior.cs" />
+    <Compile Include="Framework\DocumentBase.cs" />
     <Compile Include="Framework\FrameworkModule.cs" />
     <Compile Include="Framework\IDocument.cs" />
     <Compile Include="Framework\ILayoutModule.cs" />
     <Compile Include="Framework\ITool.cs" />
+    <Compile Include="Framework\LayoutModuleBase.cs" />
     <Compile Include="Framework\Menu\IMenuAggregator.cs" />
     <Compile Include="Framework\Menu\IMenuProvider.cs" />
     <Compile Include="Framework\Menu\InconsistentMenuException.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Framework\Menu\MenuItem.cs" />
     <Compile Include="Framework\Menu\MenuItemComparer.cs" />
     <Compile Include="Framework\Menu\MenuItemViewModel.cs" />
+    <Compile Include="Framework\ToolBase.cs" />
     <Compile Include="Modules\MainMenu\MainMenuProvider.cs" />
     <Compile Include="Modules\MainMenu\MainMenuView.xaml.cs">
       <DependentUpon>MainMenuView.xaml</DependentUpon>
