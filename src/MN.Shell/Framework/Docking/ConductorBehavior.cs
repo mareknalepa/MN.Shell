@@ -13,7 +13,7 @@ namespace MN.Shell.Framework.Docking
         protected override void OnAttached()
         {
             AttachLayoutItemTemplate();
-            AttachLayoutItemContainerStyle();
+            AttachLayoutItemContainerStyleSelector();
         }
 
         protected override void OnDetaching()
@@ -41,12 +41,19 @@ namespace MN.Shell.Framework.Docking
             };
         }
 
-        private void AttachLayoutItemContainerStyle()
+        private void AttachLayoutItemContainerStyleSelector()
         {
-            Style style = new Style(typeof(LayoutItem));
-            style.Setters.Add(new Setter(LayoutItem.TitleProperty, new Binding("Model.DisplayName")));
+            StyleSelector styleSelector = new StyleSelector
+            {
+                ToolStyle = new Style(typeof(LayoutItem)),
+                DocumentStyle = new Style(typeof(LayoutItem)),
+            };
 
-            AssociatedObject.LayoutItemContainerStyle = style;
+            styleSelector.ToolStyle.Setters.Add(new Setter(LayoutItem.TitleProperty, new Binding("Model.DisplayName")));
+
+            styleSelector.DocumentStyle.Setters.Add(new Setter(LayoutItem.TitleProperty, new Binding("Model.DisplayName")));
+
+            AssociatedObject.LayoutItemContainerStyleSelector = styleSelector;
         }
     }
 }
