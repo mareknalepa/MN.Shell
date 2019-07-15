@@ -71,6 +71,10 @@
       <DependentUpon>FolderExplorerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="FolderExplorer\FolderExplorerViewModel.cs" />
+    <Compile Include="Output\OutputView.xaml.cs">
+      <DependentUpon>OutputView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Output\OutputViewModel.cs" />
     <Compile Include="ProgressBars\ProgressBarsView.xaml.cs">
       <DependentUpon>ProgressBarsView.xaml</DependentUpon>
     </Compile>
@@ -120,6 +124,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Output\OutputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ProgressBars\ProgressBarsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -152,5 +160,6 @@
       <Version>4.6.5</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
