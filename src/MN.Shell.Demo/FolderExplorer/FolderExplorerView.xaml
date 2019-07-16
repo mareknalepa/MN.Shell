@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
     <Grid>
-        <TreeView>
+        <TreeView BorderThickness="0">
             <TreeView.Items>
                 <TreeViewItem Header="Folder1" IsExpanded="True">
                     <TreeViewItem.Items>

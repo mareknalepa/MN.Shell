@@ -47,22 +47,28 @@ namespace MN.Shell.Framework.Docking
             Style toolStyle = new Style(typeof(LayoutAnchorableItem), commonLayoutItemStyle);
             Style documentStyle = new Style(typeof(LayoutDocumentItem), commonLayoutItemStyle);
 
+            commonLayoutItemStyle.Setters.Add(new Setter(LayoutItem.ContentIdProperty,
+                new Binding($"Model.{nameof(ILayoutModule.ContentId)}")));
+
             commonLayoutItemStyle.Setters.Add(new Setter(LayoutItem.TitleProperty,
-                new Binding("Model.DisplayName")));
+                new Binding($"Model.{nameof(ILayoutModule.DisplayName)}")));
 
             commonLayoutItemStyle.Setters.Add(new Setter(LayoutItem.CloseCommandProperty,
-                new Binding("Model.CloseCommand")));
+                new Binding($"Model.{nameof(ILayoutModule.CloseCommand)}")));
 
             commonLayoutItemStyle.Setters.Add(new Setter(LayoutItem.IsActiveProperty,
-                new Binding("Model.IsActive")));
+                new Binding($"Model.{nameof(ILayoutModule.IsActive)}")));
 
             toolStyle.Setters.Add(new Setter(LayoutAnchorableItem.VisibilityProperty,
-                new Binding("Model.IsVisible")
+                new Binding($"Model.{nameof(ITool.IsVisible)}")
                 {
                     Mode = BindingMode.TwoWay,
                     Converter = new Xceed.Wpf.AvalonDock.Converters.BoolToVisibilityConverter(),
                     ConverterParameter = Visibility.Hidden,
                 }));
+
+            documentStyle.Setters.Add(new Setter(LayoutDocumentItem.DescriptionProperty,
+                new Binding($"Model.{nameof(IDocument.Description)}")));
 
             AssociatedObject.LayoutItemContainerStyleSelector = new StyleSelector
             {

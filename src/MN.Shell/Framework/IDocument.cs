@@ -2,5 +2,6 @@
 {
     public interface IDocument : ILayoutModule
     {
+        string Description { get; }
     }
 }
