@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MN.Shell.Core;
 
 namespace MN.Shell.Framework
 {
     public abstract class DocumentBase : LayoutModuleBase, IDocument
     {
+        public DocumentBase()
+        {
+            CloseCommand = new RelayCommand(o => TryClose(null));
+        }
     }
 }

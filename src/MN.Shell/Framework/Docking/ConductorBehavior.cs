@@ -43,17 +43,32 @@ namespace MN.Shell.Framework.Docking
 
         private void AttachLayoutItemContainerStyleSelector()
         {
-            StyleSelector styleSelector = new StyleSelector
+            Style commonLayoutItemStyle = new Style(typeof(LayoutItem));
+            Style toolStyle = new Style(typeof(LayoutAnchorableItem), commonLayoutItemStyle);
+            Style documentStyle = new Style(typeof(LayoutDocumentItem), commonLayoutItemStyle);
+
+            commonLayoutItemStyle.Setters.Add(new Setter(LayoutItem.TitleProperty,
+                new Binding("Model.DisplayName")));
+
+            commonLayoutItemStyle.Setters.Add(new Setter(LayoutItem.CloseCommandProperty,
+                new Binding("Model.CloseCommand")));
+
+            commonLayoutItemStyle.Setters.Add(new Setter(LayoutItem.IsActiveProperty,
+                new Binding("Model.IsActive")));
+
+            toolStyle.Setters.Add(new Setter(LayoutAnchorableItem.VisibilityProperty,
+                new Binding("Model.IsVisible")
+                {
+                    Mode = BindingMode.TwoWay,
+                    Converter = new Xceed.Wpf.AvalonDock.Converters.BoolToVisibilityConverter(),
+                    ConverterParameter = Visibility.Hidden,
+                }));
+
+            AssociatedObject.LayoutItemContainerStyleSelector = new StyleSelector
             {
-                ToolStyle = new Style(typeof(LayoutItem)),
-                DocumentStyle = new Style(typeof(LayoutItem)),
+                ToolStyle = toolStyle,
+                DocumentStyle = documentStyle,
             };
-
-            styleSelector.ToolStyle.Setters.Add(new Setter(LayoutItem.TitleProperty, new Binding("Model.DisplayName")));
-
-            styleSelector.DocumentStyle.Setters.Add(new Setter(LayoutItem.TitleProperty, new Binding("Model.DisplayName")));
-
-            AssociatedObject.LayoutItemContainerStyleSelector = styleSelector;
         }
     }
 }

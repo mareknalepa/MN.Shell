@@ -2,5 +2,6 @@
 {
     public interface ITool : ILayoutModule
     {
+        bool IsVisible { get; set; }
     }
 }

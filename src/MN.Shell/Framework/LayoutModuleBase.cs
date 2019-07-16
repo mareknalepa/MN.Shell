@@ -1,13 +1,10 @@
 ﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MN.Shell.Framework
 {
     public abstract class LayoutModuleBase : Screen, ILayoutModule
     {
+        public ICommand CloseCommand { get; protected set; }
     }
 }

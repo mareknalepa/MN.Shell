@@ -4,13 +4,14 @@ using MN.Shell.Framework;
 using MN.Shell.Framework.Menu;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace MN.Shell.Modules.Shell
 {
     public class ShellViewModel : Conductor<IDocument>.Collection.OneActive, IShell
     {
         private readonly ILog _log;
+
+        private bool _isClosing;
 
         public ObservableCollection<MenuItemViewModel> MenuItems { get; }
 
@@ -43,6 +44,21 @@ namespace MN.Shell.Modules.Shell
 
             Tools = new ObservableCollection<ITool>(tools);
             Items.AddRange(documents);
+        }
+
+        public override void ActivateItem(IDocument item)
+        {
+            if (_isClosing)
+                return;
+
+            base.ActivateItem(item);
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            _isClosing = true;
+
+            base.OnDeactivate(close);
         }
     }
 }

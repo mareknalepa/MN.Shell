@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MN.Shell.Core;
 
 namespace MN.Shell.Framework
 {
     public abstract class ToolBase : LayoutModuleBase, ITool
     {
+        private bool _isVisible = true;
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set { _isVisible = value; NotifyOfPropertyChange(); }
+        }
+
+        public ToolBase()
+        {
+            CloseCommand = new RelayCommand(o => IsVisible = false);
+        }
     }
 }
