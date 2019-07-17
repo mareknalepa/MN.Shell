@@ -33,6 +33,11 @@ namespace MN.Shell.Framework.Docking
 
                 pane.Children.Add(anchorableToShow);
 
+                if (pane.DockMinWidth < tool.InitialMinWidth)
+                    pane.DockMinWidth = tool.InitialMinWidth;
+                if (pane.DockMinHeight < tool.InitialMinHeight)
+                    pane.DockMinHeight = tool.InitialMinHeight;
+
                 return true;
             }
 
@@ -40,7 +45,13 @@ namespace MN.Shell.Framework.Docking
         }
 
         public void AfterInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableShown)
-        { }
+        {
+            if (anchorableShown.Content is ITool tool)
+            {
+                anchorableShown.AutoHideMinWidth = tool.AutoHideMinWidth;
+                anchorableShown.AutoHideMinHeight = tool.AutoHideMinHeight;
+            }
+        }
 
         public bool BeforeInsertDocument(LayoutRoot layout, LayoutDocument anchorableToShow,
             ILayoutContainer destinationContainer)

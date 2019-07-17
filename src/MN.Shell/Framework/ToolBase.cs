@@ -12,7 +12,15 @@ namespace MN.Shell.Framework
             set { _isVisible = value; NotifyOfPropertyChange(); }
         }
 
-        public ToolPosition InitialPosition { get; protected set; }
+        public ToolPosition InitialPosition { get; protected set; } = ToolPosition.Right;
+
+        public double InitialMinWidth { get; protected set; } = 200;
+
+        public double InitialMinHeight { get; protected set; } = 200;
+
+        public double AutoHideMinWidth { get; protected set; } = 200;
+
+        public double AutoHideMinHeight { get; protected set; } = 200;
 
         public ToolBase()
         {
