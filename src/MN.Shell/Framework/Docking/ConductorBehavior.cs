@@ -1,10 +1,12 @@
 ﻿using Caliburn.Micro;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Controls;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace MN.Shell.Framework.Docking
 {
@@ -14,6 +16,7 @@ namespace MN.Shell.Framework.Docking
         {
             AttachLayoutItemTemplate();
             AttachLayoutItemContainerStyleSelector();
+            AttachLayoutUpdateStrategy();
         }
 
         protected override void OnDetaching()
@@ -75,6 +78,26 @@ namespace MN.Shell.Framework.Docking
                 ToolStyle = toolStyle,
                 DocumentStyle = documentStyle,
             };
+        }
+
+        private void AttachLayoutUpdateStrategy()
+        {
+            var layoutRoot = new LayoutRoot();
+            var topLevelLayoutPanel = layoutRoot.Descendents().OfType<LayoutPanel>().First();
+
+            Orientation orientation = Orientation.Horizontal;
+            if (topLevelLayoutPanel.Orientation == Orientation.Horizontal)
+                orientation = Orientation.Vertical;
+
+            var secondaryPanel = new LayoutPanel() { Orientation = orientation };
+            topLevelLayoutPanel.Children.Clear();
+            topLevelLayoutPanel.Children.Add(secondaryPanel);
+
+            secondaryPanel.Children.Add(new LayoutDocumentPane());
+
+            AssociatedObject.Layout = layoutRoot;
+
+            AssociatedObject.LayoutUpdateStrategy = new LayoutUpdateStrategy();
         }
     }
 }

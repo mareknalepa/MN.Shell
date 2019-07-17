@@ -7,6 +7,7 @@ namespace MN.Shell.Demo.FolderExplorer
         public FolderExplorerViewModel()
         {
             DisplayName = "Folder Explorer";
+            InitialPosition = ToolPosition.Left;
         }
     }
 }

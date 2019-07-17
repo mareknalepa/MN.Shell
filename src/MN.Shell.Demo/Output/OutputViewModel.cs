@@ -7,6 +7,7 @@ namespace MN.Shell.Demo.Output
         public OutputViewModel()
         {
             DisplayName = "Output";
+            InitialPosition = ToolPosition.Bottom;
         }
     }
 }

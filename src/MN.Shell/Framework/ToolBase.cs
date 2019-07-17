@@ -12,6 +12,8 @@ namespace MN.Shell.Framework
             set { _isVisible = value; NotifyOfPropertyChange(); }
         }
 
+        public ToolPosition InitialPosition { get; protected set; }
+
         public ToolBase()
         {
             CloseCommand = new RelayCommand(o => IsVisible = false);
