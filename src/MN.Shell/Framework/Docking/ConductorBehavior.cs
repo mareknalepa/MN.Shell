@@ -14,6 +14,7 @@ namespace MN.Shell.Framework.Docking
     {
         protected override void OnAttached()
         {
+            AttachBindings();
             AttachLayoutItemTemplate();
             AttachLayoutItemContainerStyleSelector();
             AttachLayoutUpdateStrategy();
@@ -21,6 +22,16 @@ namespace MN.Shell.Framework.Docking
 
         protected override void OnDetaching()
         {
+        }
+
+        private void AttachBindings()
+        {
+            AssociatedObject.SetBinding(DockingManager.AnchorablesSourceProperty, new Binding("Tools"));
+            AssociatedObject.SetBinding(DockingManager.DocumentsSourceProperty, new Binding("Items"));
+            AssociatedObject.SetBinding(DockingManager.ActiveContentProperty, new Binding("ActiveLayoutModule")
+            {
+                Mode = BindingMode.TwoWay,
+            });
         }
 
         private void AttachLayoutItemTemplate()

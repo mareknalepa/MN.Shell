@@ -40,10 +40,7 @@
             </Menu.ItemContainerStyle>
         </Menu>
 
-        <xcad:DockingManager Grid.Row="1"
-                             AnchorablesSource="{Binding Tools}"
-                             DocumentsSource="{Binding Items}"
-                             ActiveContent="{Binding ActiveLayoutModule, Mode=TwoWay}">
+        <xcad:DockingManager Grid.Row="1">
 
             <xcad:DockingManager.Theme>
                 <xcad:Vs2013DarkTheme/>
