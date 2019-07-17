@@ -1,5 +1,6 @@
 ﻿using MN.Shell.Demo.ControlsDemo;
 using MN.Shell.Demo.FolderExplorer;
+using MN.Shell.Demo.Output;
 using MN.Shell.Demo.ProgressBars;
 using MN.Shell.Demo.TabbedInterface;
 using MN.Shell.Framework;
@@ -17,6 +18,7 @@ namespace MN.Shell.Demo
             Bind<IMenuProvider>().To<DemoMenuProvider>();
 
             Bind<ITool>().To<FolderExplorerViewModel>();
+            Bind<ITool>().To<OutputViewModel>();
 
             Bind<IDocument>().To<ControlsDemoViewModel>();
             Bind<IDocument>().To<ProgressBarsViewModel>();

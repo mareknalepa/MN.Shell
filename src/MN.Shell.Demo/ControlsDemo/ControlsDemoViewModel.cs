@@ -1,9 +1,8 @@
-﻿using Caliburn.Micro;
-using MN.Shell.Framework;
+﻿using MN.Shell.Framework;
 
 namespace MN.Shell.Demo.ControlsDemo
 {
-    public class ControlsDemoViewModel : Screen, IDocument
+    public class ControlsDemoViewModel : DocumentBase
     {
         public ControlsDemoViewModel()
         {

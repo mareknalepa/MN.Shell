@@ -31,21 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Platform, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -55,9 +40,6 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -82,9 +64,15 @@
     <Compile Include="Core\CoreModule.cs" />
     <Compile Include="Core\IShell.cs" />
     <Compile Include="Core\RelayCommand.cs" />
+    <Compile Include="Framework\Docking\ConductorBehavior.cs" />
+    <Compile Include="Framework\Docking\LayoutUpdateStrategy.cs" />
+    <Compile Include="Framework\Docking\StyleSelector.cs" />
+    <Compile Include="Framework\DocumentBase.cs" />
     <Compile Include="Framework\FrameworkModule.cs" />
     <Compile Include="Framework\IDocument.cs" />
+    <Compile Include="Framework\ILayoutModule.cs" />
     <Compile Include="Framework\ITool.cs" />
+    <Compile Include="Framework\LayoutModuleBase.cs" />
     <Compile Include="Framework\Menu\IMenuAggregator.cs" />
     <Compile Include="Framework\Menu\IMenuProvider.cs" />
     <Compile Include="Framework\Menu\InconsistentMenuException.cs" />
@@ -92,6 +80,8 @@
     <Compile Include="Framework\Menu\MenuItem.cs" />
     <Compile Include="Framework\Menu\MenuItemComparer.cs" />
     <Compile Include="Framework\Menu\MenuItemViewModel.cs" />
+    <Compile Include="Framework\ToolBase.cs" />
+    <Compile Include="Framework\ToolPosition.cs" />
     <Compile Include="Modules\MainMenu\MainMenuProvider.cs" />
     <Compile Include="Modules\MainMenu\MainMenuView.xaml.cs">
       <DependentUpon>MainMenuView.xaml</DependentUpon>
@@ -108,11 +98,6 @@
     </Compile>
     <Compile Include="Modules\MessageBox\MessageBoxViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Modules\MainMenu\MainMenuView.xaml">
@@ -207,6 +192,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Caliburn.Micro">
+      <Version>3.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="Dirkster.AvalonDock">
+      <Version>3.5.8</Version>
+    </PackageReference>
+    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013">
+      <Version>3.5.8</Version>
+    </PackageReference>
+    <PackageReference Include="Ninject">
+      <Version>3.3.4</Version>
+    </PackageReference>
+    <PackageReference Include="NLog">
+      <Version>4.6.5</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
