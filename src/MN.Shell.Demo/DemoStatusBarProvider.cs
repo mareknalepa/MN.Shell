@@ -11,6 +11,7 @@ namespace MN.Shell.Demo
             {
                 Side = StatusBarSide.Left,
                 Priority = 90,
+                MinWidth = 400,
                 Content = "Ready",
             };
 
@@ -18,6 +19,7 @@ namespace MN.Shell.Demo
             {
                 Side = StatusBarSide.Left,
                 Priority = 70,
+                MinWidth = 200,
                 Content = "Demo item 1",
             };
 
@@ -25,6 +27,7 @@ namespace MN.Shell.Demo
             {
                 Side = StatusBarSide.Left,
                 Priority = 50,
+                MinWidth = 200,
                 Content = "Demo item 2",
             };
 
@@ -32,6 +35,7 @@ namespace MN.Shell.Demo
             {
                 Side = StatusBarSide.Right,
                 Priority = 60,
+                MinWidth = 100,
                 Content = "MN.Shell",
             };
 
@@ -39,6 +43,7 @@ namespace MN.Shell.Demo
             {
                 Side = StatusBarSide.Right,
                 Priority = 70,
+                MinWidth = 100,
                 Content = "Help",
             };
 
@@ -46,6 +51,7 @@ namespace MN.Shell.Demo
             {
                 Side = StatusBarSide.Right,
                 Priority = 90,
+                MinWidth = 120,
                 Content = "Notifications",
             };
         }

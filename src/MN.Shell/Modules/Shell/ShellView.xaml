@@ -62,6 +62,7 @@
             <StatusBar.ItemContainerStyle>
                 <Style TargetType="StatusBarItem">
                     <Setter Property="Content" Value="{Binding Content}"/>
+                    <Setter Property="MinWidth" Value="{Binding MinWidth}"/>
 
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Side}" Value="Left">

@@ -10,6 +10,8 @@ namespace MN.Shell.Framework.StatusBar
 
         public int Priority { get; set; } = 50;
 
+        public double MinWidth { get; set; } = 100;
+
         private string _content;
 
         public string Content
