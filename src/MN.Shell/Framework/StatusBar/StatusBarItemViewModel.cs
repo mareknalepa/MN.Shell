@@ -6,9 +6,9 @@ namespace MN.Shell.Framework.StatusBar
 {
     public class StatusBarItemViewModel : PropertyChangedBase
     {
-        public StatusBarSide Side { get; protected set; } = StatusBarSide.Left;
+        public StatusBarSide Side { get; set; } = StatusBarSide.Left;
 
-        public int Priority { get; protected set; } = 50;
+        public int Priority { get; set; } = 50;
 
         private string _content;
 
