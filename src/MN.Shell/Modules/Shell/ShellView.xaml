@@ -52,8 +52,27 @@
 
         </xcad:DockingManager>
 
-        <StatusBar Grid.Row="2">
-            <StatusBarItem Content="Ready"/>
+        <StatusBar Grid.Row="2" ItemsSource="{Binding StatusBarItems}">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel LastChildFill="False"/>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+
+            <StatusBar.ItemContainerStyle>
+                <Style TargetType="StatusBarItem">
+                    <Setter Property="Content" Value="{Binding Content}"/>
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Side}" Value="Left">
+                            <Setter Property="DockPanel.Dock" Value="Left"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Side}" Value="Right">
+                            <Setter Property="DockPanel.Dock" Value="Right"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StatusBar.ItemContainerStyle>
         </StatusBar>
     </Grid>
 </UserControl>

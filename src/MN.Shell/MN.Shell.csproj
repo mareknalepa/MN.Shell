@@ -84,7 +84,6 @@
     <Compile Include="Framework\StatusBar\IStatusBarProvider.cs" />
     <Compile Include="Framework\StatusBar\StatusBarAggregator.cs" />
     <Compile Include="Framework\StatusBar\StatusBarItemViewModel.cs" />
-    <Compile Include="Framework\StatusBar\StatusBarItemComparer.cs" />
     <Compile Include="Framework\StatusBar\StatusBarSide.cs" />
     <Compile Include="Framework\ToolBase.cs" />
     <Compile Include="Framework\ToolPosition.cs" />

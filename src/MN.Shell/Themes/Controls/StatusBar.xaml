@@ -12,8 +12,8 @@
         <Setter Property="Margin" Value="0"/>
         <Setter Property="MinHeight" Value="26"/>
         <Setter Property="Focusable" Value="False"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <Setter Property="Template">
             <Setter.Value>

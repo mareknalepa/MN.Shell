@@ -72,9 +72,9 @@ namespace MN.Shell.Tests.Framework.StatusBar
             Assert.AreEqual("LeftItem2", statusBarItems.Skip(1).First().Content);
             Assert.AreEqual("LeftItem3", statusBarItems.Skip(2).First().Content);
 
-            Assert.AreEqual("RightItem1", statusBarItems.Skip(3).First().Content);
+            Assert.AreEqual("RightItem3", statusBarItems.Skip(3).First().Content);
             Assert.AreEqual("RightItem2", statusBarItems.Skip(4).First().Content);
-            Assert.AreEqual("RightItem3", statusBarItems.Skip(5).First().Content);
+            Assert.AreEqual("RightItem1", statusBarItems.Skip(5).First().Content);
         }
     }
 }
