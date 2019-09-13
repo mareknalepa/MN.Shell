@@ -41,6 +41,22 @@ namespace MN.Shell.Demo
                 },
             };
 
+            StatusBarItemViewModel incrementingItem = null;
+            incrementingItem = new StatusBarItemViewModel()
+            {
+                Side = StatusBarSide.Left,
+                Priority = 30,
+                MinWidth = 200,
+                Content = "1",
+                CommandAction = () =>
+                {
+                    if (int.TryParse(incrementingItem.Content, out int value))
+                        incrementingItem.Content = (++value).ToString();
+                }
+            };
+
+            yield return incrementingItem;
+
             yield return new StatusBarItemViewModel()
             {
                 Side = StatusBarSide.Right,
