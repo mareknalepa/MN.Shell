@@ -1,5 +1,7 @@
-﻿using MN.Shell.Framework.StatusBar;
+﻿using MN.Shell.Core;
+using MN.Shell.Framework.StatusBar;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace MN.Shell.Demo
 {
@@ -21,6 +23,10 @@ namespace MN.Shell.Demo
                 Priority = 70,
                 MinWidth = 200,
                 Content = "Demo item 1",
+                CommandAction = () =>
+                {
+                    MessageBox.Show("Demo item 1");
+                },
             };
 
             yield return new StatusBarItemViewModel()
@@ -29,6 +35,10 @@ namespace MN.Shell.Demo
                 Priority = 50,
                 MinWidth = 200,
                 Content = "Demo item 2",
+                CommandAction = () =>
+                {
+                    MessageBox.Show("Demo item 2");
+                },
             };
 
             yield return new StatusBarItemViewModel()

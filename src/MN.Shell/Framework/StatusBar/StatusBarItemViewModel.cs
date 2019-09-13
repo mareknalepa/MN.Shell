@@ -24,7 +24,7 @@ namespace MN.Shell.Framework.StatusBar
 
         public System.Action CommandAction { get; set; }
 
-        private bool _canExecuteCommand;
+        private bool _canExecuteCommand = true;
 
         public bool CanExecuteCommand
         {
@@ -34,7 +34,7 @@ namespace MN.Shell.Framework.StatusBar
 
         public StatusBarItemViewModel()
         {
-            Command = new RelayCommand(o => CommandAction(), o => CanExecuteCommand);
+            Command = new RelayCommand(o => CommandAction?.Invoke(), o => CanExecuteCommand && CommandAction != null);
         }
     }
 }
