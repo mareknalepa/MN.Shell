@@ -2,6 +2,7 @@
 using MN.Shell.Core;
 using MN.Shell.Framework;
 using MN.Shell.Framework.Menu;
+using MN.Shell.Framework.StatusBar;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -32,8 +33,11 @@ namespace MN.Shell.Modules.Shell
             }
         }
 
-        public ShellViewModel(ILog log, IMenuAggregator menuAggregator,
-            IEnumerable<IMenuProvider> menuProviders, IEnumerable<ITool> tools, IEnumerable<IDocument> documents)
+        public ObservableCollection<StatusBarItemViewModel> StatusBarItems { get; }
+
+        public ShellViewModel(ILog log, IMenuAggregator menuAggregator, IEnumerable<IMenuProvider> menuProviders,
+            IStatusBarAggregator statusBarAggregator, IEnumerable<IStatusBarProvider> statusBarProviders,
+            IEnumerable<ITool> tools, IEnumerable<IDocument> documents)
         {
             _log = log;
             _log.Info("Creating ShellViewModel instance...");
@@ -44,6 +48,9 @@ namespace MN.Shell.Modules.Shell
 
             Tools = new ObservableCollection<ITool>(tools);
             Items.AddRange(documents);
+
+            StatusBarItems = new ObservableCollection<StatusBarItemViewModel>(
+                statusBarAggregator.ComposeStatusBar(statusBarProviders));
         }
 
         public override void ActivateItem(IDocument item)

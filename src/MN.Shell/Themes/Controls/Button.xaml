@@ -31,29 +31,29 @@
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </Border>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="{DynamicResource InactiveBackgroundBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource InactiveForegroundBrush}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource InactiveBorderBrush}"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource HighlightBackgroundBrush}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource AccentHighlightedBrush}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource AccentActiveBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource AccentForegroundBrush}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource AccentActiveBrush}"/>
-                        </Trigger>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter Property="BorderBrush" Value="{DynamicResource AccentBaseBrush}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource InactiveBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource InactiveForegroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource InactiveBorderBrush}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource HighlightBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentHighlightedBrush}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource AccentActiveBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource AccentForegroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentActiveBrush}"/>
+            </Trigger>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentBaseBrush}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}"/>

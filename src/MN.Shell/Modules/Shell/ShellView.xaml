@@ -7,6 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:docking="clr-namespace:MN.Shell.Framework.Docking"
+             xmlns:statusbar="clr-namespace:MN.Shell.Framework.StatusBar"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -52,8 +53,37 @@
 
         </xcad:DockingManager>
 
-        <StatusBar Grid.Row="2">
-            <StatusBarItem Content="Ready"/>
+        <StatusBar Grid.Row="2" ItemsSource="{Binding StatusBarItems}">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel LastChildFill="False"/>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+
+            <StatusBar.ItemContainerStyle>
+                <Style TargetType="StatusBarItem">
+                    <Setter Property="MinWidth" Value="{Binding MinWidth}"/>
+                    <Setter Property="Margin" Value="3,0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Side}" Value="Left">
+                            <Setter Property="DockPanel.Dock" Value="Left"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Side}" Value="Right">
+                            <Setter Property="DockPanel.Dock" Value="Right"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StatusBar.ItemContainerStyle>
+
+            <StatusBar.ItemTemplate>
+                <DataTemplate DataType="{x:Type statusbar:StatusBarItemViewModel}">
+                    <Button Style="{StaticResource StatusBarButtonStyle}"
+                            Content="{Binding Content}"
+                            Command="{Binding Command}"/>
+                </DataTemplate>
+            </StatusBar.ItemTemplate>
         </StatusBar>
     </Grid>
 </UserControl>

@@ -57,6 +57,7 @@
     <Compile Include="Framework\Dialogs\DialogViewModelBaseTests.cs" />
     <Compile Include="Framework\Menu\MenuAggregatorTests.cs" />
     <Compile Include="Framework\Menu\MenuItemViewModelTests.cs" />
+    <Compile Include="Framework\StatusBar\StatusBarAggregatorTests.cs" />
     <Compile Include="Mocks\IMockService.cs" />
     <Compile Include="Mocks\MockBootstrapper.cs" />
     <Compile Include="Mocks\MockDialogViewModel.cs" />
