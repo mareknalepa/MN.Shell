@@ -18,9 +18,11 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            Margin="{TemplateBinding Margin}"
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                        VerticalAlignment="Stretch"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -29,7 +31,6 @@
 
     <Style TargetType="Menu" BasedOn="{StaticResource MenuBaseStyle}">
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Margin" Value="0,2,0,0"/>
     </Style>
 
     <Style TargetType="ContextMenu" BasedOn="{StaticResource MenuBaseStyle}">
@@ -167,10 +168,13 @@
         <Border x:Name="Border"
                 Background="{DynamicResource BaseBrush}"
                 BorderBrush="Transparent"
-                BorderThickness="1">
+                BorderThickness="0"
+                Height="30"
+                VerticalAlignment="Stretch">
             <Grid>
-                <ContentPresenter Margin="10,2,10,2"
+                <ContentPresenter Margin="10,2"
                                   ContentSource="Header"
+                                  VerticalAlignment="Center"
                                   RecognizesAccessKey="True"/>
                 <Popup x:Name="PART_Popup"
                        Placement="Bottom"
@@ -210,9 +214,12 @@
         <Border x:Name="Border"
                 Background="{DynamicResource BaseBrush}"
                 BorderBrush="Transparent"
-                BorderThickness="1">
-            <ContentPresenter Margin="10,2,10,2"
+                BorderThickness="0"
+                Height="30"
+                VerticalAlignment="Stretch">
+            <ContentPresenter Margin="10,2"
                               ContentSource="Header"
+                              VerticalAlignment="Center"
                               RecognizesAccessKey="True"/>
         </Border>
 
