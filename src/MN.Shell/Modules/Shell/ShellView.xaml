@@ -8,6 +8,7 @@
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:docking="clr-namespace:MN.Shell.Framework.Docking"
              xmlns:statusbar="clr-namespace:MN.Shell.Framework.StatusBar"
+             xmlns:behaviors="clr-namespace:MN.Shell.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -18,6 +19,10 @@
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0" ItemsSource="{Binding MenuItems}">
+            <i:Interaction.Behaviors>
+                <behaviors:PlaceOnTitleBarBehavior IsOnRightSide="False"/>
+            </i:Interaction.Behaviors>
+
             <Menu.ItemContainerStyle>
                 <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItemStyle}">
                     <Setter Property="Header" Value="{Binding Name}"/>
@@ -65,7 +70,7 @@
                     <Setter Property="MinWidth" Value="{Binding MinWidth}"/>
                     <Setter Property="Margin" Value="3,0"/>
                     <Setter Property="Padding" Value="0"/>
-                    
+
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Side}" Value="Left">
                             <Setter Property="DockPanel.Dock" Value="Left"/>

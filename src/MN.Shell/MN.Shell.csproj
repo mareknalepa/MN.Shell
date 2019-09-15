@@ -53,6 +53,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Behaviors\PlaceOnTitleBarBehavior.cs" />
     <Compile Include="Controls\DialogButtons.cs" />
     <Compile Include="Controls\ShellWindow.cs" />
     <Compile Include="Framework\Dialogs\DialogButton.cs" />

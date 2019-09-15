@@ -78,6 +78,7 @@
                                                 Background="Red"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
+                                                WindowChrome.IsHitTestVisibleInChrome="True"
                                                 Content="{TemplateBinding TitleBarLeftContent}"/>
                             </StackPanel>
 
@@ -109,6 +110,7 @@
                                                 Background="Blue"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
+                                                WindowChrome.IsHitTestVisibleInChrome="True"
                                                 Content="{TemplateBinding TitleBarRightContent}"/>
 
                                 <Button x:Name="MinimizeButton"
