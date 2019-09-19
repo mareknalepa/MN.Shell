@@ -1,8 +1,9 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace MN.Shell.Framework.Docking
 {
-    public class StyleSelector : System.Windows.Controls.StyleSelector
+    public class LayoutModuleStyleSelector : StyleSelector
     {
         public Style ToolStyle { get; set; }
         public Style DocumentStyle { get; set; }

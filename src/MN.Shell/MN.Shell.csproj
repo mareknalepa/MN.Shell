@@ -66,8 +66,9 @@
     <Compile Include="Core\IShell.cs" />
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Framework\Docking\ConductorBehavior.cs" />
+    <Compile Include="Framework\Docking\LayoutModuleTemplateSelector.cs" />
     <Compile Include="Framework\Docking\LayoutUpdateStrategy.cs" />
-    <Compile Include="Framework\Docking\StyleSelector.cs" />
+    <Compile Include="Framework\Docking\LayoutModuleStyleSelector.cs" />
     <Compile Include="Framework\DocumentBase.cs" />
     <Compile Include="Framework\FrameworkModule.cs" />
     <Compile Include="Framework\IDocument.cs" />

@@ -15,8 +15,8 @@ namespace MN.Shell.Framework.Docking
         protected override void OnAttached()
         {
             AttachBindings();
-            AttachLayoutItemTemplate();
-            AttachLayoutItemContainerStyleSelector();
+            AttachLayoutModuleTemplateSelector();
+            AttachLayoutModuleStyleSelector();
             AttachLayoutUpdateStrategy();
         }
 
@@ -34,7 +34,7 @@ namespace MN.Shell.Framework.Docking
             });
         }
 
-        private void AttachLayoutItemTemplate()
+        private void AttachLayoutModuleTemplateSelector()
         {
             FrameworkElementFactory factory = new FrameworkElementFactory(typeof(ContentControl));
 
@@ -49,13 +49,16 @@ namespace MN.Shell.Framework.Docking
             factory.SetValue(Control.HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch);
             factory.SetValue(Control.VerticalContentAlignmentProperty, VerticalAlignment.Stretch);
 
-            AssociatedObject.LayoutItemTemplate = new DataTemplate(typeof(ILayoutModule))
+            AssociatedObject.LayoutItemTemplateSelector = new LayoutModuleTemplateSelector()
             {
-                VisualTree = factory,
+                LayoutModuleTemplate = new DataTemplate(typeof(ILayoutModule))
+                {
+                    VisualTree = factory,
+                },
             };
         }
 
-        private void AttachLayoutItemContainerStyleSelector()
+        private void AttachLayoutModuleStyleSelector()
         {
             Style commonLayoutItemStyle = new Style(typeof(LayoutItem));
             Style toolStyle = new Style(typeof(LayoutAnchorableItem), commonLayoutItemStyle);
@@ -84,7 +87,7 @@ namespace MN.Shell.Framework.Docking
             documentStyle.Setters.Add(new Setter(LayoutDocumentItem.DescriptionProperty,
                 new Binding($"Model.{nameof(IDocument.Description)}")));
 
-            AssociatedObject.LayoutItemContainerStyleSelector = new StyleSelector
+            AssociatedObject.LayoutItemContainerStyleSelector = new LayoutModuleStyleSelector
             {
                 ToolStyle = toolStyle,
                 DocumentStyle = documentStyle,
