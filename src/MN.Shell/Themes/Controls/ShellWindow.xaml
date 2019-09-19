@@ -17,14 +17,12 @@
 
     <Style TargetType="Button" x:Key="ShellWindowButtonStyle">
         <Setter Property="Template" Value="{StaticResource ShellWindowButtonControlTemplate}"/>
-        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource InactiveForegroundBrush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Width" Value="46" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="FontFamily" Value="Marlett" />
-        <Setter Property="FontSize" Value="12" />
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Focusable" Value="False"/>
@@ -116,27 +114,50 @@
                                 <Button x:Name="MinimizeButton"
                                         Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}"
                                         Style="{StaticResource ShellWindowButtonStyle}"
-                                        Content="0"
-                                        WindowChrome.IsHitTestVisibleInChrome="True" />
+                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Path Data="M11 4.399V5.5H0V4.399h11z"
+                                          Fill="{Binding Path=Foreground, ElementName=MinimizeButton}"
+                                          SnapsToDevicePixels="True" />
+                                </Button>
 
                                 <Button x:Name="MaximizeButton"
                                         Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}"
                                         Style="{StaticResource ShellWindowButtonStyle}"
-                                        Content="1"
-                                        WindowChrome.IsHitTestVisibleInChrome="True" />
+                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Path Data="M11 0v11H0V0h11zM9.899 1.101H1.1V9.9h8.8V1.1z"
+                                          Fill="{Binding Path=Foreground, ElementName=MaximizeButton}"
+                                          SnapsToDevicePixels="True" />
+                                </Button>
 
                                 <Button x:Name="RestoreButton"
                                         Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}"
                                         Style="{StaticResource ShellWindowButtonStyle}"
-                                        Content="2"
                                         Visibility="Collapsed"
-                                        WindowChrome.IsHitTestVisibleInChrome="True" />
+                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Path Data="M11 8.798H8.798V11H0V2.202h2.202V0H11v8.798zm-3.298-5.5h-6.6v6.6h6.6v-6.6zM9.9 1.1H3.298v1.101h5.5v5.5h1.1v-6.6z"
+                                          Fill="{Binding Path=Foreground, ElementName=RestoreButton}"
+                                          SnapsToDevicePixels="True" />
+                                </Button>
 
                                 <Button x:Name="CloseButton"
                                         Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"
-                                        Style="{StaticResource ShellWindowButtonStyle}"
-                                        Content="r"
-                                        WindowChrome.IsHitTestVisibleInChrome="True" />
+                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Path Data="M6.279 5.5L11 10.221l-.779.779L5.5 6.279.779 11 0 10.221 4.721 5.5 0 .779.779 0 5.5 4.721 10.221 0 11 .779 6.279 5.5z"
+                                          Fill="{Binding Path=Foreground, ElementName=CloseButton}"
+                                          SnapsToDevicePixels="True" />
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource ShellWindowButtonStyle}">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource WarningBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource WarningBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
 
                             </StackPanel>
 

@@ -48,5 +48,9 @@
 
     <Color x:Key="HighlightBorderColor">#FF3F3F46</Color>
     <SolidColorBrush x:Key="HighlightBorderBrush" Color="#FF3F3F46"/>
+    
+    <!-- Warning colors -->
+    <Color x:Key="WarningColor">#E5E81123</Color>
+    <SolidColorBrush x:Key="WarningBrush" Color="#E5E81123"/>
 
 </ResourceDictionary>
