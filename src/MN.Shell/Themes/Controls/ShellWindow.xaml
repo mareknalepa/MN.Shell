@@ -17,7 +17,7 @@
 
     <Style TargetType="Button" x:Key="ShellWindowButtonStyle">
         <Setter Property="Template" Value="{StaticResource ShellWindowButtonControlTemplate}"/>
-        <Setter Property="Foreground" Value="{DynamicResource InactiveForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TitleBarForegroundBrush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Width" Value="46" />
@@ -88,7 +88,7 @@
 
                                 <TextBlock HorizontalAlignment="Stretch"
                                            VerticalAlignment="Center"
-                                           Foreground="{TemplateBinding TitleBarForeground}"
+                                           Foreground="{DynamicResource TitleBarForegroundBrush}"
                                            FontSize="12"
                                            TextAlignment="Center"
                                            TextTrimming="CharacterEllipsis"

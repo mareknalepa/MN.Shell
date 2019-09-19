@@ -48,8 +48,12 @@
 
     <Color x:Key="HighlightBorderColor">#FF3F3F46</Color>
     <SolidColorBrush x:Key="HighlightBorderBrush" Color="#FF3F3F46"/>
-    
-    <!-- Warning colors -->
+
+    <!-- Titlebar color -->
+    <Color x:Key="TitleBarForegroundColor">#FFCCCCCC</Color>
+    <SolidColorBrush x:Key="TitleBarForegroundBrush" Color="#FFCCCCCC"/>
+
+    <!-- Warning color -->
     <Color x:Key="WarningColor">#E5E81123</Color>
     <SolidColorBrush x:Key="WarningBrush" Color="#E5E81123"/>
 

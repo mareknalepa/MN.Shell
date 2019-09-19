@@ -15,7 +15,7 @@ namespace MN.Shell.Controls
         public ShellWindow()
         {
             SetResourceReference(TitleBarBackgroundProperty, "BaseBrush");
-            SetResourceReference(TitleBarForegroundProperty, "ActiveForegroundBrush");
+            SetResourceReference(TitleBarForegroundProperty, "TitleBarForegroundBrush");
 
             CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, OnClose));
             CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, OnMaximize, OnCanResize));
