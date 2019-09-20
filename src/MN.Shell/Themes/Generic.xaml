@@ -1,11 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
+
+        <!-- Color schemes -->
         <ResourceDictionary Source="/MN.Shell;component/Themes/BaseColors/Dark.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/AccentColors/Blue.xaml"/>
+
+        <!-- Standard WPF controls -->
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/Button.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/CheckBox.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/ComboBox.xaml"/>
-        <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/DialogButtons.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/Label.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/Menu.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/PasswordBox.xaml"/>
@@ -17,6 +20,14 @@
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/TabControl.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/TextBlock.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/TextBox.xaml"/>
+
+        <!-- Custom WPF controls -->
+        <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/DialogButtons.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/ShellWindow.xaml"/>
+        <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/XamlIcon.xaml"/>
+
+        <!-- XAML icons -->
+        <ResourceDictionary Source="/MN.Shell;component/Resources/Icons.xaml"/>
+
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
