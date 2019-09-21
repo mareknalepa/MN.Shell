@@ -205,7 +205,7 @@
         <Setter Property="MinWidth" Value="320"/>
         <Setter Property="MinHeight" Value="160"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Icon" Value="pack://application:,,,/MN.Shell;component/Resources/mnshell.ico"/>
+        <Setter Property="Icon" Value="{DynamicResource IconMnShell}"/>
         <Setter Property="Template" Value="{StaticResource ShellWindowControlTemplate}"/>
     </Style>
 </ResourceDictionary>

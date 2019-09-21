@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>../MN.Shell/Resources/mnshell.ico</ApplicationIcon>
+    <ApplicationIcon>..\MN.Shell\Resources\mnshell.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
