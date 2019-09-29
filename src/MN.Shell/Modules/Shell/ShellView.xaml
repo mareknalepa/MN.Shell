@@ -9,6 +9,7 @@
              xmlns:docking="clr-namespace:MN.Shell.Framework.Docking"
              xmlns:statusbar="clr-namespace:MN.Shell.Framework.StatusBar"
              xmlns:behaviors="clr-namespace:MN.Shell.Behaviors"
+             xmlns:controls="clr-namespace:MN.Shell.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -22,6 +23,12 @@
             <i:Interaction.Behaviors>
                 <behaviors:PlaceOnTitleBarBehavior IsOnRightSide="False"/>
             </i:Interaction.Behaviors>
+
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <controls:MenuItemsPanel/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
 
             <Menu.ItemContainerStyle>
                 <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItemStyle}">

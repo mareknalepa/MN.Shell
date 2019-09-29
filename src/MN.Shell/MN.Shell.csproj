@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Behaviors\PlaceOnTitleBarBehavior.cs" />
     <Compile Include="Controls\DialogButtons.cs" />
+    <Compile Include="Controls\MenuItemsPanel.cs" />
     <Compile Include="Controls\ShellWindow.cs" />
     <Compile Include="Controls\XamlIcon.cs" />
     <Compile Include="Framework\Dialogs\DialogButton.cs" />
