@@ -61,24 +61,29 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel x:Name="TitleBarLeftArea"
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        CanHorizontallyScroll="False"
-                                        CanVerticallyScroll="False"
-                                        Orientation="Horizontal"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Stretch">
+                            <Grid x:Name="TitleBarLeftArea"
+                                  Grid.Column="0"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                                <Image Width="35" Height="30" Margin="0" Source="{TemplateBinding Icon}"/>
+                                <Image Grid.Column="0"
+                                       Width="35"
+                                       Height="30"
+                                       Margin="0"
+                                       Source="{TemplateBinding Icon}"/>
 
-                                <ContentControl Margin="0"
-                                                Background="Red"
+                                <ContentControl Grid.Column="1"
+                                                Margin="0"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
                                                 WindowChrome.IsHitTestVisibleInChrome="True"
                                                 Content="{TemplateBinding TitleBarLeftContent}"/>
-                            </StackPanel>
+
+                            </Grid>
 
                             <Grid Grid.Column="1"
                                   Height="30"
@@ -95,23 +100,26 @@
                                            Text="{TemplateBinding Title}"/>
                             </Grid>
 
-                            <StackPanel x:Name="TitleBarRightArea"
-                                        Grid.Row="0"
-                                        Grid.Column="2"
-                                        CanHorizontallyScroll="False"
-                                        CanVerticallyScroll="False"
-                                        Orientation="Horizontal"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Stretch">
+                            <Grid x:Name="TitleBarRightArea"
+                                  Grid.Column="2"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                                <ContentControl Margin="0"
-                                                Background="Blue"
+                                <ContentControl Grid.Column="0"
+                                                Margin="0"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
                                                 WindowChrome.IsHitTestVisibleInChrome="True"
                                                 Content="{TemplateBinding TitleBarRightContent}"/>
 
                                 <Button x:Name="MinimizeButton"
+                                        Grid.Column="1"
                                         Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}"
                                         Style="{StaticResource ShellWindowButtonStyle}"
                                         WindowChrome.IsHitTestVisibleInChrome="True">
@@ -121,6 +129,7 @@
                                 </Button>
 
                                 <Button x:Name="MaximizeButton"
+                                        Grid.Column="2"
                                         Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}"
                                         Style="{StaticResource ShellWindowButtonStyle}"
                                         WindowChrome.IsHitTestVisibleInChrome="True">
@@ -130,6 +139,7 @@
                                 </Button>
 
                                 <Button x:Name="RestoreButton"
+                                        Grid.Column="2"
                                         Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}"
                                         Style="{StaticResource ShellWindowButtonStyle}"
                                         Visibility="Collapsed"
@@ -140,6 +150,7 @@
                                 </Button>
 
                                 <Button x:Name="CloseButton"
+                                        Grid.Column="3"
                                         Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"
                                         WindowChrome.IsHitTestVisibleInChrome="True">
                                     <Path Data="M6.279 5.5L11 10.221l-.779.779L5.5 6.279.779 11 0 10.221 4.721 5.5 0 .779.779 0 5.5 4.721 10.221 0 11 .779 6.279 5.5z"
@@ -159,7 +170,7 @@
                                     </Button.Style>
                                 </Button>
 
-                            </StackPanel>
+                            </Grid>
 
                         </Grid>
 
