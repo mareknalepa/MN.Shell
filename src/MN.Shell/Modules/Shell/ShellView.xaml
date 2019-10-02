@@ -21,14 +21,8 @@
 
         <Menu Grid.Row="0" ItemsSource="{Binding MenuItems}">
             <i:Interaction.Behaviors>
-                <behaviors:PlaceOnTitleBarBehavior IsOnRightSide="False"/>
+                <behaviors:PlaceOnTitleBarBehavior/>
             </i:Interaction.Behaviors>
-
-            <Menu.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <controls:MenuItemsPanel/>
-                </ItemsPanelTemplate>
-            </Menu.ItemsPanel>
 
             <Menu.ItemContainerStyle>
                 <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItemStyle}">
