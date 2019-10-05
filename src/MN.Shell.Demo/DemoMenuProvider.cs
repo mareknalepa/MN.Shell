@@ -56,6 +56,12 @@ namespace MN.Shell.Demo
 
             yield return new MenuItem()
             {
+                Name = "Output",
+                Path = new[] { "View" },
+            };
+
+            yield return new MenuItem()
+            {
                 Name = "Run Demo...",
                 Path = new[] { "Demo" },
                 GroupId = 10,
@@ -78,6 +84,54 @@ namespace MN.Shell.Demo
                 GroupOrder = 5,
                 IsCheckable = true,
                 OnIsCheckedChanged = isChecked => System.Windows.MessageBox.Show($"New value: {isChecked}", "Info"),
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Tools",
+                GroupOrder = 36,
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Settings",
+                Path = new[] { "Tools" },
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Windows",
+                GroupOrder = 37,
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Main Window",
+                Path = new[] { "Windows" },
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Commands",
+                GroupOrder = 38,
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Operation 1",
+                Path = new[] { "Commands" },
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Operation 2",
+                Path = new[] { "Commands" },
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "About",
+                Path = new[] { "Help" },
             };
         }
     }

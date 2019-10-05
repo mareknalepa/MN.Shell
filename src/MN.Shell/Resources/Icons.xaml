@@ -1,0 +1,59 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:MN.Shell.Controls">
+
+    <DrawingImage x:Key="IconMnShell">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,256,256" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{DynamicResource AccentBaseBrush}">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry FillRule="Nonzero">
+                            <PathGeometry.Figures>
+                                <PathFigureCollection >
+                                    <PathFigure IsClosed="True" StartPoint="30,64">
+                                        <PathFigure.Segments>
+                                            <PathSegmentCollection>
+                                                <LineSegment Point="192,30" />
+                                                <LineSegment Point="192,225" />
+                                                <LineSegment Point="30,192" />
+                                            </PathSegmentCollection>
+                                        </PathFigure.Segments>
+                                    </PathFigure>
+                                </PathFigureCollection>
+                            </PathGeometry.Figures>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{DynamicResource AccentHighlightedBrush}">
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry FillRule="Nonzero">
+                            <PathGeometry.Figures>
+                                <PathFigureCollection>
+                                    <PathFigure IsClosed="True" StartPoint="192,30">
+                                        <PathFigure.Segments>
+                                            <PathSegmentCollection>
+                                                <LineSegment Point="225,64" />
+                                                <LineSegment Point="225,192" />
+                                                <LineSegment Point="192,225" />
+                                            </PathSegmentCollection>
+                                        </PathFigure.Segments>
+                                    </PathFigure>
+                                </PathFigureCollection>
+                            </PathGeometry.Figures>
+                        </PathGeometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <Style TargetType="controls:XamlIcon" x:Key="IconMnShellStyle">
+        <Setter Property="Source" Value="{StaticResource IconMnShell}"/>
+    </Style>
+
+</ResourceDictionary>

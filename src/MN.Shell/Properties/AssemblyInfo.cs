@@ -14,6 +14,7 @@ using System.Windows.Markup;
 [assembly: Guid("a20fc2d4-0190-495f-b179-206aacb80670")]
 
 [assembly: XmlnsPrefix("https://github.com/mareknalepa/MN.Shell", "mnshell")]
+[assembly: XmlnsDefinition("https://github.com/mareknalepa/MN.Shell", "MN.Shell.Behaviors")]
 [assembly: XmlnsDefinition("https://github.com/mareknalepa/MN.Shell", "MN.Shell.Controls")]
 [assembly: XmlnsDefinition("https://github.com/mareknalepa/MN.Shell", "MN.Shell.Core")]
 [assembly: XmlnsDefinition("https://github.com/mareknalepa/MN.Shell", "MN.Shell.Framework")]

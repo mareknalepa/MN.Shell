@@ -17,14 +17,12 @@
 
     <Style TargetType="Button" x:Key="ShellWindowButtonStyle">
         <Setter Property="Template" Value="{StaticResource ShellWindowButtonControlTemplate}"/>
-        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TitleBarForegroundBrush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Width" Value="34" />
-        <Setter Property="Height" Value="26" />
+        <Setter Property="Width" Value="46" />
+        <Setter Property="Height" Value="30" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="FontFamily" Value="Marlett" />
-        <Setter Property="FontSize" Value="12" />
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Focusable" Value="False"/>
@@ -49,59 +47,135 @@
                     BorderThickness="1" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                 <AdornerDecorator>
                     <Grid x:Name="WindowLayout">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="30"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Image Grid.Column="0" Width="26" Height="26" Source="{TemplateBinding Icon}"/>
+                        <Grid x:Name="TitleBar"
+                              Grid.Row="0"
+                              Background="{TemplateBinding TitleBarBackground}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="1"
-                                   FontSize="12"
-                                   Margin="0,7,0,4"
-                                   Foreground="{DynamicResource InactiveForegroundBrush}"
-                                   TextAlignment="Left"
-                                   TextTrimming="CharacterEllipsis"
-                                   VerticalAlignment="Center"
-                                   Text="{TemplateBinding Title}"/>
+                            <Grid x:Name="TitleBarLeftArea"
+                                  Grid.Column="0"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Column="2"
-                                    CanHorizontallyScroll="False"
-                                    CanVerticallyScroll="False"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Stretch">
+                                <Image Grid.Column="0"
+                                       Width="35"
+                                       Height="30"
+                                       Margin="0"
+                                       Source="{TemplateBinding Icon}"/>
 
-                            <Button x:Name="MinimizeButton"
-                                    Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}"
-                                    Style="{StaticResource ShellWindowButtonStyle}"
-                                    Content="0"
-                                    WindowChrome.IsHitTestVisibleInChrome="True" />
-                            <Button x:Name="MaximizeButton"
-                                    Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}"
-                                    Style="{StaticResource ShellWindowButtonStyle}"
-                                    Content="1"
-                                    WindowChrome.IsHitTestVisibleInChrome="True" />
-                            <Button x:Name="RestoreButton"
-                                    Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}"
-                                    Style="{StaticResource ShellWindowButtonStyle}"
-                                    Content="2"
-                                    Visibility="Collapsed"
-                                    WindowChrome.IsHitTestVisibleInChrome="True" />
-                            <Button x:Name="CloseButton"
-                                    Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"
-                                    Style="{StaticResource ShellWindowButtonStyle}"
-                                    Content="r"
-                                    WindowChrome.IsHitTestVisibleInChrome="True" />
-                        </StackPanel>
+                                <ContentControl Grid.Column="1"
+                                                Margin="0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                WindowChrome.IsHitTestVisibleInChrome="True"
+                                                Content="{TemplateBinding TitleBarLeftContent}"/>
 
-                        <ContentPresenter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                                          Content="{TemplateBinding Content}" />
+                            </Grid>
+
+                            <Grid Grid.Column="1"
+                                  Height="30"
+                                  Margin="24,0"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch">
+
+                                <TextBlock HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource TitleBarForegroundBrush}"
+                                           FontSize="12"
+                                           TextAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"
+                                           Text="{TemplateBinding Title}"/>
+                            </Grid>
+
+                            <Grid x:Name="TitleBarRightArea"
+                                  Grid.Column="2"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ContentControl Grid.Column="0"
+                                                Margin="0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                WindowChrome.IsHitTestVisibleInChrome="True"
+                                                Content="{TemplateBinding TitleBarRightContent}"/>
+
+                                <Button x:Name="MinimizeButton"
+                                        Grid.Column="1"
+                                        Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}"
+                                        Style="{StaticResource ShellWindowButtonStyle}"
+                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Path Data="M11 4.399V5.5H0V4.399h11z"
+                                          Fill="{Binding Path=Foreground, ElementName=MinimizeButton}"
+                                          SnapsToDevicePixels="True" />
+                                </Button>
+
+                                <Button x:Name="MaximizeButton"
+                                        Grid.Column="2"
+                                        Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}"
+                                        Style="{StaticResource ShellWindowButtonStyle}"
+                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Path Data="M11 0v11H0V0h11zM9.899 1.101H1.1V9.9h8.8V1.1z"
+                                          Fill="{Binding Path=Foreground, ElementName=MaximizeButton}"
+                                          SnapsToDevicePixels="True" />
+                                </Button>
+
+                                <Button x:Name="RestoreButton"
+                                        Grid.Column="2"
+                                        Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}"
+                                        Style="{StaticResource ShellWindowButtonStyle}"
+                                        Visibility="Collapsed"
+                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Path Data="M11 8.798H8.798V11H0V2.202h2.202V0H11v8.798zm-3.298-5.5h-6.6v6.6h6.6v-6.6zM9.9 1.1H3.298v1.101h5.5v5.5h1.1v-6.6z"
+                                          Fill="{Binding Path=Foreground, ElementName=RestoreButton}"
+                                          SnapsToDevicePixels="True" />
+                                </Button>
+
+                                <Button x:Name="CloseButton"
+                                        Grid.Column="3"
+                                        Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"
+                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Path Data="M6.279 5.5L11 10.221l-.779.779L5.5 6.279.779 11 0 10.221 4.721 5.5 0 .779.779 0 5.5 4.721 10.221 0 11 .779 6.279 5.5z"
+                                          Fill="{Binding Path=Foreground, ElementName=CloseButton}"
+                                          SnapsToDevicePixels="True" />
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource ShellWindowButtonStyle}">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource WarningBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource WarningBrush}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
+                            </Grid>
+
+                        </Grid>
+
+                        <ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}" />
+
                     </Grid>
                 </AdornerDecorator>
             </Border>
@@ -128,20 +202,21 @@
     <Style TargetType="controls:ShellWindow">
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CaptionHeight="26"
+                <WindowChrome CaptionHeight="30"
                               CornerRadius="0"
                               GlassFrameThickness="0"
                               NonClientFrameEdges="None"
-                              ResizeBorderThickness="6"
+                              ResizeBorderThickness="{Binding Source={x:Static SystemParameters.WindowResizeBorderThickness}}"
                               UseAeroCaptionButtons="False"/>
             </Setter.Value>
         </Setter>
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontStyle" Value="Normal"/>
         <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="MinWidth" Value="320"/>
-        <Setter Property="MinHeight" Value="160"/>
+        <Setter Property="MinWidth" Value="480"/>
+        <Setter Property="MinHeight" Value="240"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Icon" Value="{DynamicResource IconMnShell}"/>
         <Setter Property="Template" Value="{StaticResource ShellWindowControlTemplate}"/>
     </Style>
 </ResourceDictionary>
