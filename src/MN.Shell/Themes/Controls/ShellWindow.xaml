@@ -87,7 +87,7 @@
 
                             <Grid Grid.Column="1"
                                   Height="30"
-                                  Margin="16,0"
+                                  Margin="24,0"
                                   HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch">
 
@@ -213,8 +213,8 @@
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontStyle" Value="Normal"/>
         <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="MinWidth" Value="320"/>
-        <Setter Property="MinHeight" Value="160"/>
+        <Setter Property="MinWidth" Value="480"/>
+        <Setter Property="MinHeight" Value="240"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Icon" Value="{DynamicResource IconMnShell}"/>
         <Setter Property="Template" Value="{StaticResource ShellWindowControlTemplate}"/>

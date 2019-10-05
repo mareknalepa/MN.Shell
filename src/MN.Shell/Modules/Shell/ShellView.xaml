@@ -19,33 +19,11 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0" ItemsSource="{Binding MenuItems}">
+        <controls:ShellMenu Grid.Row="0" MenuItems="{Binding MenuItems}">
             <i:Interaction.Behaviors>
                 <behaviors:PlaceOnTitleBarBehavior/>
             </i:Interaction.Behaviors>
-
-            <Menu.ItemContainerStyle>
-                <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItemStyle}">
-                    <Setter Property="Header" Value="{Binding Name}"/>
-                    <Setter Property="ItemsSource" Value="{Binding SubItems}"/>
-                    <Setter Property="Icon" Value="{Binding Icon}"/>
-                    <Setter Property="IsCheckable" Value="{Binding IsCheckable}"/>
-                    <Setter Property="IsChecked" Value="{Binding IsChecked}"/>
-                    <Setter Property="Command" Value="{Binding Command}"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsSeparator}" Value="True">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate>
-                                        <Separator Style="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}" />
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Menu.ItemContainerStyle>
-        </Menu>
+        </controls:ShellMenu>
 
         <xcad:DockingManager Grid.Row="1">
 

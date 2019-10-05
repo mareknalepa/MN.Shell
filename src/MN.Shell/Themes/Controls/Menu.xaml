@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:MN.Shell.Controls">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="MenuBase" x:Key="MenuBaseStyle">
         <Setter Property="Background" Value="{DynamicResource BaseBrush}"/>
@@ -22,21 +21,7 @@
                             Margin="{TemplateBinding Margin}"
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                        <Grid>
-                            <controls:MenuItemsPanel IsItemsHost="True"
-                                                     VerticalAlignment="Stretch"
-                                                     EllipsisMenuItem="{Binding ., ElementName=EllipsisMenuItem}"/>
-                            <Menu>
-                                <Menu.Template>
-                                    <ControlTemplate>
-                                        <ItemsPresenter HorizontalAlignment="Left"/>
-                                    </ControlTemplate>
-                                </Menu.Template>
-                                <MenuItem x:Name="EllipsisMenuItem"
-                                          HorizontalAlignment="Left"
-                                          Header="..."/>
-                            </Menu>
-                        </Grid>
+                        <ItemsPresenter/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

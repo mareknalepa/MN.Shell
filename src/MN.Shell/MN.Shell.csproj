@@ -58,7 +58,8 @@
     </Compile>
     <Compile Include="Behaviors\PlaceOnTitleBarBehavior.cs" />
     <Compile Include="Controls\DialogButtons.cs" />
-    <Compile Include="Controls\MenuItemsPanel.cs" />
+    <Compile Include="Controls\ShellMenuItemsPanel.cs" />
+    <Compile Include="Controls\ShellMenu.cs" />
     <Compile Include="Controls\ShellWindow.cs" />
     <Compile Include="Controls\XamlIcon.cs" />
     <Compile Include="Framework\Dialogs\DialogButton.cs" />
@@ -183,6 +184,10 @@
     <Page Include="Themes\Controls\ScrollViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Controls\ShellMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Controls\ShellWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

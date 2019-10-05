@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:MN.Shell.Controls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/Menu.xaml"/>
+        <ResourceDictionary>
+
+            <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItemStyle}" x:Key="ShellMenuItemStyle">
+                <Setter Property="Header" Value="{Binding Name}"/>
+                <Setter Property="ItemsSource" Value="{Binding SubItems}"/>
+                <Setter Property="Icon" Value="{Binding Icon}"/>
+                <Setter Property="IsCheckable" Value="{Binding IsCheckable}"/>
+                <Setter Property="IsChecked" Value="{Binding IsChecked}"/>
+                <Setter Property="Command" Value="{Binding Command}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsSeparator}" Value="True">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Separator Style="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsEllipsis}" Value="True">
+                        <Setter Property="controls:ShellMenuItemsPanel.IsEllipsis" Value="True"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="controls:ShellMenu" BasedOn="{StaticResource MenuBaseStyle}">
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="ItemContainerStyle" Value="{StaticResource ShellMenuItemStyle}"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

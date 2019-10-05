@@ -53,6 +53,16 @@ namespace MN.Shell.Framework.Menu
             set { _command = value; NotifyOfPropertyChange(); }
         }
 
+        private bool _fitsIntoMainMenu;
+
+        public bool FitsIntoMainMenu
+        {
+            get => _fitsIntoMainMenu;
+            set { _fitsIntoMainMenu = value; NotifyOfPropertyChange(); }
+        }
+
         public bool IsSeparator { get; set; }
+
+        public bool IsEllipsis { get; set; }
     }
 }
