@@ -36,13 +36,16 @@ namespace MN.Shell.Modules.Shell
         public ObservableCollection<StatusBarItemViewModel> StatusBarItems { get; }
 
         public ShellViewModel(ILog log, IMenuAggregator menuAggregator, IEnumerable<IMenuProvider> menuProviders,
-            IStatusBarAggregator statusBarAggregator, IEnumerable<IStatusBarProvider> statusBarProviders,
-            IEnumerable<ITool> tools, IEnumerable<IDocument> documents)
+            MainMenuProvider mainMenuProvider, IStatusBarAggregator statusBarAggregator,
+            IEnumerable<IStatusBarProvider> statusBarProviders, IEnumerable<ITool> tools,
+            IEnumerable<IDocument> documents)
         {
             _log = log;
             _log.Info("Creating ShellViewModel instance...");
 
             DisplayName = "MN.Shell";
+
+            mainMenuProvider.ApplicationExitHandler = () => TryClose();
 
             MenuItems = new ObservableCollection<MenuItemViewModel>(menuAggregator.ComposeMenu(menuProviders));
 

@@ -11,9 +11,10 @@ namespace MN.Shell.Framework
 
         public override void Load()
         {
-            Bind<IColorSchemeLoader>().To<ColorSchemeLoader>();
-            Bind<IMenuAggregator>().To<MenuAggregator>();
-            Bind<IStatusBarAggregator>().To<StatusBarAggregator>();
+            Bind<IColorSchemeLoader, ColorSchemeLoader>().To<ColorSchemeLoader>().InSingletonScope();
+            Bind<IMenuAggregator, MenuAggregator>().To<MenuAggregator>().InSingletonScope();
+            Bind<IMenuProvider, MainMenuProvider>().To<MainMenuProvider>().InSingletonScope();
+            Bind<IStatusBarAggregator, StatusBarAggregator>().To<StatusBarAggregator>().InSingletonScope();
         }
     }
 }

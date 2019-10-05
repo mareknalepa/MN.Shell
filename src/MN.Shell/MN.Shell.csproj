@@ -87,6 +87,7 @@
     <Compile Include="Framework\Menu\IMenuAggregator.cs" />
     <Compile Include="Framework\Menu\IMenuProvider.cs" />
     <Compile Include="Framework\Menu\InconsistentMenuException.cs" />
+    <Compile Include="Framework\Menu\MainMenuProvider.cs" />
     <Compile Include="Framework\Menu\MenuAggregator.cs" />
     <Compile Include="Framework\Menu\MenuItem.cs" />
     <Compile Include="Framework\Menu\MenuItemComparer.cs" />
@@ -98,11 +99,6 @@
     <Compile Include="Framework\StatusBar\StatusBarSide.cs" />
     <Compile Include="Framework\ToolBase.cs" />
     <Compile Include="Framework\ToolPosition.cs" />
-    <Compile Include="Modules\MainMenu\MainMenuProvider.cs" />
-    <Compile Include="Modules\MainMenu\MainMenuView.xaml.cs">
-      <DependentUpon>MainMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\MainMenu\MainMenuViewModel.cs" />
     <Compile Include="Modules\MainModule.cs" />
     <Compile Include="Modules\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -116,10 +112,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Modules\MainMenu\MainMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Modules\Shell\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
