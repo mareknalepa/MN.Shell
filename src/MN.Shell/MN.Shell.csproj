@@ -62,6 +62,9 @@
     <Compile Include="Controls\ShellMenu.cs" />
     <Compile Include="Controls\ShellWindow.cs" />
     <Compile Include="Controls\XamlIcon.cs" />
+    <Compile Include="Framework\ColorSchemes\ColorScheme.cs" />
+    <Compile Include="Framework\ColorSchemes\ColorSchemeLoader.cs" />
+    <Compile Include="Framework\ColorSchemes\IColorSchemeLoader.cs" />
     <Compile Include="Framework\Dialogs\DialogButton.cs" />
     <Compile Include="Framework\Dialogs\DialogButtonType.cs" />
     <Compile Include="Framework\Dialogs\DialogViewModelBase.cs" />
@@ -238,5 +241,6 @@
   <ItemGroup>
     <Resource Include="Resources\mnshell.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
