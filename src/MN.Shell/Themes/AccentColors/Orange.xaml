@@ -1,16 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    options:Freeze="True">
 
-    <Color x:Key="AccentBaseColor">#FFCA5100</Color>
-    <SolidColorBrush x:Key="AccentBaseBrush" Color="#FFCA5100"/>
+    <Color x:Key="AccentBaseColor" options:Freeze="True">#FFCA5100</Color>
+    <SolidColorBrush x:Key="AccentBaseBrush" Color="#FFCA5100" options:Freeze="True"/>
 
-    <Color x:Key="AccentActiveColor">#FFB43C00</Color>
-    <SolidColorBrush x:Key="AccentActiveBrush" Color="#FFB43C00"/>
+    <Color x:Key="AccentActiveColor" options:Freeze="True">#FFB43C00</Color>
+    <SolidColorBrush x:Key="AccentActiveBrush" Color="#FFB43C00" options:Freeze="True"/>
 
-    <Color x:Key="AccentHighlightedColor">#FFF07828</Color>
-    <SolidColorBrush x:Key="AccentHighlightedBrush" Color="#FFF07828"/>
+    <Color x:Key="AccentHighlightedColor" options:Freeze="True">#FFF07828</Color>
+    <SolidColorBrush x:Key="AccentHighlightedBrush" Color="#FFF07828" options:Freeze="True"/>
 
-    <Color x:Key="AccentForegroundColor">#FFFFFFFF</Color>
-    <SolidColorBrush x:Key="AccentForegroundBrush" Color="#FFFFFFFF"/>
+    <Color x:Key="AccentForegroundColor" options:Freeze="True">#FFFFFFFF</Color>
+    <SolidColorBrush x:Key="AccentForegroundBrush" Color="#FFFFFFFF" options:Freeze="True"/>
 
 </ResourceDictionary>

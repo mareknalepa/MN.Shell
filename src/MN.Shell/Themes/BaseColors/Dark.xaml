@@ -1,62 +1,64 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    options:Freeze="True">
 
     <!-- Base color -->
-    <Color x:Key="BaseColor">#FF2D2D30</Color>
-    <SolidColorBrush x:Key="BaseBrush" Color="#FF2D2D30"/>
+    <Color x:Key="BaseColor" options:Freeze="True">#FF2D2D30</Color>
+    <SolidColorBrush x:Key="BaseBrush" Color="#FF2D2D30" options:Freeze="True"/>
 
 
     <!-- Normal colors -->
-    <Color x:Key="BackgroundColor">#FF1B1B1C</Color>
-    <SolidColorBrush x:Key="BackgroundBrush" Color="#FF1B1B1C"/>
+    <Color x:Key="BackgroundColor" options:Freeze="True">#FF1B1B1C</Color>
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#FF1B1B1C" options:Freeze="True"/>
 
-    <Color x:Key="ForegroundColor">#FFF1F1F1</Color>
-    <SolidColorBrush x:Key="ForegroundBrush" Color="#FFF1F1F1"/>
+    <Color x:Key="ForegroundColor" options:Freeze="True">#FFF1F1F1</Color>
+    <SolidColorBrush x:Key="ForegroundBrush" Color="#FFF1F1F1" options:Freeze="True"/>
 
-    <Color x:Key="BorderColor">#FF3F3F46</Color>
-    <SolidColorBrush x:Key="BorderBrush" Color="#FF3F3F46"/>
+    <Color x:Key="BorderColor" options:Freeze="True">#FF3F3F46</Color>
+    <SolidColorBrush x:Key="BorderBrush" Color="#FF3F3F46" options:Freeze="True"/>
 
 
     <!-- Active colors -->
-    <Color x:Key="ActiveBackgroundColor">#FF3F3F46</Color>
-    <SolidColorBrush x:Key="ActiveBackgroundBrush" Color="#FF3F3F46"/>
+    <Color x:Key="ActiveBackgroundColor" options:Freeze="True">#FF3F3F46</Color>
+    <SolidColorBrush x:Key="ActiveBackgroundBrush" Color="#FF3F3F46" options:Freeze="True"/>
 
-    <Color x:Key="ActiveForegroundColor">#FFF1F1F1</Color>
-    <SolidColorBrush x:Key="ActiveForegroundBrush" Color="#FFF1F1F1"/>
+    <Color x:Key="ActiveForegroundColor" options:Freeze="True">#FFF1F1F1</Color>
+    <SolidColorBrush x:Key="ActiveForegroundBrush" Color="#FFF1F1F1" options:Freeze="True"/>
 
-    <Color x:Key="ActiveBorderColor">#FF5F5F69</Color>
-    <SolidColorBrush x:Key="ActiveBorderBrush" Color="#FF5F5F69"/>
+    <Color x:Key="ActiveBorderColor" options:Freeze="True">#FF5F5F69</Color>
+    <SolidColorBrush x:Key="ActiveBorderBrush" Color="#FF5F5F69" options:Freeze="True"/>
 
 
     <!-- Inactive colors -->
-    <Color x:Key="InactiveBackgroundColor">#FF2D2D30</Color>
-    <SolidColorBrush x:Key="InactiveBackgroundBrush" Color="#FF2D2D30"/>
+    <Color x:Key="InactiveBackgroundColor" options:Freeze="True">#FF2D2D30</Color>
+    <SolidColorBrush x:Key="InactiveBackgroundBrush" Color="#FF2D2D30" options:Freeze="True"/>
 
-    <Color x:Key="InactiveForegroundColor">#FF787878</Color>
-    <SolidColorBrush x:Key="InactiveForegroundBrush" Color="#FF787878"/>
+    <Color x:Key="InactiveForegroundColor" options:Freeze="True">#FF787878</Color>
+    <SolidColorBrush x:Key="InactiveForegroundBrush" Color="#FF787878" options:Freeze="True"/>
 
-    <Color x:Key="InactiveBorderColor">#FF3C3C41</Color>
-    <SolidColorBrush x:Key="InactiveBorderBrush" Color="#FF3C3C41"/>
+    <Color x:Key="InactiveBorderColor" options:Freeze="True">#FF3C3C41</Color>
+    <SolidColorBrush x:Key="InactiveBorderBrush" Color="#FF3C3C41" options:Freeze="True"/>
 
 
     <!-- Highlight colors -->
-    <Color x:Key="HighlightBackgroundColor">#FF3F3F46</Color>
-    <SolidColorBrush x:Key="HighlightBackgroundBrush" Color="#FF3F3F46"/>
+    <Color x:Key="HighlightBackgroundColor" options:Freeze="True">#FF3F3F46</Color>
+    <SolidColorBrush x:Key="HighlightBackgroundBrush" Color="#FF3F3F46" options:Freeze="True"/>
 
-    <Color x:Key="HighlightForegroundColor">#FFFFFFFF</Color>
-    <SolidColorBrush x:Key="HighlightForegroundBrush" Color="#FFFFFFFF"/>
+    <Color x:Key="HighlightForegroundColor" options:Freeze="True">#FFFFFFFF</Color>
+    <SolidColorBrush x:Key="HighlightForegroundBrush" Color="#FFFFFFFF" options:Freeze="True"/>
 
-    <Color x:Key="HighlightBorderColor">#FF3F3F46</Color>
-    <SolidColorBrush x:Key="HighlightBorderBrush" Color="#FF3F3F46"/>
+    <Color x:Key="HighlightBorderColor" options:Freeze="True">#FF3F3F46</Color>
+    <SolidColorBrush x:Key="HighlightBorderBrush" Color="#FF3F3F46" options:Freeze="True"/>
 
-    
+
     <!-- Titlebar color -->
-    <Color x:Key="TitleBarForegroundColor">#FFCCCCCC</Color>
-    <SolidColorBrush x:Key="TitleBarForegroundBrush" Color="#FFCCCCCC"/>
+    <Color x:Key="TitleBarForegroundColor" options:Freeze="True">#FFCCCCCC</Color>
+    <SolidColorBrush x:Key="TitleBarForegroundBrush" Color="#FFCCCCCC" options:Freeze="True"/>
 
-    
+
     <!-- Warning color -->
-    <Color x:Key="WarningColor">#E5E81123</Color>
-    <SolidColorBrush x:Key="WarningBrush" Color="#E5E81123"/>
+    <Color x:Key="WarningColor" options:Freeze="True">#E5E81123</Color>
+    <SolidColorBrush x:Key="WarningBrush" Color="#E5E81123" options:Freeze="True"/>
 
 </ResourceDictionary>
