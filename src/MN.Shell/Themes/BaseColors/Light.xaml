@@ -1,0 +1,62 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Base color -->
+    <Color x:Key="BaseColor">#FFEFEFEF</Color>
+    <SolidColorBrush x:Key="BaseBrush" Color="#FFEFEFEF"/>
+
+
+    <!-- Normal colors -->
+    <Color x:Key="BackgroundColor">#FFD7D7D7</Color>
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#FFD7D7D7"/>
+
+    <Color x:Key="ForegroundColor">#FF303030</Color>
+    <SolidColorBrush x:Key="ForegroundBrush" Color="#FF303030"/>
+
+    <Color x:Key="BorderColor">#FFC0C0C0</Color>
+    <SolidColorBrush x:Key="BorderBrush" Color="#FFC0C0C0"/>
+
+
+    <!-- Active colors -->
+    <Color x:Key="ActiveBackgroundColor">#FFFFFFFF</Color>
+    <SolidColorBrush x:Key="ActiveBackgroundBrush" Color="#FFFFFFFF"/>
+
+    <Color x:Key="ActiveForegroundColor">#FF000000</Color>
+    <SolidColorBrush x:Key="ActiveForegroundBrush" Color="#FF000000"/>
+
+    <Color x:Key="ActiveBorderColor">#FFC0C0C0</Color>
+    <SolidColorBrush x:Key="ActiveBorderBrush" Color="#FFC0C0C0"/>
+
+
+    <!-- Inactive colors -->
+    <Color x:Key="InactiveBackgroundColor">#FFEFEFEF</Color>
+    <SolidColorBrush x:Key="InactiveBackgroundBrush" Color="#FFEFEFEF"/>
+
+    <Color x:Key="InactiveForegroundColor">#FF808080</Color>
+    <SolidColorBrush x:Key="InactiveForegroundBrush" Color="#FF808080"/>
+
+    <Color x:Key="InactiveBorderColor">#FFD7D7D7</Color>
+    <SolidColorBrush x:Key="InactiveBorderBrush" Color="#FFD7D7D7"/>
+
+
+    <!-- Highlight colors -->
+    <Color x:Key="HighlightBackgroundColor">#FFA5A5A5</Color>
+    <SolidColorBrush x:Key="HighlightBackgroundBrush" Color="#FFA5A5A5"/>
+
+    <Color x:Key="HighlightForegroundColor">#FF000000</Color>
+    <SolidColorBrush x:Key="HighlightForegroundBrush" Color="#FF000000"/>
+
+    <Color x:Key="HighlightBorderColor">#FFA5A5A5</Color>
+    <SolidColorBrush x:Key="HighlightBorderBrush" Color="#FFA5A5A5"/>
+    
+    
+    <!-- Titlebar color -->
+    <Color x:Key="TitleBarForegroundColor">#FF505050</Color>
+    <SolidColorBrush x:Key="TitleBarForegroundBrush" Color="#FF505050"/>
+
+    
+    <!-- Warning color -->
+    <Color x:Key="WarningColor">#E5E81123</Color>
+    <SolidColorBrush x:Key="WarningBrush" Color="#E5E81123"/>
+
+</ResourceDictionary>

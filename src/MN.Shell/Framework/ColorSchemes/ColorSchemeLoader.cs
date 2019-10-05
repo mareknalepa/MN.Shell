@@ -20,6 +20,7 @@ namespace MN.Shell.Framework.ColorSchemes
             AvailableBaseColors = new List<ColorScheme>()
             {
                 new ColorScheme("Dark", new Uri("pack://application:,,,/MN.Shell;component/Themes/BaseColors/Dark.xaml")),
+                new ColorScheme("Light", new Uri("pack://application:,,,/MN.Shell;component/Themes/BaseColors/Light.xaml")),
             };
 
             AvailableAccentColors = new List<ColorScheme>()
