@@ -52,6 +52,14 @@
     <SolidColorBrush x:Key="HighlightBorderBrush" Color="#FF3F3F46" options:Freeze="True"/>
 
 
+    <!-- Colors on accent -->
+    <Color x:Key="ForegroundOnAccentColor" options:Freeze="True">#FFF1F1F1</Color>
+    <SolidColorBrush x:Key="ForegroundOnAccentBrush" Color="#FFF1F1F1" options:Freeze="True"/>
+
+    <Color x:Key="InactiveForegroundOnAccentColor" options:Freeze="True">#FF787878</Color>
+    <SolidColorBrush x:Key="InactiveForegroundOnAccentBrush" Color="#FF787878" options:Freeze="True"/>
+
+
     <!-- Titlebar color -->
     <Color x:Key="TitleBarForegroundColor" options:Freeze="True">#FFCCCCCC</Color>
     <SolidColorBrush x:Key="TitleBarForegroundBrush" Color="#FFCCCCCC" options:Freeze="True"/>
