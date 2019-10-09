@@ -24,6 +24,7 @@
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/TextBox.xaml"/>
 
         <!-- Custom WPF controls -->
+        <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/AvalonDock.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/DialogButtons.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/ShellMenu.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/ShellWindow.xaml"/>

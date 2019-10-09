@@ -15,6 +15,9 @@ namespace MN.Shell.Framework.ColorSchemes
 
         public ColorScheme CurrentAccentColors { get; private set; }
 
+        private readonly Uri _avalonDockThemeUri
+            = new Uri("pack://application:,,,/MN.Shell;component/Themes/Controls/AvalonDock.xaml");
+
         public ColorSchemeLoader()
         {
             AvailableBaseColors = new List<ColorScheme>()
@@ -36,10 +39,16 @@ namespace MN.Shell.Framework.ColorSchemes
         public void LoadBaseColors(ColorScheme baseColorsScheme)
         {
             RemoveResourceDictionaries("pack://application:,,,MN.Shell;component/Themes/BaseColors/");
+            RemoveResourceDictionaries(_avalonDockThemeUri.OriginalString);
 
             Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
             {
                 Source = baseColorsScheme.ResourceDictionary
+            });
+
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+            {
+                Source = _avalonDockThemeUri
             });
 
             CurrentBaseColors = baseColorsScheme;
@@ -48,10 +57,16 @@ namespace MN.Shell.Framework.ColorSchemes
         public void LoadAccentColors(ColorScheme accentColorsScheme)
         {
             RemoveResourceDictionaries("pack://application:,,,MN.Shell;component/Themes/AccentColors/");
+            RemoveResourceDictionaries(_avalonDockThemeUri.OriginalString);
 
             Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
             {
                 Source = accentColorsScheme.ResourceDictionary
+            });
+
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary()
+            {
+                Source = _avalonDockThemeUri
             });
 
             CurrentAccentColors = accentColorsScheme;
