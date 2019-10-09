@@ -3,7 +3,7 @@
 
     <Style TargetType="StatusBar" x:Key="StatusBarStyle">
         <Setter Property="Background" Value="{DynamicResource AccentBaseBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundOnAccentBrush}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -44,7 +44,7 @@
     <Style TargetType="StatusBar" BasedOn="{StaticResource StatusBarStyle}"/>
 
     <Style TargetType="Separator" x:Key="{x:Static StatusBar.SeparatorStyleKey}">
-        <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundOnAccentBrush}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -63,7 +63,7 @@
     </Style>
 
     <Style TargetType="StatusBarItem" x:Key="StatusBarItemStyle">
-        <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundOnAccentBrush}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -80,7 +80,7 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{DynamicResource InactiveForegroundBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ForegroundOnAccentBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -92,7 +92,7 @@
 
     <Style TargetType="ButtonBase" x:Key="StatusBarButtonStyle">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundOnAccentBrush}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -127,14 +127,14 @@
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundOnAccentBrush}"/>
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource AccentActiveBrush}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="{DynamicResource AccentActiveBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource AccentForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundOnAccentBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
