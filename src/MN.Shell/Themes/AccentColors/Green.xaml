@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    options:Freeze="True">
+
+    <Color x:Key="AccentBaseColor" options:Freeze="True">#FF107C10</Color>
+    <SolidColorBrush x:Key="AccentBaseBrush" Color="#FF107C10" options:Freeze="True"/>
+
+    <Color x:Key="AccentActiveColor" options:Freeze="True">#FF005B0D</Color>
+    <SolidColorBrush x:Key="AccentActiveBrush" Color="#FF005B0D" options:Freeze="True"/>
+
+    <Color x:Key="AccentHighlightedColor" options:Freeze="True">#FF00A310</Color>
+    <SolidColorBrush x:Key="AccentHighlightedBrush" Color="#FF00A310" options:Freeze="True"/>
+
+    <Color x:Key="AccentForegroundColor" options:Freeze="True">#FFFFFFFF</Color>
+    <SolidColorBrush x:Key="AccentForegroundBrush" Color="#FFFFFFFF" options:Freeze="True"/>
+
+</ResourceDictionary>

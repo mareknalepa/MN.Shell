@@ -29,6 +29,7 @@ namespace MN.Shell.Framework.ColorSchemes
             AvailableAccentColors = new List<ColorScheme>()
             {
                 new ColorScheme("Blue", new Uri("pack://application:,,,/MN.Shell;component/Themes/AccentColors/Blue.xaml")),
+                new ColorScheme("Green", new Uri("pack://application:,,,/MN.Shell;component/Themes/AccentColors/Green.xaml")),
                 new ColorScheme("Orange", new Uri("pack://application:,,,/MN.Shell;component/Themes/AccentColors/Orange.xaml")),
             };
 
