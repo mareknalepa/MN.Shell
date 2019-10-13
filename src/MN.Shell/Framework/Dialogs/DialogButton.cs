@@ -1,10 +1,13 @@
 ﻿using Caliburn.Micro;
+using System;
 using System.Windows.Input;
 
 namespace MN.Shell.Framework.Dialogs
 {
     public class DialogButton : PropertyChangedBase
     {
+        public DialogButtonType Type { get; }
+
         private string _caption;
 
         public string Caption
@@ -37,8 +40,9 @@ namespace MN.Shell.Framework.Dialogs
             set { _command = value; NotifyOfPropertyChange(); }
         }
 
-        public DialogButton(string caption, bool isDefault, bool isCancel, ICommand command)
+        protected DialogButton(DialogButtonType type, string caption, bool isDefault, bool isCancel, ICommand command)
         {
+            Type = type;
             Caption = caption;
             IsDefault = isDefault;
             IsCancel = isCancel;
@@ -50,16 +54,24 @@ namespace MN.Shell.Framework.Dialogs
             switch (type)
             {
                 case DialogButtonType.Ok:
-                    return new DialogButton("OK", true, false, null);
+                    return new DialogButton(type, "OK", true, false, null);
                 case DialogButtonType.Cancel:
-                    return new DialogButton("Cancel", false, true, null);
+                    return new DialogButton(type, "Cancel", false, true, null);
                 case DialogButtonType.Yes:
-                    return new DialogButton("Yes", false, false, null);
+                    return new DialogButton(type, "Yes", false, false, null);
                 case DialogButtonType.No:
-                    return new DialogButton("No", false, false, null);
+                    return new DialogButton(type, "No", false, false, null);
                 default:
-                    return new DialogButton(string.Empty, false, false, null);
+                    throw new ArgumentException("Unsupported dialog button type");
             }
+        }
+
+        public static DialogButton CreateCustom(string caption)
+        {
+            if (string.IsNullOrEmpty(caption))
+                throw new ArgumentException("Cannot create custom button with empty caption");
+
+            return new DialogButton(DialogButtonType.Custom, caption, false, false, null);
         }
     }
 }

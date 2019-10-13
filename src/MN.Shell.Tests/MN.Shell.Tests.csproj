@@ -54,6 +54,7 @@
     <Compile Include="Core\BootstrapperTests.cs" />
     <Compile Include="Core\RelayCommandTests.cs" />
     <Compile Include="Core\WindowManagerTests.cs" />
+    <Compile Include="Framework\Dialogs\DialogButtonTests.cs" />
     <Compile Include="Framework\Dialogs\DialogViewModelBaseTests.cs" />
     <Compile Include="Framework\Menu\MenuAggregatorTests.cs" />
     <Compile Include="Framework\Menu\MenuItemViewModelTests.cs" />
