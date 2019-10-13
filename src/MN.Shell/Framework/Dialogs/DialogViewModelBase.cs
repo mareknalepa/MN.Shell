@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 using MN.Shell.Core;
-using System.Collections.Generic;
+using System;
 
 namespace MN.Shell.Framework.Dialogs
 {
@@ -10,19 +10,26 @@ namespace MN.Shell.Framework.Dialogs
 
         public DialogButton SelectedButton { get; private set; }
 
-        protected void CreateButtons(IEnumerable<DialogButtonType> dialogButtonTypes)
+        protected void AddButton(DialogButtonType dialogButtonType)
         {
-            foreach (DialogButtonType type in dialogButtonTypes)
+            var dialogButton = DialogButton.Create(dialogButtonType);
+            dialogButton.Command = new RelayCommand(o =>
             {
-                DialogButton button = DialogButton.Create(type);
+                SelectedButton = dialogButton;
+                TryClose(!dialogButton.IsCancel);
+            });
+            Buttons.Add(dialogButton);
+        }
 
-                if (button.IsCancel)
-                    button.Command = new RelayCommand(o => { TryClose(false); SelectedButton = button; });
-                else
-                    button.Command = new RelayCommand(o => { TryClose(true); SelectedButton = button; });
-
-                Buttons.Add(button);
-            }
+        protected void AddCustomButton(string caption, Action<DialogViewModelBase> action)
+        {
+            var dialogButton = DialogButton.CreateCustom(caption);
+            dialogButton.Command = new RelayCommand(o =>
+            {
+                SelectedButton = dialogButton;
+                action?.Invoke(this);
+            });
+            Buttons.Add(dialogButton);
         }
     }
 }

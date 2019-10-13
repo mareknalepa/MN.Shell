@@ -9,38 +9,44 @@ namespace MN.Shell.Tests.Framework.Dialogs
     public class DialogViewModelBaseTests
     {
         [Test]
-        public void DialogViewModelBaseCreateButtonsTest()
+        public void DialogViewModelBaseAddButtonTest(
+            [Values(DialogButtonType.Ok, DialogButtonType.Cancel, DialogButtonType.Yes, DialogButtonType.No)]
+            DialogButtonType dialogButtonType)
         {
-            MockDialogViewModel vm = new MockDialogViewModel();
-            vm.Buttons.IsNotifying = false;
-            Assert.IsEmpty(vm.Buttons);
+            var vm = new MockDialogViewModel();
+            vm.AddButton(dialogButtonType);
 
-            vm.CreateButtons(new[] { DialogButtonType.Ok });
-            Assert.AreEqual(1, vm.Buttons.Count);
-            Assert.AreEqual("OK", vm.Buttons.First().Caption);
-            Assert.True(vm.Buttons.First().IsDefault);
-            Assert.False(vm.Buttons.First().IsCancel);
+            Assert.NotNull(vm.Buttons);
 
-            vm.Buttons.Clear();
-            vm.CreateButtons(new[] { DialogButtonType.Cancel });
-            Assert.AreEqual(1, vm.Buttons.Count);
-            Assert.AreEqual("Cancel", vm.Buttons.First().Caption);
-            Assert.False(vm.Buttons.First().IsDefault);
-            Assert.True(vm.Buttons.First().IsCancel);
+            var button = vm.Buttons.First();
+            Assert.NotNull(button);
+            Assert.AreEqual(dialogButtonType, button.Type);
 
-            vm.Buttons.Clear();
-            vm.CreateButtons(new[] { DialogButtonType.Yes });
-            Assert.AreEqual(1, vm.Buttons.Count);
-            Assert.AreEqual("Yes", vm.Buttons.First().Caption);
-            Assert.False(vm.Buttons.First().IsDefault);
-            Assert.False(vm.Buttons.First().IsCancel);
+            Assert.Null(vm.SelectedButton);
+            button.Command.Execute(null);
+            Assert.AreEqual(button, vm.SelectedButton);
+        }
 
-            vm.Buttons.Clear();
-            vm.CreateButtons(new[] { DialogButtonType.No });
-            Assert.AreEqual(1, vm.Buttons.Count);
-            Assert.AreEqual("No", vm.Buttons.First().Caption);
-            Assert.False(vm.Buttons.First().IsDefault);
-            Assert.False(vm.Buttons.First().IsCancel);
+        [Test]
+        public void DialogViewModelBaseAddCustomButtonTest()
+        {
+            var vm = new MockDialogViewModel();
+
+            bool handlerFired = false;
+            vm.AddCustomButton("Caption 1", dialogVm => handlerFired = true);
+
+            Assert.NotNull(vm.Buttons);
+
+            var button = vm.Buttons.First();
+            Assert.NotNull(button);
+            Assert.AreEqual(DialogButtonType.Custom, button.Type);
+            Assert.AreEqual("Caption 1", button.Caption);
+            Assert.False(handlerFired);
+
+            Assert.Null(vm.SelectedButton);
+            button.Command.Execute(null);
+            Assert.AreEqual(button, vm.SelectedButton);
+            Assert.True(handlerFired);
         }
     }
 }

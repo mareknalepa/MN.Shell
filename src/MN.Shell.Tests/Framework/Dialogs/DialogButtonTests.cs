@@ -29,7 +29,7 @@ namespace MN.Shell.Tests.Framework.Dialogs
             Assert.Throws<ArgumentException>(() => DialogButton.Create(DialogButtonType.Custom));
         }
 
-        [Test, Pairwise]
+        [Test]
         public void DialogButtonCreateCustomTest(
             [Values("Caption 1", "Caption 2")] string caption)
         {
