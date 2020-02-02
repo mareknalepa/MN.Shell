@@ -67,19 +67,20 @@
     <Compile Include="Framework\ColorSchemes\IColorSchemeLoader.cs" />
     <Compile Include="Framework\Dialogs\DialogButton.cs" />
     <Compile Include="Framework\Dialogs\DialogButtonType.cs" />
-    <Compile Include="Framework\Dialogs\DialogViewModelBase.cs" />
     <Compile Include="Core\Bootstrapper.cs" />
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Core\WindowManager.cs" />
     <Compile Include="Core\CoreModule.cs" />
     <Compile Include="Core\IShell.cs" />
     <Compile Include="Core\RelayCommand.cs" />
+    <Compile Include="Framework\Dialogs\DialogViewModelExtensions.cs" />
     <Compile Include="Framework\Docking\ConductorBehavior.cs" />
     <Compile Include="Framework\Docking\LayoutModuleTemplateSelector.cs" />
     <Compile Include="Framework\Docking\LayoutUpdateStrategy.cs" />
     <Compile Include="Framework\Docking\LayoutModuleStyleSelector.cs" />
     <Compile Include="Framework\DocumentBase.cs" />
     <Compile Include="Framework\FrameworkModule.cs" />
+    <Compile Include="Framework\IDialog.cs" />
     <Compile Include="Framework\IDocument.cs" />
     <Compile Include="Framework\ILayoutModule.cs" />
     <Compile Include="Framework\ITool.cs" />
@@ -104,7 +105,6 @@
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Shell\ShellViewModel.cs" />
-    <Compile Include="Modules\MessageBox\DtMessageBoxViewModel.cs" />
     <Compile Include="Modules\MessageBox\MessageBoxView.xaml.cs">
       <DependentUpon>MessageBoxView.xaml</DependentUpon>
     </Compile>

@@ -6,21 +6,24 @@ using System.Linq;
 namespace MN.Shell.Tests.Framework.Dialogs
 {
     [TestFixture]
-    public class DialogViewModelBaseTests
+    public class DialogViewModelExtensionsTests
     {
         [Test]
-        public void DialogViewModelBaseAddButtonTest(
-            [Values(DialogButtonType.Ok, DialogButtonType.Cancel, DialogButtonType.Yes, DialogButtonType.No)]
-            DialogButtonType dialogButtonType)
+        public void DialogViewModelExtensionAddButtonTest([Values(
+            DialogButtonType.Ok,
+            DialogButtonType.Cancel,
+            DialogButtonType.Yes,
+            DialogButtonType.No,
+            DialogButtonType.Custom)] DialogButtonType type)
         {
             var vm = new MockDialogViewModel();
-            vm.AddButton(dialogButtonType);
+            vm.AddButton(type);
 
             Assert.NotNull(vm.Buttons);
 
             var button = vm.Buttons.First();
             Assert.NotNull(button);
-            Assert.AreEqual(dialogButtonType, button.Type);
+            Assert.AreEqual(type, button.Type);
 
             Assert.Null(vm.SelectedButton);
             button.Command.Execute(null);
@@ -28,12 +31,12 @@ namespace MN.Shell.Tests.Framework.Dialogs
         }
 
         [Test]
-        public void DialogViewModelBaseAddCustomButtonTest()
+        public void DialogViewModelExtensionAddCustomButtonTest()
         {
             var vm = new MockDialogViewModel();
 
             bool handlerFired = false;
-            vm.AddCustomButton("Caption 1", dialogVm => handlerFired = true);
+            vm.AddCustomButton("Caption 1", () => handlerFired = true);
 
             Assert.NotNull(vm.Buttons);
 

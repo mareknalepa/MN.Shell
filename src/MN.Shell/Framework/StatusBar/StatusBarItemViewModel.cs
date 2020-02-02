@@ -17,7 +17,7 @@ namespace MN.Shell.Framework.StatusBar
         public string Content
         {
             get => _content;
-            set { _content = value; NotifyOfPropertyChange(); }
+            set => Set(ref _content, value);
         }
 
         public ICommand Command { get; }
@@ -29,7 +29,7 @@ namespace MN.Shell.Framework.StatusBar
         public bool CanExecuteCommand
         {
             get => _canExecuteCommand;
-            set { _canExecuteCommand = value; NotifyOfPropertyChange(); }
+            set => Set(ref _canExecuteCommand, value);
         }
 
         public StatusBarItemViewModel()

@@ -8,42 +8,40 @@ namespace MN.Shell.Tests.Framework.Dialogs
     public class DialogButtonTests
     {
         [Test]
-        public void DialogButtonCreateTest(
-            [Values(DialogButtonType.Ok, DialogButtonType.Cancel, DialogButtonType.Yes, DialogButtonType.No)]
-            DialogButtonType dialogButtonType)
+        public void DialogButtonCreateTest([Values(
+            DialogButtonType.Ok,
+            DialogButtonType.Cancel,
+            DialogButtonType.Yes,
+            DialogButtonType.No,
+            DialogButtonType.Custom)] DialogButtonType type)
         {
-            var dialogButton = DialogButton.Create(dialogButtonType);
+            var dialogButton = DialogButton.Create(type);
 
             Assert.NotNull(dialogButton);
-            Assert.AreEqual(dialogButtonType, dialogButton.Type);
-            Assert.AreEqual(dialogButtonType.ToString().ToLower(), dialogButton.Caption.ToLower());
+            Assert.AreEqual(type, dialogButton.Type);
 
-            Assert.AreEqual(dialogButtonType == DialogButtonType.Ok, dialogButton.IsDefault);
-            Assert.AreEqual(dialogButtonType == DialogButtonType.Cancel, dialogButton.IsCancel);
-        }
+            if (type != DialogButtonType.Custom)
+                Assert.AreEqual(type.ToString().ToLower(), dialogButton.Caption.ToLower());
 
-        [Test]
-        public void DialogButtonCreateThrowsTest()
-        {
-            Assert.Throws<ArgumentException>(() => DialogButton.Create(DialogButtonType.Unknown));
-            Assert.Throws<ArgumentException>(() => DialogButton.Create(DialogButtonType.Custom));
+            Assert.AreEqual(type == DialogButtonType.Ok || type == DialogButtonType.Yes ||
+                type == DialogButtonType.Custom, dialogButton.IsDefault);
+            Assert.AreEqual(type == DialogButtonType.Cancel, dialogButton.IsCancel);
         }
 
         [Test]
         public void DialogButtonCreateCustomTest(
             [Values("Caption 1", "Caption 2")] string caption)
         {
-            var dialogButton = DialogButton.CreateCustom(caption);
+            var dialogButton = DialogButton.Create(DialogButtonType.Custom, caption);
 
             Assert.AreEqual(DialogButtonType.Custom, dialogButton.Type);
             Assert.AreEqual(caption, dialogButton.Caption);
         }
 
         [Test]
-        public void DialogButtonCreateCustomThrowsTest()
+        public void DialogButtonCreateThrowsTest()
         {
-            Assert.Throws<ArgumentException>(() => DialogButton.CreateCustom(null));
-            Assert.Throws<ArgumentException>(() => DialogButton.CreateCustom(""));
+            Assert.Throws<ArgumentException>(() => DialogButton.Create(DialogButtonType.Unknown));
         }
     }
 }
