@@ -93,6 +93,10 @@
     <Compile Include="Framework\Menu\MenuItem.cs" />
     <Compile Include="Framework\Menu\MenuItemComparer.cs" />
     <Compile Include="Framework\Menu\MenuItemViewModel.cs" />
+    <Compile Include="Framework\MessageBox\IMessageBoxManager.cs" />
+    <Compile Include="Framework\MessageBox\MessageBoxButtons.cs" />
+    <Compile Include="Framework\MessageBox\MessageBoxManager.cs" />
+    <Compile Include="Framework\MessageBox\MessageBoxType.cs" />
     <Compile Include="Framework\StatusBar\IStatusBarAggregator.cs" />
     <Compile Include="Framework\StatusBar\IStatusBarProvider.cs" />
     <Compile Include="Framework\StatusBar\StatusBarAggregator.cs" />

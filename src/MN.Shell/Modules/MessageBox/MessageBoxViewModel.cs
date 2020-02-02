@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using MN.Shell.Framework;
 using MN.Shell.Framework.Dialogs;
+using MN.Shell.Framework.MessageBox;
 using System.Collections.ObjectModel;
 
 namespace MN.Shell.Modules.MessageBox
@@ -15,14 +16,23 @@ namespace MN.Shell.Modules.MessageBox
             set => Set(ref _message, value);
         }
 
+        private MessageBoxType _type;
+
+        public MessageBoxType Type
+        {
+            get => _type;
+            set => Set(ref _type, value);
+        }
+
         public ObservableCollection<DialogButton> Buttons { get; } = new ObservableCollection<DialogButton>();
 
         public DialogButton SelectedButton { get; set; }
 
-        public MessageBoxViewModel(string title, string message)
+        public MessageBoxViewModel(string title, string message, MessageBoxType type)
         {
             DisplayName = title;
             Message = message;
+            Type = type;
         }
     }
 }

@@ -1,10 +1,19 @@
-﻿using MN.Shell.Framework.Menu;
+﻿using MN.Shell.Core;
+using MN.Shell.Framework.Menu;
+using MN.Shell.Framework.MessageBox;
 using System.Collections.Generic;
 
 namespace MN.Shell.Demo
 {
     public class DemoMenuProvider : IMenuProvider
     {
+        private readonly IMessageBoxManager _messageBoxManager;
+
+        public DemoMenuProvider(IMessageBoxManager messageBoxManager)
+        {
+            _messageBoxManager = messageBoxManager;
+        }
+
         public IEnumerable<MenuItem> GetMenuItems()
         {
             yield return new MenuItem()
@@ -66,6 +75,11 @@ namespace MN.Shell.Demo
                 Path = new[] { "Demo" },
                 GroupId = 10,
                 GroupOrder = 10,
+                Command = new RelayCommand(o =>
+                {
+                    _messageBoxManager.Show("Demo", "This is an example of MVVM-aware Message Box",
+                        MessageBoxType.Info, MessageBoxButtons.Ok);
+                }),
             };
 
             yield return new MenuItem()
