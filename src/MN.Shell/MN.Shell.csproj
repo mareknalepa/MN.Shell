@@ -244,7 +244,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\mnshell.ico" />
+    <Resource Include="Resources\mnshell.xcf" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
