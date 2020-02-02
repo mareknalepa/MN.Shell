@@ -221,6 +221,26 @@ namespace MN.Shell.Demo
 
             yield return new MenuItem()
             {
+                Name = "MessageBox with very long message",
+                Path = new[] { "MessageBox" },
+                GroupId = 40,
+                GroupOrder = 10,
+                Command = new RelayCommand(o =>
+                {
+                    _messageBoxManager.Show("MessageBox Demo",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt " +
+                        "ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet consectetur adipiscing elit "+
+                        "duis. Enim neque volutpat ac tincidunt vitae semper quis. Sit amet nulla facilisi morbi "+
+                        "tempus. Lacus vel facilisis volutpat est velit egestas dui. Non quam lacus suspendisse "+
+                        "faucibus interdum. Vestibulum morbi blandit cursus risus at ultrices mi tempus. "+
+                        "Sollicitudin aliquam ultrices sagittis orci a scelerisque purus. Lacus vel facilisis "+
+                        "volutpat est velit egestas dui. Amet justo donec enim diam vulputate ut pharetra.",
+                        MessageBoxType.Info, MessageBoxButtons.Ok);
+                }),
+            };
+
+            yield return new MenuItem()
+            {
                 Name = "Tools",
                 GroupOrder = 36,
             };

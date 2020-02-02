@@ -13,12 +13,45 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <ContentControl Grid.Row="0"
-                        Content="{Binding Message}"
-                        Margin="30, 20, 30, 15"
-                        Foreground="{DynamicResource ActiveForegroundBrush}"
-                        HorizontalAlignment="Center"/>
-        <controls:DialogButtons Grid.Row="1" ItemsSource="{Binding Buttons}"/>
+        <Label x:Name="Icon" Grid.Row="0" Grid.Column="0"
+               Margin="30,20,0,15"
+               VerticalAlignment="Center"
+               FontFamily="Segoe MDL2 Assets"
+               FontSize="32"
+               Foreground="{DynamicResource ActiveForegroundBrush}">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Type}" Value="None">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="Info">
+                            <Setter Property="Content" Value="&#xE946;"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="Warning">
+                            <Setter Property="Content" Value="&#xE7BA;"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="Error">
+                            <Setter Property="Content" Value="&#xEA39;"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
+
+        <TextBlock Grid.Row="0" Grid.Column="1"
+                   Text="{Binding Message}"
+                   Margin="30, 20, 30, 15"
+                   MaxWidth="640"
+                   TextWrapping="Wrap"
+                   Foreground="{DynamicResource ActiveForegroundBrush}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <controls:DialogButtons Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Buttons}"/>
     </Grid>
 </UserControl>
