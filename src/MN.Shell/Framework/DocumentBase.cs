@@ -9,7 +9,7 @@ namespace MN.Shell.Framework
         public string Description
         {
             get => _description;
-            set { _description = value; NotifyOfPropertyChange(); }
+            set => Set(ref _description, value);
         }
 
         public DocumentBase()

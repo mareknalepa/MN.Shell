@@ -54,9 +54,11 @@
     <Compile Include="Core\BootstrapperTests.cs" />
     <Compile Include="Core\RelayCommandTests.cs" />
     <Compile Include="Core\WindowManagerTests.cs" />
-    <Compile Include="Framework\Dialogs\DialogViewModelBaseTests.cs" />
+    <Compile Include="Framework\Dialogs\DialogButtonTests.cs" />
+    <Compile Include="Framework\Dialogs\DialogViewModelExtensionsTests.cs" />
     <Compile Include="Framework\Menu\MenuAggregatorTests.cs" />
     <Compile Include="Framework\Menu\MenuItemViewModelTests.cs" />
+    <Compile Include="Framework\MessageBox\MessageBoxManagerTests.cs" />
     <Compile Include="Framework\StatusBar\StatusBarAggregatorTests.cs" />
     <Compile Include="Mocks\IMockService.cs" />
     <Compile Include="Mocks\MockBootstrapper.cs" />

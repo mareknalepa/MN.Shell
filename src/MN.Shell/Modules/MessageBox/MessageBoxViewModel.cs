@@ -1,23 +1,38 @@
-﻿using MN.Shell.Framework.Dialogs;
-using System.Collections.Generic;
+﻿using Caliburn.Micro;
+using MN.Shell.Framework;
+using MN.Shell.Framework.Dialogs;
+using MN.Shell.Framework.MessageBox;
+using System.Collections.ObjectModel;
 
 namespace MN.Shell.Modules.MessageBox
 {
-    public class MessageBoxViewModel : DialogViewModelBase
+    public class MessageBoxViewModel : Screen, IDialog
     {
         private string _message;
 
         public string Message
         {
             get => _message;
-            set { _message = value; NotifyOfPropertyChange(); }
+            set => Set(ref _message, value);
         }
 
-        public MessageBoxViewModel(string title, string message, IEnumerable<DialogButtonType> buttonTypes)
+        private MessageBoxType _type;
+
+        public MessageBoxType Type
+        {
+            get => _type;
+            set => Set(ref _type, value);
+        }
+
+        public ObservableCollection<DialogButton> Buttons { get; } = new ObservableCollection<DialogButton>();
+
+        public DialogButton SelectedButton { get; set; }
+
+        public MessageBoxViewModel(string title, string message, MessageBoxType type)
         {
             DisplayName = title;
             Message = message;
-            CreateButtons(buttonTypes);
+            Type = type;
         }
     }
 }

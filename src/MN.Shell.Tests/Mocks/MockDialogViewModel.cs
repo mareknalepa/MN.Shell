@@ -1,11 +1,14 @@
-﻿using MN.Shell.Framework.Dialogs;
-using System.Collections.Generic;
+﻿using Caliburn.Micro;
+using MN.Shell.Framework;
+using MN.Shell.Framework.Dialogs;
+using System.Collections.ObjectModel;
 
 namespace MN.Shell.Tests.Mocks
 {
-    public class MockDialogViewModel : DialogViewModelBase
+    public class MockDialogViewModel : Screen, IDialog
     {
-        public new void CreateButtons(IEnumerable<DialogButtonType> dialogButtonTypes) =>
-            base.CreateButtons(dialogButtonTypes);
+        public ObservableCollection<DialogButton> Buttons { get; } = new ObservableCollection<DialogButton>();
+
+        public DialogButton SelectedButton { get; set; }
     }
 }
