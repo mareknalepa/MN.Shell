@@ -6,7 +6,7 @@
              xmlns:controls="clr-namespace:MN.Shell.Controls"
              xmlns:local="clr-namespace:MN.Shell.Modules.MessageBox"
              mc:Ignorable="d"
-             d:DesignHeight="160" d:DesignWidth="320"
+             d:DesignHeight="120" d:DesignWidth="320"
              d:DataContext="{d:DesignInstance local:MessageBoxViewModel, IsDesignTimeCreatable=False}">
     <Grid Background="{DynamicResource BackgroundBrush}">
         <Grid.RowDefinitions>
@@ -16,7 +16,7 @@
 
         <ContentControl Grid.Row="0"
                         Content="{Binding Message}"
-                        Margin="10"
+                        Margin="30, 20, 30, 15"
                         Foreground="{DynamicResource ActiveForegroundBrush}"
                         HorizontalAlignment="Center"/>
         <controls:DialogButtons Grid.Row="1" ItemsSource="{Binding Buttons}"/>

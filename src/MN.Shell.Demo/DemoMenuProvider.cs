@@ -41,6 +41,13 @@ namespace MN.Shell.Demo
 
             yield return new MenuItem()
             {
+                Name = "MessageBox",
+                GroupId = 0,
+                GroupOrder = 36,
+            };
+
+            yield return new MenuItem()
+            {
                 Name = "Cut",
                 Path = new[] { "Edit" },
                 GroupId = 10,
@@ -77,7 +84,7 @@ namespace MN.Shell.Demo
                 GroupOrder = 10,
                 Command = new RelayCommand(o =>
                 {
-                    _messageBoxManager.Show("Demo", "This is an example of MVVM-aware Message Box",
+                    _messageBoxManager.Show("Demo", "This is an example of MVVM-aware MessageBox.",
                         MessageBoxType.Info, MessageBoxButtons.Ok);
                 }),
             };
@@ -98,6 +105,118 @@ namespace MN.Shell.Demo
                 GroupOrder = 5,
                 IsCheckable = true,
                 OnIsCheckedChanged = isChecked => System.Windows.MessageBox.Show($"New value: {isChecked}", "Info"),
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "MessageBox without type",
+                Path = new[] { "MessageBox" },
+                GroupId = 10,
+                GroupOrder = 10,
+                Command = new RelayCommand(o =>
+                {
+                    _messageBoxManager.Show("MessageBox Demo",
+                        "This is an example of MessageBox without specific type.",
+                        MessageBoxType.None);
+                }),
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Info MessageBox",
+                Path = new[] { "MessageBox" },
+                GroupId = 20,
+                GroupOrder = 10,
+                Command = new RelayCommand(o =>
+                {
+                    _messageBoxManager.Show("MessageBox Demo",
+                        "This is an example of Info MessageBox.",
+                        MessageBoxType.Info);
+                }),
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Warning MessageBox",
+                Path = new[] { "MessageBox" },
+                GroupId = 20,
+                GroupOrder = 20,
+                Command = new RelayCommand(o =>
+                {
+                    _messageBoxManager.Show("MessageBox Demo",
+                        "This is an example of Warning MessageBox.",
+                        MessageBoxType.Warning);
+                }),
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "Error MessageBox",
+                Path = new[] { "MessageBox" },
+                GroupId = 20,
+                GroupOrder = 30,
+                Command = new RelayCommand(o =>
+                {
+                    _messageBoxManager.Show("MessageBox Demo",
+                        "This is an example of Error MessageBox.",
+                        MessageBoxType.Error);
+                }),
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "MessageBox - OK",
+                Path = new[] { "MessageBox" },
+                GroupId = 30,
+                GroupOrder = 10,
+                Command = new RelayCommand(o =>
+                {
+                    _messageBoxManager.Show("MessageBox Demo",
+                        "This is an example of MessageBox with OK button.",
+                        MessageBoxType.None, MessageBoxButtons.Ok);
+                }),
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "MessageBox - OK, Cancel",
+                Path = new[] { "MessageBox" },
+                GroupId = 30,
+                GroupOrder = 20,
+                Command = new RelayCommand(o =>
+                {
+                    _messageBoxManager.Show("MessageBox Demo",
+                        "This is an example of MessageBox with OK and Cancel buttons.",
+                        MessageBoxType.None, MessageBoxButtons.OkCancel);
+                }),
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "MessageBox - Yes, No",
+                Path = new[] { "MessageBox" },
+                GroupId = 30,
+                GroupOrder = 30,
+                Command = new RelayCommand(o =>
+                {
+                    _messageBoxManager.Show("MessageBox Demo",
+                        "This is an example of MessageBox with Yes and No buttons.",
+                        MessageBoxType.None, MessageBoxButtons.YesNo);
+                }),
+            };
+
+            yield return new MenuItem()
+            {
+                Name = "MessageBox - Yes, No, Cancel",
+                Path = new[] { "MessageBox" },
+                GroupId = 30,
+                GroupOrder = 40,
+                Command = new RelayCommand(o =>
+                {
+                    _messageBoxManager.Show("MessageBox Demo",
+                        "This is an example of MessageBox with Yes, No and Cancel buttons.",
+                        MessageBoxType.None, MessageBoxButtons.YesNoCancel);
+                }),
             };
 
             yield return new MenuItem()

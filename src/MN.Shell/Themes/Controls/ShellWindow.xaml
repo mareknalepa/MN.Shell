@@ -41,7 +41,7 @@
 
     <ControlTemplate TargetType="controls:ShellWindow" x:Key="ShellWindowControlTemplate">
         <Border x:Name="WindowBorder" CornerRadius="0" SnapsToDevicePixels="True"
-                BorderThickness="0" BorderBrush="Transparent" 
+                BorderThickness="0" BorderBrush="Transparent"
                 Margin="{Binding Source={x:Static SystemParameters.WindowResizeBorderThickness}}">
             <Border Background="{DynamicResource BaseBrush}" BorderBrush="{DynamicResource AccentActiveBrush}"
                     BorderThickness="1" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
@@ -196,6 +196,11 @@
                 <Setter TargetName="MaximizeButton" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="RestoreButton" Property="Visibility" Value="Collapsed"/>
             </Trigger>
+            <Trigger Property="ResizeMode" Value="NoResize">
+                <Setter TargetName="MinimizeButton" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="MaximizeButton" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="RestoreButton" Property="Visibility" Value="Collapsed"/>
+            </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
@@ -213,8 +218,8 @@
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontStyle" Value="Normal"/>
         <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="MinWidth" Value="480"/>
-        <Setter Property="MinHeight" Value="240"/>
+        <Setter Property="MinWidth" Value="320"/>
+        <Setter Property="MinHeight" Value="120"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Icon" Value="{DynamicResource IconMnShell}"/>
         <Setter Property="Template" Value="{StaticResource ShellWindowControlTemplate}"/>
