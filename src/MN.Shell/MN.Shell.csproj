@@ -104,6 +104,10 @@
     <Compile Include="Framework\StatusBar\StatusBarSide.cs" />
     <Compile Include="Framework\ToolBase.cs" />
     <Compile Include="Framework\ToolPosition.cs" />
+    <Compile Include="Framework\Tree\TreeNodeBringIntoViewBehavior.cs" />
+    <Compile Include="Framework\Tree\TreeViewBindableSelectedItemBehavior.cs" />
+    <Compile Include="Framework\Tree\TreeNodeBase.cs" />
+    <Compile Include="Framework\Tree\TreeNodeBindingBehavior.cs" />
     <Compile Include="Modules\MainModule.cs" />
     <Compile Include="Modules\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
