@@ -4,10 +4,8 @@ namespace MN.Shell.Demo.Output
 {
     public class OutputViewModel : ToolBase
     {
-        public OutputViewModel()
-        {
-            DisplayName = "Output";
-            InitialPosition = ToolPosition.Bottom;
-        }
+        public override string DisplayName => "Output";
+
+        public override ToolPosition InitialPosition => ToolPosition.Bottom;
     }
 }

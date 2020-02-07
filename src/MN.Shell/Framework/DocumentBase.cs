@@ -6,7 +6,7 @@ namespace MN.Shell.Framework
     {
         private string _description;
 
-        public string Description
+        public virtual string Description
         {
             get => _description;
             set => Set(ref _description, value);
