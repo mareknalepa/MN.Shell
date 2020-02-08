@@ -16,7 +16,8 @@ namespace MN.Shell.Framework.Tree
 
         public static readonly DependencyProperty SelectedItemProperty =
             DependencyProperty.Register(nameof(SelectedItem), typeof(object),
-                typeof(TreeViewBindableSelectedItemBehavior), new UIPropertyMetadata(null, OnSelectedItemChanged));
+                typeof(TreeViewBindableSelectedItemBehavior), new FrameworkPropertyMetadata(null,
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedItemChanged));
 
         private static void OnSelectedItemChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {

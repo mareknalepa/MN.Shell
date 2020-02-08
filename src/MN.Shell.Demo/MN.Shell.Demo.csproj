@@ -71,10 +71,6 @@
     </Compile>
     <Compile Include="DemoMenuProvider.cs" />
     <Compile Include="DemoStatusBarProvider.cs" />
-    <Compile Include="FolderExplorer\FolderExplorerView.xaml.cs">
-      <DependentUpon>FolderExplorerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FolderExplorer\FolderExplorerViewModel.cs" />
     <Compile Include="Output\OutputView.xaml.cs">
       <DependentUpon>OutputView.xaml</DependentUpon>
     </Compile>
@@ -121,10 +117,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="ControlsDemo\ControlsDemoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FolderExplorer\FolderExplorerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
