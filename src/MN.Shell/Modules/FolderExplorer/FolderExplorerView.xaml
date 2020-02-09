@@ -10,7 +10,7 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance local:FolderExplorerViewModel}">
     <Grid>
-        <TreeView ItemsSource="{Binding Folders}" BorderThickness="0">
+        <TreeView ItemsSource="{Binding Folders}">
             <i:Interaction.Behaviors>
                 <tree:TreeNodeBindingBehavior/>
                 <tree:TreeViewBindableSelectedItemBehavior SelectedItem="{Binding SelectedFolder}"/>

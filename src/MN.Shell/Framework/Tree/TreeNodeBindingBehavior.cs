@@ -15,7 +15,14 @@ namespace MN.Shell.Framework.Tree
 
         private void AttachItemContainerStyle()
         {
-            var itemContainerStyle = new Style(typeof(TreeViewItem));
+            var itemContainerStyle = AssociatedObject.ItemContainerStyle;
+            if (itemContainerStyle == null)
+            {
+                if (Application.Current.TryFindResource(typeof(TreeViewItem)) is Style basicTreeViewItemStyle)
+                    itemContainerStyle = new Style(typeof(TreeViewItem), basicTreeViewItemStyle);
+                else
+                    itemContainerStyle = new Style(typeof(TreeViewItem));
+            }
 
             itemContainerStyle.Setters.Add(new Setter(TreeViewItem.IsExpandedProperty,
                 new Binding(nameof(TreeNodeBase.IsExpanded))
