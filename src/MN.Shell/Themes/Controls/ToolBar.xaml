@@ -239,6 +239,11 @@
     <Style TargetType="RadioButton" BasedOn="{StaticResource ToolBarButtonBaseStyle}"
            x:Key="{x:Static ToolBar.RadioButtonStyleKey}"/>
 
+    <Style TargetType="ButtonBase" BasedOn="{StaticResource ToolBarButtonBaseStyle}"
+           x:Key="ToolBarIconButtonStyle">
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+    </Style>
+
     <Style TargetType="TextBoxBase" x:Key="{x:Static ToolBar.TextBoxStyleKey}">
         <Setter Property="Background" Value="{DynamicResource ActiveBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}"/>
