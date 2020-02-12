@@ -6,8 +6,8 @@
         <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource ActiveBorderBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -24,7 +24,7 @@
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <ScrollViewer Focusable="False" CanContentScroll="False" Padding="4">
-                            <ItemsPresenter />
+                            <ItemsPresenter/>
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>

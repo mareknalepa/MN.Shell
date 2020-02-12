@@ -166,7 +166,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style TargetType="ComboBox">
+    <Style TargetType="ComboBox" x:Key="ComboBoxBaseStyle">
         <Setter Property="Background" Value="{DynamicResource ActiveBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource ActiveBorderBrush}"/>
@@ -293,6 +293,12 @@
                 <Setter Property="Template" Value="{StaticResource EditableComboBoxTemplate}"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style TargetType="ComboBox" BasedOn="{StaticResource ComboBoxBaseStyle}"/>
+
+    <Style TargetType="ComboBox" BasedOn="{StaticResource ComboBoxBaseStyle}" x:Key="{x:Static ToolBar.ComboBoxStyleKey}">
+        <Setter Property="Margin" Value="2,1"/>
     </Style>
 
 </ResourceDictionary>

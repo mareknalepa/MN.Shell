@@ -37,7 +37,7 @@
                                 </Rectangle>
                                 <Rectangle Fill="{TemplateBinding Background}" RenderTransformOrigin="1,0" Margin="50,0,0,0">
                                     <Rectangle.RenderTransform>
-                                        <ScaleTransform x:Name="HiderPostTransform" ScaleX="1"  />
+                                        <ScaleTransform x:Name="HiderPostTransform" ScaleX="1"/>
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
                             </Grid>
@@ -55,7 +55,7 @@
                                 <Condition Property="IsIndeterminate" Value="True"/>
                                 <Condition Property="IsEnabled" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Animation" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="Animation" Property="Visibility" Value="Visible"/>
                             <MultiTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard RepeatBehavior="Forever">
