@@ -187,6 +187,8 @@
     <Style TargetType="ButtonBase" x:Key="ToolBarButtonBaseStyle">
         <Setter Property="Background" Value="{DynamicResource BaseBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BaseBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -199,7 +201,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
                     <Border Background="{TemplateBinding Background}"
-                            BorderThickness="0"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             Margin="{TemplateBinding Margin}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <ContentPresenter Margin="{TemplateBinding Padding}"
@@ -219,10 +222,12 @@
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource HighlightBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource HighlightBackgroundBrush}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource AccentActiveBrush}"/>
                 <Setter Property="Foreground" Value="{DynamicResource AccentForegroundBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource AccentActiveBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentActiveBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -240,8 +245,22 @@
            x:Key="{x:Static ToolBar.RadioButtonStyleKey}"/>
 
     <Style TargetType="ButtonBase" BasedOn="{StaticResource ToolBarButtonBaseStyle}"
-           x:Key="ToolBarIconButtonStyle">
+           x:Key="ToolBarIconButtonBaseStyle">
         <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="30"/>
+    </Style>
+
+    <Style TargetType="ToggleButton" BasedOn="{StaticResource ToolBarIconButtonBaseStyle}"
+           x:Key="ToolBarIconToggleButtonStyle">
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentActiveBrush}"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentBaseBrush}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="TextBoxBase" x:Key="{x:Static ToolBar.TextBoxStyleKey}">

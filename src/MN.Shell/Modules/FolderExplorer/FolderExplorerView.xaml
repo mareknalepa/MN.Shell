@@ -18,15 +18,31 @@
         <ToolBarTray Grid.Row="0">
             <ToolBar>
                 <Button Command="{Binding ReloadCommand}"
-                        Style="{StaticResource ToolBarIconButtonStyle}"
+                        Style="{StaticResource ToolBarIconButtonBaseStyle}"
                         Content="&#xE72C;"
                         ToolTip="Refresh"/>
+                <Button Command="{Binding CollapseAllCommand}"
+                        Style="{StaticResource ToolBarIconButtonBaseStyle}"
+                        Content="&#xF165;"
+                        ToolTip="Collapse all"/>
+
+                <Separator/>
+
+                <ToggleButton IsChecked="{Binding ShowHidden}"
+                              Style="{StaticResource ToolBarIconToggleButtonStyle}"
+                              Content="&#xF19D;"
+                              ToolTip="Show hidden elements"/>
+                <ToggleButton IsChecked="{Binding ShowSystem}"
+                              Style="{StaticResource ToolBarIconToggleButtonStyle}"
+                              Content="&#xE770;"
+                              ToolTip="Show system elements"/>
             </ToolBar>
         </ToolBarTray>
 
         <TreeView Grid.Row="1" ItemsSource="{Binding Folders}">
             <i:Interaction.Behaviors>
                 <tree:TreeNodeBindingBehavior/>
+                <local:DirectoryViewModelBindingBehavior/>
                 <tree:TreeViewBindableSelectedItemBehavior SelectedItem="{Binding SelectedFolder}"/>
             </i:Interaction.Behaviors>
         </TreeView>

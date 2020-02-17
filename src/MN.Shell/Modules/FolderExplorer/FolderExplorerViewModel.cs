@@ -1,5 +1,6 @@
 ﻿using MN.Shell.Core;
 using MN.Shell.Framework;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -29,11 +30,40 @@ namespace MN.Shell.Modules.FolderExplorer
             set => Set(ref _selectedFolder, value);
         }
 
+        private bool _showHidden = true;
+
+        public bool ShowHidden
+        {
+            get => _showHidden;
+            set
+            {
+                _showHidden = value;
+                NotifyOfPropertyChange();
+                ForEachTopLevelNodes(node => node.ShowHidden = value);
+            }
+        }
+
+        private bool _showSystem = true;
+
+        public bool ShowSystem
+        {
+            get => _showSystem;
+            set
+            {
+                _showSystem = value;
+                NotifyOfPropertyChange();
+                ForEachTopLevelNodes(node => node.ShowSystem = value);
+            }
+        }
+
         public ICommand ReloadCommand { get; }
+
+        public ICommand CollapseAllCommand { get; }
 
         public FolderExplorerViewModel()
         {
             ReloadCommand = new RelayCommand(o => ReloadFolders());
+            CollapseAllCommand = new RelayCommand(o => CollapseAll());
             ReloadFolders();
         }
 
@@ -43,7 +73,7 @@ namespace MN.Shell.Modules.FolderExplorer
 
             Folders.Clear();
             foreach (var drive in DriveInfo.GetDrives())
-                Folders.Add(new DirectoryViewModel(drive.RootDirectory));
+                Folders.Add(new DirectoryViewModel(drive.RootDirectory, ShowHidden, ShowSystem));
 
             if (selectedFolder != null)
                 TrySelectFolder(selectedFolder.FullPath);
@@ -68,6 +98,17 @@ namespace MN.Shell.Modules.FolderExplorer
                 foundNode.IsSelected = true;
                 searchIn = foundNode.Children.OfType<DirectoryViewModel>();
             }
+        }
+
+        public void CollapseAll()
+        {
+            ForEachTopLevelNodes(node => node.CollapseAllCommand.Execute(null));
+        }
+
+        private void ForEachTopLevelNodes(Action<DirectoryViewModel> action)
+        {
+            foreach (var node in Folders)
+                action.Invoke(node);
         }
     }
 }
