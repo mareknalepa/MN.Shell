@@ -1,5 +1,7 @@
-﻿using MN.Shell.Core;
+﻿using Caliburn.Micro;
+using MN.Shell.Core;
 using MN.Shell.Framework;
+using MN.Shell.Framework.Messages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +13,18 @@ namespace MN.Shell.Modules.FolderExplorer
 {
     public class FolderExplorerViewModel : ToolBase
     {
+        private readonly IEventAggregator _eventAggregator;
+
+        public FolderExplorerViewModel(IEventAggregator eventAggregator)
+        {
+            _eventAggregator = eventAggregator;
+
+            ReloadCommand = new RelayCommand(o => ReloadFolders());
+            CollapseAllCommand = new RelayCommand(o => CollapseAll());
+
+            ReloadFolders();
+        }
+
         public override string DisplayName => "Folder Explorer";
 
         public override ToolPosition InitialPosition => ToolPosition.Left;
@@ -27,7 +41,13 @@ namespace MN.Shell.Modules.FolderExplorer
         public DirectoryViewModel SelectedFolder
         {
             get => _selectedFolder;
-            set => Set(ref _selectedFolder, value);
+            set
+            {
+                var message = new FolderChangedMessage(value?.Directory, _selectedFolder?.Directory);
+                _selectedFolder = value;
+                NotifyOfPropertyChange();
+                _eventAggregator.PublishOnUIThread(message);
+            }
         }
 
         private bool _showHidden = true;
@@ -59,13 +79,6 @@ namespace MN.Shell.Modules.FolderExplorer
         public ICommand ReloadCommand { get; }
 
         public ICommand CollapseAllCommand { get; }
-
-        public FolderExplorerViewModel()
-        {
-            ReloadCommand = new RelayCommand(o => ReloadFolders());
-            CollapseAllCommand = new RelayCommand(o => CollapseAll());
-            ReloadFolders();
-        }
 
         public void ReloadFolders()
         {

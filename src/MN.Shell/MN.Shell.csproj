@@ -97,6 +97,7 @@
     <Compile Include="Framework\MessageBox\MessageBoxButtons.cs" />
     <Compile Include="Framework\MessageBox\MessageBoxManager.cs" />
     <Compile Include="Framework\MessageBox\MessageBoxType.cs" />
+    <Compile Include="Framework\Messages\FolderChangedMessage.cs" />
     <Compile Include="Framework\StatusBar\IStatusBarAggregator.cs" />
     <Compile Include="Framework\StatusBar\IStatusBarProvider.cs" />
     <Compile Include="Framework\StatusBar\StatusBarAggregator.cs" />
