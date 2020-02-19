@@ -41,10 +41,33 @@
 
         <TreeView Grid.Row="1" ItemsSource="{Binding Folders}">
             <i:Interaction.Behaviors>
-                <tree:TreeNodeBindingBehavior/>
                 <local:DirectoryViewModelBindingBehavior/>
                 <tree:TreeViewBindableSelectedItemBehavior SelectedItem="{Binding SelectedFolder}"/>
             </i:Interaction.Behaviors>
+
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type local:DirectoryViewModel}"
+                                          ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="Icon" Text="&#xED41;" Style="{StaticResource IconTextBlockStyle}"
+                                   Margin="1,1,8,1"/>
+                        <TextBlock x:Name="NameLabel" Text="{Binding Name}"/>
+                    </StackPanel>
+                    <HierarchicalDataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                            <Setter TargetName="Icon" Property="TextBlock.Text" Value="&#xED43;"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsHidden}" Value="True">
+                            <Setter TargetName="NameLabel" Property="TextBlock.Foreground"
+                                    Value="{DynamicResource InactiveForegroundBrush}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsSystem}" Value="True">
+                            <Setter TargetName="NameLabel" Property="TextBlock.Foreground"
+                                    Value="{DynamicResource InactiveForegroundBrush}"/>
+                        </DataTrigger>
+                    </HierarchicalDataTemplate.Triggers>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
         </TreeView>
     </Grid>
 </UserControl>

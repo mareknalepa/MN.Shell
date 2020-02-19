@@ -7,10 +7,17 @@ namespace MN.Shell.Framework.Tree
 {
     public class TreeNodeBindingBehavior : Behavior<TreeView>
     {
+        public virtual bool AttachingItemContainerStyleEnabled { get; set; } = true;
+
+        public virtual bool AttachingItemTemplateEnabled { get; set; } = true;
+
         protected override void OnAttached()
         {
-            AttachItemContainerStyle();
-            AttachItemTemplate();
+            if (AttachingItemContainerStyleEnabled)
+                AttachItemContainerStyle();
+
+            if (AttachingItemTemplateEnabled)
+                AttachItemTemplate();
         }
 
         private void AttachItemContainerStyle()
@@ -46,20 +53,30 @@ namespace MN.Shell.Framework.Tree
 
             itemContainerStyle.Triggers.Add(selectedTrigger);
 
+            OverrideItemContainerStyle(itemContainerStyle);
+
             AssociatedObject.ItemContainerStyle = itemContainerStyle;
         }
 
+        protected virtual void OverrideItemContainerStyle(Style style) { }
+
         private void AttachItemTemplate()
         {
-            FrameworkElementFactory factory = new FrameworkElementFactory(typeof(TextBlock));
-
-            factory.SetBinding(TextBlock.TextProperty, new Binding(nameof(TreeNodeBase.Name)));
-
-            AssociatedObject.ItemTemplate = new HierarchicalDataTemplate(typeof(TreeNodeBase))
+            var template = new HierarchicalDataTemplate(typeof(TreeNodeBase))
             {
                 ItemsSource = new Binding(nameof(TreeNodeBase.Children)),
-                VisualTree = factory,
+                VisualTree = GetItemTemplateFactory(),
             };
+            template.Seal();
+            AssociatedObject.ItemTemplate = template;
+        }
+
+        protected virtual FrameworkElementFactory GetItemTemplateFactory()
+        {
+            var factory = new FrameworkElementFactory(typeof(TextBlock));
+            factory.SetBinding(TextBlock.TextProperty, new Binding(nameof(TreeNodeBase.Name)));
+
+            return factory;
         }
     }
 }
