@@ -110,7 +110,9 @@
     <Compile Include="Framework\Tree\TreeNodeBase.cs" />
     <Compile Include="Framework\Tree\TreeNodeBindingBehavior.cs" />
     <Compile Include="Modules\FolderExplorer\DirectoryViewModel.cs" />
-    <Compile Include="Modules\FolderExplorer\DirectoryViewModelBindingBehavior.cs" />
+    <Compile Include="Modules\FolderExplorer\DriveViewModel.cs" />
+    <Compile Include="Modules\FolderExplorer\FileSystemNodeBindingBehavior.cs" />
+    <Compile Include="Modules\FolderExplorer\FileSystemNodeViewModel.cs" />
     <Compile Include="Modules\FolderExplorer\FolderExplorerView.xaml.cs">
       <DependentUpon>FolderExplorerView.xaml</DependentUpon>
     </Compile>

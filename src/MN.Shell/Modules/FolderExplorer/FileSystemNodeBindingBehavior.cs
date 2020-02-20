@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace MN.Shell.Modules.FolderExplorer
 {
-    public class DirectoryViewModelBindingBehavior : TreeNodeBindingBehavior
+    public class FileSystemNodeBindingBehavior : TreeNodeBindingBehavior
     {
         public override bool AttachingItemTemplateEnabled => false;
 

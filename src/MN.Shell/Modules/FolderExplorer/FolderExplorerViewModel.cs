@@ -86,10 +86,10 @@ namespace MN.Shell.Modules.FolderExplorer
 
             Folders.Clear();
             foreach (var drive in DriveInfo.GetDrives())
-                Folders.Add(new DirectoryViewModel(drive.RootDirectory, ShowHidden, ShowSystem));
+                Folders.Add(new DriveViewModel(drive, ShowHidden, ShowSystem));
 
             if (selectedFolder != null)
-                TrySelectFolder(selectedFolder.FullPath);
+                TrySelectFolder(selectedFolder.Directory.FullName);
         }
 
         public void TrySelectFolder(string path)
