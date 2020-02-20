@@ -60,7 +60,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock x:Name="Icon" Text="&#xED41;" Style="{StaticResource IconTextBlockStyle}"
                                    Margin="1,1,8,1"/>
-                        <TextBlock x:Name="NameLabel" Text="{Binding Name}"/>
+                        <TextBlock x:Name="NameLabel" Text="{Binding Name}" Margin="1,1,8,1"/>
                     </StackPanel>
                     <HierarchicalDataTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsExpanded}" Value="True">
@@ -80,7 +80,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock x:Name="Icon" Text="&#xE7C3;" Style="{StaticResource IconTextBlockStyle}"
                                    Margin="1,1,8,1"/>
-                        <TextBlock x:Name="NameLabel" Text="{Binding Name}"/>
+                        <TextBlock x:Name="NameLabel" Text="{Binding Name}" Margin="1,1,8,1"/>
                     </StackPanel>
                     <HierarchicalDataTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsHidden}" Value="True">
@@ -88,6 +88,21 @@
                                     Value="{DynamicResource InactiveForegroundBrush}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsSystem}" Value="True">
+                            <Setter TargetName="NameLabel" Property="TextBlock.Foreground"
+                                    Value="{DynamicResource InactiveForegroundBrush}"/>
+                        </DataTrigger>
+                    </HierarchicalDataTemplate.Triggers>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type local:SpecialNodeViewModel}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="Icon" Text="" Style="{StaticResource IconTextBlockStyle}"
+                                   Margin="1,1,8,1"/>
+                        <TextBlock x:Name="NameLabel" Text="{Binding Name}" Margin="1,1,8,1"
+                                   Foreground="{DynamicResource InactiveForegroundBrush}"/>
+                    </StackPanel>
+                    <HierarchicalDataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsError}" Value="True">
+                            <Setter TargetName="Icon" Property="TextBlock.Text" Value="&#xEA39;"/>
                             <Setter TargetName="NameLabel" Property="TextBlock.Foreground"
                                     Value="{DynamicResource InactiveForegroundBrush}"/>
                         </DataTrigger>

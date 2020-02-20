@@ -118,7 +118,7 @@
       <DependentUpon>FolderExplorerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\FolderExplorer\FolderExplorerViewModel.cs" />
-    <Compile Include="Modules\FolderExplorer\SpecialDirectoryViewModel.cs" />
+    <Compile Include="Modules\FolderExplorer\SpecialNodeViewModel.cs" />
     <Compile Include="Modules\MainModule.cs" />
     <Compile Include="Modules\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>

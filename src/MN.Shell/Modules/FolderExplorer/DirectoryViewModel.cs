@@ -24,7 +24,7 @@ namespace MN.Shell.Modules.FolderExplorer
             }
             catch (SystemException e)
             {
-                AttachChild(new SpecialDirectoryViewModel(e.Message));
+                AttachChild(new SpecialNodeViewModel(e));
             }
         }
 
