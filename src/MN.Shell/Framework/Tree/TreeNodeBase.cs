@@ -70,9 +70,12 @@ namespace MN.Shell.Framework.Tree
             CollapseAllCommand = new RelayCommand(o => CollapseAll());
         }
 
-        public void AttachChild(TreeNodeBase child)
+        public void AttachChild(TreeNodeBase child, int index = -1)
         {
-            Children.Add(child);
+            if (index < 0)
+                Children.Add(child);
+            else
+                Children.Insert(index, child);
             child.Parent = this;
         }
 

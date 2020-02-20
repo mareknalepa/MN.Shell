@@ -21,6 +21,12 @@ namespace MN.Shell.Modules.FolderExplorer
 
             ReloadCommand = new RelayCommand(o => ReloadFolders());
             CollapseAllCommand = new RelayCommand(o => CollapseAll());
+            NewDirectoryCommand = new RelayCommand(o => NewNode(isDirectory: true),
+                o => SelectedDirectory != null && CurrentInsertNode == null);
+            NewFileCommand = new RelayCommand(o => NewNode(isDirectory: false),
+                o => SelectedDirectory != null && CurrentInsertNode == null);
+            ConfirmNewNodeCommand = new RelayCommand(o => ConfirmNewNode(), o => CurrentInsertNode != null);
+            CancelNewNodeCommand = new RelayCommand(o => CancelNewNode(), o => CurrentInsertNode != null);
 
             ReloadFolders();
         }
@@ -36,15 +42,37 @@ namespace MN.Shell.Modules.FolderExplorer
         public ObservableCollection<DirectoryViewModel> Folders { get; }
             = new ObservableCollection<DirectoryViewModel>();
 
-        private DirectoryViewModel _selectedFolder;
+        private FileSystemNodeViewModel _selectedNode;
 
-        public DirectoryViewModel SelectedFolder
+        public FileSystemNodeViewModel SelectedNode
         {
-            get => _selectedFolder;
+            get => _selectedNode;
             set
             {
-                var message = new FolderChangedMessage(value?.Directory, _selectedFolder?.Directory);
-                _selectedFolder = value;
+                _selectedNode = value;
+                NotifyOfPropertyChange();
+
+                if (_selectedNode is DirectoryViewModel directory)
+                    SelectedDirectory = directory;
+                else if (_selectedNode is FileViewModel file)
+                    SelectedDirectory = file.Parent as DirectoryViewModel;
+                else
+                    SelectedDirectory = null;
+            }
+        }
+
+        private DirectoryViewModel _selectedDirectory;
+
+        public DirectoryViewModel SelectedDirectory
+        {
+            get => _selectedDirectory;
+            set
+            {
+                if (_selectedDirectory == value)
+                    return;
+
+                var message = new FolderChangedMessage(value?.Directory, _selectedDirectory?.Directory);
+                _selectedDirectory = value;
                 NotifyOfPropertyChange();
                 _eventAggregator.PublishOnUIThread(message);
             }
@@ -74,20 +102,36 @@ namespace MN.Shell.Modules.FolderExplorer
             set => Set(ref _showFiles, value);
         }
 
+        private InsertNodeViewModel _currentInsertNode;
+
+        public InsertNodeViewModel CurrentInsertNode
+        {
+            get => _currentInsertNode;
+            private set => Set(ref _currentInsertNode, value);
+        }
+
         public ICommand ReloadCommand { get; }
 
         public ICommand CollapseAllCommand { get; }
 
+        public ICommand NewDirectoryCommand { get; }
+
+        public ICommand NewFileCommand { get; }
+
+        public ICommand ConfirmNewNodeCommand { get; }
+
+        public ICommand CancelNewNodeCommand { get; }
+
         public void ReloadFolders()
         {
-            var selectedFolder = SelectedFolder;
+            var selectedDirectory = SelectedDirectory;
 
             Folders.Clear();
             foreach (var drive in DriveInfo.GetDrives())
                 Folders.Add(new DriveViewModel(drive));
 
-            if (selectedFolder != null)
-                TrySelectFolder(selectedFolder.Directory.FullName);
+            if (selectedDirectory != null)
+                TrySelectFolder(selectedDirectory.Directory.FullName);
         }
 
         public void TrySelectFolder(string path)
@@ -114,6 +158,41 @@ namespace MN.Shell.Modules.FolderExplorer
         public void CollapseAll()
         {
             ForEachNode(node => node.CollapseAllCommand.Execute(null));
+        }
+
+        private void NewNode(bool isDirectory)
+        {
+            if (SelectedDirectory == null)
+                return;
+
+            SelectedDirectory.IsExpanded = true;
+
+            CurrentInsertNode = new InsertNodeViewModel(isDirectory);
+            SelectedDirectory.AttachChild(CurrentInsertNode, 0);
+            CurrentInsertNode.IsSelected = true;
+        }
+
+        private void ConfirmNewNode()
+        {
+            if (CurrentInsertNode == null)
+                return;
+
+            var parentDirectory = CurrentInsertNode.Parent;
+            parentDirectory.DetachChild(CurrentInsertNode);
+            parentDirectory.AttachChild(new SpecialNodeViewModel(CurrentInsertNode.Name), 0);
+
+            CurrentInsertNode = null;
+        }
+
+        private void CancelNewNode()
+        {
+            if (CurrentInsertNode == null)
+                return;
+
+            var parentDirectory = CurrentInsertNode.Parent;
+            parentDirectory.DetachChild(CurrentInsertNode);
+
+            CurrentInsertNode = null;
         }
 
         private void ForEachNode(Action<FileSystemNodeViewModel> action)

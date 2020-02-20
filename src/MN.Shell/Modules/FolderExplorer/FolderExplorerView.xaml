@@ -28,6 +28,18 @@
 
                 <Separator/>
 
+                <Button Command="{Binding NewDirectoryCommand}"
+                        Style="{StaticResource ToolBarIconButtonBaseStyle}"
+                        Content="&#xE8F4;"
+                        ToolTip="New Directory"/>
+
+                <Button Command="{Binding NewFileCommand}"
+                        Style="{StaticResource ToolBarIconButtonBaseStyle}"
+                        Content="&#xE82E;"
+                        ToolTip="New File"/>
+
+                <Separator/>
+
                 <ToggleButton x:Name="ShowHiddenToggleButton"
                               IsChecked="{Binding ShowHidden}"
                               Style="{StaticResource ToolBarIconToggleButtonStyle}"
@@ -51,7 +63,7 @@
                 <local:FileSystemNodeBindingBehavior ShowHidden="{Binding ShowHidden}"
                                                      ShowSystem="{Binding ShowSystem}"
                                                      ShowFiles="{Binding ShowFiles}"/>
-                <tree:TreeViewBindableSelectedItemBehavior SelectedItem="{Binding SelectedFolder}"/>
+                <tree:TreeViewBindableSelectedItemBehavior SelectedItem="{Binding SelectedNode}"/>
             </i:Interaction.Behaviors>
 
             <TreeView.Resources>
@@ -103,8 +115,33 @@
                     <HierarchicalDataTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsError}" Value="True">
                             <Setter TargetName="Icon" Property="TextBlock.Text" Value="&#xEA39;"/>
-                            <Setter TargetName="NameLabel" Property="TextBlock.Foreground"
-                                    Value="{DynamicResource InactiveForegroundBrush}"/>
+                        </DataTrigger>
+                    </HierarchicalDataTemplate.Triggers>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type local:InsertNodeViewModel}">
+                    <StackPanel Orientation="Horizontal" FocusManager.FocusedElement="{Binding ElementName=NameLabel}">
+                        <TextBlock x:Name="Icon" Text="&#xE82E;" Style="{StaticResource IconTextBlockStyle}"
+                                   Margin="1,1,8,1"/>
+                        <TextBox x:Name="NameLabel" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                 MinWidth="160" Width="Auto" MinHeight="20" Height="20" Margin="1" Padding="0"
+                                 FontSize="12">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding DataContext.ConfirmNewNodeCommand,
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
+                                <KeyBinding Key="Esc" Command="{Binding DataContext.CancelNewNodeCommand,
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
+                            </TextBox.InputBindings>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="LostFocus">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.CancelNewNodeCommand,
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </StackPanel>
+                    <HierarchicalDataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsDirectory}" Value="True">
+                            <Setter TargetName="Icon" Property="TextBlock.Text" Value="&#xE8F4;"/>
                         </DataTrigger>
                     </HierarchicalDataTemplate.Triggers>
                 </HierarchicalDataTemplate>
