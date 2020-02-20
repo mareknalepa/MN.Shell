@@ -177,16 +177,37 @@ namespace MN.Shell.Modules.FolderExplorer
             if (CurrentInsertNode == null)
                 return;
 
-            var parentDirectory = CurrentInsertNode.Parent;
+            var parentDirectory = CurrentInsertNode.Parent as DirectoryViewModel;
             parentDirectory.DetachChild(CurrentInsertNode);
-            parentDirectory.AttachChild(new SpecialNodeViewModel(CurrentInsertNode.Name), 0);
+
+            try
+            {
+                string newName = CurrentInsertNode.Name;
+
+                if (CurrentInsertNode.IsDirectory)
+                    parentDirectory.Directory.CreateSubdirectory(CurrentInsertNode.Name);
+                else
+                    using (var fs = File.Create(Path.Combine(parentDirectory.Directory.FullName, newName)))
+                        fs.Close();
+
+                parentDirectory.ReloadChildren();
+
+                var justCreatedNode = parentDirectory.Children.
+                    FirstOrDefault(child => child.Name == newName);
+                if (justCreatedNode != null)
+                    justCreatedNode.IsSelected = true;
+            }
+            catch (Exception e)
+            {
+                parentDirectory.AttachChild(new SpecialNodeViewModel(e), 0);
+            }
 
             CurrentInsertNode = null;
         }
 
         private void CancelNewNode()
         {
-            if (CurrentInsertNode == null)
+            if (CurrentInsertNode == null || CurrentInsertNode.Parent == null)
                 return;
 
             var parentDirectory = CurrentInsertNode.Parent;

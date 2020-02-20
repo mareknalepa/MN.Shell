@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using MN.Shell.Core;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace MN.Shell.Framework.Tree
@@ -84,6 +85,20 @@ namespace MN.Shell.Framework.Tree
             Children.Remove(child);
             if (child.Parent == this)
                 child.Parent = null;
+        }
+
+        public void ReloadChildren()
+        {
+            var previousChildren = Children.ToList();
+            Children.Clear();
+
+            foreach (var child in previousChildren)
+            {
+                if (child.Parent == this)
+                    child.Parent = null;
+            }
+
+            LoadChildren();
         }
 
         protected virtual void LoadChildren() { }
