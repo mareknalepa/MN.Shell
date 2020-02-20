@@ -3,7 +3,7 @@ using System.IO;
 
 namespace MN.Shell.Modules.FolderExplorer
 {
-    public class FileSystemNodeViewModel : TreeNodeBase
+    public abstract class FileSystemNodeViewModel : TreeNodeBase
     {
         public FileSystemInfo ElementInfo { get; }
 
@@ -12,6 +12,8 @@ namespace MN.Shell.Modules.FolderExplorer
         public bool IsHidden => Parent != null && ElementInfo.Attributes.HasFlag(FileAttributes.Hidden);
 
         public bool IsSystem => Parent != null && ElementInfo.Attributes.HasFlag(FileAttributes.System);
+
+        public bool IsFile => Parent != null && !ElementInfo.Attributes.HasFlag(FileAttributes.Directory);
 
         public FileSystemNodeViewModel(FileSystemInfo fileSystemInfo, bool isLazyLoadable = false)
             : base(isLazyLoadable)

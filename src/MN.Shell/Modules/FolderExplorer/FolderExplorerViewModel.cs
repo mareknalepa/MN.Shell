@@ -55,12 +55,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public bool ShowHidden
         {
             get => _showHidden;
-            set
-            {
-                _showHidden = value;
-                NotifyOfPropertyChange();
-                ForEachTopLevelNodes(node => node.ShowHidden = value);
-            }
+            set => Set(ref _showHidden, value);
         }
 
         private bool _showSystem = true;
@@ -68,12 +63,15 @@ namespace MN.Shell.Modules.FolderExplorer
         public bool ShowSystem
         {
             get => _showSystem;
-            set
-            {
-                _showSystem = value;
-                NotifyOfPropertyChange();
-                ForEachTopLevelNodes(node => node.ShowSystem = value);
-            }
+            set => Set(ref _showSystem, value);
+        }
+
+        private bool _showFiles = true;
+
+        public bool ShowFiles
+        {
+            get => _showFiles;
+            set => Set(ref _showFiles, value);
         }
 
         public ICommand ReloadCommand { get; }
@@ -86,7 +84,7 @@ namespace MN.Shell.Modules.FolderExplorer
 
             Folders.Clear();
             foreach (var drive in DriveInfo.GetDrives())
-                Folders.Add(new DriveViewModel(drive, ShowHidden, ShowSystem));
+                Folders.Add(new DriveViewModel(drive));
 
             if (selectedFolder != null)
                 TrySelectFolder(selectedFolder.Directory.FullName);
@@ -115,10 +113,10 @@ namespace MN.Shell.Modules.FolderExplorer
 
         public void CollapseAll()
         {
-            ForEachTopLevelNodes(node => node.CollapseAllCommand.Execute(null));
+            ForEachNode(node => node.CollapseAllCommand.Execute(null));
         }
 
-        private void ForEachTopLevelNodes(Action<DirectoryViewModel> action)
+        private void ForEachNode(Action<FileSystemNodeViewModel> action)
         {
             foreach (var node in Folders)
                 action.Invoke(node);

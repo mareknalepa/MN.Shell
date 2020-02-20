@@ -28,24 +28,33 @@
 
                 <Separator/>
 
-                <ToggleButton IsChecked="{Binding ShowHidden}"
+                <ToggleButton x:Name="ShowHiddenToggleButton"
+                              IsChecked="{Binding ShowHidden}"
                               Style="{StaticResource ToolBarIconToggleButtonStyle}"
                               Content="&#xF19D;"
                               ToolTip="Show hidden elements"/>
-                <ToggleButton IsChecked="{Binding ShowSystem}"
+                <ToggleButton x:Name="ShowSystemToggleButton"
+                              IsChecked="{Binding ShowSystem}"
                               Style="{StaticResource ToolBarIconToggleButtonStyle}"
                               Content="&#xE770;"
                               ToolTip="Show system elements"/>
+                <ToggleButton x:Name="ShowFilesToggleButton"
+                              IsChecked="{Binding ShowFiles}"
+                              Style="{StaticResource ToolBarIconToggleButtonStyle}"
+                              Content="&#xE7C3;"
+                              ToolTip="Show files"/>
             </ToolBar>
         </ToolBarTray>
 
         <TreeView Grid.Row="1" ItemsSource="{Binding Folders}">
             <i:Interaction.Behaviors>
-                <local:FileSystemNodeBindingBehavior/>
+                <local:FileSystemNodeBindingBehavior ShowHidden="{Binding ShowHidden}"
+                                                     ShowSystem="{Binding ShowSystem}"
+                                                     ShowFiles="{Binding ShowFiles}"/>
                 <tree:TreeViewBindableSelectedItemBehavior SelectedItem="{Binding SelectedFolder}"/>
             </i:Interaction.Behaviors>
 
-            <TreeView.ItemTemplate>
+            <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type local:DirectoryViewModel}"
                                           ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal">
@@ -67,7 +76,24 @@
                         </DataTrigger>
                     </HierarchicalDataTemplate.Triggers>
                 </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type local:FileViewModel}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="Icon" Text="&#xE7C3;" Style="{StaticResource IconTextBlockStyle}"
+                                   Margin="1,1,8,1"/>
+                        <TextBlock x:Name="NameLabel" Text="{Binding Name}"/>
+                    </StackPanel>
+                    <HierarchicalDataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsHidden}" Value="True">
+                            <Setter TargetName="NameLabel" Property="TextBlock.Foreground"
+                                    Value="{DynamicResource InactiveForegroundBrush}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsSystem}" Value="True">
+                            <Setter TargetName="NameLabel" Property="TextBlock.Foreground"
+                                    Value="{DynamicResource InactiveForegroundBrush}"/>
+                        </DataTrigger>
+                    </HierarchicalDataTemplate.Triggers>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
         </TreeView>
     </Grid>
 </UserControl>

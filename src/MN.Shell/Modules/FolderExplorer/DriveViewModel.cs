@@ -8,8 +8,7 @@ namespace MN.Shell.Modules.FolderExplorer
 
         public override string Name { get; set; }
 
-        public DriveViewModel(DriveInfo driveInfo, bool showHidden, bool showSystem)
-            : base(driveInfo.RootDirectory, showHidden, showSystem)
+        public DriveViewModel(DriveInfo driveInfo) : base(driveInfo.RootDirectory)
         {
             Drive = driveInfo;
             Name = Drive.Name;

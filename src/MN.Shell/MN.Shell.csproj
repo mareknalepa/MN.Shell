@@ -113,6 +113,7 @@
     <Compile Include="Modules\FolderExplorer\DriveViewModel.cs" />
     <Compile Include="Modules\FolderExplorer\FileSystemNodeBindingBehavior.cs" />
     <Compile Include="Modules\FolderExplorer\FileSystemNodeViewModel.cs" />
+    <Compile Include="Modules\FolderExplorer\FileViewModel.cs" />
     <Compile Include="Modules\FolderExplorer\FolderExplorerView.xaml.cs">
       <DependentUpon>FolderExplorerView.xaml</DependentUpon>
     </Compile>
