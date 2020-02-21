@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using MN.Shell.Core;
 using MN.Shell.Framework;
+using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.Messages;
 using System;
 using System.Collections.Generic;
@@ -21,12 +22,26 @@ namespace MN.Shell.Modules.FolderExplorer
 
             ReloadCommand = new RelayCommand(o => ReloadFolders());
             CollapseAllCommand = new RelayCommand(o => CollapseAll());
+
             NewDirectoryCommand = new RelayCommand(o => NewNode(isDirectory: true),
-                o => SelectedDirectory != null && CurrentInsertNode == null);
+                o => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
             NewFileCommand = new RelayCommand(o => NewNode(isDirectory: false),
-                o => SelectedDirectory != null && CurrentInsertNode == null);
+                o => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
+
             ConfirmNewNodeCommand = new RelayCommand(o => ConfirmNewNode(), o => CurrentInsertNode != null);
             CancelNewNodeCommand = new RelayCommand(o => CancelNewNode(), o => CurrentInsertNode != null);
+
+            RenameNodeCommand = new RelayCommand(o => RenameNode(),
+                o => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
+
+            ConfirmRenameNodeCommand = new RelayCommand(o => ConfirmRenameNode(), o => CurrentRenameNode != null);
+            CancelRenameNodeCommand = new RelayCommand(o => CancelRenameNode(), o => CurrentRenameNode != null);
+
+            ContextMenuItems.Add(new MenuItemViewModel()
+            {
+                Name = "Rename",
+                Command = RenameNodeCommand,
+            });
 
             ReloadFolders();
         }
@@ -110,17 +125,26 @@ namespace MN.Shell.Modules.FolderExplorer
             private set => Set(ref _currentInsertNode, value);
         }
 
+        private FileSystemNodeViewModel _currentRenameNode;
+
+        public FileSystemNodeViewModel CurrentRenameNode
+        {
+            get => _currentRenameNode;
+            private set => Set(ref _currentRenameNode, value);
+        }
+
         public ICommand ReloadCommand { get; }
-
         public ICommand CollapseAllCommand { get; }
-
         public ICommand NewDirectoryCommand { get; }
-
         public ICommand NewFileCommand { get; }
-
         public ICommand ConfirmNewNodeCommand { get; }
-
         public ICommand CancelNewNodeCommand { get; }
+        public ICommand RenameNodeCommand { get; }
+        public ICommand ConfirmRenameNodeCommand { get; }
+        public ICommand CancelRenameNodeCommand { get; }
+
+        public ObservableCollection<MenuItemViewModel> ContextMenuItems { get; }
+            = new ObservableCollection<MenuItemViewModel>();
 
         public void ReloadFolders()
         {
@@ -174,16 +198,15 @@ namespace MN.Shell.Modules.FolderExplorer
 
         private void ConfirmNewNode()
         {
-            if (CurrentInsertNode == null)
+            if (CurrentInsertNode == null || CurrentInsertNode.Parent == null)
                 return;
 
             var parentDirectory = CurrentInsertNode.Parent as DirectoryViewModel;
             parentDirectory.DetachChild(CurrentInsertNode);
+            string newName = CurrentInsertNode.Name;
 
             try
             {
-                string newName = CurrentInsertNode.Name;
-
                 if (CurrentInsertNode.IsDirectory)
                     parentDirectory.Directory.CreateSubdirectory(CurrentInsertNode.Name);
                 else
@@ -214,6 +237,55 @@ namespace MN.Shell.Modules.FolderExplorer
             parentDirectory.DetachChild(CurrentInsertNode);
 
             CurrentInsertNode = null;
+        }
+
+        private void RenameNode()
+        {
+            if (SelectedNode == null || !(SelectedNode is DirectoryViewModel || SelectedNode is FileViewModel))
+                return;
+
+            CurrentRenameNode = SelectedNode;
+            CurrentRenameNode.IsSelected = true;
+            CurrentRenameNode.IsBeingRenamed = true;
+        }
+
+        private void ConfirmRenameNode()
+        {
+            if (CurrentRenameNode == null || CurrentRenameNode.Parent == null)
+                return;
+
+            var parentDirectory = CurrentRenameNode.Parent as DirectoryViewModel;
+            string newName = CurrentRenameNode.Name;
+
+            try
+            {
+                if (CurrentRenameNode is DirectoryViewModel dir)
+                    dir.Directory.MoveTo(Path.Combine(parentDirectory.Directory.FullName, newName));
+                else if (CurrentRenameNode is FileViewModel file)
+                    file.File.MoveTo(Path.Combine(parentDirectory.Directory.FullName, newName));
+
+                parentDirectory.ReloadChildren();
+
+                var justRenamedNode = parentDirectory.Children.
+                    FirstOrDefault(child => child.Name == newName);
+                if (justRenamedNode != null)
+                    justRenamedNode.IsSelected = true;
+            }
+            catch (Exception e)
+            {
+                parentDirectory.AttachChild(new SpecialNodeViewModel(e), 0);
+            }
+
+            CurrentRenameNode = null;
+        }
+
+        private void CancelRenameNode()
+        {
+            if (CurrentRenameNode == null)
+                return;
+
+            CurrentRenameNode.IsBeingRenamed = false;
+            CurrentRenameNode = null;
         }
 
         private void ForEachNode(Action<FileSystemNodeViewModel> action)

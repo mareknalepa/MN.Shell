@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:behaviors="clr-namespace:MN.Shell.Behaviors"
              xmlns:tree="clr-namespace:MN.Shell.Framework.Tree"
              xmlns:local="clr-namespace:MN.Shell.Modules.FolderExplorer"
              mc:Ignorable="d"
@@ -67,14 +68,43 @@
             </i:Interaction.Behaviors>
 
             <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type local:DirectoryViewModel}"
+                <HierarchicalDataTemplate DataType="{x:Type local:FileSystemNodeViewModel}"
                                           ItemsSource="{Binding Children}">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" FocusManager.FocusedElement="{Binding ElementName=RenameBox}"
+                                Tag="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}">
                         <TextBlock x:Name="Icon" Text="&#xED41;" Style="{StaticResource IconTextBlockStyle}"
                                    Margin="1,1,8,1"/>
                         <TextBlock x:Name="NameLabel" Text="{Binding Name}" Margin="1,1,8,1"/>
+                        <TextBox x:Name="RenameBox" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                 Visibility="Collapsed" Margin="0" Padding="0" FontSize="12"
+                                 MinWidth="160" Width="Auto" MinHeight="19" Height="19">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding DataContext.ConfirmRenameNodeCommand,
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
+                                <KeyBinding Key="Esc" Command="{Binding DataContext.CancelRenameNodeCommand,
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
+                            </TextBox.InputBindings>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="LostFocus">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.CancelRenameNodeCommand,
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <behaviors:KeyboardFocusBehavior HasKeyboardFocus="{Binding IsBeingRenamed}"/>
+                                <behaviors:MoveCursorToEndOnFocusBehavior/>
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <StackPanel.ContextMenu>
+                            <ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
+                                         ItemsSource="{Binding ContextMenuItems}"
+                                         ItemContainerStyle="{StaticResource ShellMenuItemStyle}"/>
+                        </StackPanel.ContextMenu>
                     </StackPanel>
                     <HierarchicalDataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsFile}" Value="True">
+                            <Setter TargetName="Icon" Property="TextBlock.Text" Value="&#xE7C3;"/>
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding IsExpanded}" Value="True">
                             <Setter TargetName="Icon" Property="TextBlock.Text" Value="&#xED43;"/>
                         </DataTrigger>
@@ -86,23 +116,25 @@
                             <Setter TargetName="NameLabel" Property="TextBlock.Foreground"
                                     Value="{DynamicResource InactiveForegroundBrush}"/>
                         </DataTrigger>
-                    </HierarchicalDataTemplate.Triggers>
-                </HierarchicalDataTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type local:FileViewModel}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="Icon" Text="&#xE7C3;" Style="{StaticResource IconTextBlockStyle}"
-                                   Margin="1,1,8,1"/>
-                        <TextBlock x:Name="NameLabel" Text="{Binding Name}" Margin="1,1,8,1"/>
-                    </StackPanel>
-                    <HierarchicalDataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsHidden}" Value="True">
-                            <Setter TargetName="NameLabel" Property="TextBlock.Foreground"
-                                    Value="{DynamicResource InactiveForegroundBrush}"/>
+                        <DataTrigger Binding="{Binding IsBeingRenamed}" Value="True">
+                            <Setter TargetName="NameLabel" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="RenameBox" Property="Visibility" Value="Visible"/>
+                            <Setter Property="KeyboardNavigation.DirectionalNavigation" Value="None"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding IsSystem}" Value="True">
-                            <Setter TargetName="NameLabel" Property="TextBlock.Foreground"
-                                    Value="{DynamicResource InactiveForegroundBrush}"/>
-                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsFile}" Value="False"/>
+                                <Condition Binding="{Binding IsBeingRenamed}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="Icon" Property="TextBlock.Text" Value="&#xE8F4;"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsFile}" Value="True"/>
+                                <Condition Binding="{Binding IsBeingRenamed}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="Icon" Property="TextBlock.Text" Value="&#xE8F4;"/>
+                        </MultiDataTrigger>
                     </HierarchicalDataTemplate.Triggers>
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type local:SpecialNodeViewModel}">
@@ -123,8 +155,8 @@
                         <TextBlock x:Name="Icon" Text="&#xE82E;" Style="{StaticResource IconTextBlockStyle}"
                                    Margin="1,1,8,1"/>
                         <TextBox x:Name="NameLabel" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                                 MinWidth="160" Width="Auto" MinHeight="20" Height="20" Margin="1" Padding="0"
-                                 FontSize="12">
+                                 Margin="0" Padding="0" FontSize="12"
+                                 MinWidth="160" Width="Auto" MinHeight="19" Height="19">
                             <TextBox.InputBindings>
                                 <KeyBinding Key="Return" Command="{Binding DataContext.ConfirmNewNodeCommand,
                                     RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
