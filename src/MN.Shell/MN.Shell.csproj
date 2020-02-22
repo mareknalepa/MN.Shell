@@ -115,6 +115,7 @@
     <Compile Include="Modules\FolderExplorer\DriveViewModel.cs" />
     <Compile Include="Modules\FolderExplorer\FileSystemNodeBindingBehavior.cs" />
     <Compile Include="Modules\FolderExplorer\FileSystemNodeViewModel.cs" />
+    <Compile Include="Modules\FolderExplorer\FileSystemOperations.cs" />
     <Compile Include="Modules\FolderExplorer\FileViewModel.cs" />
     <Compile Include="Modules\FolderExplorer\FolderExplorerView.xaml.cs">
       <DependentUpon>FolderExplorerView.xaml</DependentUpon>
@@ -279,6 +280,9 @@
   <ItemGroup>
     <Resource Include="Resources\mnshell.ico" />
     <Resource Include="Resources\mnshell.xcf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Framework\FolderExplorer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

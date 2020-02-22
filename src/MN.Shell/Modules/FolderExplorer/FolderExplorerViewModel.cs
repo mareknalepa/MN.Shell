@@ -2,6 +2,7 @@
 using MN.Shell.Core;
 using MN.Shell.Framework;
 using MN.Shell.Framework.Menu;
+using MN.Shell.Framework.MessageBox;
 using MN.Shell.Framework.Messages;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace MN.Shell.Modules.FolderExplorer
     public class FolderExplorerViewModel : ToolBase
     {
         private readonly IEventAggregator _eventAggregator;
+        private readonly IMessageBoxManager _messageBoxManager;
 
-        public FolderExplorerViewModel(IEventAggregator eventAggregator)
+        public FolderExplorerViewModel(IEventAggregator eventAggregator, IMessageBoxManager messageBoxManager)
         {
             _eventAggregator = eventAggregator;
+            _messageBoxManager = messageBoxManager;
 
             ReloadCommand = new RelayCommand(o => ReloadFolders());
             CollapseAllCommand = new RelayCommand(o => CollapseAll());
@@ -37,10 +40,18 @@ namespace MN.Shell.Modules.FolderExplorer
             ConfirmRenameNodeCommand = new RelayCommand(o => ConfirmRenameNode(), o => CurrentRenameNode != null);
             CancelRenameNodeCommand = new RelayCommand(o => CancelRenameNode(), o => CurrentRenameNode != null);
 
+            DeleteNodeCommand = new RelayCommand(o => DeleteNode(o), o => SelectedNode != null);
+
             ContextMenuItems.Add(new MenuItemViewModel()
             {
                 Name = "Rename",
                 Command = RenameNodeCommand,
+            });
+
+            ContextMenuItems.Add(new MenuItemViewModel()
+            {
+                Name = "Delete",
+                Command = DeleteNodeCommand,
             });
 
             ReloadFolders();
@@ -142,6 +153,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public ICommand RenameNodeCommand { get; }
         public ICommand ConfirmRenameNodeCommand { get; }
         public ICommand CancelRenameNodeCommand { get; }
+        public ICommand DeleteNodeCommand { get; }
 
         public ObservableCollection<MenuItemViewModel> ContextMenuItems { get; }
             = new ObservableCollection<MenuItemViewModel>();
@@ -273,7 +285,7 @@ namespace MN.Shell.Modules.FolderExplorer
             }
             catch (Exception e)
             {
-                parentDirectory.AttachChild(new SpecialNodeViewModel(e), 0);
+                CurrentRenameNode.ErrorMessage = e.Message;
             }
 
             CurrentRenameNode = null;
@@ -286,6 +298,28 @@ namespace MN.Shell.Modules.FolderExplorer
 
             CurrentRenameNode.IsBeingRenamed = false;
             CurrentRenameNode = null;
+        }
+
+        private void DeleteNode(object o)
+        {
+            if (SelectedNode == null || SelectedNode.Parent == null)
+                return;
+
+            if (_messageBoxManager.Show("Confirmation",
+                $"Are you sure want to move \"{SelectedNode.Name}\" to Recycle Bin?",
+                MessageBoxType.Warning, MessageBoxButtons.YesNo) != true)
+                return;
+
+            try
+            {
+                FileSystemOperations.SendToRecycleBin(SelectedNode.ElementInfo.FullName);
+                SelectedNode.Parent.IsSelected = true;
+                SelectedNode.ReloadChildren();
+            }
+            catch (Exception e)
+            {
+                SelectedNode.ErrorMessage = e.Message;
+            }
         }
 
         private void ForEachNode(Action<FileSystemNodeViewModel> action)

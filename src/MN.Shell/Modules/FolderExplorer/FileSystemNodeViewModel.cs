@@ -21,6 +21,14 @@ namespace MN.Shell.Modules.FolderExplorer
             set => Set(ref _isBeingRenamed, value);
         }
 
+        private string _errorMessage;
+
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => Set(ref _errorMessage, value);
+        }
+
         public FileSystemNodeViewModel(FileSystemInfo fileSystemInfo, bool isLazyLoadable = false)
             : base(isLazyLoadable)
         {

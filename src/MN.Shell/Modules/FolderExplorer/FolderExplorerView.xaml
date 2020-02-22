@@ -95,6 +95,7 @@
                                 <behaviors:MoveCursorToEndOnFocusBehavior/>
                             </i:Interaction.Behaviors>
                         </TextBox>
+                        <TextBlock Text="{Binding ErrorMessage}" Margin="1,1,8,1"/>
                         <StackPanel.ContextMenu>
                             <ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
                                          ItemsSource="{Binding ContextMenuItems}"
