@@ -109,7 +109,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public bool ShowHidden
         {
             get => _showHidden;
-            set => Set(ref _showHidden, value);
+            set { _showHidden = value; NotifyOfPropertyChange(); }
         }
 
         private bool _showSystem = true;
@@ -117,7 +117,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public bool ShowSystem
         {
             get => _showSystem;
-            set => Set(ref _showSystem, value);
+            set { _showSystem = value; NotifyOfPropertyChange(); }
         }
 
         private bool _showFiles = true;
@@ -125,7 +125,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public bool ShowFiles
         {
             get => _showFiles;
-            set => Set(ref _showFiles, value);
+            set { _showFiles = value; NotifyOfPropertyChange(); }
         }
 
         private InsertNodeViewModel _currentInsertNode;
@@ -133,7 +133,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public InsertNodeViewModel CurrentInsertNode
         {
             get => _currentInsertNode;
-            private set => Set(ref _currentInsertNode, value);
+            private set { _currentInsertNode = value; NotifyOfPropertyChange(); }
         }
 
         private FileSystemNodeViewModel _currentRenameNode;
@@ -141,7 +141,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public FileSystemNodeViewModel CurrentRenameNode
         {
             get => _currentRenameNode;
-            private set => Set(ref _currentRenameNode, value);
+            private set { _currentRenameNode = value; NotifyOfPropertyChange(); }
         }
 
         public ICommand ReloadCommand { get; }

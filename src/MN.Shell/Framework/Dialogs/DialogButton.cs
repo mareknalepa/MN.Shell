@@ -13,7 +13,7 @@ namespace MN.Shell.Framework.Dialogs
         public string Caption
         {
             get => _caption;
-            set => Set(ref _caption, value);
+            set { _caption = value; NotifyOfPropertyChange(); }
         }
 
         private bool _isDefault;
@@ -21,7 +21,7 @@ namespace MN.Shell.Framework.Dialogs
         public bool IsDefault
         {
             get => _isDefault;
-            set => Set(ref _isDefault, value);
+            set { _isDefault = value; NotifyOfPropertyChange(); }
         }
 
         private bool _isCancel;
@@ -29,7 +29,7 @@ namespace MN.Shell.Framework.Dialogs
         public bool IsCancel
         {
             get => _isCancel;
-            set => Set(ref _isCancel, value);
+            set { _isCancel = value; NotifyOfPropertyChange(); }
         }
 
         private ICommand _command;
@@ -37,7 +37,7 @@ namespace MN.Shell.Framework.Dialogs
         public ICommand Command
         {
             get => _command;
-            set => Set(ref _command, value);
+            set { _command = value; NotifyOfPropertyChange(); }
         }
 
         protected DialogButton(DialogButtonType type, string caption, bool isDefault, bool isCancel, ICommand command)

@@ -19,7 +19,7 @@ namespace MN.Shell.Framework.Tree
         public virtual string Name
         {
             get => _name;
-            set => Set(ref _name, value);
+            set { _name = value; NotifyOfPropertyChange(); }
         }
 
         public ObservableCollection<TreeNodeBase> Children { get; } = new ObservableCollection<TreeNodeBase>();
@@ -29,7 +29,7 @@ namespace MN.Shell.Framework.Tree
         public TreeNodeBase Parent
         {
             get => _parent;
-            set => Set(ref _parent, value);
+            set { _parent = value; NotifyOfPropertyChange(); }
         }
 
         private bool _isExpanded;
@@ -39,7 +39,8 @@ namespace MN.Shell.Framework.Tree
             get => _isExpanded;
             set
             {
-                Set(ref _isExpanded, value);
+                _isExpanded = value;
+                NotifyOfPropertyChange();
                 if (_isExpanded && Parent != null && !_suppressExpandingParent)
                     Parent.IsExpanded = true;
                 if (_isExpanded && Children.Count == 1 && Children[0] == _lazyLoadingNode)

@@ -9,7 +9,7 @@ namespace MN.Shell.Framework
         public bool IsVisible
         {
             get => _isVisible;
-            set => Set(ref _isVisible, value);
+            set { _isVisible = value; NotifyOfPropertyChange(); }
         }
 
         public virtual ToolPosition InitialPosition => ToolPosition.Right;

@@ -25,7 +25,7 @@ namespace MN.Shell.Demo.Output
         public string Output
         {
             get => _output;
-            set => Set(ref _output, value);
+            set { _output = value; NotifyOfPropertyChange(); }
         }
 
         public void Handle(FolderChangedMessage message)
