@@ -75,7 +75,7 @@
                         <TextBlock x:Name="Icon" Text="&#xED41;" Style="{StaticResource IconTextBlockStyle}"
                                    Margin="1,1,8,1"/>
                         <TextBlock x:Name="NameLabel" Text="{Binding Name}" Margin="1,1,8,1"/>
-                        <TextBox x:Name="RenameBox" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox x:Name="RenameBox" Text="{Binding NewName, UpdateSourceTrigger=PropertyChanged}"
                                  Visibility="Collapsed" Margin="0" Padding="0" FontSize="12"
                                  MinWidth="160" Width="Auto" MinHeight="19" Height="19">
                             <TextBox.InputBindings>
@@ -95,7 +95,21 @@
                                 <behaviors:MoveCursorToEndOnFocusBehavior/>
                             </i:Interaction.Behaviors>
                         </TextBox>
-                        <TextBlock Text="{Binding ErrorMessage}" Margin="1,1,8,1"/>
+                        <TextBlock Text="{Binding ErrorMessage}" Margin="1,1,8,1"
+                                   Foreground="{DynamicResource WarningBrush}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                         <StackPanel.ContextMenu>
                             <ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
                                          ItemsSource="{Binding ContextMenuItems}"
@@ -143,7 +157,7 @@
                         <TextBlock x:Name="Icon" Text="" Style="{StaticResource IconTextBlockStyle}"
                                    Margin="1,1,8,1"/>
                         <TextBlock x:Name="NameLabel" Text="{Binding Name}" Margin="1,1,8,1"
-                                   Foreground="{DynamicResource InactiveForegroundBrush}"/>
+                                   Foreground="{DynamicResource WarningBrush}"/>
                     </StackPanel>
                     <HierarchicalDataTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsError}" Value="True">

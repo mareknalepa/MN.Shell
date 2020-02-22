@@ -40,7 +40,7 @@ namespace MN.Shell.Modules.FolderExplorer
             ConfirmRenameNodeCommand = new RelayCommand(o => ConfirmRenameNode(), o => CurrentRenameNode != null);
             CancelRenameNodeCommand = new RelayCommand(o => CancelRenameNode(), o => CurrentRenameNode != null);
 
-            DeleteNodeCommand = new RelayCommand(o => DeleteNode(o), o => SelectedNode != null);
+            DeleteNodeCommand = new RelayCommand(o => DeleteNode(), o => SelectedNode != null);
 
             ContextMenuItems.Add(new MenuItemViewModel()
             {
@@ -234,7 +234,9 @@ namespace MN.Shell.Modules.FolderExplorer
             }
             catch (Exception e)
             {
-                parentDirectory.AttachChild(new SpecialNodeViewModel(e), 0);
+                var specialNode = new SpecialNodeViewModel(e);
+                parentDirectory.AttachChild(specialNode, 0);
+                specialNode.IsSelected = true;
             }
 
             CurrentInsertNode = null;
@@ -257,6 +259,7 @@ namespace MN.Shell.Modules.FolderExplorer
                 return;
 
             CurrentRenameNode = SelectedNode;
+            CurrentRenameNode.NewName = CurrentRenameNode.Name;
             CurrentRenameNode.IsSelected = true;
             CurrentRenameNode.IsBeingRenamed = true;
         }
@@ -267,7 +270,8 @@ namespace MN.Shell.Modules.FolderExplorer
                 return;
 
             var parentDirectory = CurrentRenameNode.Parent as DirectoryViewModel;
-            string newName = CurrentRenameNode.Name;
+            string newName = CurrentRenameNode.NewName;
+            CurrentRenameNode.IsBeingRenamed = false;
 
             try
             {
@@ -300,7 +304,7 @@ namespace MN.Shell.Modules.FolderExplorer
             CurrentRenameNode = null;
         }
 
-        private void DeleteNode(object o)
+        private void DeleteNode()
         {
             if (SelectedNode == null || SelectedNode.Parent == null)
                 return;

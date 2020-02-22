@@ -21,7 +21,15 @@ namespace MN.Shell.Modules.FolderExplorer
             set => Set(ref _isBeingRenamed, value);
         }
 
-        private string _errorMessage;
+        private string _newName = string.Empty;
+
+        public string NewName
+        {
+            get => _newName;
+            set => Set(ref _newName, value);
+        }
+
+        private string _errorMessage = string.Empty;
 
         public string ErrorMessage
         {
@@ -34,6 +42,12 @@ namespace MN.Shell.Modules.FolderExplorer
         {
             ElementInfo = fileSystemInfo;
             Name = ElementInfo.Name;
+        }
+
+        protected override void OnIsSelectedChanged(bool isSelected)
+        {
+            if (!isSelected)
+                ErrorMessage = string.Empty;
         }
     }
 }

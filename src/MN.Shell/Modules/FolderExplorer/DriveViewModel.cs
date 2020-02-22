@@ -13,7 +13,7 @@ namespace MN.Shell.Modules.FolderExplorer
             Drive = driveInfo;
             Name = Drive.Name;
             if (!string.IsNullOrEmpty(Drive.VolumeLabel))
-                Name += $"[{Drive.VolumeLabel}]";
+                Name += $" [{Drive.VolumeLabel}]";
         }
     }
 }

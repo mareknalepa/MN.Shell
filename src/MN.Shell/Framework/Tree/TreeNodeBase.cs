@@ -14,7 +14,7 @@ namespace MN.Shell.Framework.Tree
 
         private bool _suppressExpandingParent = false;
 
-        private string _name;
+        private string _name = string.Empty;
 
         public virtual string Name
         {
@@ -55,8 +55,18 @@ namespace MN.Shell.Framework.Tree
         public bool IsSelected
         {
             get => _isSelected;
-            set => Set(ref _isSelected, value);
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    NotifyOfPropertyChange();
+                    OnIsSelectedChanged(_isSelected);
+                }
+            }
         }
+
+        protected virtual void OnIsSelectedChanged(bool isSelected) { }
 
         public ICommand ExpandAllCommand { get; }
 

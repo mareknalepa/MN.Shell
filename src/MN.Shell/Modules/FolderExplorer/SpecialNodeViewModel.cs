@@ -17,5 +17,11 @@ namespace MN.Shell.Modules.FolderExplorer
             Name = e.Message;
             IsError = true;
         }
+
+        protected override void OnIsSelectedChanged(bool isSelected)
+        {
+            if (!isSelected && Parent != null)
+                Parent.DetachChild(this);
+        }
     }
 }
