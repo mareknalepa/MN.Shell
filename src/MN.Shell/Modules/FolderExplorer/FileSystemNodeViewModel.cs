@@ -42,6 +42,7 @@ namespace MN.Shell.Modules.FolderExplorer
         {
             ElementInfo = fileSystemInfo;
             Name = ElementInfo.Name;
+            NewName = Name;
         }
 
         protected override void OnIsSelectedChanged(bool isSelected)

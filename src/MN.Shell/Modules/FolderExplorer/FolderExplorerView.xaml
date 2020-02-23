@@ -22,6 +22,7 @@
                         Style="{StaticResource ToolBarIconButtonBaseStyle}"
                         Content="&#xE72C;"
                         ToolTip="Refresh"/>
+
                 <Button Command="{Binding CollapseAllCommand}"
                         Style="{StaticResource ToolBarIconButtonBaseStyle}"
                         Content="&#xF165;"
@@ -46,11 +47,13 @@
                               Style="{StaticResource ToolBarIconToggleButtonStyle}"
                               Content="&#xF19D;"
                               ToolTip="Show hidden elements"/>
+
                 <ToggleButton x:Name="ShowSystemToggleButton"
                               IsChecked="{Binding ShowSystem}"
                               Style="{StaticResource ToolBarIconToggleButtonStyle}"
                               Content="&#xE770;"
                               ToolTip="Show system elements"/>
+
                 <ToggleButton x:Name="ShowFilesToggleButton"
                               IsChecked="{Binding ShowFiles}"
                               Style="{StaticResource ToolBarIconToggleButtonStyle}"

@@ -259,7 +259,6 @@ namespace MN.Shell.Modules.FolderExplorer
                 return;
 
             CurrentRenameNode = SelectedNode;
-            CurrentRenameNode.NewName = CurrentRenameNode.Name;
             CurrentRenameNode.IsSelected = true;
             CurrentRenameNode.IsBeingRenamed = true;
         }

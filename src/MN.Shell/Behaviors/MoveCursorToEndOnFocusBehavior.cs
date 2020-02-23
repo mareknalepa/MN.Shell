@@ -13,10 +13,7 @@ namespace MN.Shell.Behaviors
 
         private void OnGotFocus(object sender, RoutedEventArgs e)
         {
-            var focusedElement = Keyboard.FocusedElement;
-
             Keyboard.Focus(AssociatedObject);
-
 
             AssociatedObject.Focus();
             AssociatedObject.CaretIndex = AssociatedObject.Text.Length;
