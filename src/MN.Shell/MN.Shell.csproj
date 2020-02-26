@@ -111,6 +111,7 @@
     <Compile Include="Framework\Tree\TreeViewBindableSelectedItemBehavior.cs" />
     <Compile Include="Framework\Tree\TreeNodeBase.cs" />
     <Compile Include="Framework\Tree\TreeNodeBindingBehavior.cs" />
+    <Compile Include="Modules\FolderExplorer\ComputerViewModel.cs" />
     <Compile Include="Modules\FolderExplorer\DirectoryViewModel.cs" />
     <Compile Include="Modules\FolderExplorer\DriveViewModel.cs" />
     <Compile Include="Modules\FolderExplorer\FileSystemNodeBindingBehavior.cs" />

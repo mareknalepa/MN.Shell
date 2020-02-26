@@ -4,6 +4,7 @@ using MN.Shell.Framework;
 using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.MessageBox;
 using MN.Shell.Framework.Messages;
+using MN.Shell.Framework.Tree;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,8 +24,11 @@ namespace MN.Shell.Modules.FolderExplorer
             _eventAggregator = eventAggregator;
             _messageBoxManager = messageBoxManager;
 
+            Root = new ComputerViewModel();
+            RootSource = new ReadOnlyCollection<TreeNodeBase>(new[] { Root });
+
             ReloadCommand = new RelayCommand(o => ReloadFolders());
-            CollapseAllCommand = new RelayCommand(o => CollapseAll());
+            CollapseAllCommand = new RelayCommand(o => Root.CollapseAll());
 
             NewDirectoryCommand = new RelayCommand(o => NewNode(isDirectory: true),
                 o => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
@@ -65,12 +69,13 @@ namespace MN.Shell.Modules.FolderExplorer
 
         public override double AutoHideMinWidth => 320;
 
-        public ObservableCollection<DirectoryViewModel> Folders { get; }
-            = new ObservableCollection<DirectoryViewModel>();
+        public TreeNodeBase Root { get; }
 
-        private FileSystemNodeViewModel _selectedNode;
+        public IEnumerable<TreeNodeBase> RootSource { get; }
 
-        public FileSystemNodeViewModel SelectedNode
+        private TreeNodeBase _selectedNode;
+
+        public TreeNodeBase SelectedNode
         {
             get => _selectedNode;
             set
@@ -162,9 +167,7 @@ namespace MN.Shell.Modules.FolderExplorer
         {
             var selectedDirectory = SelectedDirectory;
 
-            Folders.Clear();
-            foreach (var drive in DriveInfo.GetDrives())
-                Folders.Add(new DriveViewModel(drive));
+            Root.ReloadChildren();
 
             if (selectedDirectory != null)
                 TrySelectFolder(selectedDirectory.Directory.FullName);
@@ -177,7 +180,7 @@ namespace MN.Shell.Modules.FolderExplorer
                 return;
 
             components[0] += Path.DirectorySeparatorChar;
-            IEnumerable<DirectoryViewModel> searchIn = Folders;
+            IEnumerable<DirectoryViewModel> searchIn = Root.Children.OfType<DirectoryViewModel>();
 
             foreach (var component in components)
             {
@@ -189,11 +192,6 @@ namespace MN.Shell.Modules.FolderExplorer
                 foundNode.IsSelected = true;
                 searchIn = foundNode.Children.OfType<DirectoryViewModel>();
             }
-        }
-
-        public void CollapseAll()
-        {
-            ForEachNode(node => node.CollapseAllCommand.Execute(null));
         }
 
         private void NewNode(bool isDirectory)
@@ -255,10 +253,10 @@ namespace MN.Shell.Modules.FolderExplorer
 
         private void RenameNode()
         {
-            if (SelectedNode == null || !(SelectedNode is DirectoryViewModel || SelectedNode is FileViewModel))
+            if (SelectedNode == null || !(SelectedNode is FileSystemNodeViewModel fileSystemNode))
                 return;
 
-            CurrentRenameNode = SelectedNode;
+            CurrentRenameNode = fileSystemNode;
             CurrentRenameNode.IsSelected = true;
             CurrentRenameNode.IsBeingRenamed = true;
         }
@@ -305,7 +303,8 @@ namespace MN.Shell.Modules.FolderExplorer
 
         private void DeleteNode()
         {
-            if (SelectedNode == null || SelectedNode.Parent == null)
+            if (SelectedNode == null || SelectedNode.Parent == null ||
+                !(SelectedNode is FileSystemNodeViewModel fileSystemNode))
                 return;
 
             if (_messageBoxManager.Show("Confirmation",
@@ -315,20 +314,14 @@ namespace MN.Shell.Modules.FolderExplorer
 
             try
             {
-                FileSystemOperations.SendToRecycleBin(SelectedNode.ElementInfo.FullName);
+                FileSystemOperations.SendToRecycleBin(fileSystemNode.ElementInfo.FullName);
                 SelectedNode.Parent.IsSelected = true;
                 SelectedNode.ReloadChildren();
             }
             catch (Exception e)
             {
-                SelectedNode.ErrorMessage = e.Message;
+                fileSystemNode.ErrorMessage = e.Message;
             }
-        }
-
-        private void ForEachNode(Action<FileSystemNodeViewModel> action)
-        {
-            foreach (var node in Folders)
-                action.Invoke(node);
         }
     }
 }

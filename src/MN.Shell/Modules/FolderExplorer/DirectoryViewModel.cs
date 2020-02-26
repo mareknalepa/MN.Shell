@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 
 namespace MN.Shell.Modules.FolderExplorer
 {
@@ -26,12 +25,6 @@ namespace MN.Shell.Modules.FolderExplorer
             {
                 AttachChild(new SpecialNodeViewModel(e));
             }
-        }
-
-        protected void ForEachChildDirectory(Action<DirectoryViewModel> action)
-        {
-            foreach (var child in Children.OfType<DirectoryViewModel>())
-                action.Invoke(child);
         }
     }
 }

@@ -62,7 +62,7 @@
             </ToolBar>
         </ToolBarTray>
 
-        <TreeView Grid.Row="1" ItemsSource="{Binding Folders}">
+        <TreeView Grid.Row="1" ItemsSource="{Binding RootSource}">
             <i:Interaction.Behaviors>
                 <local:FileSystemNodeBindingBehavior ShowHidden="{Binding ShowHidden}"
                                                      ShowSystem="{Binding ShowSystem}"
@@ -71,6 +71,22 @@
             </i:Interaction.Behaviors>
 
             <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:ComputerViewModel}"
+                                          ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="Icon" Text="&#xE7F4;" Style="{StaticResource IconTextBlockStyle}"
+                                   Margin="1,1,8,1"/>
+                        <TextBlock x:Name="NameLabel" Text="{Binding Name}" Margin="1,1,8,1"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type local:DriveViewModel}"
+                                          ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="Icon" Text="&#xE967;" Style="{StaticResource IconTextBlockStyle}"
+                                   Margin="1,1,8,1"/>
+                        <TextBlock x:Name="NameLabel" Text="{Binding Name}" Margin="1,1,8,1"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type local:FileSystemNodeViewModel}"
                                           ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal" FocusManager.FocusedElement="{Binding ElementName=RenameBox}"

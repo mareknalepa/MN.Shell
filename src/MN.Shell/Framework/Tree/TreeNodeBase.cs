@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using MN.Shell.Core;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -22,7 +23,9 @@ namespace MN.Shell.Framework.Tree
             set { _name = value; NotifyOfPropertyChange(); }
         }
 
-        public ObservableCollection<TreeNodeBase> Children { get; } = new ObservableCollection<TreeNodeBase>();
+        private readonly ObservableCollection<TreeNodeBase> _children = new ObservableCollection<TreeNodeBase>();
+
+        public IEnumerable<TreeNodeBase> Children => _children;
 
         private TreeNodeBase _parent;
 
@@ -43,9 +46,9 @@ namespace MN.Shell.Framework.Tree
                 NotifyOfPropertyChange();
                 if (_isExpanded && Parent != null && !_suppressExpandingParent)
                     Parent.IsExpanded = true;
-                if (_isExpanded && Children.Count == 1 && Children[0] == _lazyLoadingNode)
+                if (_isExpanded && _children.Count == 1 && _children[0] == _lazyLoadingNode)
                 {
-                    Children.Remove(_lazyLoadingNode);
+                    _children.Remove(_lazyLoadingNode);
                     LoadChildren();
                 }
             }
@@ -76,45 +79,49 @@ namespace MN.Shell.Framework.Tree
         public TreeNodeBase(bool isLazyLoadable = false)
         {
             if (isLazyLoadable)
-                Children.Add(_lazyLoadingNode);
+                _children.Add(_lazyLoadingNode);
 
             ExpandAllCommand = new RelayCommand(o => ExpandAll());
             CollapseAllCommand = new RelayCommand(o => CollapseAll());
         }
 
-        public void AttachChild(TreeNodeBase child, int index = -1)
+        public void ClearChildren()
         {
-            if (index < 0)
-                Children.Add(child);
-            else
-                Children.Insert(index, child);
-            child.Parent = this;
-        }
-
-        public void DetachChild(TreeNodeBase child)
-        {
-            Children.Remove(child);
-            if (child.Parent == this)
-                child.Parent = null;
-        }
-
-        public void ReloadChildren()
-        {
-            var previousChildren = Children.ToList();
-            Children.Clear();
+            var previousChildren = _children.ToList();
+            _children.Clear();
 
             foreach (var child in previousChildren)
             {
                 if (child.Parent == this)
                     child.Parent = null;
             }
+        }
 
+        public void AttachChild(TreeNodeBase child, int index = -1)
+        {
+            if (index < 0)
+                _children.Add(child);
+            else
+                _children.Insert(index, child);
+            child.Parent = this;
+        }
+
+        public void DetachChild(TreeNodeBase child)
+        {
+            _children.Remove(child);
+            if (child.Parent == this)
+                child.Parent = null;
+        }
+
+        public void ReloadChildren()
+        {
+            ClearChildren();
             LoadChildren();
         }
 
         protected virtual void LoadChildren() { }
 
-        private void ExpandAll()
+        public void ExpandAll()
         {
             _suppressExpandingParent = true;
             IsExpanded = true;
@@ -123,7 +130,7 @@ namespace MN.Shell.Framework.Tree
                 child.ExpandAll();
         }
 
-        private void CollapseAll()
+        public void CollapseAll()
         {
             IsExpanded = false;
             foreach (var child in Children)

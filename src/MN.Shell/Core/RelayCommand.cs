@@ -5,8 +5,8 @@ namespace MN.Shell.Core
 {
     public class RelayCommand : ICommand
     {
-        protected Action<object> _execute;
-        protected Func<object, bool> _canExecute;
+        protected readonly Action<object> _execute;
+        protected readonly Func<object, bool> _canExecute;
 
         public event EventHandler CanExecuteChanged
         {
@@ -27,7 +27,8 @@ namespace MN.Shell.Core
 
         public void Execute(object parameter)
         {
-            _execute.Invoke(parameter);
+            if (CanExecute(parameter))
+                _execute.Invoke(parameter);
         }
     }
 }
