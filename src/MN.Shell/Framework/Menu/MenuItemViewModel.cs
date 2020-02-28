@@ -12,7 +12,7 @@ namespace MN.Shell.Framework.Menu
         public string Name
         {
             get => _name;
-            set => Set(ref _name, value);
+            set { _name = value; NotifyOfPropertyChange(); }
         }
 
         public ObservableCollection<MenuItemViewModel> SubItems { get; }
@@ -23,7 +23,7 @@ namespace MN.Shell.Framework.Menu
         public Uri Icon
         {
             get => _icon;
-            set => Set(ref _icon, value);
+            set { _icon = value; NotifyOfPropertyChange(); }
         }
 
         public bool IsCheckable { get; set; }
@@ -38,10 +38,11 @@ namespace MN.Shell.Framework.Menu
             set
             {
                 if (_isChecked != value)
+                {
+                    _isChecked = value;
+                    NotifyOfPropertyChange();
                     OnIsCheckedChanged?.Invoke(value);
-
-                _isChecked = value;
-                NotifyOfPropertyChange();
+                }
             }
         }
 
@@ -50,7 +51,7 @@ namespace MN.Shell.Framework.Menu
         public ICommand Command
         {
             get => _command;
-            set => Set(ref _command, value);
+            set { _command = value; NotifyOfPropertyChange(); }
         }
 
         private bool _fitsIntoMainMenu;
@@ -58,7 +59,7 @@ namespace MN.Shell.Framework.Menu
         public bool FitsIntoMainMenu
         {
             get => _fitsIntoMainMenu;
-            set => Set(ref _fitsIntoMainMenu, value);
+            set { _fitsIntoMainMenu = value; NotifyOfPropertyChange(); }
         }
 
         public bool IsSeparator { get; set; }

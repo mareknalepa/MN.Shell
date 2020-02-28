@@ -33,10 +33,10 @@ namespace MN.Shell.Framework.Docking
 
                 pane.Children.Add(anchorableToShow);
 
-                if (pane.DockMinWidth < tool.InitialMinWidth)
-                    pane.DockMinWidth = tool.InitialMinWidth;
-                if (pane.DockMinHeight < tool.InitialMinHeight)
-                    pane.DockMinHeight = tool.InitialMinHeight;
+                if (pane.DockMinWidth < tool.MinWidth)
+                    pane.DockMinWidth = tool.MinWidth;
+                if (pane.DockMinHeight < tool.MinHeight)
+                    pane.DockMinHeight = tool.MinHeight;
 
                 return true;
             }

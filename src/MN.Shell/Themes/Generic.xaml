@@ -21,7 +21,10 @@
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/ScrollViewer.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/StatusBar.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/TabControl.xaml"/>
+        <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/TextBlock.xaml"/>
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/TextBox.xaml"/>
+        <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/ToolBar.xaml"/>
+        <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/TreeView.xaml"/>
 
         <!-- Custom WPF controls -->
         <ResourceDictionary Source="/MN.Shell;component/Themes/Controls/AvalonDock.xaml"/>

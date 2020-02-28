@@ -56,6 +56,8 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Behaviors\KeyboardFocusBehavior.cs" />
+    <Compile Include="Behaviors\MoveCursorToEndOnFocusBehavior.cs" />
     <Compile Include="Behaviors\PlaceOnTitleBarBehavior.cs" />
     <Compile Include="Controls\DialogButtons.cs" />
     <Compile Include="Controls\ShellMenuItemsPanel.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="Framework\MessageBox\MessageBoxButtons.cs" />
     <Compile Include="Framework\MessageBox\MessageBoxManager.cs" />
     <Compile Include="Framework\MessageBox\MessageBoxType.cs" />
+    <Compile Include="Framework\Messages\FolderChangedMessage.cs" />
     <Compile Include="Framework\StatusBar\IStatusBarAggregator.cs" />
     <Compile Include="Framework\StatusBar\IStatusBarProvider.cs" />
     <Compile Include="Framework\StatusBar\StatusBarAggregator.cs" />
@@ -104,6 +107,23 @@
     <Compile Include="Framework\StatusBar\StatusBarSide.cs" />
     <Compile Include="Framework\ToolBase.cs" />
     <Compile Include="Framework\ToolPosition.cs" />
+    <Compile Include="Framework\Tree\TreeNodeBringIntoViewBehavior.cs" />
+    <Compile Include="Framework\Tree\TreeViewBindableSelectedItemBehavior.cs" />
+    <Compile Include="Framework\Tree\TreeNodeBase.cs" />
+    <Compile Include="Framework\Tree\TreeNodeBindingBehavior.cs" />
+    <Compile Include="Modules\FolderExplorer\ComputerViewModel.cs" />
+    <Compile Include="Modules\FolderExplorer\DirectoryViewModel.cs" />
+    <Compile Include="Modules\FolderExplorer\DriveViewModel.cs" />
+    <Compile Include="Modules\FolderExplorer\FileSystemNodeBindingBehavior.cs" />
+    <Compile Include="Modules\FolderExplorer\FileSystemNodeViewModel.cs" />
+    <Compile Include="Modules\FolderExplorer\FileSystemOperations.cs" />
+    <Compile Include="Modules\FolderExplorer\FileViewModel.cs" />
+    <Compile Include="Modules\FolderExplorer\FolderExplorerView.xaml.cs">
+      <DependentUpon>FolderExplorerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\FolderExplorer\FolderExplorerViewModel.cs" />
+    <Compile Include="Modules\FolderExplorer\InsertNodeViewModel.cs" />
+    <Compile Include="Modules\FolderExplorer\SpecialNodeViewModel.cs" />
     <Compile Include="Modules\MainModule.cs" />
     <Compile Include="Modules\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -116,6 +136,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Modules\FolderExplorer\FolderExplorerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modules\Shell\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -212,9 +236,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Controls\TextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Controls\TextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Controls\ToolBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\TreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Controls\XamlIcon.xaml">
       <SubType>Designer</SubType>
@@ -245,6 +281,9 @@
   <ItemGroup>
     <Resource Include="Resources\mnshell.ico" />
     <Resource Include="Resources\mnshell.xcf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Framework\FolderExplorer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

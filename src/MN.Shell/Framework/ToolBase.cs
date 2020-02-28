@@ -9,18 +9,18 @@ namespace MN.Shell.Framework
         public bool IsVisible
         {
             get => _isVisible;
-            set => Set(ref _isVisible, value);
+            set { _isVisible = value; NotifyOfPropertyChange(); }
         }
 
-        public ToolPosition InitialPosition { get; protected set; } = ToolPosition.Right;
+        public virtual ToolPosition InitialPosition => ToolPosition.Right;
 
-        public double InitialMinWidth { get; protected set; } = 200;
+        public virtual double MinWidth => 200;
 
-        public double InitialMinHeight { get; protected set; } = 200;
+        public virtual double MinHeight => 200;
 
-        public double AutoHideMinWidth { get; protected set; } = 200;
+        public virtual double AutoHideMinWidth => 200;
 
-        public double AutoHideMinHeight { get; protected set; } = 200;
+        public virtual double AutoHideMinHeight => 200;
 
         public ToolBase()
         {

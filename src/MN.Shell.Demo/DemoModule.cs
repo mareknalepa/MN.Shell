@@ -1,11 +1,11 @@
 ﻿using MN.Shell.Demo.ControlsDemo;
-using MN.Shell.Demo.FolderExplorer;
 using MN.Shell.Demo.Output;
 using MN.Shell.Demo.ProgressBars;
 using MN.Shell.Demo.TabbedInterface;
 using MN.Shell.Framework;
 using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.StatusBar;
+using MN.Shell.Modules.FolderExplorer;
 using Ninject.Modules;
 
 namespace MN.Shell.Demo

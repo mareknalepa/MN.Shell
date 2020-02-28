@@ -7,7 +7,7 @@
             <DrawingGroup>
                 <GeometryDrawing Brush="Transparent">
                     <GeometryDrawing.Geometry>
-                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,256,256" />
+                        <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,256,256"/>
                     </GeometryDrawing.Geometry>
                 </GeometryDrawing>
                 <GeometryDrawing Brush="{DynamicResource AccentBaseBrush}">
@@ -18,9 +18,9 @@
                                     <PathFigure IsClosed="True" StartPoint="30,64">
                                         <PathFigure.Segments>
                                             <PathSegmentCollection>
-                                                <LineSegment Point="192,30" />
-                                                <LineSegment Point="192,225" />
-                                                <LineSegment Point="30,192" />
+                                                <LineSegment Point="192,30"/>
+                                                <LineSegment Point="192,225"/>
+                                                <LineSegment Point="30,192"/>
                                             </PathSegmentCollection>
                                         </PathFigure.Segments>
                                     </PathFigure>
@@ -37,9 +37,9 @@
                                     <PathFigure IsClosed="True" StartPoint="192,30">
                                         <PathFigure.Segments>
                                             <PathSegmentCollection>
-                                                <LineSegment Point="225,64" />
-                                                <LineSegment Point="225,192" />
-                                                <LineSegment Point="192,225" />
+                                                <LineSegment Point="225,64"/>
+                                                <LineSegment Point="225,192"/>
+                                                <LineSegment Point="192,225"/>
                                             </PathSegmentCollection>
                                         </PathFigure.Segments>
                                     </PathFigure>

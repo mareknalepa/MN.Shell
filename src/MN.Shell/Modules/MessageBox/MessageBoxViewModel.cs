@@ -13,7 +13,7 @@ namespace MN.Shell.Modules.MessageBox
         public string Message
         {
             get => _message;
-            set => Set(ref _message, value);
+            set { _message = value; NotifyOfPropertyChange(); }
         }
 
         private MessageBoxType _type;
@@ -21,7 +21,7 @@ namespace MN.Shell.Modules.MessageBox
         public MessageBoxType Type
         {
             get => _type;
-            set => Set(ref _type, value);
+            set { _type = value; NotifyOfPropertyChange(); }
         }
 
         public ObservableCollection<DialogButton> Buttons { get; } = new ObservableCollection<DialogButton>();

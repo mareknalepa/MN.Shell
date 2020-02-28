@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MN.Shell.Demo.FolderExplorer
+namespace MN.Shell.Modules.FolderExplorer
 {
     /// <summary>
     /// Interaction logic for FolderExplorerView.xaml

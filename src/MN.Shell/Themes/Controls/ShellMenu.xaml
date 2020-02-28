@@ -18,7 +18,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate>
-                                    <Separator Style="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}" />
+                                    <Separator Style="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}"/>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
