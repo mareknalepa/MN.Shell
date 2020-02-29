@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <Version>0.1.0</Version>
+    <Authors>Marek Nalepa</Authors>
+    <Product>MN.Shell</Product>
+    <Description>Lightweight MVVM framework for WPF on .NET Core and .NET Framework using ViewModel-first approach</Description>
+    <Copyright>Copyright © Marek Nalepa 2020</Copyright>
+    <RepositoryUrl>https://github.com/mareknalepa/MN.Shell</RepositoryUrl>
+    <PackageIcon>mnshell.png</PackageIcon>
+    <PackageTags>WPF,MVVM,ViewModel-first</PackageTags>
+    <PackageIconUrl />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\mnshell.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
