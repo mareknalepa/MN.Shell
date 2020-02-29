@@ -9,14 +9,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MN.Shell.Demo", "MN.Shell.D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{39728C81-44A5-45E1-8FDB-65DDFC482A77}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MN.Shell.Tests", "MN.Shell.Tests\MN.Shell.Tests.csproj", "{097E4C4F-7283-4F92-A1D7-5DB8B65F4975}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MN.Shell.MVVM", "MN.Shell.MVVM\MN.Shell.MVVM.csproj", "{17357901-C882-422C-8B82-4D62E5533A80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.MVVM", "MN.Shell.MVVM\MN.Shell.MVVM.csproj", "{17357901-C882-422C-8B82-4D62E5533A80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MN.Shell.MVVM.Tests", "MN.Shell.MVVM.Tests\MN.Shell.MVVM.Tests.csproj", "{552C0631-20C9-4E02-9281-02B2140F9D7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.MVVM.Tests", "MN.Shell.MVVM.Tests\MN.Shell.MVVM.Tests.csproj", "{552C0631-20C9-4E02-9281-02B2140F9D7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
