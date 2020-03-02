@@ -68,6 +68,25 @@ namespace MN.Shell.MVVM.Tests
             Assert.Throws<ArgumentNullException>(() => _viewManager.BindViewToViewModel(view, null));
             Assert.Throws<ArgumentNullException>(() => _viewManager.BindViewToViewModel(null, null));
         }
+
+        [Test]
+        public void GetViewForTest()
+        {
+            var viewModel = new Example1.Example1ViewModel();
+
+            var view = _viewManager.GetViewFor(viewModel);
+            Assert.NotNull(view);
+            Assert.AreEqual(typeof(Example1.Example1View), view.GetType());
+            Assert.AreSame(viewModel, view.DataContext);
+
+            Assert.Throws<ArgumentNullException>(() => _viewManager.GetViewFor(null));
+
+            Assert.Throws<ViewManagerException>(() => _viewManager.GetViewFor(
+                new Example2.Example2ViewModel()));
+
+            Assert.Throws<ViewManagerException>(() => _viewManager.GetViewFor(
+                new Example3.Example3InvalidName()));
+        }
     }
 
     namespace Example1

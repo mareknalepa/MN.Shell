@@ -28,5 +28,12 @@ namespace MN.Shell.MVVM
         /// <param name="view">View to bind</param>
         /// <param name="viewModel">ViewModel to bind to</param>
         void BindViewToViewModel(FrameworkElement view, object viewModel);
+
+        /// <summary>
+        /// Returns ready to use View binded to given ViewModel
+        /// </summary>
+        /// <param name="viewModel">ViewModel to get View for</param>
+        /// <returns>Ready to use View</returns>
+        FrameworkElement GetViewFor(object viewModel);
     }
 }

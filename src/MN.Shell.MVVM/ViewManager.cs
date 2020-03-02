@@ -18,8 +18,8 @@ namespace MN.Shell.MVVM
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
 
-            Type viewModelType = viewModel.GetType();
-            string targetViewTypeName = viewModelType.FullName.Replace("ViewModel", "View");
+            var viewModelType = viewModel.GetType();
+            var targetViewTypeName = viewModelType.FullName.Replace("ViewModel", "View");
 
             if (viewModelType.FullName == targetViewTypeName)
                 throw new ViewManagerException($"Cannot transform ViewModel type [{viewModelType.FullName}] " +
@@ -76,6 +76,20 @@ namespace MN.Shell.MVVM
                 throw new ArgumentNullException(nameof(viewModel));
 
             view.DataContext = viewModel;
+        }
+
+        /// <summary>
+        /// Returns ready to use View binded to given ViewModel
+        /// </summary>
+        /// <param name="viewModel">ViewModel to get View for</param>
+        /// <returns>Ready to use View</returns>
+        public FrameworkElement GetViewFor(object viewModel)
+        {
+            var viewType = LocateViewFor(viewModel);
+            var view = CreateViewFor(viewType);
+            BindViewToViewModel(view, viewModel);
+
+            return view;
         }
     }
 }
