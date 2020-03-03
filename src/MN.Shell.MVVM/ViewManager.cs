@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace MN.Shell.MVVM
@@ -8,6 +9,8 @@ namespace MN.Shell.MVVM
     /// </summary>
     public class ViewManager : IViewManager
     {
+        private readonly Dictionary<Type, Type> _mappingsCache = new Dictionary<Type, Type>();
+
         /// <summary>
         /// Creates or reuses instance of View for given ViewModel, binds them together and returns it
         /// </summary>
@@ -39,21 +42,26 @@ namespace MN.Shell.MVVM
             if (viewModelType == null)
                 throw new ArgumentNullException(nameof(viewModelType));
 
+            if (_mappingsCache.TryGetValue(viewModelType, out var cachedViewType))
+                return cachedViewType;
+
 #pragma warning disable CA1307 // Specify StringComparison
-            var viewType = viewModelType.FullName.Replace("ViewModel", "View");
+            var viewTypeName = viewModelType.FullName.Replace("ViewModel", "View");
 #pragma warning restore CA1307 // Specify StringComparison
 
-            if (viewModelType.FullName == viewType)
-                throw new ViewManagerException($"Cannot transform ViewModel type [{viewModelType.FullName}] " +
+            if (viewModelType.FullName == viewTypeName)
+                throw new InvalidOperationException($"Cannot transform ViewModel type [{viewModelType.FullName}] " +
                     "into matching View type");
 
             try
             {
-                return viewModelType.Assembly.GetType(viewType, throwOnError: true);
+                var viewType = viewModelType.Assembly.GetType(viewTypeName, throwOnError: true);
+                _mappingsCache.Add(viewModelType, viewType);
+                return viewType;
             }
             catch (Exception e)
             {
-                throw new ViewManagerException($"Cannot load View type [{viewType}]", e);
+                throw new InvalidOperationException($"Cannot load View type [{viewTypeName}]", e);
             }
         }
 
@@ -74,13 +82,13 @@ namespace MN.Shell.MVVM
             }
             catch (Exception e)
             {
-                throw new ViewManagerException($"Cannot create View for ViewModel [{viewType.FullName}]", e);
+                throw new InvalidOperationException($"Cannot create View for ViewModel [{viewType.FullName}]", e);
             }
 
             if (createdInstance is FrameworkElement viewInstance)
                 return viewInstance;
 
-            throw new ViewManagerException($"Created instance for View type [{viewType.FullName}] " +
+            throw new InvalidOperationException($"Created instance for View type [{viewType.FullName}] " +
                 "is not a FrameworkElement");
         }
 
@@ -94,10 +102,7 @@ namespace MN.Shell.MVVM
             if (view == null)
                 throw new ArgumentNullException(nameof(view));
 
-            if (viewModel == null)
-                throw new ArgumentNullException(nameof(viewModel));
-
-            view.DataContext = viewModel;
+            view.DataContext = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
 
             if (viewModel is IViewAware viewAware)
                 viewAware.AttachView(view);

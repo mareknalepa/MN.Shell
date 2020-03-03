@@ -21,10 +21,11 @@ namespace MN.Shell.MVVM.Tests
         public void GetViewForTest()
         {
             var viewModel = new Example1.Example1ViewModel();
+            var expectedViewType = new Example1.Example1View();
 
             var view = _viewManager.GetViewFor(viewModel);
             Assert.NotNull(view);
-            Assert.AreEqual(typeof(Example1.Example1View), view.GetType());
+            Assert.AreEqual(expectedViewType.GetType(), view.GetType());
             Assert.AreSame(viewModel, view.DataContext);
         }
 
@@ -33,16 +34,16 @@ namespace MN.Shell.MVVM.Tests
         {
             Assert.Throws<ArgumentNullException>(() => _viewManager.GetViewFor(null));
 
-            Assert.Throws<ViewManagerException>(() => _viewManager.GetViewFor(
+            Assert.Throws<InvalidOperationException>(() => _viewManager.GetViewFor(
                 new Example2.Example2ViewModel()));
 
-            Assert.Throws<ViewManagerException>(() => _viewManager.GetViewFor(
+            Assert.Throws<InvalidOperationException>(() => _viewManager.GetViewFor(
                 new Example3.Example3InvalidName()));
 
-            Assert.Throws<ViewManagerException>(() => _viewManager.GetViewFor(
+            Assert.Throws<InvalidOperationException>(() => _viewManager.GetViewFor(
                 new Example4.Example4InvalidViewModel()));
 
-            Assert.Throws<ViewManagerException>(() => _viewManager.GetViewFor(
+            Assert.Throws<InvalidOperationException>(() => _viewManager.GetViewFor(
                 new Example5.Example5AbstractViewModel()));
         }
 
@@ -107,41 +108,39 @@ namespace MN.Shell.MVVM.Tests
 
     namespace Example1
     {
-        class Example1ViewModel { }
-        class Example1View : Control { }
+        public class Example1ViewModel { }
+        public class Example1View : Control { }
     }
 
     namespace Example2
     {
-        class Example2ViewModel { }
+        public class Example2ViewModel { }
     }
 
     namespace Example3
     {
-        class Example3InvalidName { }
+        public class Example3InvalidName { }
     }
 
     namespace Example4
     {
-        class Example4InvalidViewModel { }
-        class Example4InvalidView { }
+        public class Example4InvalidViewModel { }
+        public class Example4InvalidView { }
     }
 
     namespace Example5
     {
-        class Example5AbstractViewModel { }
-#pragma warning disable 0169
-        abstract class Example5AbstractView { }
-#pragma warning restore 0169
+        public class Example5AbstractViewModel { }
+        public abstract class Example5AbstractView { }
     }
 
     namespace Example6
     {
-        class Example6ViewModel : IViewAware
+        public class Example6ViewModel : IViewAware
         {
             public FrameworkElement View { get; private set; }
             public void AttachView(FrameworkElement view) => View = view;
         }
-        class Example6View : Control { }
+        public class Example6View : Control { }
     }
 }
