@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 namespace MN.Shell.MVVM
 {
@@ -9,31 +8,10 @@ namespace MN.Shell.MVVM
     public interface IViewManager
     {
         /// <summary>
-        /// Finds type of View for given ViewModel
+        /// Creates or reuses instance of View for given ViewModel, binds them together and returns it
         /// </summary>
-        /// <param name="viewModel">ViewModel to find View for</param>
-        /// <returns>View type</returns>
-        Type LocateViewFor(object viewModel);
-
-        /// <summary>
-        /// Creates instance of View for given View type
-        /// </summary>
-        /// <param name="viewType">View type</param>
-        /// <returns>Instance of View</returns>
-        FrameworkElement CreateViewFor(Type viewType);
-
-        /// <summary>
-        /// Bind View to ViewModel by setting the DataContext
-        /// </summary>
-        /// <param name="view">View to bind</param>
-        /// <param name="viewModel">ViewModel to bind to</param>
-        void BindViewToViewModel(FrameworkElement view, object viewModel);
-
-        /// <summary>
-        /// Returns ready to use View binded to given ViewModel
-        /// </summary>
-        /// <param name="viewModel">ViewModel to get View for</param>
-        /// <returns>Ready to use View</returns>
+        /// <param name="viewModel">ViewModel to create or reuse View for</param>
+        /// <returns>View instance binded to given ViewModel, ready to use</returns>
         FrameworkElement GetViewFor(object viewModel);
     }
 }

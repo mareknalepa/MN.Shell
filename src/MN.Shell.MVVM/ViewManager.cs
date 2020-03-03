@@ -9,29 +9,51 @@ namespace MN.Shell.MVVM
     public class ViewManager : IViewManager
     {
         /// <summary>
-        /// Finds type of View for given ViewModel
+        /// Creates or reuses instance of View for given ViewModel, binds them together and returns it
         /// </summary>
-        /// <param name="viewModel">ViewModel to find View for</param>
-        /// <returns>View type</returns>
-        public virtual Type LocateViewFor(object viewModel)
+        /// <param name="viewModel">ViewModel to create or reuse View for</param>
+        /// <returns>View instance binded to given ViewModel, ready to use</returns>
+        public FrameworkElement GetViewFor(object viewModel)
         {
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
 
-            var viewModelType = viewModel.GetType();
-            var targetViewTypeName = viewModelType.FullName.Replace("ViewModel", "View");
+            if (viewModel is IViewAware viewAware && viewAware.View != null)
+                return viewAware.View;
 
-            if (viewModelType.FullName == targetViewTypeName)
+            var viewType = TransformViewModelTypeToViewType(viewModel.GetType());
+            var view = CreateView(viewType);
+
+            BindViewToViewModel(view, viewModel);
+
+            return view;
+        }
+
+        /// <summary>
+        ///  Transforms ViewModel type into corresponding View type
+        /// </summary>
+        /// <param name="viewModelType">Type of ViewModel</param>
+        /// <returns>Type of corresponding View</returns>
+        protected virtual Type TransformViewModelTypeToViewType(Type viewModelType)
+        {
+            if (viewModelType == null)
+                throw new ArgumentNullException(nameof(viewModelType));
+
+#pragma warning disable CA1307 // Specify StringComparison
+            var viewType = viewModelType.FullName.Replace("ViewModel", "View");
+#pragma warning restore CA1307 // Specify StringComparison
+
+            if (viewModelType.FullName == viewType)
                 throw new ViewManagerException($"Cannot transform ViewModel type [{viewModelType.FullName}] " +
                     "into matching View type");
 
             try
             {
-                return viewModelType.Assembly.GetType(targetViewTypeName, throwOnError: true);
+                return viewModelType.Assembly.GetType(viewType, throwOnError: true);
             }
             catch (Exception e)
             {
-                throw new ViewManagerException($"Cannot load View type [{targetViewTypeName}]", e);
+                throw new ViewManagerException($"Cannot load View type [{viewType}]", e);
             }
         }
 
@@ -40,7 +62,7 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="viewType">View type</param>
         /// <returns>Instance of View</returns>
-        public virtual FrameworkElement CreateViewFor(Type viewType)
+        protected virtual FrameworkElement CreateView(Type viewType)
         {
             if (viewType == null)
                 throw new ArgumentNullException(nameof(viewType));
@@ -67,7 +89,7 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="view">View to bind</param>
         /// <param name="viewModel">ViewModel to bind to</param>
-        public virtual void BindViewToViewModel(FrameworkElement view, object viewModel)
+        protected virtual void BindViewToViewModel(FrameworkElement view, object viewModel)
         {
             if (view == null)
                 throw new ArgumentNullException(nameof(view));
@@ -76,20 +98,9 @@ namespace MN.Shell.MVVM
                 throw new ArgumentNullException(nameof(viewModel));
 
             view.DataContext = viewModel;
-        }
 
-        /// <summary>
-        /// Returns ready to use View binded to given ViewModel
-        /// </summary>
-        /// <param name="viewModel">ViewModel to get View for</param>
-        /// <returns>Ready to use View</returns>
-        public FrameworkElement GetViewFor(object viewModel)
-        {
-            var viewType = LocateViewFor(viewModel);
-            var view = CreateViewFor(viewType);
-            BindViewToViewModel(view, viewModel);
-
-            return view;
+            if (viewModel is IViewAware viewAware)
+                viewAware.AttachView(view);
         }
     }
 }
