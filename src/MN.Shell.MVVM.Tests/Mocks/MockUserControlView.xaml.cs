@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace MN.Shell.MVVM.Tests.Mocks
@@ -17,8 +18,16 @@ namespace MN.Shell.MVVM.Tests.Mocks
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Loaded -= OnLoaded;
-            if (DataContext is MockUserControlViewModel mockUserControlViewModel)
-                mockUserControlViewModel.WindowShown = true;
+
+            if (DataContext is MockWindowViewModel mockWindowViewModel)
+            {
+                mockWindowViewModel.WindowShown = true;
+
+                if (Parent is Window parentWindow && parentWindow.Owner != null)
+                    mockWindowViewModel.HasOwnerViewInOwnedWindows = parentWindow.Owner.OwnedWindows
+                        .OfType<Window>()
+                        .Contains(parentWindow);
+            }
 
             if (Parent is Window window)
                 window.Close();

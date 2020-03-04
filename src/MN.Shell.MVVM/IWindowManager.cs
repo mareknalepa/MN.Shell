@@ -1,4 +1,7 @@
-﻿namespace MN.Shell.MVVM
+﻿using System;
+using System.Windows;
+
+namespace MN.Shell.MVVM
 {
     /// <summary>
     /// Service to show windows or dialogs for given ViewModels using ViewModel-first approach
@@ -17,5 +20,10 @@
         /// <param name="viewModel">ViewModel to show dialog for</param>
         /// <returns></returns>
         bool? ShowDialog(object viewModel);
+
+        /// <summary>
+        /// Delegate to get current active Window
+        /// </summary>
+        Func<Window> GetActiveWindow { get; set; }
     }
 }
