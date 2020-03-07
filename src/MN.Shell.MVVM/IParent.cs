@@ -1,7 +1,7 @@
 ﻿namespace MN.Shell.MVVM
 {
     /// <summary>
-    /// Interface for Parent components (i.e. conductors which can manage their children lifecycle)
+    /// Interface for Parent components owning children components
     /// </summary>
     public interface IParent
     {

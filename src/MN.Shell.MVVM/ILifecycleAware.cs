@@ -6,22 +6,27 @@
     public interface ILifecycleAware
     {
         /// <summary>
-        /// Called once on ViewModel when associated View is initialized for the first time
+        /// Specifies the lifecycle state of ViewModel
         /// </summary>
-        void Initialize();
+        LifecycleState State { get; }
 
         /// <summary>
-        /// Called on ViewModel when associated View is activated
+        /// Checks if ViewModel is active
+        /// </summary>
+        bool IsActive { get; }
+
+        /// <summary>
+        /// Activates ViewModel
         /// </summary>
         void Activate();
 
         /// <summary>
-        /// Called on ViewModel when associated View is deactivated
+        /// Deactivates ViewModel
         /// </summary>
         void Deactivate();
 
         /// <summary>
-        /// Called on ViewModel when associated View is closed
+        /// Closes ViewModel
         /// </summary>
         void Close();
     }
