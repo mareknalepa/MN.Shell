@@ -15,7 +15,7 @@ namespace MN.Shell.MVVM
         /// <summary>
         /// Attaches View to this ViewModel
         /// </summary>
-        /// <param name="view"></param>
+        /// <param name="view">View to attach to ViewModel</param>
         void AttachView(FrameworkElement view);
     }
 }
