@@ -92,35 +92,39 @@ namespace MN.Shell.MVVM.Tests
             var message1 = new Message1();
             _messageBus.Publish(message1);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages[0]);
+            Assert.That(listener.ProcessedMessages1, Has.Exactly(1).Items);
+            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
+            Assert.IsEmpty(listener.ProcessedMessages2);
 
             var message2 = new Message2();
             _messageBus.Publish(message2);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(3).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages[0]);
-            Assert.AreSame(message2, listener.ProcessedMessages[1]);
-            Assert.AreSame(message2, listener.ProcessedMessages[2]);
+            Assert.That(listener.ProcessedMessages1, Has.Exactly(2).Items);
+            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
+            Assert.AreSame(message2, listener.ProcessedMessages1[1]);
+            Assert.That(listener.ProcessedMessages2, Has.Exactly(1).Items);
+            Assert.AreSame(message2, listener.ProcessedMessages2[0]);
 
             _messageBus.Unsubscribe<Message1>(listener);
 
             var anotherMessage1 = new Message1();
             _messageBus.Publish(anotherMessage1);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(3).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages[0]);
-            Assert.AreSame(message2, listener.ProcessedMessages[1]);
-            Assert.AreSame(message2, listener.ProcessedMessages[2]);
+            Assert.That(listener.ProcessedMessages1, Has.Exactly(2).Items);
+            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
+            Assert.AreSame(message2, listener.ProcessedMessages1[1]);
+            Assert.That(listener.ProcessedMessages2, Has.Exactly(1).Items);
+            Assert.AreSame(message2, listener.ProcessedMessages2[0]);
 
             var anotherMessage2 = new Message2();
             _messageBus.Publish(anotherMessage2);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(4).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages[0]);
-            Assert.AreSame(message2, listener.ProcessedMessages[1]);
-            Assert.AreSame(message2, listener.ProcessedMessages[2]);
-            Assert.AreSame(anotherMessage2, listener.ProcessedMessages[3]);
+            Assert.That(listener.ProcessedMessages1, Has.Exactly(2).Items);
+            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
+            Assert.AreSame(message2, listener.ProcessedMessages1[1]);
+            Assert.That(listener.ProcessedMessages2, Has.Exactly(2).Items);
+            Assert.AreSame(message2, listener.ProcessedMessages2[0]);
+            Assert.AreSame(anotherMessage2, listener.ProcessedMessages2[1]);
         }
 
         [Test]
@@ -133,37 +137,41 @@ namespace MN.Shell.MVVM.Tests
             var message1 = new Message1();
             _messageBus.Publish(message1);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages[0]);
+            Assert.That(listener.ProcessedMessages1, Has.Exactly(1).Items);
+            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
+            Assert.IsEmpty(listener.ProcessedMessages2);
 
             var message2 = new Message2();
             _messageBus.Publish(message2);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(3).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages[0]);
-            Assert.AreSame(message2, listener.ProcessedMessages[1]);
-            Assert.AreSame(message2, listener.ProcessedMessages[2]);
+            Assert.That(listener.ProcessedMessages1, Has.Exactly(2).Items);
+            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
+            Assert.AreSame(message2, listener.ProcessedMessages1[1]);
+            Assert.That(listener.ProcessedMessages2, Has.Exactly(1).Items);
+            Assert.AreSame(message2, listener.ProcessedMessages2[0]);
 
             _messageBus.Unsubscribe<Message2>(listener);
 
             var anotherMessage1 = new Message1();
             _messageBus.Publish(anotherMessage1);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(4).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages[0]);
-            Assert.AreSame(message2, listener.ProcessedMessages[1]);
-            Assert.AreSame(message2, listener.ProcessedMessages[2]);
-            Assert.AreSame(anotherMessage1, listener.ProcessedMessages[3]);
+            Assert.That(listener.ProcessedMessages1, Has.Exactly(3).Items);
+            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
+            Assert.AreSame(message2, listener.ProcessedMessages1[1]);
+            Assert.AreSame(anotherMessage1, listener.ProcessedMessages1[2]);
+            Assert.That(listener.ProcessedMessages2, Has.Exactly(1).Items);
+            Assert.AreSame(message2, listener.ProcessedMessages2[0]);
 
             var anotherMessage2 = new Message2();
             _messageBus.Publish(anotherMessage2);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(5).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages[0]);
-            Assert.AreSame(message2, listener.ProcessedMessages[1]);
-            Assert.AreSame(message2, listener.ProcessedMessages[2]);
-            Assert.AreSame(anotherMessage1, listener.ProcessedMessages[3]);
-            Assert.AreSame(anotherMessage2, listener.ProcessedMessages[4]);
+            Assert.That(listener.ProcessedMessages1, Has.Exactly(4).Items);
+            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
+            Assert.AreSame(message2, listener.ProcessedMessages1[1]);
+            Assert.AreSame(anotherMessage1, listener.ProcessedMessages1[2]);
+            Assert.AreSame(anotherMessage2, listener.ProcessedMessages1[3]);
+            Assert.That(listener.ProcessedMessages2, Has.Exactly(1).Items);
+            Assert.AreSame(message2, listener.ProcessedMessages2[0]);
         }
 
         [Test]
@@ -311,9 +319,10 @@ namespace MN.Shell.MVVM.Tests
 
     class Listener3 : IListener<Message1>, IListener<Message2>
     {
-        public List<Message1> ProcessedMessages { get; } = new List<Message1>();
-        public void Process(Message1 message) => ProcessedMessages.Add(message);
-        public void Process(Message2 message) => ProcessedMessages.Add(message);
+        public List<Message1> ProcessedMessages1 { get; } = new List<Message1>();
+        public List<Message1> ProcessedMessages2 { get; } = new List<Message1>();
+        public void Process(Message1 message) => ProcessedMessages1.Add(message);
+        public void Process(Message2 message) => ProcessedMessages2.Add(message);
     }
 
     class Listener4 : IListener<Message1>
