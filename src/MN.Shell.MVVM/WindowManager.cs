@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Data;
 
 namespace MN.Shell.MVVM
 {
@@ -23,6 +24,7 @@ namespace MN.Shell.MVVM
         {
             var view = _viewManager.GetViewFor(viewModel);
             var window = ProvideWindow(view, false);
+            BindWindow(viewModel, window);
             window.Show();
         }
 
@@ -35,6 +37,7 @@ namespace MN.Shell.MVVM
         {
             var view = _viewManager.GetViewFor(viewModel);
             var window = ProvideWindow(view, true);
+            BindWindow(viewModel, window);
             return window.ShowDialog();
         }
 
@@ -85,6 +88,29 @@ namespace MN.Shell.MVVM
                 window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             return window;
+        }
+
+        /// <summary>
+        /// Creates Window-specific bindings (e.g. Title) between Window and its ViewModel
+        /// </summary>
+        /// <param name="viewModel">ViewModel to bind to</param>
+        /// <param name="window">Window to bind</param>
+        protected virtual void BindWindow(object viewModel, Window window)
+        {
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
+            if (window == null)
+                throw new ArgumentNullException(nameof(window));
+
+            if (viewModel is IHaveTitle && string.IsNullOrEmpty(window.Title) &&
+                BindingOperations.GetBindingBase(window, Window.TitleProperty) == null)
+            {
+                window.SetBinding(Window.TitleProperty, new Binding(nameof(IHaveTitle.Title))
+                {
+                    Mode = BindingMode.OneWay,
+                });
+            }
         }
     }
 }

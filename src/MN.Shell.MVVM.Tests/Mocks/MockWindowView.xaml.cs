@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using System.Windows;
 
 namespace MN.Shell.MVVM.Tests.Mocks
@@ -17,18 +17,10 @@ namespace MN.Shell.MVVM.Tests.Mocks
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Loaded -= OnLoaded;
-
-            if (DataContext is MockWindowViewModel mockWindowViewModel)
-            {
-                mockWindowViewModel.WindowShown = true;
-
-                if (Owner != null)
-                    mockWindowViewModel.HasOwnerViewInOwnedWindows = Owner.OwnedWindows
-                        .OfType<Window>()
-                        .Contains(this);
-            }
-
+            OnLoadedAction?.Invoke(this);
             Close();
         }
+
+        public Action<Window> OnLoadedAction { get; set; }
     }
 }
