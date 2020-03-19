@@ -33,15 +33,6 @@ namespace MN.Shell.MVVM
 
         #endregion
 
-        #region "IChild implementation"
-
-        /// <summary>
-        /// Logical parent component
-        /// </summary>
-        public IParent Parent { get; set; }
-
-        #endregion
-
         #region "IHaveTitle implementation"
 
         private string _title;
@@ -132,14 +123,15 @@ namespace MN.Shell.MVVM
 
         #region "IClosable implementation"
 
+        public event EventHandler<bool?> CloseRequested;
+
         /// <summary>
         /// Asks parent to close this component instance
         /// </summary>
         /// <param name="dialogResult">In case of dialog ViewModel, the result should be passed as an argument</param>
         public virtual void RequestClose(bool? dialogResult = null)
         {
-            if (Parent != null)
-                Parent.CloseChild(this);
+            CloseRequested?.Invoke(this, dialogResult);
         }
 
         /// <summary>

@@ -1,10 +1,17 @@
-﻿namespace MN.Shell.MVVM
+﻿using System;
+
+namespace MN.Shell.MVVM
 {
     /// <summary>
     /// Interface for components which need to be closed (Screens, dialogs, documents)
     /// </summary>
-    public interface IClosable : IChild
+    public interface IClosable
     {
+        /// <summary>
+        /// Event raised from within a ViewModel requesting to be closed
+        /// </summary>
+        event EventHandler<bool?> CloseRequested;
+
         /// <summary>
         /// Asks parent to close this component instance
         /// </summary>

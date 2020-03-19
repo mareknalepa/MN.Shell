@@ -46,7 +46,6 @@ namespace MN.Shell.MVVM.Tests
                 .Setup(x => x.GetViewFor(viewModel))
                 .Returns(view);
 
-            Assert.False(windowShown);
             _windowManager.ShowWindow(viewModel);
             _viewManagerMock.Verify(x => x.GetViewFor(viewModel));
             Assert.True(windowShown);
@@ -81,7 +80,6 @@ namespace MN.Shell.MVVM.Tests
                 .Setup(x => x.GetViewFor(viewModel))
                 .Returns(view);
 
-            Assert.False(windowShown);
             _windowManager.ShowWindow(viewModel);
             _viewManagerMock.Verify(x => x.GetViewFor(viewModel));
             Assert.True(windowShown);
@@ -116,7 +114,6 @@ namespace MN.Shell.MVVM.Tests
                 .Setup(x => x.GetViewFor(viewModel))
                 .Returns(view);
 
-            Assert.False(windowShown);
             _windowManager.ShowDialog(viewModel);
             _viewManagerMock.Verify(x => x.GetViewFor(viewModel));
             Assert.True(windowShown);
@@ -154,10 +151,84 @@ namespace MN.Shell.MVVM.Tests
                 .Setup(x => x.GetViewFor(viewModel))
                 .Returns(view);
 
-            Assert.False(windowShown);
             _windowManager.ShowDialog(viewModel);
             _viewManagerMock.Verify(x => x.GetViewFor(viewModel));
             Assert.True(windowShown);
+        }
+
+        [Test]
+        public void LifecycleAwareActivateTest([Values] bool isDialog)
+        {
+            var viewModelMock = new Mock<ILifecycleAware>(MockBehavior.Loose);
+
+            viewModelMock
+                .Setup(x => x.Activate())
+                .Verifiable();
+
+            var viewModel = viewModelMock.Object;
+
+            var view = new MockWindowView() { DataContext = viewModel };
+
+            _viewManagerMock
+                .Setup(x => x.GetViewFor(viewModel))
+                .Returns(view);
+
+            if (isDialog)
+                _windowManager.ShowDialog(viewModel);
+            else
+                _windowManager.ShowWindow(viewModel);
+
+            viewModelMock.Verify();
+        }
+
+        [Test]
+        public void LifecycleAwareDeactivateTest([Values] bool isDialog)
+        {
+            var viewModelMock = new Mock<ILifecycleAware>(MockBehavior.Loose);
+
+            viewModelMock
+                .Setup(x => x.Deactivate())
+                .Verifiable();
+
+            var viewModel = viewModelMock.Object;
+
+            var view = new MockWindowView() { DataContext = viewModel };
+
+            _viewManagerMock
+                .Setup(x => x.GetViewFor(viewModel))
+                .Returns(view);
+
+            if (isDialog)
+                _windowManager.ShowDialog(viewModel);
+            else
+                _windowManager.ShowWindow(viewModel);
+
+            viewModelMock.Verify();
+        }
+
+        [Test]
+        public void LifecycleAwareCloseTest([Values] bool isDialog)
+        {
+            var viewModelMock = new Mock<ILifecycleAware>(MockBehavior.Loose);
+
+            viewModelMock
+                .Setup(x => x.Close())
+                .Verifiable();
+
+            var viewModel = viewModelMock.Object;
+
+            var view = new MockWindowView() { DataContext = viewModel };
+
+            _viewManagerMock
+                .Setup(x => x.GetViewFor(viewModel))
+                .Returns(view);
+
+            if (isDialog)
+                _windowManager.ShowDialog(viewModel);
+            else
+                _windowManager.ShowWindow(viewModel);
+
+            viewModelMock.Verify();
         }
 
         [Test]

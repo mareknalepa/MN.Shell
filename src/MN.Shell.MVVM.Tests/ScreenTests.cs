@@ -191,14 +191,20 @@ namespace MN.Shell.MVVM.Tests
         }
 
         [Test]
-        public void RequestCloseTest()
+        public void RequestCloseTest([Values] bool? result)
         {
-            var parentMock = new Mock<IParent>(MockBehavior.Loose);
+            bool handlerFired = false;
+            void CloseRequestedHandler(object sender, bool? dialogResult)
+            {
+                handlerFired = true;
+                Assert.AreEqual(result, dialogResult);
+            }
 
-            _screen.Parent = parentMock.Object;
-            _screen.RequestClose();
+            _screen.CloseRequested += CloseRequestedHandler;
+            _screen.RequestClose(result);
+            _screen.CloseRequested -= CloseRequestedHandler;
 
-            parentMock.Verify(x => x.CloseChild(_screen));
+            Assert.True(handlerFired);
         }
     }
 }
