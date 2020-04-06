@@ -17,5 +17,9 @@
         public int OnClosedCalledCount { get; private set; }
 
         protected override void OnClosed() => ++OnClosedCalledCount;
+
+        public bool CanBeClosedReturnValue { get; set; } = true;
+
+        public override bool CanBeClosed() => CanBeClosedReturnValue;
     }
 }
