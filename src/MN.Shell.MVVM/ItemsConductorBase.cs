@@ -106,7 +106,7 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="item">Item which was closed</param>
         /// <param name="formerIndex">Index of closed item within ItemsCollection before closing</param>
-        protected abstract void OnAfterItemClosed(T item, int formerIndex);
+        protected virtual void OnAfterItemClosed(T item, int formerIndex) { }
 
         /// <summary>
         /// Handler called when ViewModel is activated for the first time

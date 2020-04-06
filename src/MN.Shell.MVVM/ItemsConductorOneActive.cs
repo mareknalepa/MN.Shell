@@ -2,6 +2,10 @@
 
 namespace MN.Shell.MVVM
 {
+    /// <summary>
+    /// Base class for ViewModels having many children components and only one active at a time
+    /// </summary>
+    /// <typeparam name="T">Type of managed items</typeparam>
     public abstract class ItemsConductorOneActive<T> : ItemsConductorBase<T>
         where T : class
     {
