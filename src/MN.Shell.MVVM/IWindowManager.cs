@@ -6,7 +6,7 @@ namespace MN.Shell.MVVM
     /// <summary>
     /// Service to show windows or dialogs for given ViewModels using ViewModel-first approach
     /// </summary>
-    interface IWindowManager
+    public interface IWindowManager
     {
         /// <summary>
         /// Show window for given ViewModel and manage its lifecycle

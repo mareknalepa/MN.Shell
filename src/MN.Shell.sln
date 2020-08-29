@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.MVVM", "MN.Shell.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.MVVM.Tests", "MN.Shell.MVVM.Tests\MN.Shell.MVVM.Tests.csproj", "{552C0631-20C9-4E02-9281-02B2140F9D7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MN.Shell.MVVM.Sample", "MN.Shell.MVVM.Sample\MN.Shell.MVVM.Sample.csproj", "{C4EFA68E-2137-49C9-97D9-D316364CD959}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{552C0631-20C9-4E02-9281-02B2140F9D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{552C0631-20C9-4E02-9281-02B2140F9D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{552C0631-20C9-4E02-9281-02B2140F9D7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4EFA68E-2137-49C9-97D9-D316364CD959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4EFA68E-2137-49C9-97D9-D316364CD959}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4EFA68E-2137-49C9-97D9-D316364CD959}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4EFA68E-2137-49C9-97D9-D316364CD959}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
