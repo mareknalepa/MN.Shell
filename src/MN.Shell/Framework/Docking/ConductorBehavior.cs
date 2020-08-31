@@ -1,12 +1,13 @@
-﻿using Caliburn.Micro;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
-using Xceed.Wpf.AvalonDock;
-using Xceed.Wpf.AvalonDock.Controls;
-using Xceed.Wpf.AvalonDock.Layout;
+using AvalonDock;
+using AvalonDock.Controls;
+using AvalonDock.Converters;
+using AvalonDock.Layout;
+using Caliburn.Micro;
 
 namespace MN.Shell.Framework.Docking
 {
@@ -80,7 +81,7 @@ namespace MN.Shell.Framework.Docking
                 new Binding($"Model.{nameof(ITool.IsVisible)}")
                 {
                     Mode = BindingMode.TwoWay,
-                    Converter = new Xceed.Wpf.AvalonDock.Converters.BoolToVisibilityConverter(),
+                    Converter = new BoolToVisibilityConverter(),
                     ConverterParameter = Visibility.Hidden,
                 }));
 
