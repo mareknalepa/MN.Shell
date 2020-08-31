@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <Version>0.1.0</Version>
+    <Authors>Marek Nalepa</Authors>
+    <Product>MN.Shell</Product>
+    <Description>Sample application for MN.Shell.MVVM framework</Description>
+    <Copyright>Copyright © Marek Nalepa 2020</Copyright>
+    <RepositoryUrl>https://github.com/mareknalepa/MN.Shell</RepositoryUrl>
+    <PackageIcon>mnshell.png</PackageIcon>
+    <PackageTags>WPF,MVVM,ViewModel-first</PackageTags>
+    <PackageIconUrl />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="..\mnshell.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MN.Shell.MVVM\MN.Shell.MVVM.csproj" />
+  </ItemGroup>
+
+</Project>

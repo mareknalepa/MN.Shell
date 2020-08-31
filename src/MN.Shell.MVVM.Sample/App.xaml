@@ -1,0 +1,13 @@
+﻿<Application x:Class="MN.Shell.MVVM.Sample.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:MN.Shell.MVVM.Sample"
+             xmlns:mnshell="https://github.com/mareknalepa/MN.Shell">
+    <Application.Resources>
+        <mnshell:ApplicationLoader>
+            <mnshell:ApplicationLoader.Bootstrapper>
+                <local:SampleBootstrapper/>
+            </mnshell:ApplicationLoader.Bootstrapper>
+        </mnshell:ApplicationLoader>
+    </Application.Resources>
+</Application>
