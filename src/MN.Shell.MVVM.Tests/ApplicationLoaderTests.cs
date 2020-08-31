@@ -5,7 +5,8 @@ using NUnit.Framework;
 namespace MN.Shell.MVVM.Tests
 {
     [TestFixture]
-    public class ApplicationLoaderDictionaryTests
+    public class ApplicationLoaderTests
+
     {
         [Test]
         public void ApplicationLoaderDictionaryBootstrapperSetupTest()
@@ -15,7 +16,7 @@ namespace MN.Shell.MVVM.Tests
             var bootstrapperMock = new Mock<IBootstrapper>();
             bootstrapperMock.Setup(b => b.Setup(application)).Verifiable();
 
-            var appLoader = new ApplicationLoaderDictionary
+            var appLoader = new ApplicationLoader
             {
                 Bootstrapper = bootstrapperMock.Object
             };

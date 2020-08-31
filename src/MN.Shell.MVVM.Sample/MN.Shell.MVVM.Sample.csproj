@@ -16,10 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\mnshell.png">
+    <Resource Include="..\mnshell.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
-    </None>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

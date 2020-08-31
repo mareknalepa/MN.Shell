@@ -3,10 +3,12 @@
 namespace MN.Shell.MVVM
 {
     /// <summary>
-    /// ApplicationLoaderDictionary is a smart resource dictionary used in App.xaml to setup Bootstrapper
+    /// ApplicationLoader is a smart resource dictionary used in App.xaml to setup Bootstrapper
     /// </summary>
 #pragma warning disable CA1010 // Collections should implement generic interface
-    public class ApplicationLoaderDictionary : ResourceDictionary
+#pragma warning disable CA1710 // Identifiers should have correct suffix
+    public class ApplicationLoader : ResourceDictionary
+#pragma warning restore CA1710 // Identifiers should have correct suffix
 #pragma warning restore CA1010 // Collections should implement generic interface
     {
         private IBootstrapper _bootstrapper;

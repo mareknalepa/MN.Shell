@@ -4,10 +4,10 @@
              xmlns:local="clr-namespace:MN.Shell.MVVM.Sample"
              xmlns:mnshell="https://github.com/mareknalepa/MN.Shell">
     <Application.Resources>
-        <mnshell:ApplicationLoaderDictionary>
-            <mnshell:ApplicationLoaderDictionary.Bootstrapper>
+        <mnshell:ApplicationLoader>
+            <mnshell:ApplicationLoader.Bootstrapper>
                 <local:SampleBootstrapper/>
-            </mnshell:ApplicationLoaderDictionary.Bootstrapper>
-        </mnshell:ApplicationLoaderDictionary>
+            </mnshell:ApplicationLoader.Bootstrapper>
+        </mnshell:ApplicationLoader>
     </Application.Resources>
 </Application>
