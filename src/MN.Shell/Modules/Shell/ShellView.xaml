@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="MN.Shell.Modules.Shell.ShellView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:behaviors="clr-namespace:MN.Shell.Behaviors"
              xmlns:controls="clr-namespace:MN.Shell.Controls"
@@ -18,15 +18,15 @@
         </Grid.RowDefinitions>
 
         <controls:ShellMenu Grid.Row="0" MenuItems="{Binding MenuItems}">
-            <i:Interaction.Behaviors>
+            <b:Interaction.Behaviors>
                 <behaviors:PlaceOnTitleBarBehavior/>
-            </i:Interaction.Behaviors>
+            </b:Interaction.Behaviors>
         </controls:ShellMenu>
 
         <DockingManager Grid.Row="1">
-            <i:Interaction.Behaviors>
+            <b:Interaction.Behaviors>
                 <docking:ConductorBehavior/>
-            </i:Interaction.Behaviors>
+            </b:Interaction.Behaviors>
         </DockingManager>
 
         <StatusBar Grid.Row="2" ItemsSource="{Binding StatusBarItems}">
