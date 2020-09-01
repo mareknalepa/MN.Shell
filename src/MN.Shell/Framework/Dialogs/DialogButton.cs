@@ -1,6 +1,6 @@
-﻿using Caliburn.Micro;
-using System;
+﻿using System;
 using System.Windows.Input;
+using MN.Shell.MVVM;
 
 namespace MN.Shell.Framework.Dialogs
 {
@@ -13,7 +13,7 @@ namespace MN.Shell.Framework.Dialogs
         public string Caption
         {
             get => _caption;
-            set { _caption = value; NotifyOfPropertyChange(); }
+            set => Set(ref _caption, value);
         }
 
         private bool _isDefault;
@@ -21,7 +21,7 @@ namespace MN.Shell.Framework.Dialogs
         public bool IsDefault
         {
             get => _isDefault;
-            set { _isDefault = value; NotifyOfPropertyChange(); }
+            set => Set(ref _isDefault, value);
         }
 
         private bool _isCancel;
@@ -29,7 +29,7 @@ namespace MN.Shell.Framework.Dialogs
         public bool IsCancel
         {
             get => _isCancel;
-            set { _isCancel = value; NotifyOfPropertyChange(); }
+            set => Set(ref _isCancel, value);
         }
 
         private ICommand _command;
@@ -37,7 +37,7 @@ namespace MN.Shell.Framework.Dialogs
         public ICommand Command
         {
             get => _command;
-            set { _command = value; NotifyOfPropertyChange(); }
+            set => Set(ref _command, value);
         }
 
         protected DialogButton(DialogButtonType type, string caption, bool isDefault, bool isCancel, ICommand command)
