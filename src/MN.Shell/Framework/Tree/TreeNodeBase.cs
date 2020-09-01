@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using MN.Shell.Core;
 using MN.Shell.MVVM;
 
 namespace MN.Shell.Framework.Tree
@@ -81,8 +80,8 @@ namespace MN.Shell.Framework.Tree
             if (isLazyLoadable)
                 _children.Add(_lazyLoadingNode);
 
-            ExpandAllCommand = new RelayCommand(o => ExpandAll());
-            CollapseAllCommand = new RelayCommand(o => CollapseAll());
+            ExpandAllCommand = new RelayCommand(() => ExpandAll());
+            CollapseAllCommand = new RelayCommand(() => CollapseAll());
         }
 
         public void ClearChildren()

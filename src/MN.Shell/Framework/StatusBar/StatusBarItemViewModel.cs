@@ -1,5 +1,4 @@
 ﻿using System.Windows.Input;
-using MN.Shell.Core;
 using MN.Shell.MVVM;
 
 namespace MN.Shell.Framework.StatusBar
@@ -34,7 +33,7 @@ namespace MN.Shell.Framework.StatusBar
 
         public StatusBarItemViewModel()
         {
-            Command = new RelayCommand(o => CommandAction?.Invoke(), o => CanExecuteCommand && CommandAction != null);
+            Command = new RelayCommand(() => CommandAction?.Invoke(), () => CanExecuteCommand && CommandAction != null);
         }
     }
 }

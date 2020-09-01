@@ -1,4 +1,4 @@
-﻿using MN.Shell.Core;
+﻿using MN.Shell.MVVM;
 
 namespace MN.Shell.Framework
 {
@@ -14,7 +14,7 @@ namespace MN.Shell.Framework
 
         public DocumentBase()
         {
-            CloseCommand = new RelayCommand(o => TryClose(null));
+            CloseCommand = new RelayCommand(() => TryClose(null));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using MN.Shell.Core;
+﻿using MN.Shell.MVVM;
 
 namespace MN.Shell.Framework
 {
@@ -24,7 +24,7 @@ namespace MN.Shell.Framework
 
         public ToolBase()
         {
-            CloseCommand = new RelayCommand(o => IsVisible = false);
+            CloseCommand = new RelayCommand(() => IsVisible = false);
         }
     }
 }

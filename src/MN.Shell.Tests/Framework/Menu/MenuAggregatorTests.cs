@@ -1,9 +1,9 @@
-﻿using MN.Shell.Core;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MN.Shell.Framework.Menu;
+using MN.Shell.MVVM;
 using Moq;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MN.Shell.Tests.Framework.Menu
 {
@@ -152,7 +152,7 @@ namespace MN.Shell.Tests.Framework.Menu
                 {
                     Name = "Item1",
                     GroupOrder = 10,
-                    Command = new RelayCommand(sender => { }),
+                    Command = new RelayCommand(() => { }),
                     IsCheckable = true,
                 },
             });
@@ -171,7 +171,7 @@ namespace MN.Shell.Tests.Framework.Menu
             Mock<IMenuProvider> menuProvider = new Mock<IMenuProvider>(MockBehavior.Strict);
             menuProvider.Setup(m => m.GetMenuItems()).Returns(new List<MenuItem>()
             {
-                new MenuItem() { Name = "Item1", GroupOrder = 10, Command = new RelayCommand(sender => { }) },
+                new MenuItem() { Name = "Item1", GroupOrder = 10, Command = new RelayCommand(() => { }) },
                 new MenuItem() { Name = "SubItem11", Path = new []{ "Item1" }, GroupOrder = 10 },
             });
 

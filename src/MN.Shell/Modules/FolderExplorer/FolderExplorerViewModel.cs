@@ -1,16 +1,16 @@
-﻿using Caliburn.Micro;
-using MN.Shell.Core;
-using MN.Shell.Framework;
-using MN.Shell.Framework.Menu;
-using MN.Shell.Framework.MessageBox;
-using MN.Shell.Framework.Messages;
-using MN.Shell.Framework.Tree;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using Caliburn.Micro;
+using MN.Shell.Framework;
+using MN.Shell.Framework.Menu;
+using MN.Shell.Framework.MessageBox;
+using MN.Shell.Framework.Messages;
+using MN.Shell.Framework.Tree;
+using MN.Shell.MVVM;
 
 namespace MN.Shell.Modules.FolderExplorer
 {
@@ -27,24 +27,24 @@ namespace MN.Shell.Modules.FolderExplorer
             Root = new ComputerViewModel();
             RootSource = new ReadOnlyCollection<TreeNodeBase>(new[] { Root });
 
-            ReloadCommand = new RelayCommand(o => ReloadFolders());
-            CollapseAllCommand = new RelayCommand(o => Root.CollapseAll());
+            ReloadCommand = new RelayCommand(() => ReloadFolders());
+            CollapseAllCommand = new RelayCommand(() => Root.CollapseAll());
 
-            NewDirectoryCommand = new RelayCommand(o => NewNode(isDirectory: true),
-                o => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
-            NewFileCommand = new RelayCommand(o => NewNode(isDirectory: false),
-                o => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
+            NewDirectoryCommand = new RelayCommand(() => NewNode(isDirectory: true),
+                () => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
+            NewFileCommand = new RelayCommand(() => NewNode(isDirectory: false),
+                () => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
 
-            ConfirmNewNodeCommand = new RelayCommand(o => ConfirmNewNode(), o => CurrentInsertNode != null);
-            CancelNewNodeCommand = new RelayCommand(o => CancelNewNode(), o => CurrentInsertNode != null);
+            ConfirmNewNodeCommand = new RelayCommand(() => ConfirmNewNode(), () => CurrentInsertNode != null);
+            CancelNewNodeCommand = new RelayCommand(() => CancelNewNode(), () => CurrentInsertNode != null);
 
-            RenameNodeCommand = new RelayCommand(o => RenameNode(),
-                o => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
+            RenameNodeCommand = new RelayCommand(() => RenameNode(),
+                () => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
 
-            ConfirmRenameNodeCommand = new RelayCommand(o => ConfirmRenameNode(), o => CurrentRenameNode != null);
-            CancelRenameNodeCommand = new RelayCommand(o => CancelRenameNode(), o => CurrentRenameNode != null);
+            ConfirmRenameNodeCommand = new RelayCommand(() => ConfirmRenameNode(), () => CurrentRenameNode != null);
+            CancelRenameNodeCommand = new RelayCommand(() => CancelRenameNode(), () => CurrentRenameNode != null);
 
-            DeleteNodeCommand = new RelayCommand(o => DeleteNode(), o => SelectedNode != null);
+            DeleteNodeCommand = new RelayCommand(() => DeleteNode(), () => SelectedNode != null);
 
             ContextMenuItems.Add(new MenuItemViewModel()
             {
