@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
+    <OutputType>Library</OutputType>
     <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <Version>0.1.0</Version>
@@ -8,9 +9,9 @@
     <Product>MN.Shell</Product>
     <Description>MN.Shell.MVVM test suite</Description>
     <Copyright>Copyright © Marek Nalepa 2020</Copyright>
+    <PackageProjectUrl>https://github.com/mareknalepa/MN.Shell</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mareknalepa/MN.Shell</RepositoryUrl>
     <IsPackable>false</IsPackable>
-    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
