@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -9,6 +10,8 @@ namespace MN.Shell.MVVM
     /// </summary>
     public abstract class BootstrapperBase : IBootstrapper, IDisposable
     {
+        private Application _application;
+
         /// <summary>
         /// Called at application startup to allow Bootstrapper to attach itself to currently running application
         /// in order to start MVVM framework
@@ -16,12 +19,12 @@ namespace MN.Shell.MVVM
         /// <param name="application">Currently running application to attach to</param>
         public void Setup(Application application)
         {
-            if (application == null)
-                throw new ArgumentNullException(nameof(application));
+            _application = application ?? throw new ArgumentNullException(nameof(application));
 
             application.Startup += (sender, e) =>
             {
                 Configure();
+                ConfigureInternals();
                 OnStartup(e);
             };
 
@@ -43,6 +46,44 @@ namespace MN.Shell.MVVM
         protected abstract void Configure();
 
         /// <summary>
+        /// Method called internally by MVVM framework to get instance of type T from IoC container
+        /// </summary>
+        /// <typeparam name="T">Type of instance to create</typeparam>
+        /// <returns>Instance created by IoC container</returns>
+        protected abstract T GetInstance<T>();
+
+        /// <summary>
+        /// Private method to configure internal components
+        /// </summary>
+        private void ConfigureInternals()
+        {
+            var windowManager = GetInstance<IWindowManager>();
+            if (windowManager is null)
+                throw new InvalidOperationException("Cannot create instance of IWindowManager");
+
+            windowManager.GetActiveWindow =
+                () => _application.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive) ?? _application.MainWindow;
+        }
+
+        /// <summary>
+        /// Displays view for application's root view model. Should be called during application startup.
+        /// </summary>
+        /// <typeparam name="T">Type of root view model to instantiate</typeparam>
+        protected void DisplayRootView<T>()
+            where T : class
+        {
+            var windowManager = GetInstance<IWindowManager>();
+            if (windowManager is null)
+                throw new InvalidOperationException("Cannot create instance of IWindowManager");
+
+            var rootViewModel = GetInstance<T>();
+            if (rootViewModel is null)
+                throw new InvalidOperationException($"Cannot create instance of root view model ({typeof(T)})");
+
+            windowManager.ShowWindow(rootViewModel);
+        }
+
+        /// <summary>
         /// Method called on startup to run application. It should display view for application's main view model
         /// </summary>
         /// <param name="e">StartupEventArgs including parameters passed on command line</param>
@@ -61,7 +102,7 @@ namespace MN.Shell.MVVM
         protected virtual void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e) { }
 
         /// <summary>
-        /// Called to dispose application-wide resources, should be overriden by inheriting classes.
+        /// Should be overriden by inheriting classes to dispose application-wide resources and IoC container
         /// </summary>
         protected virtual void Dispose(bool disposing) { }
 

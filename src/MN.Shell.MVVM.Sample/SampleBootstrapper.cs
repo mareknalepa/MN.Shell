@@ -21,16 +21,14 @@ namespace MN.Shell.MVVM.Sample
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            var windowManager = _serviceProvider.GetRequiredService<IWindowManager>();
-            var shellViewModel = _serviceProvider.GetRequiredService<ShellViewModel>();
-            windowManager.ShowWindow(shellViewModel);
-        }
+        protected override T GetInstance<T>() => _serviceProvider.GetService<T>();
+
+        protected override void OnStartup(StartupEventArgs e) => DisplayRootView<ShellViewModel>();
 
         protected override void Dispose(bool disposing)
         {
             (_serviceProvider as IDisposable).Dispose();
+            base.Dispose(disposing);
         }
     }
 }
