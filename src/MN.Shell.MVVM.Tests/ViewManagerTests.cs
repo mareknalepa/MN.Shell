@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using MN.Shell.MVVM.Tests.Example1;
 using NUnit.Framework;
 
 namespace MN.Shell.MVVM.Tests
@@ -27,6 +28,34 @@ namespace MN.Shell.MVVM.Tests
             Assert.NotNull(view);
             Assert.AreEqual(expectedViewType.GetType(), view.GetType());
             Assert.AreSame(viewModel, view.DataContext);
+        }
+
+        [Test]
+        public void GetViewForUsingViewFactoryTest()
+        {
+            var viewModel1 = new Example1.Example1ViewModel();
+            var expectedView = new Example1.Example1View();
+
+            bool factoryCalled = false;
+
+            object viewFactory(Type type)
+            {
+                factoryCalled = true;
+                Assert.AreEqual(typeof(Example1View), type);
+                return expectedView;
+            }
+
+            var view1 = _viewManager.GetViewFor(viewModel1);
+            Assert.NotNull(view1);
+            Assert.False(factoryCalled);
+            Assert.AreEqual(expectedView.GetType(), view1.GetType());
+
+            _viewManager.ViewFactory = viewFactory;
+
+            var viewModel2 = new Example1.Example1ViewModel();
+            var view2 = _viewManager.GetViewFor(viewModel1);
+            Assert.AreSame(expectedView, view2);
+            Assert.True(factoryCalled);
         }
 
         [Test]

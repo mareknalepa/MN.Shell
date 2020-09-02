@@ -23,6 +23,8 @@ namespace MN.Shell.MVVM.Sample
 
         protected override T GetInstance<T>() => _serviceProvider.GetService<T>();
 
+        protected override object GetInstance(Type type) => _serviceProvider.GetService(type);
+
         protected override void OnStartup(StartupEventArgs e) => DisplayRootView<ShellViewModel>();
 
         protected override void Dispose(bool disposing)

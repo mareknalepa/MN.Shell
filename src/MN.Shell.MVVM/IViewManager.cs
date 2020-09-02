@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace MN.Shell.MVVM
 {
@@ -7,6 +8,11 @@ namespace MN.Shell.MVVM
     /// </summary>
     public interface IViewManager
     {
+        /// <summary>
+        /// Factory method used to create instances of views.
+        /// </summary>
+        Func<Type, object> ViewFactory { get; set; }
+
         /// <summary>
         /// Creates or reuses instance of View for given ViewModel, binds them together and returns it
         /// </summary>
