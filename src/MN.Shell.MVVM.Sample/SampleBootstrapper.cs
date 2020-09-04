@@ -17,13 +17,16 @@ namespace MN.Shell.MVVM.Sample
             serviceCollection.AddSingleton<IMessageBus, MessageBus>();
 
             serviceCollection.AddTransient<ShellViewModel>();
+            serviceCollection.AddTransient<ShellView>();
+            serviceCollection.AddTransient<SampleDocumentView>();
+            serviceCollection.AddTransient<SampleToolView>();
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
         protected override T GetInstance<T>() => _serviceProvider.GetService<T>();
 
-        protected override object GetInstance(Type type) => _serviceProvider.GetService(type);
+        protected override object GetInstance(Type type) => _serviceProvider.GetRequiredService(type);
 
         protected override void OnStartup(StartupEventArgs e) => DisplayRootView<ShellViewModel>();
 

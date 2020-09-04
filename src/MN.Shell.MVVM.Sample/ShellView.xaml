@@ -3,8 +3,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MN.Shell.MVVM.Sample" xmlns:mnshell="https://github.com/mareknalepa/MN.Shell"
         mc:Ignorable="d"
-        Height="450" Width="800" Icon="mnshell.png">
+        Height="450" Width="800" Icon="mnshell.png"
+        d:DataContext="{d:DesignInstance local:ShellViewModel, IsDesignTimeCreatable=False}">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <ContentControl mnshell:Binder.ViewModel="{Binding Tool}" />
+
+        <TabControl Grid.Column="1" ItemsSource="{Binding Items}" SelectedItem="{Binding ActiveItem}">
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type local:SampleDocumentViewModel}">
+                    <TextBlock Text="{Binding Title}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="{x:Type local:SampleDocumentViewModel}">
+                    <ContentControl mnshell:Binder.ViewModel="{Binding}"/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+
     </Grid>
 </Window>
