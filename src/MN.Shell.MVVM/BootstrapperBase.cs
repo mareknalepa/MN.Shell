@@ -70,6 +70,8 @@ namespace MN.Shell.MVVM
 
             viewManager.ViewFactory = GetInstance;
 
+            Binder.ViewManager = viewManager;
+
             var windowManager = GetInstance<IWindowManager>();
             if (windowManager is null)
                 throw new InvalidOperationException("Cannot create instance of IWindowManager");
