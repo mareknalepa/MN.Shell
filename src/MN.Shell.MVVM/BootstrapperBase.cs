@@ -53,13 +53,6 @@ namespace MN.Shell.MVVM
         protected abstract T GetInstance<T>();
 
         /// <summary>
-        /// Alternate method called internally by MVVM framework to get instance of given type from IoC container
-        /// </summary>
-        /// <param name="type">Type of instance to create</param>
-        /// <returns>Instance created by IoC container</returns>
-        protected abstract object GetInstance(Type type);
-
-        /// <summary>
         /// Private method to configure internal components
         /// </summary>
         private void ConfigureInternals()
@@ -67,8 +60,6 @@ namespace MN.Shell.MVVM
             var viewManager = GetInstance<IViewManager>();
             if (viewManager is null)
                 throw new InvalidOperationException("Cannot create instance of IViewManager");
-
-            viewManager.ViewFactory = GetInstance;
 
             Binder.ViewManager = viewManager;
 

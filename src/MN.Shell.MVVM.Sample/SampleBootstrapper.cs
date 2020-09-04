@@ -22,11 +22,12 @@ namespace MN.Shell.MVVM.Sample
             serviceCollection.AddTransient<SampleToolView>();
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
+
+            var viewManager = _serviceProvider.GetService<IViewManager>();
+            viewManager.ViewFactory = type => _serviceProvider.GetService(type);
         }
 
         protected override T GetInstance<T>() => _serviceProvider.GetService<T>();
-
-        protected override object GetInstance(Type type) => _serviceProvider.GetRequiredService(type);
 
         protected override void OnStartup(StartupEventArgs e) => DisplayRootView<ShellViewModel>();
 

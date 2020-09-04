@@ -13,7 +13,7 @@ namespace MN.Shell.MVVM
         /// <summary>
         /// Helper property to check if application is running in Design Time
         /// </summary>
-        public static bool IsDesignTime =>(bool)DependencyPropertyDescriptor.
+        public static bool IsDesignTime => (bool)DependencyPropertyDescriptor.
             FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement)).Metadata.DefaultValue;
 
         /// <summary>
@@ -24,9 +24,11 @@ namespace MN.Shell.MVVM
 
         private static object ViewModel { get; }
 
+#pragma warning disable CA1062 // Validate arguments of public methods
         public static object GetViewModel(DependencyObject obj) => obj.GetValue(ViewModelProperty);
 
         public static void SetViewModel(DependencyObject obj, object value) => obj.SetValue(ViewModelProperty, value);
+#pragma warning restore CA1062 // Validate arguments of public methods
 
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.RegisterAttached(nameof(ViewModel), typeof(object), typeof(Binder),
