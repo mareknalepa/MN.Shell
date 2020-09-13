@@ -32,7 +32,7 @@ namespace MN.Shell.Framework.Dialogs
                 if (action != null)
                     action();
                 else
-                    dialog.TryClose(button.IsDefault);
+                    dialog.RequestClose(button.IsDefault);
             }, canExecute);
 
             dialog.Buttons.Add(button);

@@ -9,12 +9,12 @@ namespace MN.Shell.Framework
         public virtual string Description
         {
             get => _description;
-            set { _description = value; NotifyOfPropertyChange(); }
+            set => Set(ref _description, value);
         }
 
         public DocumentBase()
         {
-            CloseCommand = new RelayCommand(() => TryClose(null));
+            CloseCommand = new RelayCommand(() => RequestClose(null));
         }
     }
 }

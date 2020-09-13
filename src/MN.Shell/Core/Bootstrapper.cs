@@ -1,6 +1,7 @@
-﻿using Caliburn.Micro;
+﻿using MN.Shell.MVVM;
 using Ninject;
 using Ninject.Modules;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,24 +13,13 @@ namespace MN.Shell.Core
 {
     public class Bootstrapper : BootstrapperBase
     {
-        private readonly ILog _log = new Logger(NLog.LogManager.GetLogger(typeof(Bootstrapper).Name));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         private IKernel _kernel;
 
-        public Bootstrapper() : this(true) { }
-
-        public Bootstrapper(bool useApplication) : base(useApplication)
-        {
-            Initialize();
-        }
-
-        protected override IEnumerable<Assembly> SelectAssemblies() => Enumerable.Empty<Assembly>();
-
         protected override void Configure()
         {
-            _log.Info("Configuring Bootstrapper...");
-
-            LogManager.GetLog = type => new DebugLog(type);
+            _logger.Info("Configuring Bootstrapper...");
 
             _kernel = new StandardKernel();
 
@@ -39,7 +29,7 @@ namespace MN.Shell.Core
             if (string.IsNullOrEmpty(path))
                 throw new InvalidOperationException("Cannot scan empty directory path");
 
-            _log.Info($"Directory to scan for modules: {path}");
+            _logger.Info($"Directory to scan for modules: {path}");
 
             IEnumerable<Assembly> assemblies = Directory.GetFiles(path, "*.dll")
                 .Union(Directory.GetFiles(path, "*.exe"))
@@ -51,7 +41,7 @@ namespace MN.Shell.Core
                     }
                     catch (Exception e)
                     {
-                        _log.Error(e);
+                        _logger.Error(e);
                         return null;
                     }
                 }).Where(assembly =>
@@ -63,7 +53,7 @@ namespace MN.Shell.Core
                     }
                     catch (Exception e)
                     {
-                        _log.Error(e);
+                        _logger.Error(e);
                         return false;
                     }
                 });
@@ -71,45 +61,27 @@ namespace MN.Shell.Core
             foreach (Assembly assembly in assemblies)
                 _kernel.Load(assembly);
 
-            AssemblySource.Instance.AddRange(_kernel.GetModules().Select(m => m.GetType().Assembly).Distinct());
-
             foreach (INinjectModule module in _kernel.GetModules())
-                _log.Info($"Loaded module: {module.Name} [{module.GetType().Assembly.FullName}]");
+                _logger.Info($"Loaded module: {module.Name} [{module.GetType().Assembly.FullName}]");
         }
 
-        protected override object GetInstance(Type service, string key)
+        protected override T GetInstance<T>() => _kernel.Get<T>();
+
+        protected override void OnStartup(StartupEventArgs e)
         {
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
-
-            return _kernel.Get(service);
+            _logger.Info("Application startup");
+            DisplayRootView<IShell>();
         }
 
-        protected override IEnumerable<object> GetAllInstances(Type service)
+        protected override void OnExit(ExitEventArgs e)
         {
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
-
-            return _kernel.GetAll(service);
+            _logger.Info("Application exit");
         }
 
-        protected override void BuildUp(object instance)
-        {
-            _kernel.Inject(instance);
-        }
-
-        protected override void OnStartup(object sender, StartupEventArgs e)
-        {
-            _log.Info("Application startup");
-
-            DisplayRootViewFor<IShell>();
-        }
-
-        protected override void OnExit(object sender, EventArgs e)
+        protected override void Dispose(bool disposing)
         {
             _kernel.Dispose();
-
-            _log.Info("Application exit");
+            base.Dispose(disposing);
         }
     }
 }

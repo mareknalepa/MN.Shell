@@ -6,7 +6,7 @@ namespace MN.Shell.Demo.TabbedInterface
     {
         public TabbedInterfaceViewModel()
         {
-            DisplayName = "Tabbed Interface";
+            Title = "Tabbed Interface";
         }
     }
 }

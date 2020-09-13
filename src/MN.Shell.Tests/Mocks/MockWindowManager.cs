@@ -1,11 +1,13 @@
-﻿using MN.Shell.Core;
+﻿using MN.Shell.MVVM;
 using System.Windows;
 
 namespace MN.Shell.Tests.Mocks
 {
-    public class MockWindowManager : WindowManager
+    public class MockWindowManager : Shell.Core.WindowManager
     {
-        public new Window EnsureWindow(object model, object view, bool isDialog) =>
-            base.EnsureWindow(model, view, isDialog);
+        public MockWindowManager(IViewManager viewManager) : base(viewManager) { }
+
+        public new Window EnsureWindow(FrameworkElement view, bool isDialog) =>
+            base.EnsureWindow(view, isDialog);
     }
 }

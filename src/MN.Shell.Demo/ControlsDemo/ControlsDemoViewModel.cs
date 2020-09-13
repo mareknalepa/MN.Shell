@@ -6,7 +6,7 @@ namespace MN.Shell.Demo.ControlsDemo
     {
         public ControlsDemoViewModel()
         {
-            DisplayName = "Controls Demo";
+            Title = "Controls Demo";
         }
     }
 }

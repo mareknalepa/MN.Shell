@@ -1,10 +1,9 @@
-﻿using Caliburn.Micro;
-using MN.Shell.Framework.MessageBox;
+﻿using MN.Shell.Framework.MessageBox;
 using MN.Shell.Modules.MessageBox;
+using MN.Shell.MVVM;
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace MN.Shell.Tests.Framework.MessageBox
 {
@@ -24,12 +23,11 @@ namespace MN.Shell.Tests.Framework.MessageBox
             _showWindowInvoked = 0;
 
             _mockWindowManager = new Mock<IWindowManager>(MockBehavior.Strict);
-            _mockWindowManager.Setup(m => m.ShowDialog(It.IsAny<MessageBoxViewModel>(), It.IsAny<object>(),
-                It.IsAny<IDictionary<string, object>>()))
-                .Callback<object, object, IDictionary<string, object>>((rootModel, context, settings) =>
+            _mockWindowManager.Setup(m => m.ShowDialog(It.IsAny<MessageBoxViewModel>()))
+                .Callback<object>(viewModel =>
                 {
                     ++_showWindowInvoked;
-                    OnDialogShown?.Invoke(rootModel);
+                    OnDialogShown?.Invoke(viewModel);
                 })
                 .Returns(true);
 
@@ -47,7 +45,7 @@ namespace MN.Shell.Tests.Framework.MessageBox
                 if (!(vm is MessageBoxViewModel messageBoxViewModel))
                     throw new ArgumentException("Cannot handle view models other than MessageBoxViewModel");
 
-                Assert.AreEqual(caption, messageBoxViewModel.DisplayName);
+                Assert.AreEqual(caption, messageBoxViewModel.Title);
                 Assert.AreEqual(message, messageBoxViewModel.Message);
                 Assert.AreEqual(type, messageBoxViewModel.Type);
             };

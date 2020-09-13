@@ -1,4 +1,4 @@
-﻿using Caliburn.Micro;
+﻿using MN.Shell.MVVM;
 using System.Windows.Input;
 
 namespace MN.Shell.Framework

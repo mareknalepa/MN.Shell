@@ -1,6 +1,6 @@
-﻿using Caliburn.Micro;
-using MN.Shell.Framework.Dialogs;
+﻿using MN.Shell.Framework.Dialogs;
 using MN.Shell.Modules.MessageBox;
+using MN.Shell.MVVM;
 using System;
 
 namespace MN.Shell.Framework.MessageBox

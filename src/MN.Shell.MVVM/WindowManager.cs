@@ -179,6 +179,9 @@ namespace MN.Shell.MVVM
             if (window == null)
                 throw new ArgumentNullException(nameof(window));
 
+            if (window.DataContext != viewModel)
+                window.DataContext = viewModel;
+
             if (viewModel is IHaveTitle && string.IsNullOrEmpty(window.Title) &&
                 BindingOperations.GetBindingBase(window, Window.TitleProperty) == null)
             {
