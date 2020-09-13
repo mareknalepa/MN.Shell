@@ -1,22 +1,28 @@
 # To learn more about .editorconfig see https://aka.ms/editorconfigdocs
-###############################
-# Core EditorConfig Options   #
-###############################
+
+# Core EditorConfig Options
 root = true
+
 # All files
 [*]
+charset = utf-8
 indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
 # Code files
 [*.{cs,csx,vb,vbx}]
-indent_size = 4
-insert_final_newline = true
 charset = utf-8-bom
-###############################
-# .NET Coding Conventions     #
-###############################
+indent_size = 4
+
+# XAML files
+[*.xaml]
+charset = utf-8-bom
+
+# .NET Coding Conventions
 [*.{cs,vb}]
 # Organize usings
-dotnet_sort_system_directives_first = true
+dotnet_sort_system_directives_first = false
 # this. preferences
 dotnet_style_qualification_for_field = false:silent
 dotnet_style_qualification_for_property = false:silent
@@ -45,9 +51,6 @@ dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
 dotnet_style_prefer_auto_properties = true:silent
 dotnet_style_prefer_conditional_expression_over_assignment = true:silent
 dotnet_style_prefer_conditional_expression_over_return = true:silent
-###############################
-# Naming Conventions          #
-###############################
 # Style Definitions
 dotnet_naming_style.pascal_case_style.capitalization             = pascal_case
 # Use PascalCase for constant fields
@@ -57,9 +60,8 @@ dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_
 dotnet_naming_symbols.constant_fields.applicable_kinds            = field
 dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
 dotnet_naming_symbols.constant_fields.required_modifiers          = const
-###############################
-# C# Coding Conventions       #
-###############################
+
+# C# Coding Conventions
 [*.cs]
 # var preferences
 csharp_style_var_for_built_in_types = true:silent
@@ -86,9 +88,6 @@ csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
 csharp_style_pattern_local_over_anonymous_function = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
-###############################
-# C# Formatting Rules         #
-###############################
 # New line preferences
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
@@ -116,9 +115,3 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
-###############################
-# VB Coding Conventions       #
-###############################
-[*.vb]
-# Modifier preferences
-visual_basic_preferred_modifier_order = Partial,Default,Private,Protected,Public,Friend,NotOverridable,Overridable,MustOverride,Overloads,Overrides,MustInherit,NotInheritable,Static,Shared,Shadows,ReadOnly,WriteOnly,Dim,Const,WithEvents,Widening,Narrowing,Custom,Async:suggestion

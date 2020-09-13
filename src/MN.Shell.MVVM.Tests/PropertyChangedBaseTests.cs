@@ -7,7 +7,7 @@ namespace MN.Shell.MVVM.Tests
     [TestFixture]
     public class PropertyChangedBaseTests
     {
-        class PropertyChangedBaseTestingMock : PropertyChangedBase
+        private class PropertyChangedBaseTestingMock : PropertyChangedBase
         {
             public void CallNotifyPropertyChanged(string propertyName) => NotifyPropertyChanged(propertyName);
 

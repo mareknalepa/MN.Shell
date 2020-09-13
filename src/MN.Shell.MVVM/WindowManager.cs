@@ -53,6 +53,7 @@ namespace MN.Shell.MVVM
         {
             var view = _viewManager.GetViewFor(viewModel);
             var window = EnsureWindow(view, isDialog);
+            SetupWindow(viewModel, window, isDialog);
             AttachHandlers(viewModel, window, isDialog);
             BindWindow(viewModel, window, isDialog);
 
@@ -80,13 +81,24 @@ namespace MN.Shell.MVVM
                 };
             }
 
+            return window;
+        }
+
+        /// <summary>
+        /// Sets window's owner if applicable and sets startup location
+        /// </summary>
+        /// <param name="viewModel">ViewModel to bind to</param>
+        /// <param name="window">Window to attach handlers for</param>
+        /// <param name="isDialog">True if Window is modal dialog, false if it's independent Window</param>
+        protected virtual void SetupWindow(object viewModel, Window window, bool isDialog)
+        {
+            if (window == null)
+                throw new ArgumentNullException(nameof(window));
+
             if (isDialog)
             {
                 var activeWindow = GetActiveWindow?.Invoke();
-                if (ReferenceEquals(activeWindow, window))
-                    activeWindow = null;
-
-                if (activeWindow != null)
+                if (activeWindow != null && !ReferenceEquals(activeWindow, window))
                 {
                     try
                     {
@@ -100,8 +112,6 @@ namespace MN.Shell.MVVM
                 window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             else
                 window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-            return window;
         }
 
         /// <summary>

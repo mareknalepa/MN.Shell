@@ -1,5 +1,5 @@
-﻿using MN.Shell.Core;
-using MN.Shell.Framework.ColorSchemes;
+﻿using MN.Shell.Framework.ColorSchemes;
+using MN.Shell.MVVM;
 using System;
 using System.Collections.Generic;
 
@@ -59,10 +59,7 @@ namespace MN.Shell.Framework.Menu
                 Path = new[] { "File" },
                 GroupId = 100,
                 GroupOrder = 100,
-                Command = new RelayCommand(o =>
-                {
-                    ApplicationExitHandler?.Invoke();
-                }),
+                Command = new RelayCommand(() => ApplicationExitHandler?.Invoke()),
             };
 
             yield return new MenuItem()
@@ -83,7 +80,7 @@ namespace MN.Shell.Framework.Menu
                     Path = new[] { "Settings", "Base Colors" },
                     GroupId = 10,
                     GroupOrder = groupOrder++,
-                    Command = new RelayCommand(o => _colorSchemeLoader.LoadBaseColors(baseColors)),
+                    Command = new RelayCommand(() => _colorSchemeLoader.LoadBaseColors(baseColors)),
                 };
             }
 
@@ -105,7 +102,7 @@ namespace MN.Shell.Framework.Menu
                     Path = new[] { "Settings", "Accent Color" },
                     GroupId = 10,
                     GroupOrder = groupOrder++,
-                    Command = new RelayCommand(o => _colorSchemeLoader.LoadAccentColors(accentColors)),
+                    Command = new RelayCommand(() => _colorSchemeLoader.LoadAccentColors(accentColors)),
                 };
             }
         }

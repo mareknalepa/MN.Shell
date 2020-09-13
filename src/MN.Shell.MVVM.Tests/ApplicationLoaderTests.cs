@@ -1,6 +1,6 @@
-﻿using System.Windows;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
+using System.Windows;
 
 namespace MN.Shell.MVVM.Tests
 {

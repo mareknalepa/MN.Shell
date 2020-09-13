@@ -9,10 +9,9 @@
     <Product>MN.Shell</Product>
     <Description>Sample application for MN.Shell.MVVM framework</Description>
     <Copyright>Copyright © Marek Nalepa 2020</Copyright>
+    <PackageProjectUrl>https://github.com/mareknalepa/MN.Shell</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mareknalepa/MN.Shell</RepositoryUrl>
-    <PackageIcon>mnshell.png</PackageIcon>
-    <PackageTags>WPF,MVVM,ViewModel-first</PackageTags>
-    <PackageIconUrl />
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

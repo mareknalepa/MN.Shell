@@ -1,6 +1,6 @@
-﻿using Caliburn.Micro;
-using MN.Shell.Framework;
+﻿using MN.Shell.Framework;
 using MN.Shell.Framework.Dialogs;
+using MN.Shell.MVVM;
 using System.Collections.ObjectModel;
 
 namespace MN.Shell.Tests.Mocks

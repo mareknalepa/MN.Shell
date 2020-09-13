@@ -18,7 +18,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public bool IsBeingRenamed
         {
             get => _isBeingRenamed;
-            set { _isBeingRenamed = value; NotifyOfPropertyChange(); }
+            set => Set(ref _isBeingRenamed, value);
         }
 
         private string _newName = string.Empty;
@@ -26,7 +26,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public string NewName
         {
             get => _newName;
-            set { _newName = value; NotifyOfPropertyChange(); }
+            set => Set(ref _newName, value);
         }
 
         private string _errorMessage = string.Empty;
@@ -34,7 +34,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public string ErrorMessage
         {
             get => _errorMessage;
-            set { _errorMessage = value; NotifyOfPropertyChange(); }
+            set => Set(ref _errorMessage, value);
         }
 
         public FileSystemNodeViewModel(FileSystemInfo fileSystemInfo, bool isLazyLoadable = false)

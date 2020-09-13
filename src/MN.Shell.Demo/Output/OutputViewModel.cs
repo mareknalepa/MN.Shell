@@ -1,22 +1,22 @@
-﻿using Caliburn.Micro;
-using MN.Shell.Framework;
+﻿using MN.Shell.Framework;
 using MN.Shell.Framework.Messages;
+using MN.Shell.MVVM;
 using System;
 
 namespace MN.Shell.Demo.Output
 {
-    public class OutputViewModel : ToolBase, IHandle<FolderChangedMessage>
+    public class OutputViewModel : ToolBase, IListener<FolderChangedMessage>
     {
-        private readonly IEventAggregator _eventAggregator;
+        private readonly IMessageBus _messageBus;
 
-        public OutputViewModel(IEventAggregator eventAggregator)
+        public OutputViewModel(IMessageBus messageBus)
         {
-            _eventAggregator = eventAggregator;
+            Title = "Output";
 
-            _eventAggregator.Subscribe(this);
+            _messageBus = messageBus;
+
+            _messageBus.Subscribe(this);
         }
-
-        public override string DisplayName => "Output";
 
         public override ToolPosition InitialPosition => ToolPosition.Bottom;
 
@@ -25,12 +25,13 @@ namespace MN.Shell.Demo.Output
         public string Output
         {
             get => _output;
-            set { _output = value; NotifyOfPropertyChange(); }
+            set => Set(ref _output, value);
         }
 
-        public void Handle(FolderChangedMessage message)
+        public void Process(FolderChangedMessage message)
         {
-            Output += $"Previous folder: [{message.PreviousFolder?.FullName ?? "null"}], current folder: [{message.CurrentFolder?.FullName ?? "null"}]{Environment.NewLine}";
+            Output += $"Previous folder: [{message?.PreviousFolder?.FullName ?? "null"}], " +
+                $"current folder: [{message?.CurrentFolder?.FullName ?? "null"}]{Environment.NewLine}";
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using MN.Shell.Core;
+﻿using MN.Shell.MVVM;
 
 namespace MN.Shell.Framework
 {
@@ -9,7 +9,7 @@ namespace MN.Shell.Framework
         public bool IsVisible
         {
             get => _isVisible;
-            set { _isVisible = value; NotifyOfPropertyChange(); }
+            set => Set(ref _isVisible, value);
         }
 
         public virtual ToolPosition InitialPosition => ToolPosition.Right;
@@ -24,7 +24,7 @@ namespace MN.Shell.Framework
 
         public ToolBase()
         {
-            CloseCommand = new RelayCommand(o => IsVisible = false);
+            CloseCommand = new RelayCommand(() => IsVisible = false);
         }
     }
 }

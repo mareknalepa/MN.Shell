@@ -1,5 +1,4 @@
-﻿using Caliburn.Micro;
-using MN.Shell.Core;
+﻿using MN.Shell.MVVM;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,14 +12,14 @@ namespace MN.Shell.Framework.Tree
 
         private static readonly TreeNodeBase _lazyLoadingNode = new LazyLoadingTreeNode();
 
-        private bool _suppressExpandingParent = false;
+        private bool _suppressExpandingParent;
 
         private string _name = string.Empty;
 
         public virtual string Name
         {
             get => _name;
-            set { _name = value; NotifyOfPropertyChange(); }
+            set => Set(ref _name, value);
         }
 
         private readonly ObservableCollection<TreeNodeBase> _children = new ObservableCollection<TreeNodeBase>();
@@ -32,7 +31,7 @@ namespace MN.Shell.Framework.Tree
         public TreeNodeBase Parent
         {
             get => _parent;
-            set { _parent = value; NotifyOfPropertyChange(); }
+            set => Set(ref _parent, value);
         }
 
         private bool _isExpanded;
@@ -43,7 +42,7 @@ namespace MN.Shell.Framework.Tree
             set
             {
                 _isExpanded = value;
-                NotifyOfPropertyChange();
+                NotifyPropertyChanged();
                 if (_isExpanded && Parent != null && !_suppressExpandingParent)
                     Parent.IsExpanded = true;
                 if (_isExpanded && _children.Count == 1 && _children[0] == _lazyLoadingNode)
@@ -64,7 +63,7 @@ namespace MN.Shell.Framework.Tree
                 if (_isSelected != value)
                 {
                     _isSelected = value;
-                    NotifyOfPropertyChange();
+                    NotifyPropertyChanged();
                     OnIsSelectedChanged(_isSelected);
                 }
             }
@@ -81,8 +80,8 @@ namespace MN.Shell.Framework.Tree
             if (isLazyLoadable)
                 _children.Add(_lazyLoadingNode);
 
-            ExpandAllCommand = new RelayCommand(o => ExpandAll());
-            CollapseAllCommand = new RelayCommand(o => CollapseAll());
+            ExpandAllCommand = new RelayCommand(() => ExpandAll());
+            CollapseAllCommand = new RelayCommand(() => CollapseAll());
         }
 
         public void ClearChildren()

@@ -6,7 +6,7 @@ namespace MN.Shell.Demo.ProgressBars
     {
         public ProgressBarsViewModel()
         {
-            DisplayName = "Progress Bars";
+            Title = "Progress Bars";
         }
     }
 }

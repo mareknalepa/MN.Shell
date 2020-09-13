@@ -1,4 +1,4 @@
-﻿using MN.Shell.Core;
+﻿using MN.Shell.MVVM;
 
 namespace MN.Shell.Framework
 {
@@ -9,12 +9,12 @@ namespace MN.Shell.Framework
         public virtual string Description
         {
             get => _description;
-            set { _description = value; NotifyOfPropertyChange(); }
+            set => Set(ref _description, value);
         }
 
         public DocumentBase()
         {
-            CloseCommand = new RelayCommand(o => TryClose(null));
+            CloseCommand = new RelayCommand(() => RequestClose(null));
         }
     }
 }

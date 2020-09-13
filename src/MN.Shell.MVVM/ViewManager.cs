@@ -12,6 +12,12 @@ namespace MN.Shell.MVVM
         private readonly Dictionary<Type, Type> _mappingsCache = new Dictionary<Type, Type>();
 
         /// <summary>
+        /// Factory method used to create instances of views.
+        /// Uses reflection by default, but can be configured to use IoC container instead.
+        /// </summary>
+        public Func<Type, object> ViewFactory { get; set; } = type => Activator.CreateInstance(type);
+
+        /// <summary>
         /// Creates or reuses instance of View for given ViewModel, binds them together and returns it
         /// </summary>
         /// <param name="viewModel">ViewModel to create or reuse View for</param>
@@ -78,7 +84,7 @@ namespace MN.Shell.MVVM
             object createdInstance;
             try
             {
-                createdInstance = Activator.CreateInstance(viewType);
+                createdInstance = ViewFactory?.Invoke(viewType);
             }
             catch (Exception e)
             {

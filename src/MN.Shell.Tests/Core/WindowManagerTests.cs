@@ -1,4 +1,6 @@
-﻿using MN.Shell.Tests.Mocks;
+﻿using MN.Shell.MVVM;
+using MN.Shell.Tests.Mocks;
+using Moq;
 using NUnit.Framework;
 using System.Threading;
 using System.Windows;
@@ -10,14 +12,21 @@ namespace MN.Shell.Tests.Core
     [Apartment(ApartmentState.STA)]
     public class WindowManagerTests
     {
+        private IViewManager _viewManager;
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            _viewManager = new Mock<IViewManager>(MockBehavior.Loose).Object;
+        }
+
         [Test]
         public void WindowManagerEnsureWindowForWindowTest()
         {
-            MockWindowManager windowManager = new MockWindowManager();
+            var windowManager = new MockWindowManager(_viewManager);
 
-            var vm = new MockWindowViewModel();
             Window window = new MockWindowView();
-            var view = windowManager.EnsureWindow(vm, window, false);
+            var view = windowManager.EnsureWindow(window, false);
 
             Assert.AreSame(window, view);
         }
@@ -25,11 +34,10 @@ namespace MN.Shell.Tests.Core
         [Test]
         public void WindowManagerEnsureWindowForUserControlTest()
         {
-            MockWindowManager windowManager = new MockWindowManager();
+            var windowManager = new MockWindowManager(_viewManager);
 
-            var vm = new MockUserControlViewModel();
             UserControl userControl = new MockUserControlView();
-            var view = windowManager.EnsureWindow(vm, userControl, false);
+            var view = windowManager.EnsureWindow(userControl, false);
 
             Assert.AreSame(userControl, view.Content);
         }

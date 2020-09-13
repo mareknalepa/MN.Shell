@@ -1,12 +1,13 @@
-﻿using Caliburn.Micro;
+﻿using AvalonDock;
+using AvalonDock.Controls;
+using AvalonDock.Converters;
+using AvalonDock.Layout;
+using Microsoft.Xaml.Behaviors;
+using MN.Shell.MVVM;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Interactivity;
-using Xceed.Wpf.AvalonDock;
-using Xceed.Wpf.AvalonDock.Controls;
-using Xceed.Wpf.AvalonDock.Layout;
 
 namespace MN.Shell.Framework.Docking
 {
@@ -42,9 +43,8 @@ namespace MN.Shell.Framework.Docking
             {
                 Mode = BindingMode.OneWay
             };
-            factory.SetBinding(View.ModelProperty, viewModelBinding);
+            factory.SetBinding(Binder.ViewModelProperty, viewModelBinding);
 
-            factory.SetValue(View.ApplyConventionsProperty, false);
             factory.SetValue(Control.IsTabStopProperty, false);
             factory.SetValue(Control.HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch);
             factory.SetValue(Control.VerticalContentAlignmentProperty, VerticalAlignment.Stretch);
@@ -68,7 +68,7 @@ namespace MN.Shell.Framework.Docking
                 new Binding($"Model.{nameof(ILayoutModule.ContentId)}")));
 
             commonLayoutItemStyle.Setters.Add(new Setter(LayoutItem.TitleProperty,
-                new Binding($"Model.{nameof(ILayoutModule.DisplayName)}")));
+                new Binding($"Model.{nameof(ILayoutModule.Title)}")));
 
             commonLayoutItemStyle.Setters.Add(new Setter(LayoutItem.CloseCommandProperty,
                 new Binding($"Model.{nameof(ILayoutModule.CloseCommand)}")));
@@ -80,7 +80,7 @@ namespace MN.Shell.Framework.Docking
                 new Binding($"Model.{nameof(ITool.IsVisible)}")
                 {
                     Mode = BindingMode.TwoWay,
-                    Converter = new Xceed.Wpf.AvalonDock.Converters.BoolToVisibilityConverter(),
+                    Converter = new BoolToVisibilityConverter(),
                     ConverterParameter = Visibility.Hidden,
                 }));
 

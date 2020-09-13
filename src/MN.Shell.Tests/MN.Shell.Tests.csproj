@@ -1,124 +1,32 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{097E4C4F-7283-4F92-A1D7-5DB8B65F4975}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MN.Shell.Tests</RootNamespace>
-    <AssemblyName>MN.Shell.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <Version>0.1.0</Version>
+    <Authors>Marek Nalepa</Authors>
+    <Product>MN.Shell</Product>
+    <Description>MN.Shell core components test suite</Description>
+    <Copyright>Copyright © Marek Nalepa 2020</Copyright>
+    <PackageProjectUrl>https://github.com/mareknalepa/MN.Shell</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mareknalepa/MN.Shell</RepositoryUrl>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Core\BootstrapperTests.cs" />
-    <Compile Include="Core\RelayCommandTests.cs" />
-    <Compile Include="Core\WindowManagerTests.cs" />
-    <Compile Include="Framework\Dialogs\DialogButtonTests.cs" />
-    <Compile Include="Framework\Dialogs\DialogViewModelExtensionsTests.cs" />
-    <Compile Include="Framework\Menu\MenuAggregatorTests.cs" />
-    <Compile Include="Framework\Menu\MenuItemViewModelTests.cs" />
-    <Compile Include="Framework\MessageBox\MessageBoxManagerTests.cs" />
-    <Compile Include="Framework\StatusBar\StatusBarAggregatorTests.cs" />
-    <Compile Include="Mocks\IMockService.cs" />
-    <Compile Include="Mocks\MockBootstrapper.cs" />
-    <Compile Include="Mocks\MockDialogViewModel.cs" />
-    <Compile Include="Mocks\MockModule.cs" />
-    <Compile Include="Mocks\MockService1.cs" />
-    <Compile Include="Mocks\MockService2.cs" />
-    <Compile Include="Mocks\MockServiceConsumer.cs" />
-    <Compile Include="Mocks\MockShell.cs" />
-    <Compile Include="Mocks\MockUserControlView.xaml.cs">
-      <DependentUpon>MockUserControlView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Mocks\MockUserControlViewModel.cs" />
-    <Compile Include="Mocks\MockWindowManager.cs" />
-    <Compile Include="Mocks\MockWindowView.xaml.cs">
-      <DependentUpon>MockWindowView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Mocks\MockWindowViewModel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MN.Shell\MN.Shell.csproj">
-      <Project>{a20fc2d4-0190-495f-b179-206aacb80670}</Project>
-      <Name>MN.Shell</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Mocks\MockUserControlView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Mocks\MockWindowView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Caliburn.Micro">
-      <Version>3.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers">
-      <Version>2.9.8</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
       <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Moq">
-      <Version>4.13.0</Version>
-    </PackageReference>
-    <PackageReference Include="Ninject">
-      <Version>3.3.4</Version>
-    </PackageReference>
-    <PackageReference Include="NUnit">
-      <Version>3.12.0</Version>
-    </PackageReference>
-    <PackageReference Include="NUnit.ConsoleRunner">
-      <Version>3.10.0</Version>
-    </PackageReference>
-    <PackageReference Include="NUnit3TestAdapter">
-      <Version>3.15.1</Version>
-    </PackageReference>
+    <PackageReference Include="Moq" Version="4.14.5" />
+    <PackageReference Include="nunit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\MN.Shell\MN.Shell.csproj" />
+  </ItemGroup>
+
 </Project>

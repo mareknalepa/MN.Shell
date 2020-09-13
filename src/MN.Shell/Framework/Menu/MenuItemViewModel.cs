@@ -1,4 +1,4 @@
-﻿using Caliburn.Micro;
+﻿using MN.Shell.MVVM;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -12,7 +12,7 @@ namespace MN.Shell.Framework.Menu
         public string Name
         {
             get => _name;
-            set { _name = value; NotifyOfPropertyChange(); }
+            set => Set(ref _name, value);
         }
 
         public ObservableCollection<MenuItemViewModel> SubItems { get; }
@@ -23,7 +23,7 @@ namespace MN.Shell.Framework.Menu
         public Uri Icon
         {
             get => _icon;
-            set { _icon = value; NotifyOfPropertyChange(); }
+            set => Set(ref _icon, value);
         }
 
         public bool IsCheckable { get; set; }
@@ -40,7 +40,7 @@ namespace MN.Shell.Framework.Menu
                 if (_isChecked != value)
                 {
                     _isChecked = value;
-                    NotifyOfPropertyChange();
+                    NotifyPropertyChanged();
                     OnIsCheckedChanged?.Invoke(value);
                 }
             }
@@ -51,7 +51,7 @@ namespace MN.Shell.Framework.Menu
         public ICommand Command
         {
             get => _command;
-            set { _command = value; NotifyOfPropertyChange(); }
+            set => Set(ref _command, value);
         }
 
         private bool _fitsIntoMainMenu;
@@ -59,7 +59,7 @@ namespace MN.Shell.Framework.Menu
         public bool FitsIntoMainMenu
         {
             get => _fitsIntoMainMenu;
-            set { _fitsIntoMainMenu = value; NotifyOfPropertyChange(); }
+            set => Set(ref _fitsIntoMainMenu, value);
         }
 
         public bool IsSeparator { get; set; }

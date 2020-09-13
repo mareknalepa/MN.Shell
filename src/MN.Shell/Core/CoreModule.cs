@@ -1,4 +1,4 @@
-﻿using Caliburn.Micro;
+﻿using MN.Shell.MVVM;
 using Ninject.Modules;
 
 namespace MN.Shell.Core
@@ -9,11 +9,9 @@ namespace MN.Shell.Core
 
         public override void Load()
         {
-            Bind<ILog>().ToMethod(c => new Logger(NLog.LogManager.GetLogger(
-                c.Request.Target.Member.DeclaringType.Name)));
-
-            Bind<IWindowManager>().To<WindowManager>().InSingletonScope();
-            Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
+            Bind<IViewManager, ViewManager>().To<ViewManager>().InSingletonScope();
+            Bind<IWindowManager, WindowManager, ShellWindowManager>().To<ShellWindowManager>().InSingletonScope();
+            Bind<IMessageBus, MessageBus>().To<MessageBus>().InSingletonScope();
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿using Caliburn.Micro;
-using MN.Shell.Core;
-using MN.Shell.Framework;
+﻿using MN.Shell.Framework;
 using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.MessageBox;
 using MN.Shell.Framework.Messages;
 using MN.Shell.Framework.Tree;
+using MN.Shell.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,35 +15,37 @@ namespace MN.Shell.Modules.FolderExplorer
 {
     public class FolderExplorerViewModel : ToolBase
     {
-        private readonly IEventAggregator _eventAggregator;
+        private readonly IMessageBus _messageBus;
         private readonly IMessageBoxManager _messageBoxManager;
 
-        public FolderExplorerViewModel(IEventAggregator eventAggregator, IMessageBoxManager messageBoxManager)
+        public FolderExplorerViewModel(IMessageBus messageBus, IMessageBoxManager messageBoxManager)
         {
-            _eventAggregator = eventAggregator;
+            _messageBus = messageBus;
             _messageBoxManager = messageBoxManager;
+
+            Title = "Folder Explorer";
 
             Root = new ComputerViewModel();
             RootSource = new ReadOnlyCollection<TreeNodeBase>(new[] { Root });
 
-            ReloadCommand = new RelayCommand(o => ReloadFolders());
-            CollapseAllCommand = new RelayCommand(o => Root.CollapseAll());
+            ReloadCommand = new RelayCommand(() => ReloadFolders());
+            CollapseAllCommand = new RelayCommand(() => Root.CollapseAll());
 
-            NewDirectoryCommand = new RelayCommand(o => NewNode(isDirectory: true),
-                o => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
-            NewFileCommand = new RelayCommand(o => NewNode(isDirectory: false),
-                o => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
+            NewDirectoryCommand = new RelayCommand(() => NewNode(isDirectory: true),
+                () => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
+            NewFileCommand = new RelayCommand(() => NewNode(isDirectory: false),
+                () => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
 
-            ConfirmNewNodeCommand = new RelayCommand(o => ConfirmNewNode(), o => CurrentInsertNode != null);
-            CancelNewNodeCommand = new RelayCommand(o => CancelNewNode(), o => CurrentInsertNode != null);
+            ConfirmNewNodeCommand = new RelayCommand(() => ConfirmNewNode(), () => CurrentInsertNode != null);
+            CancelNewNodeCommand = new RelayCommand(() => CancelNewNode(), () => CurrentInsertNode != null);
 
-            RenameNodeCommand = new RelayCommand(o => RenameNode(),
-                o => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
+            RenameNodeCommand = new RelayCommand(() => RenameNode(),
+                () => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
 
-            ConfirmRenameNodeCommand = new RelayCommand(o => ConfirmRenameNode(), o => CurrentRenameNode != null);
-            CancelRenameNodeCommand = new RelayCommand(o => CancelRenameNode(), o => CurrentRenameNode != null);
+            ConfirmRenameNodeCommand = new RelayCommand(() => ConfirmRenameNode(), () => CurrentRenameNode != null);
+            CancelRenameNodeCommand = new RelayCommand(() => CancelRenameNode(), () => CurrentRenameNode != null);
 
-            DeleteNodeCommand = new RelayCommand(o => DeleteNode(), o => SelectedNode != null);
+            DeleteNodeCommand = new RelayCommand(() => DeleteNode(), () => SelectedNode != null);
 
             ContextMenuItems.Add(new MenuItemViewModel()
             {
@@ -60,8 +61,6 @@ namespace MN.Shell.Modules.FolderExplorer
 
             ReloadFolders();
         }
-
-        public override string DisplayName => "Folder Explorer";
 
         public override ToolPosition InitialPosition => ToolPosition.Left;
 
@@ -81,7 +80,7 @@ namespace MN.Shell.Modules.FolderExplorer
             set
             {
                 _selectedNode = value;
-                NotifyOfPropertyChange();
+                NotifyPropertyChanged();
 
                 if (_selectedNode is DirectoryViewModel directory)
                     SelectedDirectory = directory;
@@ -104,8 +103,8 @@ namespace MN.Shell.Modules.FolderExplorer
 
                 var message = new FolderChangedMessage(value?.Directory, _selectedDirectory?.Directory);
                 _selectedDirectory = value;
-                NotifyOfPropertyChange();
-                _eventAggregator.PublishOnUIThread(message);
+                NotifyPropertyChanged();
+                _messageBus.Publish(message);
             }
         }
 
@@ -114,7 +113,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public bool ShowHidden
         {
             get => _showHidden;
-            set { _showHidden = value; NotifyOfPropertyChange(); }
+            set => Set(ref _showHidden, value);
         }
 
         private bool _showSystem = true;
@@ -122,7 +121,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public bool ShowSystem
         {
             get => _showSystem;
-            set { _showSystem = value; NotifyOfPropertyChange(); }
+            set => Set(ref _showSystem, value);
         }
 
         private bool _showFiles = true;
@@ -130,7 +129,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public bool ShowFiles
         {
             get => _showFiles;
-            set { _showFiles = value; NotifyOfPropertyChange(); }
+            set => Set(ref _showFiles, value);
         }
 
         private InsertNodeViewModel _currentInsertNode;
@@ -138,7 +137,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public InsertNodeViewModel CurrentInsertNode
         {
             get => _currentInsertNode;
-            private set { _currentInsertNode = value; NotifyOfPropertyChange(); }
+            private set => Set(ref _currentInsertNode, value);
         }
 
         private FileSystemNodeViewModel _currentRenameNode;
@@ -146,7 +145,7 @@ namespace MN.Shell.Modules.FolderExplorer
         public FileSystemNodeViewModel CurrentRenameNode
         {
             get => _currentRenameNode;
-            private set { _currentRenameNode = value; NotifyOfPropertyChange(); }
+            private set => Set(ref _currentRenameNode, value);
         }
 
         public ICommand ReloadCommand { get; }

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using MN.Shell.MVVM.Tests.Example1;
+using NUnit.Framework;
+using System;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using NUnit.Framework;
 
 namespace MN.Shell.MVVM.Tests
 {
@@ -20,13 +21,41 @@ namespace MN.Shell.MVVM.Tests
         [Test]
         public void GetViewForTest()
         {
-            var viewModel = new Example1.Example1ViewModel();
-            var expectedViewType = new Example1.Example1View();
+            var viewModel = new Example1ViewModel();
+            var expectedViewType = new Example1View();
 
             var view = _viewManager.GetViewFor(viewModel);
             Assert.NotNull(view);
             Assert.AreEqual(expectedViewType.GetType(), view.GetType());
             Assert.AreSame(viewModel, view.DataContext);
+        }
+
+        [Test]
+        public void GetViewForUsingViewFactoryTest()
+        {
+            var viewModel1 = new Example1ViewModel();
+            var expectedView = new Example1View();
+
+            bool factoryCalled = false;
+
+            object viewFactory(Type type)
+            {
+                factoryCalled = true;
+                Assert.AreEqual(typeof(Example1View), type);
+                return expectedView;
+            }
+
+            var view1 = _viewManager.GetViewFor(viewModel1);
+            Assert.NotNull(view1);
+            Assert.False(factoryCalled);
+            Assert.AreEqual(expectedView.GetType(), view1.GetType());
+
+            _viewManager.ViewFactory = viewFactory;
+
+            var viewModel2 = new Example1ViewModel();
+            var view2 = _viewManager.GetViewFor(viewModel1);
+            Assert.AreSame(expectedView, view2);
+            Assert.True(factoryCalled);
         }
 
         [Test]
@@ -50,26 +79,26 @@ namespace MN.Shell.MVVM.Tests
         [Test]
         public void GetViewForNotViewAwareTest()
         {
-            var viewModel1 = new Example1.Example1ViewModel();
-            var viewModel2 = new Example1.Example1ViewModel();
+            var viewModel1 = new Example1ViewModel();
+            var viewModel2 = new Example1ViewModel();
 
             Assert.AreNotSame(viewModel1, viewModel2);
 
             var view1 = _viewManager.GetViewFor(viewModel1);
             Assert.NotNull(view1);
-            Assert.AreEqual(typeof(Example1.Example1View), view1.GetType());
+            Assert.AreEqual(typeof(Example1View), view1.GetType());
             Assert.AreSame(viewModel1, view1.DataContext);
 
             var view1a = _viewManager.GetViewFor(viewModel1);
             Assert.NotNull(view1a);
-            Assert.AreEqual(typeof(Example1.Example1View), view1a.GetType());
+            Assert.AreEqual(typeof(Example1View), view1a.GetType());
             Assert.AreSame(viewModel1, view1a.DataContext);
 
             Assert.AreNotSame(view1, view1a);
 
             var view2 = _viewManager.GetViewFor(viewModel2);
             Assert.NotNull(view2);
-            Assert.AreEqual(typeof(Example1.Example1View), view2.GetType());
+            Assert.AreEqual(typeof(Example1View), view2.GetType());
             Assert.AreSame(viewModel2, view2.DataContext);
 
             Assert.AreNotSame(view1, view2);

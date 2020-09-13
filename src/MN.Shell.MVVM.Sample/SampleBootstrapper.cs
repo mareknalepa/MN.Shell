@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MN.Shell.MVVM.Sample
 {
@@ -17,20 +17,24 @@ namespace MN.Shell.MVVM.Sample
             serviceCollection.AddSingleton<IMessageBus, MessageBus>();
 
             serviceCollection.AddTransient<ShellViewModel>();
+            serviceCollection.AddTransient<ShellView>();
+            serviceCollection.AddTransient<SampleDocumentView>();
+            serviceCollection.AddTransient<SampleToolView>();
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
+
+            var viewManager = _serviceProvider.GetService<IViewManager>();
+            viewManager.ViewFactory = type => _serviceProvider.GetService(type);
         }
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            var windowManager = _serviceProvider.GetRequiredService<IWindowManager>();
-            var shellViewModel = _serviceProvider.GetRequiredService<ShellViewModel>();
-            windowManager.ShowWindow(shellViewModel);
-        }
+        protected override T GetInstance<T>() => _serviceProvider.GetService<T>();
+
+        protected override void OnStartup(StartupEventArgs e) => DisplayRootView<ShellViewModel>();
 
         protected override void Dispose(bool disposing)
         {
             (_serviceProvider as IDisposable).Dispose();
+            base.Dispose(disposing);
         }
     }
 }

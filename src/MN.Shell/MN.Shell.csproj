@@ -1,294 +1,41 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A20FC2D4-0190-495F-B179-206AACB80670}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MN.Shell</RootNamespace>
-    <AssemblyName>MN.Shell</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <Version>0.1.0</Version>
+    <Authors>Marek Nalepa</Authors>
+    <Product>MN.Shell</Product>
+    <Description>Application shell inspired by Visual Studio and Visual Studio Code, based on .NET Core and WPF with MVVM architecture, providing plugin system, aesthetic themes, docking layout and much more.</Description>
+    <Copyright>Copyright © Marek Nalepa 2020</Copyright>
+    <PackageProjectUrl>https://github.com/mareknalepa/MN.Shell</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mareknalepa/MN.Shell</RepositoryUrl>
+    <PackageIcon>mnshell.png</PackageIcon>
+    <PackageTags>netcore,wpf,mvvm,shell,plugins</PackageTags>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Resources\mnshell.ico</ApplicationIcon>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
+    <Resource Include="..\mnshell.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </Resource>
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Behaviors\KeyboardFocusBehavior.cs" />
-    <Compile Include="Behaviors\MoveCursorToEndOnFocusBehavior.cs" />
-    <Compile Include="Behaviors\PlaceOnTitleBarBehavior.cs" />
-    <Compile Include="Controls\DialogButtons.cs" />
-    <Compile Include="Controls\ShellMenuItemsPanel.cs" />
-    <Compile Include="Controls\ShellMenu.cs" />
-    <Compile Include="Controls\ShellWindow.cs" />
-    <Compile Include="Controls\XamlIcon.cs" />
-    <Compile Include="Framework\ColorSchemes\ColorScheme.cs" />
-    <Compile Include="Framework\ColorSchemes\ColorSchemeLoader.cs" />
-    <Compile Include="Framework\ColorSchemes\IColorSchemeLoader.cs" />
-    <Compile Include="Framework\Dialogs\DialogButton.cs" />
-    <Compile Include="Framework\Dialogs\DialogButtonType.cs" />
-    <Compile Include="Core\Bootstrapper.cs" />
-    <Compile Include="Core\Logger.cs" />
-    <Compile Include="Core\WindowManager.cs" />
-    <Compile Include="Core\CoreModule.cs" />
-    <Compile Include="Core\IShell.cs" />
-    <Compile Include="Core\RelayCommand.cs" />
-    <Compile Include="Framework\Dialogs\DialogViewModelExtensions.cs" />
-    <Compile Include="Framework\Docking\ConductorBehavior.cs" />
-    <Compile Include="Framework\Docking\LayoutModuleTemplateSelector.cs" />
-    <Compile Include="Framework\Docking\LayoutUpdateStrategy.cs" />
-    <Compile Include="Framework\Docking\LayoutModuleStyleSelector.cs" />
-    <Compile Include="Framework\DocumentBase.cs" />
-    <Compile Include="Framework\FrameworkModule.cs" />
-    <Compile Include="Framework\IDialog.cs" />
-    <Compile Include="Framework\IDocument.cs" />
-    <Compile Include="Framework\ILayoutModule.cs" />
-    <Compile Include="Framework\ITool.cs" />
-    <Compile Include="Framework\LayoutModuleBase.cs" />
-    <Compile Include="Framework\Menu\IMenuAggregator.cs" />
-    <Compile Include="Framework\Menu\IMenuProvider.cs" />
-    <Compile Include="Framework\Menu\InconsistentMenuException.cs" />
-    <Compile Include="Framework\Menu\MainMenuProvider.cs" />
-    <Compile Include="Framework\Menu\MenuAggregator.cs" />
-    <Compile Include="Framework\Menu\MenuItem.cs" />
-    <Compile Include="Framework\Menu\MenuItemComparer.cs" />
-    <Compile Include="Framework\Menu\MenuItemViewModel.cs" />
-    <Compile Include="Framework\MessageBox\IMessageBoxManager.cs" />
-    <Compile Include="Framework\MessageBox\MessageBoxButtons.cs" />
-    <Compile Include="Framework\MessageBox\MessageBoxManager.cs" />
-    <Compile Include="Framework\MessageBox\MessageBoxType.cs" />
-    <Compile Include="Framework\Messages\FolderChangedMessage.cs" />
-    <Compile Include="Framework\StatusBar\IStatusBarAggregator.cs" />
-    <Compile Include="Framework\StatusBar\IStatusBarProvider.cs" />
-    <Compile Include="Framework\StatusBar\StatusBarAggregator.cs" />
-    <Compile Include="Framework\StatusBar\StatusBarItemViewModel.cs" />
-    <Compile Include="Framework\StatusBar\StatusBarSide.cs" />
-    <Compile Include="Framework\ToolBase.cs" />
-    <Compile Include="Framework\ToolPosition.cs" />
-    <Compile Include="Framework\Tree\TreeNodeBringIntoViewBehavior.cs" />
-    <Compile Include="Framework\Tree\TreeViewBindableSelectedItemBehavior.cs" />
-    <Compile Include="Framework\Tree\TreeNodeBase.cs" />
-    <Compile Include="Framework\Tree\TreeNodeBindingBehavior.cs" />
-    <Compile Include="Modules\FolderExplorer\ComputerViewModel.cs" />
-    <Compile Include="Modules\FolderExplorer\DirectoryViewModel.cs" />
-    <Compile Include="Modules\FolderExplorer\DriveViewModel.cs" />
-    <Compile Include="Modules\FolderExplorer\FileSystemNodeBindingBehavior.cs" />
-    <Compile Include="Modules\FolderExplorer\FileSystemNodeViewModel.cs" />
-    <Compile Include="Modules\FolderExplorer\FileSystemOperations.cs" />
-    <Compile Include="Modules\FolderExplorer\FileViewModel.cs" />
-    <Compile Include="Modules\FolderExplorer\FolderExplorerView.xaml.cs">
-      <DependentUpon>FolderExplorerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\FolderExplorer\FolderExplorerViewModel.cs" />
-    <Compile Include="Modules\FolderExplorer\InsertNodeViewModel.cs" />
-    <Compile Include="Modules\FolderExplorer\SpecialNodeViewModel.cs" />
-    <Compile Include="Modules\MainModule.cs" />
-    <Compile Include="Modules\Shell\ShellView.xaml.cs">
-      <DependentUpon>ShellView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\Shell\ShellViewModel.cs" />
-    <Compile Include="Modules\MessageBox\MessageBoxView.xaml.cs">
-      <DependentUpon>MessageBoxView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\MessageBox\MessageBoxViewModel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Modules\FolderExplorer\FolderExplorerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Modules\Shell\ShellView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Modules\MessageBox\MessageBoxView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\AccentColors\Blue.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\AccentColors\Green.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
-    <Page Include="Themes\AccentColors\Orange.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\BaseColors\Dark.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\BaseColors\Light.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Controls\AvalonDock.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Controls\Button.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\CheckBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\ComboBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\DialogButtons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\Label.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\Menu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\PasswordBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\ProgressBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\RadioButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\ScrollBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\ScrollViewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\ShellMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Controls\ShellWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\StatusBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\TabControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\TextBlock.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Controls\TextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Controls\ToolBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Controls\TreeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Controls\XamlIcon.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Caliburn.Micro">
-      <Version>3.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="Dirkster.AvalonDock">
-      <Version>3.5.13</Version>
-    </PackageReference>
-    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013">
-      <Version>3.5.13</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers">
-      <Version>2.9.8</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
       <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Ninject">
-      <Version>3.3.4</Version>
-    </PackageReference>
-    <PackageReference Include="NLog">
-      <Version>4.6.7</Version>
-    </PackageReference>
+    <PackageReference Include="Dirkster.AvalonDock" version="4.30.0" />
+    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" version="4.30.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+    <PackageReference Include="Ninject" version="3.3.4" />
+    <PackageReference Include="NLog" version="4.7.4" />
   </ItemGroup>
+
   <ItemGroup>
-    <Resource Include="Resources\mnshell.ico" />
-    <Resource Include="Resources\mnshell.xcf" />
+    <ProjectReference Include="..\MN.Shell.MVVM\MN.Shell.MVVM.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Framework\FolderExplorer\" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

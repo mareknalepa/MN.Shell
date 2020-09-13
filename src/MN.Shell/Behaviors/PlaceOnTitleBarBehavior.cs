@@ -1,7 +1,7 @@
-﻿using MN.Shell.Controls;
+﻿using Microsoft.Xaml.Behaviors;
+using MN.Shell.Controls;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interactivity;
 using System.Windows.Media;
 
 namespace MN.Shell.Behaviors

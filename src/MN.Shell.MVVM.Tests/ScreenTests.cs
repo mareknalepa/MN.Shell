@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MN.Shell.MVVM.Tests.Mocks;
+using Moq;
+using NUnit.Framework;
+using System;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Controls;
-using MN.Shell.MVVM.Tests.Mocks;
-using Moq;
-using NUnit.Framework;
 
 namespace MN.Shell.MVVM.Tests
 {

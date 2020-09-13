@@ -1,5 +1,4 @@
-﻿using Caliburn.Micro;
-using MN.Shell.Core;
+﻿using MN.Shell.MVVM;
 using System.Windows.Input;
 
 namespace MN.Shell.Framework.StatusBar
@@ -17,7 +16,7 @@ namespace MN.Shell.Framework.StatusBar
         public string Content
         {
             get => _content;
-            set { _content = value; NotifyOfPropertyChange(); }
+            set => Set(ref _content, value);
         }
 
         public ICommand Command { get; }
@@ -29,12 +28,12 @@ namespace MN.Shell.Framework.StatusBar
         public bool CanExecuteCommand
         {
             get => _canExecuteCommand;
-            set { _canExecuteCommand = value; NotifyOfPropertyChange(); }
+            set => Set(ref _canExecuteCommand, value);
         }
 
         public StatusBarItemViewModel()
         {
-            Command = new RelayCommand(o => CommandAction?.Invoke(), o => CanExecuteCommand && CommandAction != null);
+            Command = new RelayCommand(() => CommandAction?.Invoke(), () => CanExecuteCommand && CommandAction != null);
         }
     }
 }

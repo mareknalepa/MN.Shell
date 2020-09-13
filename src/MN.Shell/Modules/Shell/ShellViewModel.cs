@@ -1,19 +1,15 @@
-﻿using Caliburn.Micro;
-using MN.Shell.Core;
+﻿using MN.Shell.Core;
 using MN.Shell.Framework;
 using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.StatusBar;
+using MN.Shell.MVVM;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace MN.Shell.Modules.Shell
 {
-    public class ShellViewModel : Conductor<IDocument>.Collection.OneActive, IShell
+    public class ShellViewModel : ItemsConductorOneActive<IDocument>, IShell
     {
-        private readonly ILog _log;
-
-        private bool _isClosing;
-
         public ObservableCollection<MenuItemViewModel> MenuItems { get; }
 
         public ObservableCollection<ITool> Tools { get; }
@@ -29,46 +25,29 @@ namespace MN.Shell.Modules.Shell
                 if (_activeLayoutModule is IDocument document)
                     ActivateItem(document);
 
-                NotifyOfPropertyChange();
+                NotifyPropertyChanged();
             }
         }
 
         public ObservableCollection<StatusBarItemViewModel> StatusBarItems { get; }
 
-        public ShellViewModel(ILog log, IMenuAggregator menuAggregator, IEnumerable<IMenuProvider> menuProviders,
+        public ShellViewModel(IMenuAggregator menuAggregator, IEnumerable<IMenuProvider> menuProviders,
             MainMenuProvider mainMenuProvider, IStatusBarAggregator statusBarAggregator,
             IEnumerable<IStatusBarProvider> statusBarProviders, IEnumerable<ITool> tools,
             IEnumerable<IDocument> documents)
         {
-            _log = log;
-            _log.Info("Creating ShellViewModel instance...");
+            Title = "MN.Shell";
 
-            DisplayName = "MN.Shell";
-
-            mainMenuProvider.ApplicationExitHandler = () => TryClose();
+            mainMenuProvider.ApplicationExitHandler = () => RequestClose();
 
             MenuItems = new ObservableCollection<MenuItemViewModel>(menuAggregator.ComposeMenu(menuProviders));
 
             Tools = new ObservableCollection<ITool>(tools);
-            Items.AddRange(documents);
+            foreach (var document in documents)
+                ItemsCollection.Add(document);
 
             StatusBarItems = new ObservableCollection<StatusBarItemViewModel>(
                 statusBarAggregator.ComposeStatusBar(statusBarProviders));
-        }
-
-        public override void ActivateItem(IDocument item)
-        {
-            if (_isClosing)
-                return;
-
-            base.ActivateItem(item);
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            _isClosing = true;
-
-            base.OnDeactivate(close);
         }
     }
 }
