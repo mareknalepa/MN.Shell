@@ -1,5 +1,5 @@
-﻿using System.IO;
-using MN.Shell.Framework.Tree;
+﻿using MN.Shell.Framework.Tree;
+using System.IO;
 
 namespace MN.Shell.Modules.FolderExplorer
 {

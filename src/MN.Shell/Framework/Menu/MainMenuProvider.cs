@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using MN.Shell.Framework.ColorSchemes;
+﻿using MN.Shell.Framework.ColorSchemes;
 using MN.Shell.MVVM;
+using System;
+using System.Collections.Generic;
 
 namespace MN.Shell.Framework.Menu
 {

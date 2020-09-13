@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using MN.Shell.MVVM;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using MN.Shell.MVVM;
 
 namespace MN.Shell.Framework.Tree
 {

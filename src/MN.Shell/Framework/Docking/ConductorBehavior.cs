@@ -1,13 +1,13 @@
-﻿using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using AvalonDock;
+﻿using AvalonDock;
 using AvalonDock.Controls;
 using AvalonDock.Converters;
 using AvalonDock.Layout;
 using Caliburn.Micro;
 using Microsoft.Xaml.Behaviors;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace MN.Shell.Framework.Docking
 {

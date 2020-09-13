@@ -1,9 +1,9 @@
-﻿using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using MN.Shell.MVVM.Tests.BinderExample;
+﻿using MN.Shell.MVVM.Tests.BinderExample;
 using Moq;
 using NUnit.Framework;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace MN.Shell.MVVM.Tests
 {

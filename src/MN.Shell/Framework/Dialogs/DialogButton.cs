@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MN.Shell.MVVM;
+using System;
 using System.Windows.Input;
-using MN.Shell.MVVM;
 
 namespace MN.Shell.Framework.Dialogs
 {

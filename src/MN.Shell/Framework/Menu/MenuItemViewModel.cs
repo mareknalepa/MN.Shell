@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MN.Shell.MVVM;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using MN.Shell.MVVM;
 
 namespace MN.Shell.Framework.Menu
 {

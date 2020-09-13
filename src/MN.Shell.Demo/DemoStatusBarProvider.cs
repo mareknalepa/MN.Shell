@@ -1,5 +1,4 @@
-﻿using MN.Shell.Core;
-using MN.Shell.Framework.StatusBar;
+﻿using MN.Shell.Framework.StatusBar;
 using System.Collections.Generic;
 using System.Windows;
 

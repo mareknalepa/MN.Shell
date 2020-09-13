@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using MN.Shell.Framework.Menu;
+﻿using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.MessageBox;
 using MN.Shell.MVVM;
+using System.Collections.Generic;
 
 namespace MN.Shell.Demo
 {

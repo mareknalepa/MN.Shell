@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 
 namespace MN.Shell.MVVM.Tests
 {
@@ -301,23 +301,23 @@ namespace MN.Shell.MVVM.Tests
         }
     }
 
-    class Message1 { }
+    internal class Message1 { }
 
-    class Message2 : Message1 { }
+    internal class Message2 : Message1 { }
 
-    class Listener1 : IListener<Message1>
+    internal class Listener1 : IListener<Message1>
     {
         public List<Message1> ProcessedMessages { get; } = new List<Message1>();
         public void Process(Message1 message) => ProcessedMessages.Add(message);
     }
 
-    class Listener2 : IListener<Message2>
+    internal class Listener2 : IListener<Message2>
     {
         public List<Message2> ProcessedMessages { get; } = new List<Message2>();
         public void Process(Message2 message) => ProcessedMessages.Add(message);
     }
 
-    class Listener3 : IListener<Message1>, IListener<Message2>
+    internal class Listener3 : IListener<Message1>, IListener<Message2>
     {
         public List<Message1> ProcessedMessages1 { get; } = new List<Message1>();
         public List<Message1> ProcessedMessages2 { get; } = new List<Message1>();
@@ -325,7 +325,7 @@ namespace MN.Shell.MVVM.Tests
         public void Process(Message2 message) => ProcessedMessages2.Add(message);
     }
 
-    class Listener4 : IListener<Message1>
+    internal class Listener4 : IListener<Message1>
     {
         private readonly IMessageBus _messageBus;
 
@@ -343,7 +343,7 @@ namespace MN.Shell.MVVM.Tests
         }
     }
 
-    class Listener5 : IListener<Message1>
+    internal class Listener5 : IListener<Message1>
     {
         private readonly IMessageBus _messageBus;
 
@@ -358,7 +358,7 @@ namespace MN.Shell.MVVM.Tests
         }
     }
 
-    class Listener6 : IListener<Message1>
+    internal class Listener6 : IListener<Message1>
     {
         private readonly IMessageBus _messageBus;
 

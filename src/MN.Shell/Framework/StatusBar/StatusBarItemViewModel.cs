@@ -1,5 +1,5 @@
-﻿using System.Windows.Input;
-using MN.Shell.MVVM;
+﻿using MN.Shell.MVVM;
+using System.Windows.Input;
 
 namespace MN.Shell.Framework.StatusBar
 {

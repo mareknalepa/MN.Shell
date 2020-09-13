@@ -1,8 +1,8 @@
-﻿using System.Windows;
+﻿using Microsoft.Xaml.Behaviors;
+using MN.Shell.Controls;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Microsoft.Xaml.Behaviors;
-using MN.Shell.Controls;
 
 namespace MN.Shell.Behaviors
 {

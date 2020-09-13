@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace MN.Shell.MVVM.Sample
 {

@@ -6,7 +6,7 @@ namespace MN.Shell.Modules.FolderExplorer
     public static class FileSystemOperations
     {
         [Flags]
-        enum OpFlags : ushort
+        private enum OpFlags : ushort
         {
             // Do not show a dialog during the process
             FOF_SILENT = 0x0004,
@@ -22,7 +22,7 @@ namespace MN.Shell.Modules.FolderExplorer
             FOF_WANTNUKEWARNING = 0x4000,
         }
 
-        enum OpType : uint
+        private enum OpType : uint
         {
             // Move the objects
             FO_MOVE = 0x0001,

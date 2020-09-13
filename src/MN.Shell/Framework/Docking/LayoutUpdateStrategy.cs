@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using AvalonDock.Layout;
+using System.Linq;
 using System.Windows.Controls;
-using AvalonDock.Layout;
 
 namespace MN.Shell.Framework.Docking
 {

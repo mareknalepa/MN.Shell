@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MN.Shell.MVVM.Tests.Example1;
+using NUnit.Framework;
+using System;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using MN.Shell.MVVM.Tests.Example1;
-using NUnit.Framework;
 
 namespace MN.Shell.MVVM.Tests
 {
