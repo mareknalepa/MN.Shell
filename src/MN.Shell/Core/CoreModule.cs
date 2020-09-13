@@ -10,7 +10,7 @@ namespace MN.Shell.Core
         public override void Load()
         {
             Bind<IViewManager, ViewManager>().To<ViewManager>().InSingletonScope();
-            Bind<IWindowManager, WindowManager>().To<WindowManager>().InSingletonScope();
+            Bind<IWindowManager, WindowManager, ShellWindowManager>().To<ShellWindowManager>().InSingletonScope();
             Bind<IMessageBus, MessageBus>().To<MessageBus>().InSingletonScope();
         }
     }

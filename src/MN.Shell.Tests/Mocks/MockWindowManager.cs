@@ -1,9 +1,10 @@
-﻿using MN.Shell.MVVM;
+﻿using MN.Shell.Core;
+using MN.Shell.MVVM;
 using System.Windows;
 
 namespace MN.Shell.Tests.Mocks
 {
-    public class MockWindowManager : Shell.Core.WindowManager
+    public class MockWindowManager : ShellWindowManager
     {
         public MockWindowManager(IViewManager viewManager) : base(viewManager) { }
 
