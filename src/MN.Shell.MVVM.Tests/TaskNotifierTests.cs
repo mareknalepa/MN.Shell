@@ -16,7 +16,7 @@ namespace MN.Shell.MVVM.Tests
             var task = Task.CompletedTask;
             Assert.True(task.IsCompleted);
 
-            var taskNotifier = new TaskNotifier(task);
+            var taskNotifier = task.ToTaskNotifier();
 
             CheckCompletedTaskNotifier(task, taskNotifier);
         }
@@ -27,7 +27,7 @@ namespace MN.Shell.MVVM.Tests
             var cancellationToken = new CancellationToken(true);
             var task = Task.FromCanceled(cancellationToken);
 
-            var taskNotifier = new TaskNotifier(task);
+            var taskNotifier = task.ToTaskNotifier();
 
             CheckCanceledTaskNotifier(task, taskNotifier);
         }
@@ -38,7 +38,7 @@ namespace MN.Shell.MVVM.Tests
             var exception = new Exception("Exception message");
             var task = Task.FromException(exception);
 
-            var taskNotifier = new TaskNotifier(task);
+            var taskNotifier = task.ToTaskNotifier();
 
             CheckFaultedTaskNotifier(task, taskNotifier, exception);
         }
@@ -55,7 +55,7 @@ namespace MN.Shell.MVVM.Tests
                     completionSemaphore.Wait();
                 });
 
-                var taskNotifier = new TaskNotifier(task);
+                var taskNotifier = task.ToTaskNotifier();
 
                 runningSemaphore.Wait();
 
@@ -105,7 +105,7 @@ namespace MN.Shell.MVVM.Tests
                     }
                 }, cancellationTokenSource.Token);
 
-                var taskNotifier = new TaskNotifier(task);
+                var taskNotifier = task.ToTaskNotifier();
 
                 runningSemaphore.Wait();
 
@@ -155,7 +155,7 @@ namespace MN.Shell.MVVM.Tests
                     throw exception;
                 });
 
-                var taskNotifier = new TaskNotifier(task);
+                var taskNotifier = task.ToTaskNotifier();
 
                 runningSemaphore.Wait();
 

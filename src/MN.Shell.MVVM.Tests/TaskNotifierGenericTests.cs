@@ -16,7 +16,7 @@ namespace MN.Shell.MVVM.Tests
             var task = Task.FromResult(5);
             Assert.True(task.IsCompleted);
 
-            var taskNotifier = new TaskNotifier<int>(task, 123);
+            var taskNotifier = task.ToTaskNotifier(123);
 
             CheckCompletedTaskNotifier(task, taskNotifier, 5);
         }
@@ -27,7 +27,7 @@ namespace MN.Shell.MVVM.Tests
             var cancellationToken = new CancellationToken(true);
             var task = Task.FromCanceled<int>(cancellationToken);
 
-            var taskNotifier = new TaskNotifier<int>(task, 123);
+            var taskNotifier = task.ToTaskNotifier(123);
 
             CheckCanceledTaskNotifier(task, taskNotifier, 123);
         }
@@ -38,7 +38,7 @@ namespace MN.Shell.MVVM.Tests
             var exception = new Exception("Exception message");
             var task = Task.FromException<int>(exception);
 
-            var taskNotifier = new TaskNotifier<int>(task, 123);
+            var taskNotifier = task.ToTaskNotifier(123);
 
             CheckFaultedTaskNotifier(task, taskNotifier, exception, 123);
         }
@@ -56,7 +56,7 @@ namespace MN.Shell.MVVM.Tests
                     return 5;
                 });
 
-                var taskNotifier = new TaskNotifier<int>(task, 123);
+                var taskNotifier = task.ToTaskNotifier(123);
 
                 runningSemaphore.Wait();
 
@@ -111,7 +111,7 @@ namespace MN.Shell.MVVM.Tests
 #pragma warning restore CS0162 // Unreachable code detected
                 }, cancellationTokenSource.Token);
 
-                var taskNotifier = new TaskNotifier<int>(task, 123);
+                var taskNotifier = task.ToTaskNotifier(123);
 
                 runningSemaphore.Wait();
 
@@ -164,7 +164,7 @@ namespace MN.Shell.MVVM.Tests
 #pragma warning restore CS0162 // Unreachable code detected
                 });
 
-                var taskNotifier = new TaskNotifier<int>(task, 123);
+                var taskNotifier = task.ToTaskNotifier(123);
 
                 runningSemaphore.Wait();
 

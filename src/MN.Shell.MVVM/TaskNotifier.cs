@@ -67,7 +67,7 @@ namespace MN.Shell.MVVM
         /// Creates new TaskNotifier to observe given asynchronous task
         /// </summary>
         /// <param name="task">Task to observe</param>
-        public TaskNotifier(Task task)
+        internal TaskNotifier(Task task)
         {
             Task = task ?? throw new ArgumentNullException(nameof(task));
             TaskCompleted = WrapTaskAsync(task);
@@ -77,7 +77,7 @@ namespace MN.Shell.MVVM
         /// Creates new TaskNotifier to observe given asynchronous action
         /// </summary>
         /// <param name="asyncAction">Asynchronous action to observe</param>
-        public TaskNotifier(Func<Task> asyncAction) :
+        internal TaskNotifier(Func<Task> asyncAction) :
             this(asyncAction?.Invoke() ?? throw new ArgumentNullException(nameof(asyncAction)))
         { }
 
@@ -196,7 +196,7 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="task">Task to observe</param>
         /// <param name="defaultResult">Result to expose until task completes</param>
-        public TaskNotifier(Task<T> task, T defaultResult = default)
+        internal TaskNotifier(Task<T> task, T defaultResult)
         {
             _defaultResult = defaultResult;
             Task = task ?? throw new ArgumentNullException(nameof(task));
@@ -207,8 +207,9 @@ namespace MN.Shell.MVVM
         /// Creates new TaskNotifier to observe given asynchronous action
         /// </summary>
         /// <param name="asyncAction">Asynchronous action to observe</param>
-        public TaskNotifier(Func<Task<T>> asyncAction) :
-            this(asyncAction?.Invoke() ?? throw new ArgumentNullException(nameof(asyncAction)))
+        /// <param name="defaultResult">Result to expose until task completes</param>
+        internal TaskNotifier(Func<Task<T>> asyncAction, T defaultResult) :
+            this(asyncAction?.Invoke() ?? throw new ArgumentNullException(nameof(asyncAction)), defaultResult)
         { }
 
         private async Task WrapTaskAsync(Task<T> task)
