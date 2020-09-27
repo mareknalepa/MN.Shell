@@ -18,6 +18,7 @@ namespace MN.Shell.MVVM.Sample
 
             serviceCollection.AddTransient<ShellViewModel>();
             serviceCollection.AddTransient<ShellView>();
+            serviceCollection.AddTransient<CommandsSampleView>();
             serviceCollection.AddTransient<SampleDocumentView>();
             serviceCollection.AddTransient<SampleToolView>();
 

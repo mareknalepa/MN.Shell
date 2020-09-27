@@ -128,12 +128,7 @@ namespace MN.Shell.MVVM.Tests
                 };
 
                 cancellationTokenSource.Cancel();
-                try
-                {
-                    taskNotifier.TaskCompleted.Wait();
-                }
-                catch (AggregateException)
-                { }
+                taskNotifier.TaskCompleted.Wait();
 
                 Assert.True(propertiesToNotify.All(kvp => kvp.Value));
 
@@ -181,12 +176,7 @@ namespace MN.Shell.MVVM.Tests
                 };
 
                 failingSemaphore.Release();
-                try
-                {
-                    taskNotifier.TaskCompleted.Wait();
-                }
-                catch (AggregateException)
-                { }
+                taskNotifier.TaskCompleted.Wait();
 
                 Assert.True(propertiesToNotify.All(kvp => kvp.Value));
 
