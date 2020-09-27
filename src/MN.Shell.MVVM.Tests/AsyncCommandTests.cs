@@ -202,8 +202,12 @@ namespace MN.Shell.MVVM.Tests
                     await completionSemaphore.WaitAsync().ConfigureAwait(false);
                 });
 
+                Assert.False(command.IsExecuting);
+
                 command.Execute(new object());
                 runningSemaphore.Wait();
+
+                Assert.True(command.IsExecuting);
 
                 Assert.False(command.Execution.IsCompleted);
                 Assert.True(command.Execution.IsNotCompleted);
@@ -213,6 +217,8 @@ namespace MN.Shell.MVVM.Tests
 
                 completionSemaphore.Release();
                 command.Execution.TaskCompleted.Wait();
+
+                Assert.False(command.IsExecuting);
 
                 Assert.True(command.Execution.IsCompleted);
                 Assert.False(command.Execution.IsNotCompleted);
@@ -234,8 +240,12 @@ namespace MN.Shell.MVVM.Tests
                     await completionSemaphore.WaitAsync().ConfigureAwait(false);
                 });
 
+                Assert.False(command.IsExecuting);
+
                 command.Execute(new object());
                 runningSemaphore.Wait();
+
+                Assert.True(command.IsExecuting);
 
                 Assert.False(command.Execution.IsCompleted);
                 Assert.True(command.Execution.IsNotCompleted);
@@ -245,6 +255,8 @@ namespace MN.Shell.MVVM.Tests
 
                 completionSemaphore.Release();
                 command.Execution.TaskCompleted.Wait();
+
+                Assert.False(command.IsExecuting);
 
                 Assert.True(command.Execution.IsCompleted);
                 Assert.False(command.Execution.IsNotCompleted);
@@ -268,8 +280,12 @@ namespace MN.Shell.MVVM.Tests
                     cts.Token.ThrowIfCancellationRequested();
                 });
 
+                Assert.False(command.IsExecuting);
+
                 command.Execute(new object());
                 runningSemaphore.Wait();
+
+                Assert.True(command.IsExecuting);
 
                 Assert.False(command.Execution.IsCompleted);
                 Assert.True(command.Execution.IsNotCompleted);
@@ -280,6 +296,8 @@ namespace MN.Shell.MVVM.Tests
                 cts.Cancel();
                 cancelSemaphore.Release();
                 command.Execution.TaskCompleted.Wait();
+
+                Assert.False(command.IsExecuting);
 
                 Assert.True(command.Execution.IsCompleted);
                 Assert.False(command.Execution.IsNotCompleted);
@@ -303,8 +321,12 @@ namespace MN.Shell.MVVM.Tests
                     cts.Token.ThrowIfCancellationRequested();
                 });
 
+                Assert.False(command.IsExecuting);
+
                 command.Execute(new object());
                 runningSemaphore.Wait();
+
+                Assert.True(command.IsExecuting);
 
                 Assert.False(command.Execution.IsCompleted);
                 Assert.True(command.Execution.IsNotCompleted);
@@ -315,6 +337,8 @@ namespace MN.Shell.MVVM.Tests
                 cts.Cancel();
                 cancelSemaphore.Release();
                 command.Execution.TaskCompleted.Wait();
+
+                Assert.False(command.IsExecuting);
 
                 Assert.True(command.Execution.IsCompleted);
                 Assert.False(command.Execution.IsNotCompleted);
@@ -337,8 +361,12 @@ namespace MN.Shell.MVVM.Tests
                     throw new InvalidOperationException("Example exception thrown from async command");
                 });
 
+                Assert.False(command.IsExecuting);
+
                 command.Execute(new object());
                 runningSemaphore.Wait();
+
+                Assert.True(command.IsExecuting);
 
                 Assert.False(command.Execution.IsCompleted);
                 Assert.True(command.Execution.IsNotCompleted);
@@ -348,6 +376,8 @@ namespace MN.Shell.MVVM.Tests
 
                 faultSemaphore.Release();
                 command.Execution.TaskCompleted.Wait();
+
+                Assert.False(command.IsExecuting);
 
                 Assert.True(command.Execution.IsCompleted);
                 Assert.False(command.Execution.IsNotCompleted);
@@ -372,8 +402,12 @@ namespace MN.Shell.MVVM.Tests
                     throw new InvalidOperationException("Example exception thrown from async command");
                 });
 
+                Assert.False(command.IsExecuting);
+
                 command.Execute(new object());
                 runningSemaphore.Wait();
+
+                Assert.True(command.IsExecuting);
 
                 Assert.False(command.Execution.IsCompleted);
                 Assert.True(command.Execution.IsNotCompleted);
@@ -383,6 +417,8 @@ namespace MN.Shell.MVVM.Tests
 
                 faultSemaphore.Release();
                 command.Execution.TaskCompleted.Wait();
+
+                Assert.False(command.IsExecuting);
 
                 Assert.True(command.Execution.IsCompleted);
                 Assert.False(command.Execution.IsNotCompleted);

@@ -7,7 +7,7 @@ namespace MN.Shell.MVVM
     /// <summary>
     /// Asynchronous command which allows observing its progress while executing
     /// </summary>
-    public class AsyncCommand : IAsyncCommand
+    public class AsyncCommand : PropertyChangedBase, IAsyncCommand
     {
         private readonly Func<object, Task> _executeAsync;
         private readonly Func<object, bool> _canExecute;
@@ -21,10 +21,23 @@ namespace MN.Shell.MVVM
             remove => CommandManager.RequerySuggested -= value;
         }
 
+        private TaskNotifier _execution;
+
         /// <summary>
         /// TaskNotifier exposed to allow observing command execution progress via data binding
         /// </summary>
-        public TaskNotifier Execution { get; private set; }
+        public TaskNotifier Execution
+        {
+            get => _execution;
+            private set
+            {
+                _execution = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(IsExecuting));
+            }
+        }
+
+        public bool IsExecuting => Execution?.IsNotCompleted ?? false;
 
         /// <summary>
         /// Creates new AsyncCommand with given delegates accepting parameter
@@ -67,8 +80,10 @@ namespace MN.Shell.MVVM
         public async Task ExecuteAsync(object parameter)
         {
             Execution = new TaskNotifier(_executeAsync(parameter));
+            NotifyPropertyChanged(nameof(IsExecuting));
             CommandManager.InvalidateRequerySuggested();
             await Execution.TaskCompleted.ConfigureAwait(true);
+            NotifyPropertyChanged(nameof(IsExecuting));
             CommandManager.InvalidateRequerySuggested();
         }
 
