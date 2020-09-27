@@ -28,27 +28,27 @@
         </StackPanel>
         <StackPanel Margin="2" Orientation="Horizontal">
             <TextBlock Width="160">Execution status:</TextBlock>
-            <TextBlock Text="{Binding AsyncExecution.Status}"/>
+            <TextBlock Text="{Binding IncrementAsyncCounter.Execution.Status}"/>
         </StackPanel>
         <StackPanel Margin="2" Orientation="Horizontal">
             <TextBlock Width="160">Is completed:</TextBlock>
-            <TextBlock Text="{Binding AsyncExecution.IsCompleted}"/>
+            <TextBlock Text="{Binding IncrementAsyncCounter.Execution.IsCompleted}"/>
         </StackPanel>
         <StackPanel Margin="2" Orientation="Horizontal">
             <TextBlock Width="160">Is completed successfully:</TextBlock>
-            <TextBlock Text="{Binding AsyncExecution.IsCompletedSuccessfully}"/>
+            <TextBlock Text="{Binding IncrementAsyncCounter.Execution.IsCompletedSuccessfully}"/>
         </StackPanel>
         <StackPanel Margin="2" Orientation="Horizontal">
             <TextBlock Width="160">Is canceled:</TextBlock>
-            <TextBlock Text="{Binding AsyncExecution.IsCanceled}"/>
+            <TextBlock Text="{Binding IncrementAsyncCounter.Execution.IsCanceled}"/>
         </StackPanel>
         <StackPanel Margin="2" Orientation="Horizontal">
             <TextBlock Width="160">Is faulted:</TextBlock>
-            <TextBlock Text="{Binding AsyncExecution.IsFaulted}"/>
+            <TextBlock Text="{Binding IncrementAsyncCounter.Execution.IsFaulted}"/>
         </StackPanel>
         <StackPanel Margin="2" Orientation="Horizontal">
             <TextBlock Width="160">Error message:</TextBlock>
-            <TextBlock Foreground="Red"  Text="{Binding AsyncExecution.ErrorMessage}"/>
+            <TextBlock Foreground="Red"  Text="{Binding IncrementAsyncCounter.Execution.ErrorMessage}"/>
         </StackPanel>
         <Button Width="320" Margin="2,2,2,10" HorizontalAlignment="Left" Command="{Binding IncrementAsyncCounter}">Increment async counter</Button>
 

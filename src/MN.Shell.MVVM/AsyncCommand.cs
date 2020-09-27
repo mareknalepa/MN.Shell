@@ -37,6 +37,9 @@ namespace MN.Shell.MVVM
             }
         }
 
+        /// <summary>
+        /// Status of command execution - true if currently command is running, false otherwise
+        /// </summary>
         public bool IsExecuting => Execution?.IsNotCompleted ?? false;
 
         /// <summary>

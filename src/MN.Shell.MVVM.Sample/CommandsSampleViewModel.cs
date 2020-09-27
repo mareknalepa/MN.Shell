@@ -37,15 +37,7 @@ namespace MN.Shell.MVVM.Sample
             private set => Set(ref _asyncCounter, value);
         }
 
-        public ICommand IncrementAsyncCounter { get; }
-
-        private TaskNotifier _asyncExecution;
-
-        public TaskNotifier AsyncExecution
-        {
-            get => _asyncExecution;
-            set => Set(ref _asyncExecution, value);
-        }
+        public IAsyncCommand IncrementAsyncCounter { get; }
 
         public CommandsSampleViewModel()
         {
@@ -59,8 +51,7 @@ namespace MN.Shell.MVVM.Sample
                 ++BlockingCounter;
             });
 
-            IncrementAsyncCounter = new RelayCommand(
-                () => AsyncExecution = IncrementAsyncCounterAsync().ToTaskNotifier());
+            IncrementAsyncCounter = new AsyncCommand(IncrementAsyncCounterAsync);
         }
 
         private async Task IncrementAsyncCounterAsync()

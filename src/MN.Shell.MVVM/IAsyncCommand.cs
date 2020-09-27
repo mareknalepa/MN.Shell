@@ -9,6 +9,16 @@ namespace MN.Shell.MVVM
     public interface IAsyncCommand : ICommand
     {
         /// <summary>
+        /// TaskNotifier exposed to allow observing command execution progress via data binding
+        /// </summary>
+        TaskNotifier Execution { get; }
+
+        /// <summary>
+        /// Status of command execution - true if currently command is running, false otherwise
+        /// </summary>
+        bool IsExecuting { get; }
+
+        /// <summary>
         /// Executes command asynchronously
         /// </summary>
         /// <param name="parameter">Internal parameter which can be optionally passed to command</param>
