@@ -2,6 +2,7 @@
 using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.StatusBar;
 using MN.Shell.MVVM;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -9,6 +10,8 @@ namespace MN.Shell.Modules.Shell
 {
     public class ShellViewModel : ItemsConductorOneActive<IDocument>
     {
+        private readonly ShellContext _shellContext;
+
         public ObservableCollection<MenuItemViewModel> MenuItems { get; }
 
         public ObservableCollection<ITool> Tools { get; }
@@ -30,14 +33,16 @@ namespace MN.Shell.Modules.Shell
 
         public ObservableCollection<StatusBarItemViewModel> StatusBarItems { get; }
 
-        public ShellViewModel(IMenuAggregator menuAggregator, IEnumerable<IMenuProvider> menuProviders,
-            MainMenuProvider mainMenuProvider, IStatusBarAggregator statusBarAggregator,
+        public ShellViewModel(ShellContext shellContext, IMenuAggregator menuAggregator,
+            IEnumerable<IMenuProvider> menuProviders, IStatusBarAggregator statusBarAggregator,
             IEnumerable<IStatusBarProvider> statusBarProviders, IEnumerable<ITool> tools,
             IEnumerable<IDocument> documents)
         {
-            Title = "MN.Shell";
+            _shellContext = shellContext;
 
-            mainMenuProvider.ApplicationExitHandler = () => RequestClose();
+            _shellContext.ApplicationTitleChanged += OnApplicationTitleChanged;
+            _shellContext.ApplicationExitRequested += OnApplicationExitRequested;
+            OnApplicationTitleChanged(_shellContext, _shellContext.ApplicationTitle);
 
             MenuItems = new ObservableCollection<MenuItemViewModel>(menuAggregator.ComposeMenu(menuProviders));
 
@@ -48,5 +53,13 @@ namespace MN.Shell.Modules.Shell
             StatusBarItems = new ObservableCollection<StatusBarItemViewModel>(
                 statusBarAggregator.ComposeStatusBar(statusBarProviders));
         }
+
+        private void OnApplicationTitleChanged(object sender, string newTitle)
+        {
+            if (!string.IsNullOrEmpty(newTitle))
+                Title = newTitle;
+        }
+
+        private void OnApplicationExitRequested(object sender, EventArgs e) => RequestClose();
     }
 }
