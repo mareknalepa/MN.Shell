@@ -80,8 +80,8 @@ namespace MN.Shell.Framework.Tree
             if (isLazyLoadable)
                 _children.Add(_lazyLoadingNode);
 
-            ExpandAllCommand = new RelayCommand(() => ExpandAll());
-            CollapseAllCommand = new RelayCommand(() => CollapseAll());
+            ExpandAllCommand = new Command(() => ExpandAll());
+            CollapseAllCommand = new Command(() => CollapseAll());
         }
 
         public void ClearChildren()

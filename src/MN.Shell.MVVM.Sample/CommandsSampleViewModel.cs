@@ -43,9 +43,9 @@ namespace MN.Shell.MVVM.Sample
         {
             Title = "Commands Sample";
 
-            IncrementCounter = new RelayCommand(() => ++Counter);
+            IncrementCounter = new Command(() => ++Counter);
 
-            IncrementBlockingCounter = new RelayCommand(() =>
+            IncrementBlockingCounter = new Command(() =>
             {
                 Thread.Sleep(3000);
                 ++BlockingCounter;

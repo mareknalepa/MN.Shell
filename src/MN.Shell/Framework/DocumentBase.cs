@@ -14,7 +14,7 @@ namespace MN.Shell.Framework
 
         public DocumentBase()
         {
-            CloseCommand = new RelayCommand(() => RequestClose(null));
+            CloseCommand = new Command(() => RequestClose(null));
         }
     }
 }

@@ -25,7 +25,7 @@ namespace MN.Shell.Framework.Dialogs
 
         private static void ProcessAddButton(IDialog dialog, DialogButton button, Action action, Func<bool> canExecute)
         {
-            button.Command = new RelayCommand(() =>
+            button.Command = new Command(() =>
             {
                 dialog.SelectedButton = button;
 

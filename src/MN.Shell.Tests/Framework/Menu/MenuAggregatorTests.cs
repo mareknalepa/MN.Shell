@@ -152,7 +152,7 @@ namespace MN.Shell.Tests.Framework.Menu
                 {
                     Name = "Item1",
                     GroupOrder = 10,
-                    Command = new RelayCommand(() => { }),
+                    Command = new Command(() => { }),
                     IsCheckable = true,
                 },
             });
@@ -171,7 +171,7 @@ namespace MN.Shell.Tests.Framework.Menu
             Mock<IMenuProvider> menuProvider = new Mock<IMenuProvider>(MockBehavior.Strict);
             menuProvider.Setup(m => m.GetMenuItems()).Returns(new List<MenuItem>()
             {
-                new MenuItem() { Name = "Item1", GroupOrder = 10, Command = new RelayCommand(() => { }) },
+                new MenuItem() { Name = "Item1", GroupOrder = 10, Command = new Command(() => { }) },
                 new MenuItem() { Name = "SubItem11", Path = new []{ "Item1" }, GroupOrder = 10 },
             });
 

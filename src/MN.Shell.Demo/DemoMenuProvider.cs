@@ -82,7 +82,7 @@ namespace MN.Shell.Demo
                 Path = new[] { "Demo" },
                 GroupId = 10,
                 GroupOrder = 10,
-                Command = new RelayCommand(() =>
+                Command = new Command(() =>
                 {
                     _messageBoxManager.Show("Demo", "This is an example of MVVM-aware MessageBox.",
                         MessageBoxType.Info, MessageBoxButtons.Ok);
@@ -113,7 +113,7 @@ namespace MN.Shell.Demo
                 Path = new[] { "MessageBox" },
                 GroupId = 10,
                 GroupOrder = 10,
-                Command = new RelayCommand(() =>
+                Command = new Command(() =>
                 {
                     _messageBoxManager.Show("MessageBox Demo",
                         "This is an example of MessageBox without specific type.",
@@ -127,7 +127,7 @@ namespace MN.Shell.Demo
                 Path = new[] { "MessageBox" },
                 GroupId = 20,
                 GroupOrder = 10,
-                Command = new RelayCommand(() =>
+                Command = new Command(() =>
                 {
                     _messageBoxManager.Show("MessageBox Demo",
                         "This is an example of Info MessageBox.",
@@ -141,7 +141,7 @@ namespace MN.Shell.Demo
                 Path = new[] { "MessageBox" },
                 GroupId = 20,
                 GroupOrder = 20,
-                Command = new RelayCommand(() =>
+                Command = new Command(() =>
                 {
                     _messageBoxManager.Show("MessageBox Demo",
                         "This is an example of Warning MessageBox.",
@@ -155,7 +155,7 @@ namespace MN.Shell.Demo
                 Path = new[] { "MessageBox" },
                 GroupId = 20,
                 GroupOrder = 30,
-                Command = new RelayCommand(() =>
+                Command = new Command(() =>
                 {
                     _messageBoxManager.Show("MessageBox Demo",
                         "This is an example of Error MessageBox.",
@@ -169,7 +169,7 @@ namespace MN.Shell.Demo
                 Path = new[] { "MessageBox" },
                 GroupId = 30,
                 GroupOrder = 10,
-                Command = new RelayCommand(() =>
+                Command = new Command(() =>
                 {
                     _messageBoxManager.Show("MessageBox Demo",
                         "This is an example of MessageBox with OK button.",
@@ -183,7 +183,7 @@ namespace MN.Shell.Demo
                 Path = new[] { "MessageBox" },
                 GroupId = 30,
                 GroupOrder = 20,
-                Command = new RelayCommand(() =>
+                Command = new Command(() =>
                 {
                     _messageBoxManager.Show("MessageBox Demo",
                         "This is an example of MessageBox with OK and Cancel buttons.",
@@ -197,7 +197,7 @@ namespace MN.Shell.Demo
                 Path = new[] { "MessageBox" },
                 GroupId = 30,
                 GroupOrder = 30,
-                Command = new RelayCommand(() =>
+                Command = new Command(() =>
                 {
                     _messageBoxManager.Show("MessageBox Demo",
                         "This is an example of MessageBox with Yes and No buttons.",
@@ -211,7 +211,7 @@ namespace MN.Shell.Demo
                 Path = new[] { "MessageBox" },
                 GroupId = 30,
                 GroupOrder = 40,
-                Command = new RelayCommand(() =>
+                Command = new Command(() =>
                 {
                     _messageBoxManager.Show("MessageBox Demo",
                         "This is an example of MessageBox with Yes, No and Cancel buttons.",
@@ -225,7 +225,7 @@ namespace MN.Shell.Demo
                 Path = new[] { "MessageBox" },
                 GroupId = 40,
                 GroupOrder = 10,
-                Command = new RelayCommand(() =>
+                Command = new Command(() =>
                 {
                     _messageBoxManager.Show("MessageBox Demo",
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt " +
