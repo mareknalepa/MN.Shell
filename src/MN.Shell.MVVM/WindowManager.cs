@@ -76,8 +76,9 @@ namespace MN.Shell.MVVM
                 window = new Window()
                 {
                     DataContext = view.DataContext,
-                    SizeToContent = SizeToContent.Manual,
                     Content = view,
+                    SizeToContent = isDialog ? SizeToContent.WidthAndHeight : SizeToContent.Manual,
+                    ResizeMode = isDialog ? ResizeMode.NoResize : ResizeMode.CanResize,
                 };
             }
 
