@@ -24,7 +24,7 @@ namespace MN.Shell.Framework
 
         public ToolBase()
         {
-            CloseCommand = new RelayCommand(() => IsVisible = false);
+            CloseCommand = new Command(() => IsVisible = false);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace MN.Shell.Framework.StatusBar
 
         public StatusBarItemViewModel()
         {
-            Command = new RelayCommand(() => CommandAction?.Invoke(), () => CanExecuteCommand && CommandAction != null);
+            Command = new Command(() => CommandAction?.Invoke(), () => CanExecuteCommand && CommandAction != null);
         }
     }
 }

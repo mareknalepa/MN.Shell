@@ -76,7 +76,7 @@ namespace MN.Shell.MVVM
                 window = new Window()
                 {
                     DataContext = view.DataContext,
-                    SizeToContent = SizeToContent.WidthAndHeight,
+                    SizeToContent = SizeToContent.Manual,
                     Content = view,
                 };
             }

@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="MN.Shell.MVVM.Sample.CommandsSampleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <StackPanel HorizontalAlignment="Left">
+
+        <TextBlock Margin="2,2,2,10">Sample tool view</TextBlock>
+
+        <StackPanel Margin="2" Orientation="Horizontal">
+            <TextBlock Width="160">Counter:</TextBlock>
+            <TextBlock Text="{Binding Counter}"/>
+        </StackPanel>
+        <Button Width="320" Margin="2,2,2,10" HorizontalAlignment="Left" Command="{Binding IncrementCounter}">Increment counter</Button>
+
+        <StackPanel Margin="2" Orientation="Horizontal">
+            <TextBlock Width="160">Blocking counter:</TextBlock>
+            <TextBlock Text="{Binding BlockingCounter}"/>
+        </StackPanel>
+        <Button Width="320" Margin="2,2,2,10" HorizontalAlignment="Left" Command="{Binding IncrementBlockingCounter}">Increment blocking counter</Button>
+
+        <StackPanel Margin="2" Orientation="Horizontal">
+            <TextBlock Width="160">Async counter:</TextBlock>
+            <TextBlock Text="{Binding AsyncCounter}"/>
+        </StackPanel>
+        <StackPanel Margin="2" Orientation="Horizontal">
+            <TextBlock Width="160">Execution status:</TextBlock>
+            <TextBlock Text="{Binding IncrementAsyncCounter.Execution.Status}"/>
+        </StackPanel>
+        <StackPanel Margin="2" Orientation="Horizontal">
+            <TextBlock Width="160">Is completed:</TextBlock>
+            <TextBlock Text="{Binding IncrementAsyncCounter.Execution.IsCompleted}"/>
+        </StackPanel>
+        <StackPanel Margin="2" Orientation="Horizontal">
+            <TextBlock Width="160">Is completed successfully:</TextBlock>
+            <TextBlock Text="{Binding IncrementAsyncCounter.Execution.IsCompletedSuccessfully}"/>
+        </StackPanel>
+        <StackPanel Margin="2" Orientation="Horizontal">
+            <TextBlock Width="160">Is canceled:</TextBlock>
+            <TextBlock Text="{Binding IncrementAsyncCounter.Execution.IsCanceled}"/>
+        </StackPanel>
+        <StackPanel Margin="2" Orientation="Horizontal">
+            <TextBlock Width="160">Is faulted:</TextBlock>
+            <TextBlock Text="{Binding IncrementAsyncCounter.Execution.IsFaulted}"/>
+        </StackPanel>
+        <StackPanel Margin="2" Orientation="Horizontal">
+            <TextBlock Width="160">Error message:</TextBlock>
+            <TextBlock Foreground="Red"  Text="{Binding IncrementAsyncCounter.Execution.ErrorMessage}"/>
+        </StackPanel>
+        <Button Width="320" Margin="2,2,2,10" HorizontalAlignment="Left" Command="{Binding IncrementAsyncCounter}">Increment async counter</Button>
+
+    </StackPanel>
+</UserControl>

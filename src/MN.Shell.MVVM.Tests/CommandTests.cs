@@ -3,7 +3,7 @@
 namespace MN.Shell.MVVM.Tests
 {
     [TestFixture]
-    public class RelayCommandTests
+    public class CommandTests
     {
         [Test]
         public void CanExecuteWithParameterTest()
@@ -11,7 +11,7 @@ namespace MN.Shell.MVVM.Tests
             bool canExecuteFired = false;
             bool canExecute = false;
 
-            var command = new RelayCommand(o => { }, o =>
+            var command = new Command(o => { }, o =>
             {
                 canExecuteFired = true;
                 return canExecute;
@@ -35,7 +35,7 @@ namespace MN.Shell.MVVM.Tests
             bool canExecuteFired = false;
             bool canExecute = false;
 
-            var command = new RelayCommand(() => { }, () =>
+            var command = new Command(() => { }, () =>
             {
                 canExecuteFired = true;
                 return canExecute;
@@ -59,7 +59,7 @@ namespace MN.Shell.MVVM.Tests
             bool executeFired = false;
             bool canExecute = false;
 
-            var command = new RelayCommand(o => executeFired = true, o => canExecute);
+            var command = new Command(o => executeFired = true, o => canExecute);
 
             Assert.False(executeFired);
 
@@ -78,7 +78,7 @@ namespace MN.Shell.MVVM.Tests
             bool executeFired = false;
             bool canExecute = false;
 
-            var command = new RelayCommand(() => executeFired = true, () => canExecute);
+            var command = new Command(() => executeFired = true, () => canExecute);
 
             Assert.False(executeFired);
 
@@ -96,7 +96,7 @@ namespace MN.Shell.MVVM.Tests
         {
             bool executeFired = false;
 
-            var command = new RelayCommand(o => executeFired = true);
+            var command = new Command(o => executeFired = true);
 
             Assert.True(command.CanExecute(new object()));
             Assert.False(executeFired);
@@ -110,7 +110,7 @@ namespace MN.Shell.MVVM.Tests
         {
             bool executeFired = false;
 
-            var command = new RelayCommand(() => executeFired = true);
+            var command = new Command(() => executeFired = true);
 
             Assert.True(command.CanExecute(new object()));
             Assert.False(executeFired);

@@ -6,7 +6,7 @@ namespace MN.Shell.MVVM
     /// <summary>
     /// Basic implementation of ICommand to be used in bindings
     /// </summary>
-    public class RelayCommand : ICommand
+    public class Command : ICommand
     {
         private readonly Action<object> _execute;
         private readonly Func<object, bool> _canExecute;
@@ -16,27 +16,27 @@ namespace MN.Shell.MVVM
         /// </summary>
         public event EventHandler CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
 
         /// <summary>
-        /// Creates new RelayCommand with given delegates accepting parameter
+        /// Creates new Command with given delegates accepting parameter
         /// </summary>
         /// <param name="execute">Delegate executed with command</param>
         /// <param name="canExecute">Delegate used to determine if command can be executed (optional)</param>
-        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
+        public Command(Action<object> execute, Func<object, bool> canExecute = null)
         {
             _execute = execute;
             _canExecute = canExecute;
         }
 
         /// <summary>
-        /// Creates new RelayCommand using simpler delegates without additional parameter
+        /// Creates new Command using simpler delegates without additional parameter
         /// </summary>
         /// <param name="execute">Delegate executed with command</param>
         /// <param name="canExecute">Delegate used to determine if command can be executed (optional)</param>
-        public RelayCommand(Action execute, Func<bool> canExecute = null)
+        public Command(Action execute, Func<bool> canExecute = null)
         {
             _execute = o => execute.Invoke();
             if (canExecute != null)

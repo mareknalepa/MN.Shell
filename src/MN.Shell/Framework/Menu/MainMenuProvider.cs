@@ -59,7 +59,7 @@ namespace MN.Shell.Framework.Menu
                 Path = new[] { "File" },
                 GroupId = 100,
                 GroupOrder = 100,
-                Command = new RelayCommand(() => ApplicationExitHandler?.Invoke()),
+                Command = new Command(() => ApplicationExitHandler?.Invoke()),
             };
 
             yield return new MenuItem()
@@ -80,7 +80,7 @@ namespace MN.Shell.Framework.Menu
                     Path = new[] { "Settings", "Base Colors" },
                     GroupId = 10,
                     GroupOrder = groupOrder++,
-                    Command = new RelayCommand(() => _colorSchemeLoader.LoadBaseColors(baseColors)),
+                    Command = new Command(() => _colorSchemeLoader.LoadBaseColors(baseColors)),
                 };
             }
 
@@ -102,7 +102,7 @@ namespace MN.Shell.Framework.Menu
                     Path = new[] { "Settings", "Accent Color" },
                     GroupId = 10,
                     GroupOrder = groupOrder++,
-                    Command = new RelayCommand(() => _colorSchemeLoader.LoadAccentColors(accentColors)),
+                    Command = new Command(() => _colorSchemeLoader.LoadAccentColors(accentColors)),
                 };
             }
         }

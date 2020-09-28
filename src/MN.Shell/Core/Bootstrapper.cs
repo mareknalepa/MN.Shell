@@ -1,4 +1,5 @@
-﻿using MN.Shell.MVVM;
+﻿using MN.Shell.Modules.Shell;
+using MN.Shell.MVVM;
 using Ninject;
 using Ninject.Modules;
 using NLog;
@@ -39,7 +40,9 @@ namespace MN.Shell.Core
                     {
                         return Assembly.LoadFrom(f);
                     }
+#pragma warning disable CA1031 // Do not catch general exception types
                     catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
                     {
                         _logger.Error(e);
                         return null;
@@ -51,7 +54,9 @@ namespace MN.Shell.Core
                         return assembly?.GetExportedTypes()
                             .Any(type => typeof(INinjectModule).IsAssignableFrom(type)) ?? false;
                     }
+#pragma warning disable CA1031 // Do not catch general exception types
                     catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
                     {
                         _logger.Error(e);
                         return false;
@@ -70,7 +75,7 @@ namespace MN.Shell.Core
         protected override void OnStartup(StartupEventArgs e)
         {
             _logger.Info("Application startup");
-            DisplayRootView<IShell>();
+            DisplayRootView<ShellViewModel>();
         }
 
         protected override void OnExit(ExitEventArgs e)

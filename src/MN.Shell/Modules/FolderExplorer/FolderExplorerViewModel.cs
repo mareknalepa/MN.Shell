@@ -28,24 +28,24 @@ namespace MN.Shell.Modules.FolderExplorer
             Root = new ComputerViewModel();
             RootSource = new ReadOnlyCollection<TreeNodeBase>(new[] { Root });
 
-            ReloadCommand = new RelayCommand(() => ReloadFolders());
-            CollapseAllCommand = new RelayCommand(() => Root.CollapseAll());
+            ReloadCommand = new Command(() => ReloadFolders());
+            CollapseAllCommand = new Command(() => Root.CollapseAll());
 
-            NewDirectoryCommand = new RelayCommand(() => NewNode(isDirectory: true),
+            NewDirectoryCommand = new Command(() => NewNode(isDirectory: true),
                 () => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
-            NewFileCommand = new RelayCommand(() => NewNode(isDirectory: false),
-                () => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
-
-            ConfirmNewNodeCommand = new RelayCommand(() => ConfirmNewNode(), () => CurrentInsertNode != null);
-            CancelNewNodeCommand = new RelayCommand(() => CancelNewNode(), () => CurrentInsertNode != null);
-
-            RenameNodeCommand = new RelayCommand(() => RenameNode(),
+            NewFileCommand = new Command(() => NewNode(isDirectory: false),
                 () => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
 
-            ConfirmRenameNodeCommand = new RelayCommand(() => ConfirmRenameNode(), () => CurrentRenameNode != null);
-            CancelRenameNodeCommand = new RelayCommand(() => CancelRenameNode(), () => CurrentRenameNode != null);
+            ConfirmNewNodeCommand = new Command(() => ConfirmNewNode(), () => CurrentInsertNode != null);
+            CancelNewNodeCommand = new Command(() => CancelNewNode(), () => CurrentInsertNode != null);
 
-            DeleteNodeCommand = new RelayCommand(() => DeleteNode(), () => SelectedNode != null);
+            RenameNodeCommand = new Command(() => RenameNode(),
+                () => SelectedDirectory != null && CurrentInsertNode == null && CurrentRenameNode == null);
+
+            ConfirmRenameNodeCommand = new Command(() => ConfirmRenameNode(), () => CurrentRenameNode != null);
+            CancelRenameNodeCommand = new Command(() => CancelRenameNode(), () => CurrentRenameNode != null);
+
+            DeleteNodeCommand = new Command(() => DeleteNode(), () => SelectedNode != null);
 
             ContextMenuItems.Add(new MenuItemViewModel()
             {

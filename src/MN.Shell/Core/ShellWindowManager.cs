@@ -19,7 +19,7 @@ namespace MN.Shell.Core
                 window = new ShellWindow()
                 {
                     DataContext = view.DataContext,
-                    SizeToContent = SizeToContent.WidthAndHeight,
+                    SizeToContent = SizeToContent.Manual,
                     Content = view,
                 };
             }
