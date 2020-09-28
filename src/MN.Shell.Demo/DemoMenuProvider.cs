@@ -1,6 +1,7 @@
 ﻿using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.MessageBox;
 using MN.Shell.MVVM;
+using System;
 using System.Collections.Generic;
 
 namespace MN.Shell.Demo
@@ -26,22 +27,8 @@ namespace MN.Shell.Demo
 
             yield return new MenuItem()
             {
-                Name = "New Demo Project...",
-                Path = new[] { "File" },
-                GroupId = 10,
-                GroupOrder = 10,
-            };
-
-            yield return new MenuItem()
-            {
-                Name = "Demo",
-                GroupId = 0,
-                GroupOrder = 35,
-            };
-
-            yield return new MenuItem()
-            {
                 Name = "MessageBox",
+                Path = new[] { "Edit" },
                 GroupId = 0,
                 GroupOrder = 36,
             };
@@ -78,19 +65,6 @@ namespace MN.Shell.Demo
 
             yield return new MenuItem()
             {
-                Name = "Run Demo...",
-                Path = new[] { "Demo" },
-                GroupId = 10,
-                GroupOrder = 10,
-                Command = new Command(() =>
-                {
-                    _messageBoxManager.Show("Demo", "This is an example of MVVM-aware MessageBox.",
-                        MessageBoxType.Info, MessageBoxButtons.Ok);
-                }),
-            };
-
-            yield return new MenuItem()
-            {
                 Name = "Preferences...",
                 Path = new[] { "Edit" },
                 GroupId = 30,
@@ -99,18 +73,8 @@ namespace MN.Shell.Demo
 
             yield return new MenuItem()
             {
-                Name = "Demo mode",
-                Path = new[] { "Demo" },
-                GroupId = 10,
-                GroupOrder = 5,
-                IsCheckable = true,
-                OnIsCheckedChanged = isChecked => System.Windows.MessageBox.Show($"New value: {isChecked}", "Info"),
-            };
-
-            yield return new MenuItem()
-            {
                 Name = "MessageBox without type",
-                Path = new[] { "MessageBox" },
+                Path = new[] { "Edit", "MessageBox" },
                 GroupId = 10,
                 GroupOrder = 10,
                 Command = new Command(() =>
@@ -124,7 +88,7 @@ namespace MN.Shell.Demo
             yield return new MenuItem()
             {
                 Name = "Info MessageBox",
-                Path = new[] { "MessageBox" },
+                Path = new[] { "Edit", "MessageBox" },
                 GroupId = 20,
                 GroupOrder = 10,
                 Command = new Command(() =>
@@ -138,7 +102,7 @@ namespace MN.Shell.Demo
             yield return new MenuItem()
             {
                 Name = "Warning MessageBox",
-                Path = new[] { "MessageBox" },
+                Path = new[] { "Edit", "MessageBox" },
                 GroupId = 20,
                 GroupOrder = 20,
                 Command = new Command(() =>
@@ -152,7 +116,7 @@ namespace MN.Shell.Demo
             yield return new MenuItem()
             {
                 Name = "Error MessageBox",
-                Path = new[] { "MessageBox" },
+                Path = new[] { "Edit", "MessageBox" },
                 GroupId = 20,
                 GroupOrder = 30,
                 Command = new Command(() =>
@@ -166,7 +130,7 @@ namespace MN.Shell.Demo
             yield return new MenuItem()
             {
                 Name = "MessageBox - OK",
-                Path = new[] { "MessageBox" },
+                Path = new[] { "Edit", "MessageBox" },
                 GroupId = 30,
                 GroupOrder = 10,
                 Command = new Command(() =>
@@ -180,7 +144,7 @@ namespace MN.Shell.Demo
             yield return new MenuItem()
             {
                 Name = "MessageBox - OK, Cancel",
-                Path = new[] { "MessageBox" },
+                Path = new[] { "Edit", "MessageBox" },
                 GroupId = 30,
                 GroupOrder = 20,
                 Command = new Command(() =>
@@ -194,7 +158,7 @@ namespace MN.Shell.Demo
             yield return new MenuItem()
             {
                 Name = "MessageBox - Yes, No",
-                Path = new[] { "MessageBox" },
+                Path = new[] { "Edit", "MessageBox" },
                 GroupId = 30,
                 GroupOrder = 30,
                 Command = new Command(() =>
@@ -208,7 +172,7 @@ namespace MN.Shell.Demo
             yield return new MenuItem()
             {
                 Name = "MessageBox - Yes, No, Cancel",
-                Path = new[] { "MessageBox" },
+                Path = new[] { "Edit", "MessageBox" },
                 GroupId = 30,
                 GroupOrder = 40,
                 Command = new Command(() =>
@@ -222,7 +186,7 @@ namespace MN.Shell.Demo
             yield return new MenuItem()
             {
                 Name = "MessageBox with very long message",
-                Path = new[] { "MessageBox" },
+                Path = new[] { "Edit", "MessageBox" },
                 GroupId = 40,
                 GroupOrder = 10,
                 Command = new Command(() =>
@@ -253,38 +217,13 @@ namespace MN.Shell.Demo
 
             yield return new MenuItem()
             {
-                Name = "Windows",
-                GroupOrder = 37,
-            };
-
-            yield return new MenuItem()
-            {
-                Name = "Main Window",
-                Path = new[] { "Windows" },
-            };
-
-            yield return new MenuItem()
-            {
-                Name = "Commands",
-                GroupOrder = 38,
-            };
-
-            yield return new MenuItem()
-            {
-                Name = "Operation 1",
-                Path = new[] { "Commands" },
-            };
-
-            yield return new MenuItem()
-            {
-                Name = "Operation 2",
-                Path = new[] { "Commands" },
-            };
-
-            yield return new MenuItem()
-            {
                 Name = "About",
                 Path = new[] { "Help" },
+                Command = new Command(() =>
+                {
+                    _messageBoxManager.Show("About",
+                        "MN.Shell Demo Application" + Environment.NewLine + "Version 0.1.0", MessageBoxType.Info);
+                }),
             };
         }
     }
