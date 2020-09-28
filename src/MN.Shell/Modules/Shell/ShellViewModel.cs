@@ -1,5 +1,4 @@
-﻿using MN.Shell.Core;
-using MN.Shell.Framework;
+﻿using MN.Shell.Framework;
 using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.StatusBar;
 using MN.Shell.MVVM;
@@ -8,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace MN.Shell.Modules.Shell
 {
-    public class ShellViewModel : ItemsConductorOneActive<IDocument>, IShell
+    public class ShellViewModel : ItemsConductorOneActive<IDocument>
     {
         public ObservableCollection<MenuItemViewModel> MenuItems { get; }
 
