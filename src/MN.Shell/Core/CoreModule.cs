@@ -1,4 +1,5 @@
-﻿using MN.Shell.MVVM;
+﻿using MN.Shell.Modules.Shell;
+using MN.Shell.MVVM;
 using Ninject.Modules;
 
 namespace MN.Shell.Core
@@ -12,6 +13,7 @@ namespace MN.Shell.Core
             Bind<IViewManager, ViewManager>().To<ViewManager>().InSingletonScope();
             Bind<IWindowManager, WindowManager, ShellWindowManager>().To<ShellWindowManager>().InSingletonScope();
             Bind<IMessageBus, MessageBus>().To<MessageBus>().InSingletonScope();
+            Bind<ShellContext>().ToSelf().InSingletonScope();
         }
     }
 }

@@ -1,20 +1,20 @@
 ﻿using MN.Shell.Framework.ColorSchemes;
+using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
-using System;
 using System.Collections.Generic;
 
 namespace MN.Shell.Framework.Menu
 {
     public class MainMenuProvider : IMenuProvider
     {
+        private readonly ShellContext _shellContext;
         private readonly IColorSchemeLoader _colorSchemeLoader;
 
-        public MainMenuProvider(IColorSchemeLoader colorSchemeLoader)
+        public MainMenuProvider(ShellContext shellContext, IColorSchemeLoader colorSchemeLoader)
         {
+            _shellContext = shellContext;
             _colorSchemeLoader = colorSchemeLoader;
         }
-
-        public Action ApplicationExitHandler { get; set; }
 
         public IEnumerable<MenuItem> GetMenuItems()
         {
@@ -59,7 +59,7 @@ namespace MN.Shell.Framework.Menu
                 Path = new[] { "File" },
                 GroupId = 100,
                 GroupOrder = 100,
-                Command = new Command(() => ApplicationExitHandler?.Invoke()),
+                Command = new Command(() => _shellContext.RequestApplicationExit()),
             };
 
             yield return new MenuItem()
