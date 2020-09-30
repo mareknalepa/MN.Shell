@@ -30,6 +30,9 @@ namespace MN.Shell.Core
             if (string.IsNullOrEmpty(path))
                 throw new InvalidOperationException("Cannot scan empty directory path");
 
+            var pluginLoaderContext = new PluginLoaderContext(_kernel);
+            var plugins = PluginLoader.DiscoverAndLoadPlugins(path, pluginLoaderContext);
+
             _logger.Info($"Directory to scan for modules: {path}");
 
             IEnumerable<Assembly> assemblies = Directory.GetFiles(path, "*.dll")

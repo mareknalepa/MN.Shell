@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MN.Shell.MVVM\MN.Shell.MVVM.csproj" />
+    <ProjectReference Include="..\MN.Shell.PluginContracts\MN.Shell.PluginContracts.csproj" />
   </ItemGroup>
 
 </Project>
