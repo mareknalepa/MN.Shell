@@ -1,5 +1,6 @@
 ﻿using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
+using MN.Shell.PluginContracts;
 using Ninject;
 using Ninject.Modules;
 using NLog;
@@ -16,13 +17,17 @@ namespace MN.Shell.Core
     {
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        private IKernel _kernel;
+        public IKernel Kernel { get; private set; }
+
+        private List<IPlugin> _plugins;
+
+        public IReadOnlyList<IPlugin> Plugins => _plugins.AsReadOnly();
 
         protected override void Configure()
         {
             _logger.Info("Configuring Bootstrapper...");
 
-            _kernel = new StandardKernel();
+            Kernel = new StandardKernel();
 
             string path = Path.GetDirectoryName(Uri.UnescapeDataString(
                 new Uri(Assembly.GetExecutingAssembly().Location).AbsolutePath));
@@ -30,8 +35,8 @@ namespace MN.Shell.Core
             if (string.IsNullOrEmpty(path))
                 throw new InvalidOperationException("Cannot scan empty directory path");
 
-            var pluginLoaderContext = new PluginLoaderContext(_kernel);
-            var plugins = PluginLoader.DiscoverAndLoadPlugins(path, pluginLoaderContext);
+            var pluginLoaderContext = new PluginLoaderContext(Kernel);
+            _plugins = new List<IPlugin>(PluginLoader.DiscoverAndLoadPlugins(path, pluginLoaderContext));
 
             _logger.Info($"Directory to scan for modules: {path}");
 
@@ -67,28 +72,35 @@ namespace MN.Shell.Core
                 });
 
             foreach (Assembly assembly in assemblies)
-                _kernel.Load(assembly);
+                Kernel.Load(assembly);
 
-            foreach (INinjectModule module in _kernel.GetModules())
+            foreach (INinjectModule module in Kernel.GetModules())
                 _logger.Info($"Loaded module: {module.Name} [{module.GetType().Assembly.FullName}]");
         }
 
-        protected override T GetInstance<T>() => _kernel.Get<T>();
+        protected override T GetInstance<T>() => Kernel.Get<T>();
 
         protected override void OnStartup(StartupEventArgs e)
         {
             _logger.Info("Application startup");
+
+            _plugins.ForEach(p => p.OnStartup(e));
+
             DisplayRootView<ShellViewModel>();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
+            _plugins.ForEach(p => p.OnExit(e));
+
             _logger.Info("Application exit");
         }
 
         protected override void Dispose(bool disposing)
         {
-            _kernel.Dispose();
+            _plugins.OfType<IDisposable>().ToList().ForEach(p => p.Dispose());
+
+            Kernel.Dispose();
             base.Dispose(disposing);
         }
     }

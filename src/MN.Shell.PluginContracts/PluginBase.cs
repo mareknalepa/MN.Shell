@@ -1,4 +1,6 @@
-﻿namespace MN.Shell.PluginContracts
+﻿using System.Windows;
+
+namespace MN.Shell.PluginContracts
 {
     public abstract class PluginBase : IPlugin
     {
@@ -27,5 +29,17 @@
         /// Composition root of the plugin, method called while loading a plugin after context has been already set up
         /// </summary>
         protected abstract void OnLoad();
+
+        /// <summary>
+        /// Method called by application's plugin infrastructure upon application's startup
+        /// </summary>
+        /// <param name="e">StartupEventArgs containing command-line arguments</param>
+        public virtual void OnStartup(StartupEventArgs e) { }
+
+        /// <summary>
+        /// Method called by application's plugin infrastructure just before application's exit
+        /// </summary>
+        /// <param name="e">ExitEventArgs allowing to set exit code</param>
+        public virtual void OnExit(ExitEventArgs e) { }
     }
 }

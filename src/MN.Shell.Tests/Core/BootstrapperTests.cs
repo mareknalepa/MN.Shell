@@ -1,7 +1,13 @@
 ﻿using MN.Shell.Core;
+using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
-using MN.Shell.Tests.Mocks;
+using MN.Shell.PluginContracts;
+using Moq;
 using NUnit.Framework;
+using System;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
 
 namespace MN.Shell.Tests.Core
 {
@@ -14,11 +20,138 @@ namespace MN.Shell.Tests.Core
             using (var bootstrapper = new MockBootstrapper())
             {
                 bootstrapper.Configure();
-                var instance = bootstrapper.GetInstance<IWindowManager>();
+                var instance = bootstrapper.GetInstance<IExampleService>();
 
                 Assert.NotNull(instance);
-                Assert.AreEqual(typeof(ShellWindowManager), instance.GetType());
+                Assert.AreEqual(typeof(ExampleService), instance.GetType());
+
+                var anotherInstance = bootstrapper.GetInstance<IExampleService>();
+
+                Assert.NotNull(anotherInstance);
+                Assert.AreSame(instance, anotherInstance);
+            }
+        }
+
+        public static bool PluginLoadCalled { get; set; }
+
+        [Test]
+        public void PluginLoadTest()
+        {
+            using (var bootstrapper = new MockBootstrapper())
+            {
+                PluginLoadCalled = false;
+                bootstrapper.Configure();
+
+                Assert.True(PluginLoadCalled);
+            }
+        }
+
+        public static bool PluginOnStartupCalled { get; set; }
+
+        [Test]
+        public void PluginOnStartupTest()
+        {
+            using (var bootstrapper = new MockBootstrapper())
+            {
+                PluginOnStartupCalled = false;
+                bootstrapper.Configure();
+
+                // Hack to create instance of StartupEventArgs in tests:
+                var constructorInfo = typeof(StartupEventArgs).GetTypeInfo().DeclaredConstructors.First();
+                var e = constructorInfo.Invoke(null) as StartupEventArgs;
+
+                try
+                {
+                    bootstrapper.OnStartup(e);
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                }
+
+                Assert.True(PluginOnStartupCalled);
+            }
+        }
+
+        public static bool PluginOnExitCalled { get; set; }
+
+        [Test]
+        public void PluginOnExitTest()
+        {
+            using (var bootstrapper = new MockBootstrapper())
+            {
+                PluginOnExitCalled = false;
+                bootstrapper.Configure();
+
+                // Hack to create instance of ExitEventArgs in tests:
+                var constructorInfo = typeof(ExitEventArgs).GetTypeInfo().DeclaredConstructors.First();
+                var e = constructorInfo.Invoke(new object[] { 0 }) as ExitEventArgs;
+
+                bootstrapper.OnExit(e);
+
+                Assert.True(PluginOnExitCalled);
+            }
+        }
+
+        public static bool PluginDisposeCalled { get; set; }
+
+        [Test]
+        public void PluginDisposeCalledTest()
+        {
+            using (var bootstrapper = new MockBootstrapper())
+            {
+                PluginDisposeCalled = false;
+                bootstrapper.Configure();
+
+                bootstrapper.Dispose();
+
+                Assert.True(PluginDisposeCalled);
             }
         }
     }
+
+    public class MockBootstrapper : Bootstrapper
+    {
+        public new void Configure()
+        {
+            base.Configure();
+
+            // Hack to suppress creating real WindowManager
+            var windowManagerMock = new Mock<IWindowManager>();
+            Kernel.Rebind<IWindowManager>().ToConstant(windowManagerMock.Object);
+
+            // Hack to suppress creating real ShellViewModel
+            Kernel.Rebind<ShellViewModel>().ToConstant(null as ShellViewModel);
+
+            Kernel.Bind<IExampleService, ExampleService>().To<ExampleService>().InSingletonScope();
+        }
+
+        public new T GetInstance<T>() => base.GetInstance<T>();
+
+        public new void OnStartup(StartupEventArgs e) => base.OnStartup(e);
+
+        public new void OnExit(ExitEventArgs e) => base.OnExit(e);
+    }
+
+#pragma warning disable CA1063 // Implement IDisposable Correctly
+    public class BootstrapperTestsExamplePlugin : PluginBase, IDisposable
+#pragma warning restore CA1063 // Implement IDisposable Correctly
+    {
+        protected override void OnLoad() => BootstrapperTests.PluginLoadCalled = true;
+
+        public override void OnStartup(StartupEventArgs e) => BootstrapperTests.PluginOnStartupCalled = true;
+
+        public override void OnExit(ExitEventArgs e) => BootstrapperTests.PluginOnExitCalled = true;
+
+#pragma warning disable CA1063 // Implement IDisposable Correctly
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize
+        public void Dispose() => BootstrapperTests.PluginDisposeCalled = true;
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
+#pragma warning restore CA1063 // Implement IDisposable Correctly
+    }
+
+    internal interface IExampleService { }
+
+    public class ExampleService : IExampleService { }
 }
