@@ -7,26 +7,26 @@
     <Version>0.1.0</Version>
     <Authors>Marek Nalepa</Authors>
     <Product>MN.Shell</Product>
-    <Description>MN.Shell core components test suite</Description>
+    <Description>Set of contracts for creating plugins for MN.Shell-based application</Description>
     <Copyright>Copyright © Marek Nalepa 2020</Copyright>
     <PackageProjectUrl>https://github.com/mareknalepa/MN.Shell</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mareknalepa/MN.Shell</RepositoryUrl>
-    <IsPackable>false</IsPackable>
+    <PackageIcon>mnshell.png</PackageIcon>
+    <PackageTags>netcore,wpf,plugins</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="..\mnshell.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </Resource>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Moq" Version="4.14.5" />
-    <PackageReference Include="nunit" Version="3.12.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MN.Shell\MN.Shell.csproj" />
   </ItemGroup>
 
 </Project>

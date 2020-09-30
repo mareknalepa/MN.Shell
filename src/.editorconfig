@@ -10,6 +10,11 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+# Project files
+[*.{csproj,vbproj}]
+charset = utf-8-bom
+indent_size = 2
+
 # Code files
 [*.{cs,csx,vb,vbx}]
 charset = utf-8-bom
