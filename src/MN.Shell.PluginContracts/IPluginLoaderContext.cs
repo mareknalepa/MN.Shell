@@ -6,5 +6,10 @@
     /// </summary>
     public interface IPluginLoaderContext
     {
+        /// <summary>
+        /// Registers given tool to be available in shell
+        /// </summary>
+        /// <typeparam name="T">Type of tool</typeparam>
+        void UseTool<T>() where T : ITool;
     }
 }

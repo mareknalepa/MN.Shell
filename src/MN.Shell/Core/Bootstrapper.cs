@@ -55,12 +55,18 @@ namespace MN.Shell.Core
                         _logger.Error(e);
                         return null;
                     }
-                }).Where(assembly =>
+                }).
+                Where(assembly => assembly != null).
+#pragma warning disable CA1307 // Specify StringComparison
+                Where(assembly => !assembly.FullName.StartsWith("Ninject")).
+#pragma warning restore CA1307 // Specify StringComparison
+                Where(assembly =>
                 {
                     try
                     {
-                        return assembly?.GetExportedTypes()
-                            .Any(type => typeof(INinjectModule).IsAssignableFrom(type)) ?? false;
+                        return assembly
+                            .GetExportedTypes()
+                            .Any(type => typeof(INinjectModule).IsAssignableFrom(type));
                     }
 #pragma warning disable CA1031 // Do not catch general exception types
                     catch (Exception e)
