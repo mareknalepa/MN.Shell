@@ -1,5 +1,5 @@
-﻿using MN.Shell.Framework;
-using MN.Shell.Modules.Shell;
+﻿using MN.Shell.Modules.Shell;
+using MN.Shell.PluginContracts;
 
 namespace MN.Shell.Demo.ControlsDemo
 {

@@ -1,9 +1,9 @@
-﻿using MN.Shell.Framework;
-using MN.Shell.Framework.Menu;
+﻿using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.MessageBox;
 using MN.Shell.Framework.Messages;
 using MN.Shell.Framework.Tree;
 using MN.Shell.MVVM;
+using MN.Shell.PluginContracts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

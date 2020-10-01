@@ -1,9 +1,12 @@
 ﻿using MN.Shell.MVVM;
+using System.Windows.Input;
 
-namespace MN.Shell.Framework
+namespace MN.Shell.PluginContracts
 {
-    public abstract class DocumentBase : LayoutModuleBase, IDocument
+    public class DocumentBase : Screen, IDocument
     {
+        public ICommand CloseCommand { get; }
+
         private string _description;
 
         public virtual string Description

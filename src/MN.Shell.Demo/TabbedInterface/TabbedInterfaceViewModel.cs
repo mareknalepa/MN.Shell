@@ -1,4 +1,4 @@
-﻿using MN.Shell.Framework;
+﻿using MN.Shell.PluginContracts;
 
 namespace MN.Shell.Demo.TabbedInterface
 {

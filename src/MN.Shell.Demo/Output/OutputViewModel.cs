@@ -1,6 +1,6 @@
-﻿using MN.Shell.Framework;
-using MN.Shell.Framework.Messages;
+﻿using MN.Shell.Framework.Messages;
 using MN.Shell.MVVM;
+using MN.Shell.PluginContracts;
 using System;
 
 namespace MN.Shell.Demo.Output

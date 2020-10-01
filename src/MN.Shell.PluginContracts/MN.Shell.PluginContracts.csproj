@@ -29,4 +29,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MN.Shell.MVVM\MN.Shell.MVVM.csproj" />
+  </ItemGroup>
+
 </Project>

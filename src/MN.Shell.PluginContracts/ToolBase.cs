@@ -1,9 +1,12 @@
 ﻿using MN.Shell.MVVM;
+using System.Windows.Input;
 
-namespace MN.Shell.Framework
+namespace MN.Shell.PluginContracts
 {
-    public abstract class ToolBase : LayoutModuleBase, ITool
+    public abstract class ToolBase : Screen, ITool
     {
+        public ICommand CloseCommand { get; }
+
         private bool _isVisible = true;
 
         public bool IsVisible

@@ -1,4 +1,4 @@
-﻿namespace MN.Shell.Framework
+﻿namespace MN.Shell.PluginContracts
 {
     public interface ITool : ILayoutModule
     {

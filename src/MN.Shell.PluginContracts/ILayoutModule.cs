@@ -1,11 +1,10 @@
 ﻿using MN.Shell.MVVM;
 using System.Windows.Input;
 
-namespace MN.Shell.Framework
+namespace MN.Shell.PluginContracts
 {
     public interface ILayoutModule : IScreen
     {
-        string ContentId { get; }
         ICommand CloseCommand { get; }
     }
 }
