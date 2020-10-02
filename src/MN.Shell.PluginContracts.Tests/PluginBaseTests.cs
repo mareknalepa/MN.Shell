@@ -10,7 +10,7 @@ namespace MN.Shell.PluginContracts.Tests
         [Test]
         public void ContextInjectedTest()
         {
-            var pluginLoaderContextMock = new Mock<IPluginLoaderContext>();
+            var pluginLoaderContextMock = new Mock<IPluginContext>();
 
             var plugin = new ExamplePlugin();
             plugin.Load(pluginLoaderContextMock.Object);
@@ -21,7 +21,7 @@ namespace MN.Shell.PluginContracts.Tests
         [Test]
         public void OnLoadCalledTest()
         {
-            var pluginLoaderContextMock = new Mock<IPluginLoaderContext>();
+            var pluginLoaderContextMock = new Mock<IPluginContext>();
 
             var plugin = new ExamplePlugin();
 

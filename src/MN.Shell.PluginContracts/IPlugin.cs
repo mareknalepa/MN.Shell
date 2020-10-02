@@ -17,7 +17,7 @@ namespace MN.Shell.PluginContracts
         /// </summary>
         /// <param name="context">Plugin loader context, allowing access to various extension points
         /// by a plugin composition root</param>
-        void Load(IPluginLoaderContext context);
+        void Load(IPluginContext context);
 
         /// <summary>
         /// Method called by application's plugin infrastructure upon application's startup

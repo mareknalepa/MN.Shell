@@ -3,11 +3,12 @@ using Ninject;
 
 namespace MN.Shell.Core
 {
-    public class PluginLoaderContext : IPluginLoaderContext
+    public class PluginContext
+        : IPluginContext
     {
         private readonly IKernel _kernel;
 
-        public PluginLoaderContext(IKernel kernel)
+        public PluginContext(IKernel kernel)
         {
             _kernel = kernel;
         }

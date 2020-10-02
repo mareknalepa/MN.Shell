@@ -2,9 +2,9 @@
 {
     /// <summary>
     /// Context injected externally by plugin loading infrastructure while loading the plugin,
-    /// allowing access to various extension points by a plugin composition root
+    /// allowing access to various extension points and application-wide features by a plugin composition root
     /// </summary>
-    public interface IPluginLoaderContext
+    public interface IPluginContext
     {
         /// <summary>
         /// Registers given tool to be available in shell

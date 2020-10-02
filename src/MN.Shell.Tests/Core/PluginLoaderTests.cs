@@ -16,7 +16,7 @@ namespace MN.Shell.Tests.Core
         public void PluginDiscoveredAndLoadedTest()
         {
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var mockPluginLoaderContext = new Mock<IPluginLoaderContext>();
+            var mockPluginLoaderContext = new Mock<IPluginContext>();
 
             OnLoadCalled = false;
             PluginLoader.DiscoverAndLoadPlugins(path, mockPluginLoaderContext.Object);

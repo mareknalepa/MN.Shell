@@ -12,7 +12,7 @@ namespace MN.Shell.Core
     {
         private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public static IEnumerable<IPlugin> DiscoverAndLoadPlugins(string path, IPluginLoaderContext context)
+        public static IEnumerable<IPlugin> DiscoverAndLoadPlugins(string path, IPluginContext context)
         {
             _logger.Info($"Starting plugins discovery process using directory [{path}]...");
 
