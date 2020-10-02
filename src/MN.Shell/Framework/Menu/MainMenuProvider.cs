@@ -1,18 +1,18 @@
 ﻿using MN.Shell.Framework.ColorSchemes;
-using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
+using MN.Shell.PluginContracts;
 using System.Collections.Generic;
 
 namespace MN.Shell.Framework.Menu
 {
     public class MainMenuProvider : IMenuProvider
     {
-        private readonly ShellContext _shellContext;
+        private readonly IApplicationContext _applicationContext;
         private readonly IColorSchemeLoader _colorSchemeLoader;
 
-        public MainMenuProvider(ShellContext shellContext, IColorSchemeLoader colorSchemeLoader)
+        public MainMenuProvider(IApplicationContext applicationContext, IColorSchemeLoader colorSchemeLoader)
         {
-            _shellContext = shellContext;
+            _applicationContext = applicationContext;
             _colorSchemeLoader = colorSchemeLoader;
         }
 
@@ -59,7 +59,7 @@ namespace MN.Shell.Framework.Menu
                 Path = new[] { "File" },
                 GroupId = 100,
                 GroupOrder = 100,
-                Command = new Command(() => _shellContext.RequestApplicationExit()),
+                Command = new Command(() => _applicationContext.RequestApplicationExit()),
             };
 
             yield return new MenuItem()

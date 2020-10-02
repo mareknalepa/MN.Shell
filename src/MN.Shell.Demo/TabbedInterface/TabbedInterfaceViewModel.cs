@@ -9,4 +9,6 @@ namespace MN.Shell.Demo.TabbedInterface
             Title = "Tabbed Interface";
         }
     }
+
+    public interface ITabbedInterfaceFactory : IDocumentFactory<TabbedInterfaceViewModel> { }
 }
