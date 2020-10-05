@@ -1,9 +1,10 @@
 ﻿using MN.Shell.MVVM;
+using MN.Shell.PluginContracts;
 using System.Windows.Input;
 
 namespace MN.Shell.Framework.StatusBar
 {
-    public class StatusBarItemViewModel : PropertyChangedBase
+    public class StatusBarItemViewModel : PropertyChangedBase, IStatusBarItem
     {
         public StatusBarSide Side { get; set; } = StatusBarSide.Left;
 

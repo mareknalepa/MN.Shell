@@ -1,11 +1,12 @@
 ﻿using MN.Shell.Framework.StatusBar;
+using MN.Shell.PluginContracts;
 using System.Collections.Generic;
 
 namespace MN.Shell.Demo
 {
     public class DemoStatusBarProvider : IStatusBarProvider
     {
-        public IEnumerable<StatusBarItemViewModel> GetStatusBarItems()
+        public IEnumerable<IStatusBarItem> GetStatusBarItems()
         {
             yield return new StatusBarItemViewModel()
             {

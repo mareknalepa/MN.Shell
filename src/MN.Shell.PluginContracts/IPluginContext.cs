@@ -32,5 +32,12 @@
         /// <typeparam name="T">Type of menu provider</typeparam>
         void UseMenuProvider<T>()
             where T : class, IMenuProvider;
+
+        /// <summary>
+        /// Registers status bar provider
+        /// </summary>
+        /// <typeparam name="T">Type of status bar provider</typeparam>
+        void UseStatusBarProvider<T>()
+            where T : class, IStatusBarProvider;
     }
 }

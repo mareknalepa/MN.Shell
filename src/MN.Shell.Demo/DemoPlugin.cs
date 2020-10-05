@@ -20,6 +20,8 @@ namespace MN.Shell.Demo
             Context.UseDocumentFactory<ITabbedInterfaceFactory, TabbedInterfaceViewModel>();
 
             Context.UseMenuProvider<DemoMenuProvider>();
+
+            Context.UseStatusBarProvider<DemoStatusBarProvider>();
         }
 
         public override void OnStartup(StartupEventArgs e)

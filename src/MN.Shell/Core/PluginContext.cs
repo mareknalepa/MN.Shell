@@ -56,5 +56,15 @@ namespace MN.Shell.Core
         {
             _kernel.Bind<IMenuProvider>().To<T>().InSingletonScope();
         }
+
+        /// <summary>
+        /// Registers status bar provider
+        /// </summary>
+        /// <typeparam name="T">Type of status bar provider</typeparam>
+        public void UseStatusBarProvider<T>()
+            where T : class, IStatusBarProvider
+        {
+            _kernel.Bind<IStatusBarProvider>().To<T>().InSingletonScope();
+        }
     }
 }

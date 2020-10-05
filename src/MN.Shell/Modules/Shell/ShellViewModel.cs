@@ -12,6 +12,7 @@ namespace MN.Shell.Modules.Shell
     public class ShellViewModel : ItemsConductorOneActive<IDocument>
     {
         private readonly ApplicationContext _applicationContext;
+
         public ObservableCollection<MenuItemViewModel> MenuItems { get; }
 
         public ObservableCollection<ITool> Tools { get; }
@@ -31,7 +32,7 @@ namespace MN.Shell.Modules.Shell
             }
         }
 
-        public ObservableCollection<StatusBarItemViewModel> StatusBarItems { get; }
+        public ObservableCollection<IStatusBarItem> StatusBarItems { get; }
 
         public ShellViewModel(ApplicationContext applicationContext, IMenuAggregator menuAggregator,
             IEnumerable<IMenuProvider> menuProviders, IStatusBarAggregator statusBarAggregator,
@@ -49,7 +50,7 @@ namespace MN.Shell.Modules.Shell
 
             Tools = new ObservableCollection<ITool>(tools);
 
-            StatusBarItems = new ObservableCollection<StatusBarItemViewModel>(
+            StatusBarItems = new ObservableCollection<IStatusBarItem>(
                 statusBarAggregator.ComposeStatusBar(statusBarProviders));
         }
 

@@ -1,4 +1,4 @@
-﻿namespace MN.Shell.Framework.StatusBar
+﻿namespace MN.Shell.PluginContracts
 {
     public enum StatusBarSide
     {

@@ -1,5 +1,4 @@
-﻿using MN.Shell.Framework.StatusBar;
-using Ninject.Modules;
+﻿using Ninject.Modules;
 
 namespace MN.Shell.Demo
 {
@@ -9,7 +8,6 @@ namespace MN.Shell.Demo
 
         public override void Load()
         {
-            Bind<IStatusBarProvider>().To<DemoStatusBarProvider>();
         }
     }
 }
