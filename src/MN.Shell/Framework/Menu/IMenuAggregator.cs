@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MN.Shell.PluginContracts;
+using System.Collections.Generic;
 
 namespace MN.Shell.Framework.Menu
 {

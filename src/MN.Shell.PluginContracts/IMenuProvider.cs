@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace MN.Shell.Framework.Menu
+namespace MN.Shell.PluginContracts
 {
     public interface IMenuProvider
     {
-        IEnumerable<MenuItem> GetMenuItems();
+        IEnumerable<IMenuItem> GetMenuItems();
     }
 }

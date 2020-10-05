@@ -14,7 +14,6 @@ namespace MN.Shell.Framework
         {
             Bind<IColorSchemeLoader, ColorSchemeLoader>().To<ColorSchemeLoader>().InSingletonScope();
             Bind<IMenuAggregator, MenuAggregator>().To<MenuAggregator>().InSingletonScope();
-            Bind<IMenuProvider, MainMenuProvider>().To<MainMenuProvider>().InSingletonScope();
             Bind<IMessageBoxManager, MessageBoxManager>().To<MessageBoxManager>().InSingletonScope();
             Bind<IStatusBarAggregator, StatusBarAggregator>().To<StatusBarAggregator>().InSingletonScope();
         }

@@ -18,6 +18,8 @@ namespace MN.Shell.Demo
 
             Context.UseDocumentFactory<IControlsDemoFactory, ControlsDemoViewModel>();
             Context.UseDocumentFactory<ITabbedInterfaceFactory, TabbedInterfaceViewModel>();
+
+            Context.UseMenuProvider<DemoMenuProvider>();
         }
 
         public override void OnStartup(StartupEventArgs e)

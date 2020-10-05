@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using MN.Shell.PluginContracts;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MN.Shell.Framework.Menu
 {
     public class MenuAggregator : IMenuAggregator
     {
-        private static readonly IComparer<MenuItem> _menuItemComparer = new MenuItemComparer();
+        private static readonly IComparer<IMenuItem> _menuItemComparer = new MenuItemComparer();
 
         public IEnumerable<MenuItemViewModel> ComposeMenu(IEnumerable<IMenuProvider> menuProviders)
         {
@@ -16,16 +17,16 @@ namespace MN.Shell.Framework.Menu
             return viewModels;
         }
 
-        private IEnumerable<MenuItem> AggregateMenuItems(IEnumerable<IMenuProvider> menuProviders)
+        private IEnumerable<IMenuItem> AggregateMenuItems(IEnumerable<IMenuProvider> menuProviders)
         {
-            IEnumerable<MenuItem> result = menuProviders
+            IEnumerable<IMenuItem> result = menuProviders
                 .SelectMany(menuProvider => menuProvider.GetMenuItems())
                 .OrderBy(menuItem => menuItem, _menuItemComparer);
 
             return result;
         }
 
-        private IEnumerable<MenuItemViewModel> CreateViewModels(IEnumerable<MenuItem> menuItems)
+        private IEnumerable<MenuItemViewModel> CreateViewModels(IEnumerable<IMenuItem> menuItems)
         {
             var rootViewModel = new MenuItemViewModel()
             {
@@ -40,7 +41,7 @@ namespace MN.Shell.Framework.Menu
                 if (menuItem.Command != null && menuItem.IsCheckable)
                     throw new InconsistentMenuException("Item cannot have command and be checkable at the same time");
 
-                if (menuItem.Path?.Length > 0)
+                if (menuItem.Path?.Count() > 0)
                 {
                     var viewModel = CreateViewModelForItem(menuItem);
                     var parent = ResolveParentForItem(rootViewModel, menuItem);
@@ -67,7 +68,7 @@ namespace MN.Shell.Framework.Menu
             return rootViewModel.SubItems;
         }
 
-        private MenuItemViewModel CreateViewModelForItem(MenuItem menuItem)
+        private MenuItemViewModel CreateViewModelForItem(IMenuItem menuItem)
         {
             return new MenuItemViewModel()
             {
@@ -87,7 +88,7 @@ namespace MN.Shell.Framework.Menu
             };
         }
 
-        private MenuItemViewModel ResolveParentForItem(MenuItemViewModel rootViewModel, MenuItem menuItem)
+        private MenuItemViewModel ResolveParentForItem(MenuItemViewModel rootViewModel, IMenuItem menuItem)
         {
             var parent = rootViewModel;
             foreach (var pathComponent in menuItem.Path)

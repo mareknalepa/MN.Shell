@@ -1,14 +1,16 @@
-﻿using System;
+﻿using MN.Shell.PluginContracts;
+using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 
 namespace MN.Shell.Framework.Menu
 {
-    public class MenuItem
+    public class MenuItem : IMenuItem
     {
         public string Name { get; set; }
 
-        public string[] Path { get; set; }
+        public IEnumerable<string> Path { get; set; }
 
         public int GroupId { get; set; }
 

@@ -48,7 +48,8 @@ namespace MN.Shell.Core
                 }
             }).
             Concat(Enumerable.Repeat(Assembly.GetExecutingAssembly(), 1)).
-            Where(a => a != null);
+            Where(a => a != null).
+            Distinct();
         }
 
         private static IEnumerable<Type> FindPluginTypes(IEnumerable<Assembly> assemblies)

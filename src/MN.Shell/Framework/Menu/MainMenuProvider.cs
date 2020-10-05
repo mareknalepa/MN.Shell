@@ -16,7 +16,7 @@ namespace MN.Shell.Framework.Menu
             _colorSchemeLoader = colorSchemeLoader;
         }
 
-        public IEnumerable<MenuItem> GetMenuItems()
+        public IEnumerable<IMenuItem> GetMenuItems()
         {
             yield return new MenuItem()
             {

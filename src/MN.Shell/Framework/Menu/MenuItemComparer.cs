@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using MN.Shell.PluginContracts;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MN.Shell.Framework.Menu
 {
-    public class MenuItemComparer : IComparer<MenuItem>
+    public class MenuItemComparer : IComparer<IMenuItem>
     {
-        public int Compare(MenuItem x, MenuItem y)
+        public int Compare(IMenuItem x, IMenuItem y)
         {
-            int xPathLength = x.Path?.Length ?? 0;
-            int yPathLength = y.Path?.Length ?? 0;
+            int xPathLength = x.Path?.Count() ?? 0;
+            int yPathLength = y.Path?.Count() ?? 0;
 
             if (xPathLength != yPathLength)
                 return xPathLength.CompareTo(yPathLength);

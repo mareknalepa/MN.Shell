@@ -31,7 +31,7 @@ namespace MN.Shell.Core
         /// </summary>
         /// <typeparam name="T">Type of tool</typeparam>
         public void UseTool<T>()
-            where T : ITool
+            where T : class, ITool
         {
             _kernel.Bind<ITool>().To<T>().InSingletonScope();
         }
@@ -45,6 +45,16 @@ namespace MN.Shell.Core
             where TDocument : IDocument
         {
             _kernel.Bind<T>().ToFactory();
+        }
+
+        /// <summary>
+        /// Registers menu provider
+        /// </summary>
+        /// <typeparam name="T">Type of menu provider</typeparam>
+        public void UseMenuProvider<T>()
+            where T : class, IMenuProvider
+        {
+            _kernel.Bind<IMenuProvider>().To<T>().InSingletonScope();
         }
     }
 }

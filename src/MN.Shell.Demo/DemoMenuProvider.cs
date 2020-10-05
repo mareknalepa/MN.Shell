@@ -1,6 +1,7 @@
 ﻿using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.MessageBox;
 using MN.Shell.MVVM;
+using MN.Shell.PluginContracts;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +16,7 @@ namespace MN.Shell.Demo
             _messageBoxManager = messageBoxManager;
         }
 
-        public IEnumerable<MenuItem> GetMenuItems()
+        public IEnumerable<IMenuItem> GetMenuItems()
         {
             yield return new MenuItem()
             {

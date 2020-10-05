@@ -1,5 +1,6 @@
 ﻿using MN.Shell.Framework.Menu;
 using MN.Shell.MVVM;
+using MN.Shell.PluginContracts;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;

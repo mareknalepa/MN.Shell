@@ -16,7 +16,7 @@
         /// </summary>
         /// <typeparam name="T">Type of tool</typeparam>
         void UseTool<T>()
-            where T : ITool;
+            where T : class, ITool;
 
         /// <summary>
         /// Registers given interface type as auto-implemented document factory
@@ -25,5 +25,12 @@
         void UseDocumentFactory<T, TDocument>()
             where T : class, IDocumentFactory<TDocument>
             where TDocument : IDocument;
+
+        /// <summary>
+        /// Registers menu provider
+        /// </summary>
+        /// <typeparam name="T">Type of menu provider</typeparam>
+        void UseMenuProvider<T>()
+            where T : class, IMenuProvider;
     }
 }
