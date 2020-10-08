@@ -3,6 +3,7 @@ using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
 using Moq;
+using Ninject;
 using NUnit.Framework;
 using System;
 using System.Linq;
@@ -64,11 +65,7 @@ namespace MN.Shell.Tests.Core
                 {
                     bootstrapper.OnStartup(e);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
-                catch
-#pragma warning restore CA1031 // Do not catch general exception types
-                {
-                }
+                catch (ActivationException) { }
 
                 Assert.True(PluginOnStartupCalled);
             }
@@ -134,9 +131,7 @@ namespace MN.Shell.Tests.Core
         public new void OnExit(ExitEventArgs e) => base.OnExit(e);
     }
 
-#pragma warning disable CA1063 // Implement IDisposable Correctly
-    public class BootstrapperTestsExamplePlugin : PluginBase, IDisposable
-#pragma warning restore CA1063 // Implement IDisposable Correctly
+    public sealed class BootstrapperTestsExamplePlugin : PluginBase, IDisposable
     {
         protected override void OnLoad() => BootstrapperTests.PluginLoadCalled = true;
 
@@ -144,11 +139,7 @@ namespace MN.Shell.Tests.Core
 
         public override void OnExit(ExitEventArgs e) => BootstrapperTests.PluginOnExitCalled = true;
 
-#pragma warning disable CA1063 // Implement IDisposable Correctly
-#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize
         public void Dispose() => BootstrapperTests.PluginDisposeCalled = true;
-#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
-#pragma warning restore CA1063 // Implement IDisposable Correctly
     }
 
     internal interface IExampleService { }
