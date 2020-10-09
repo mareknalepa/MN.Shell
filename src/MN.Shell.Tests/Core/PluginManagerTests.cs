@@ -13,73 +13,87 @@ namespace MN.Shell.Tests.Core
     public class PluginManagerTests
     {
         [Test]
-        public void AddPluginsTest()
+        public void LoadPluginsTest()
         {
+            var context = new Mock<IPluginContext>().Object;
+
             var mock1 = new Mock<IPlugin>();
+            mock1.Setup(p => p.Load(context)).Verifiable();
+
             var mock2 = new Mock<IPlugin>();
+            mock2.Setup(p => p.Load(context)).Verifiable();
 
             using (var pluginManager = new PluginManager())
             {
                 Assert.NotNull(pluginManager.Plugins);
                 Assert.IsEmpty(pluginManager.Plugins);
 
-                pluginManager.AddPlugins(new[] { mock1.Object, mock2.Object });
+                pluginManager.LoadPlugins(new[] { mock1.Object, mock2.Object }, context);
 
                 Assert.That(pluginManager.Plugins, Has.Exactly(2).Items);
                 Assert.True(pluginManager.Plugins.Contains(mock1.Object));
                 Assert.True(pluginManager.Plugins.Contains(mock2.Object));
+
+                mock1.VerifyAll();
+                mock2.VerifyAll();
             }
         }
 
         [Test]
         public void OnStartupTest()
         {
+            var context = new Mock<IPluginContext>().Object;
+
             // Hack to create instance of StartupEventArgs in tests:
             var constructorInfo = typeof(StartupEventArgs).GetTypeInfo().DeclaredConstructors.First();
             var e = constructorInfo.Invoke(null) as StartupEventArgs;
 
             var mock1 = new Mock<IPlugin>();
-            mock1.Setup(p => p.OnStartup(It.IsAny<StartupEventArgs>())).Verifiable();
+            mock1.Setup(p => p.OnStartup(e)).Verifiable();
 
             var mock2 = new Mock<IPlugin>();
-            mock2.Setup(p => p.OnStartup(It.IsAny<StartupEventArgs>())).Verifiable();
+            mock2.Setup(p => p.OnStartup(e)).Verifiable();
 
             using (var pluginManager = new PluginManager())
             {
-                pluginManager.AddPlugins(new[] { mock1.Object, mock2.Object });
+                pluginManager.LoadPlugins(new[] { mock1.Object, mock2.Object }, context);
                 pluginManager.OnStartup(e);
             }
 
-            mock1.Verify(p => p.OnStartup(It.IsAny<StartupEventArgs>()));
-            mock2.Verify(p => p.OnStartup(It.IsAny<StartupEventArgs>()));
+            mock1.VerifyAll();
+            mock2.VerifyAll();
         }
 
         [Test]
         public void OnExitTest()
         {
+            var context = new Mock<IPluginContext>().Object;
+
             // Hack to create instance of ExitEventArgs in tests:
             var constructorInfo = typeof(ExitEventArgs).GetTypeInfo().DeclaredConstructors.First();
             var e = constructorInfo.Invoke(new object[] { 0 }) as ExitEventArgs;
 
             var mock1 = new Mock<IPlugin>();
-            mock1.Setup(p => p.OnExit(It.IsAny<ExitEventArgs>())).Verifiable();
+            mock1.Setup(p => p.OnExit(e)).Verifiable();
 
             var mock2 = new Mock<IPlugin>();
-            mock2.Setup(p => p.OnExit(It.IsAny<ExitEventArgs>())).Verifiable();
+            mock2.Setup(p => p.OnExit(e)).Verifiable();
 
             using (var pluginManager = new PluginManager())
             {
-                pluginManager.AddPlugins(new[] { mock1.Object, mock2.Object });
+                pluginManager.LoadPlugins(new[] { mock1.Object, mock2.Object }, context);
                 pluginManager.OnExit(e);
             }
 
-            mock1.Verify(p => p.OnExit(It.IsAny<ExitEventArgs>()));
-            mock2.Verify(p => p.OnExit(It.IsAny<ExitEventArgs>()));
+            mock1.VerifyAll();
+            mock2.VerifyAll();
         }
 
         [Test]
         public void DisposeTest()
         {
+            var context = new Mock<IPluginContext>().Object;
+
             var mock1 = new Mock<IPlugin>();
             var mock1Disposable = mock1.As<IDisposable>();
             mock1Disposable.Setup(p => p.Dispose()).Verifiable();
@@ -88,11 +102,11 @@ namespace MN.Shell.Tests.Core
 
             using (var pluginManager = new PluginManager())
             {
-                pluginManager.AddPlugins(new[] { mock1.Object, mock2.Object });
+                pluginManager.LoadPlugins(new[] { mock1.Object, mock2.Object }, context);
                 pluginManager.Dispose();
             }
 
-            mock1Disposable.Verify(p => p.Dispose());
+            mock1Disposable.VerifyAll();
         }
     }
 }

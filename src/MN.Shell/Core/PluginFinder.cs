@@ -8,11 +8,11 @@ using System.Reflection;
 
 namespace MN.Shell.Core
 {
-    public static class PluginLoader
+    public static class PluginFinder
     {
         private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public static IEnumerable<IPlugin> DiscoverAndLoadPlugins(string path, IPluginContext context)
+        public static IList<IPlugin> DiscoverPlugins(string path)
         {
             _logger.Info($"Starting plugins discovery process using directory [{path}]...");
 
@@ -21,12 +21,6 @@ namespace MN.Shell.Core
             var plugins = CreatePluginInstances(pluginTypes).ToList();
 
             _logger.Info($"Plugins discovery finished, found {plugins.Count} plugins.");
-
-            foreach (var plugin in plugins)
-            {
-                _logger.Debug($"Loading plugin [{plugin.Name}]...");
-                plugin.Load(context);
-            }
 
             return plugins;
         }

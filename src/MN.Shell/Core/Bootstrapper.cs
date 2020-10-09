@@ -1,7 +1,6 @@
 ﻿using MN.Shell.Framework;
 using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
-using MN.Shell.PluginContracts;
 using Ninject;
 using Ninject.Modules;
 using NLog;
@@ -35,15 +34,15 @@ namespace MN.Shell.Core
             if (string.IsNullOrEmpty(path))
                 throw new InvalidOperationException("Cannot scan empty directory path");
 
-            _logger.Info($"Directory to scan for plugins: {path}");
+            var plugins = PluginFinder.DiscoverPlugins(path);
 
-            var pluginLoaderContext = new PluginContext(Kernel);
+            _logger.Info($"Loading plugins...");
+
+            var context = new PluginContext(Kernel);
             var pluginManager = Kernel.Get<PluginManager>();
+            pluginManager.LoadPlugins(PluginFinder.DiscoverPlugins(path), context);
 
-            pluginManager.AddPlugins(PluginLoader.DiscoverAndLoadPlugins(path, pluginLoaderContext));
-
-            foreach (IPlugin plugin in pluginManager.Plugins)
-                _logger.Info($"Loaded plugin: {plugin.Name} [{plugin.GetType().Assembly.FullName}]");
+            _logger.Info("Plugins loaded.");
         }
 
         protected override T GetInstance<T>() => Kernel.Get<T>();

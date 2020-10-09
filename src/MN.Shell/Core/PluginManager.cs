@@ -1,4 +1,5 @@
 ﻿using MN.Shell.PluginContracts;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace MN.Shell.Core
     /// </summary>
     public sealed class PluginManager : IDisposable
     {
+        private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+
         private readonly List<IPlugin> _plugins = new List<IPlugin>();
 
         /// <summary>
@@ -19,11 +22,20 @@ namespace MN.Shell.Core
         public IReadOnlyCollection<IPlugin> Plugins => _plugins.AsReadOnly();
 
         /// <summary>
-        /// Adds collection of plugins to be managed by this plugin manager
+        /// Adds already discovered plugins to internal list and loads them by calling their composition roots
         /// </summary>
-        /// <param name="discoveredPlugins">Collection of plugins to add</param>
-        public void AddPlugins(IEnumerable<IPlugin> discoveredPlugins) =>
+        /// <param name="discoveredPlugins">Collection of plugins to load</param>
+        /// <param name="context">Plugin context injected into each plugin composition root</param>
+        public void LoadPlugins(IEnumerable<IPlugin> discoveredPlugins, IPluginContext context)
+        {
             _plugins.AddRange(discoveredPlugins);
+
+            foreach (var plugin in _plugins)
+            {
+                _logger.Info($"Loading plugin: [{plugin.Name}]");
+                plugin.Load(context);
+            }
+        }
 
         /// <summary>
         /// Method which should be called upon application's startup process to allow plugins to hook-in
