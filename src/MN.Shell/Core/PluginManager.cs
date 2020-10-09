@@ -26,14 +26,20 @@ namespace MN.Shell.Core
         /// </summary>
         /// <param name="discoveredPlugins">Collection of plugins to load</param>
         /// <param name="context">Plugin context injected into each plugin composition root</param>
-        public void LoadPlugins(IEnumerable<IPlugin> discoveredPlugins, IPluginContext context)
+        public void LoadPlugins(IEnumerable<IPlugin> discoveredPlugins, IScopedPluginContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
             _plugins.AddRange(discoveredPlugins);
 
             foreach (var plugin in _plugins)
             {
                 _logger.Info($"Loading plugin: [{plugin.Name}]");
+
+                context.PluginInScope = plugin;
                 plugin.Load(context);
+                context.PluginInScope = null;
             }
         }
 

@@ -15,7 +15,7 @@ namespace MN.Shell.Tests.Core
         [Test]
         public void LoadPluginsTest()
         {
-            var context = new Mock<IPluginContext>().Object;
+            var context = new Mock<IScopedPluginContext>().Object;
 
             var mock1 = new Mock<IPlugin>();
             mock1.Setup(p => p.Load(context)).Verifiable();
@@ -42,7 +42,7 @@ namespace MN.Shell.Tests.Core
         [Test]
         public void OnStartupTest()
         {
-            var context = new Mock<IPluginContext>().Object;
+            var context = new Mock<IScopedPluginContext>().Object;
 
             // Hack to create instance of StartupEventArgs in tests:
             var constructorInfo = typeof(StartupEventArgs).GetTypeInfo().DeclaredConstructors.First();
@@ -67,7 +67,7 @@ namespace MN.Shell.Tests.Core
         [Test]
         public void OnExitTest()
         {
-            var context = new Mock<IPluginContext>().Object;
+            var context = new Mock<IScopedPluginContext>().Object;
 
             // Hack to create instance of ExitEventArgs in tests:
             var constructorInfo = typeof(ExitEventArgs).GetTypeInfo().DeclaredConstructors.First();
@@ -92,7 +92,7 @@ namespace MN.Shell.Tests.Core
         [Test]
         public void DisposeTest()
         {
-            var context = new Mock<IPluginContext>().Object;
+            var context = new Mock<IScopedPluginContext>().Object;
 
             var mock1 = new Mock<IPlugin>();
             var mock1Disposable = mock1.As<IDisposable>();

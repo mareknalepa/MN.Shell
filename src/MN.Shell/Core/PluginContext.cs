@@ -1,6 +1,8 @@
 ﻿using MN.Shell.PluginContracts;
 using Ninject;
 using Ninject.Extensions.Factory;
+using System;
+using System.Runtime.CompilerServices;
 
 namespace MN.Shell.Core
 {
@@ -8,7 +10,7 @@ namespace MN.Shell.Core
     /// Context injected externally by plugin loading infrastructure while loading the plugin,
     /// allowing access to various extension points and application-wide features by a plugin composition root
     /// </summary>
-    public class PluginContext : IPluginContext
+    public class PluginContext : IScopedPluginContext, IPluginContext
     {
         private readonly IKernel _kernel;
 
@@ -22,6 +24,11 @@ namespace MN.Shell.Core
         }
 
         /// <summary>
+        /// Plugin calling operations on current context (set by plugin manager)
+        /// </summary>
+        public IPlugin PluginInScope { get; set; }
+
+        /// <summary>
         /// Application context allowing access to application wide-features
         /// </summary>
         public IApplicationContext ApplicationContext => _kernel.Get<IApplicationContext>();
@@ -33,6 +40,7 @@ namespace MN.Shell.Core
         public void UseTool<T>()
             where T : class, ITool
         {
+            VerifyScope();
             _kernel.Bind<ITool>().To<T>().InSingletonScope();
         }
 
@@ -44,6 +52,7 @@ namespace MN.Shell.Core
             where T : class, IDocumentFactory<TDocument>
             where TDocument : IDocument
         {
+            VerifyScope();
             _kernel.Bind<T>().ToFactory();
         }
 
@@ -54,6 +63,7 @@ namespace MN.Shell.Core
         public void UseMenuProvider<T>()
             where T : class, IMenuProvider
         {
+            VerifyScope();
             _kernel.Bind<IMenuProvider>().To<T>().InSingletonScope();
         }
 
@@ -64,7 +74,14 @@ namespace MN.Shell.Core
         public void UseStatusBarProvider<T>()
             where T : class, IStatusBarProvider
         {
+            VerifyScope();
             _kernel.Bind<IStatusBarProvider>().To<T>().InSingletonScope();
+        }
+
+        private void VerifyScope([CallerMemberName] string callerName = null)
+        {
+            if (PluginInScope == null)
+                throw new InvalidOperationException($"Cannot use {callerName} outside of the plugin scope");
         }
     }
 }
