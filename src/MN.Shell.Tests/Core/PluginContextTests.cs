@@ -67,7 +67,7 @@ namespace MN.Shell.Tests.Core
 
         private class MockMenuProvider : IMenuProvider
         {
-            public IEnumerable<IMenuItem> GetMenuItems() => throw new NotImplementedException();
+            public void BuildMenu(IMenuBuilder builder) { }
         }
 
         private class MockStatusBarProvider : IStatusBarProvider

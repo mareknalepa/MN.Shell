@@ -1,7 +1,7 @@
 ﻿using MN.Shell.Framework.ColorSchemes;
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
-using System.Collections.Generic;
+using System;
 
 namespace MN.Shell.Framework.Menu
 {
@@ -16,94 +16,63 @@ namespace MN.Shell.Framework.Menu
             _colorSchemeLoader = colorSchemeLoader;
         }
 
-        public IEnumerable<IMenuItem> GetMenuItems()
+        public void BuildMenu(IMenuBuilder builder)
         {
-            yield return new MenuItem()
-            {
-                Name = "File",
-                GroupId = 0,
-                GroupOrder = 10,
-            };
+            if (builder == null)
+                throw new ArgumentNullException(nameof(builder));
 
-            yield return new MenuItem()
-            {
-                Name = "Edit",
-                GroupId = 0,
-                GroupOrder = 20,
-            };
+            builder
+                .AddItem("File")
+                .SetPlacement(0, 10);
 
-            yield return new MenuItem()
-            {
-                Name = "View",
-                GroupId = 0,
-                GroupOrder = 30,
-            };
+            builder
+                .AddItem("Edit")
+                .SetPlacement(0, 20);
 
-            yield return new MenuItem()
-            {
-                Name = "Settings",
-                GroupId = 0,
-                GroupOrder = 40,
-            };
+            builder
+                .AddItem("View")
+                .SetPlacement(0, 30);
 
-            yield return new MenuItem()
-            {
-                Name = "Help",
-                GroupId = 0,
-                GroupOrder = 50,
-            };
+            builder
+                .AddItem("Help")
+                .SetPlacement(0, 40);
 
-            yield return new MenuItem()
-            {
-                Name = "Exit",
-                Path = new[] { "File" },
-                GroupId = 100,
-                GroupOrder = 100,
-                Command = new Command(() => _applicationContext.RequestApplicationExit()),
-            };
+            builder
+                .AddItem("File/Exit")
+                .SetPlacement(100, 100)
+                .SetCommand(new Command(() => _applicationContext.RequestApplicationExit()));
 
-            yield return new MenuItem()
-            {
-                Name = "Base Colors",
-                Path = new[] { "Settings" },
-                GroupId = 10,
-                GroupOrder = 10,
-            };
+            builder
+                .AddItem("View/Base Colors")
+                .SetPlacement(30, 10);
+
+
+            builder
+                .AddItem("View/Base Colors")
+                .SetPlacement(30, 10);
 
             foreach (var baseColors in _colorSchemeLoader.AvailableBaseColors)
             {
                 int groupOrder = 0;
 
-                yield return new MenuItem()
-                {
-                    Name = baseColors.Name,
-                    Path = new[] { "Settings", "Base Colors" },
-                    GroupId = 10,
-                    GroupOrder = groupOrder++,
-                    Command = new Command(() => _colorSchemeLoader.LoadBaseColors(baseColors)),
-                };
+                builder
+                    .AddItem($"View/Base Colors/{baseColors.Name}")
+                    .SetPlacement(10, groupOrder++)
+                    .SetCommand(new Command(() => _colorSchemeLoader.LoadBaseColors(baseColors)));
             }
 
-            yield return new MenuItem()
-            {
-                Name = "Accent Color",
-                Path = new[] { "Settings" },
-                GroupId = 10,
-                GroupOrder = 20,
-            };
+            builder
+                .AddItem("View/Accent Colors")
+                .SetPlacement(30, 20);
 
             foreach (var accentColors in _colorSchemeLoader.AvailableAccentColors)
             {
                 int groupOrder = 0;
 
-                yield return new MenuItem()
-                {
-                    Name = accentColors.Name,
-                    Path = new[] { "Settings", "Accent Color" },
-                    GroupId = 10,
-                    GroupOrder = groupOrder++,
-                    Command = new Command(() => _colorSchemeLoader.LoadAccentColors(accentColors)),
-                };
+                builder
+                    .AddItem($"View/Accent Colors/{accentColors.Name}")
+                    .SetPlacement(10, groupOrder++)
+                    .SetCommand(new Command(() => _colorSchemeLoader.LoadAccentColors(accentColors)));
             }
         }
     }
