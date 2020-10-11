@@ -44,12 +44,13 @@
                     <Setter Property="MinWidth" Value="{Binding MinWidth}"/>
                     <Setter Property="Margin" Value="3,0"/>
                     <Setter Property="Padding" Value="0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
 
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Side}" Value="Left">
+                        <DataTrigger Binding="{Binding IsRightSide}" Value="False">
                             <Setter Property="DockPanel.Dock" Value="Left"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Side}" Value="Right">
+                        <DataTrigger Binding="{Binding IsRightSide}" Value="True">
                             <Setter Property="DockPanel.Dock" Value="Right"/>
                         </DataTrigger>
                     </Style.Triggers>

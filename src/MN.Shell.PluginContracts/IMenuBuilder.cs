@@ -1,7 +1,7 @@
 ﻿namespace MN.Shell.PluginContracts
 {
     /// <summary>
-    /// Menu builder injected into menu providers to allow manipulating menu
+    /// Menu builder injected into menu providers to allow menu manipulating
     /// </summary>
     public interface IMenuBuilder
     {

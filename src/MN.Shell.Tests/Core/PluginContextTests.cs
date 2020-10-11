@@ -3,7 +3,6 @@ using MN.Shell.PluginContracts;
 using Ninject;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace MN.Shell.Tests.Core
 {
@@ -72,7 +71,7 @@ namespace MN.Shell.Tests.Core
 
         private class MockStatusBarProvider : IStatusBarProvider
         {
-            public IEnumerable<IStatusBarItem> GetStatusBarItems() => throw new NotImplementedException();
+            public void BuildStatusBar(IStatusBarBuilder builder) { }
         }
     }
 }

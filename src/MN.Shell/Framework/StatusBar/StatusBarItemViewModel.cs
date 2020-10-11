@@ -1,17 +1,10 @@
 ﻿using MN.Shell.MVVM;
-using MN.Shell.PluginContracts;
 using System.Windows.Input;
 
 namespace MN.Shell.Framework.StatusBar
 {
-    public class StatusBarItemViewModel : PropertyChangedBase, IStatusBarItem
+    public class StatusBarItemViewModel : PropertyChangedBase
     {
-        public StatusBarSide Side { get; set; } = StatusBarSide.Left;
-
-        public int Priority { get; set; } = 50;
-
-        public double MinWidth { get; set; } = 100;
-
         private string _content;
 
         public string Content
@@ -20,21 +13,10 @@ namespace MN.Shell.Framework.StatusBar
             set => Set(ref _content, value);
         }
 
-        public ICommand Command { get; }
+        public bool IsRightSide { get; set; }
 
-        public System.Action CommandAction { get; set; }
+        public double MinWidth { get; set; } = 100;
 
-        private bool _canExecuteCommand = true;
-
-        public bool CanExecuteCommand
-        {
-            get => _canExecuteCommand;
-            set => Set(ref _canExecuteCommand, value);
-        }
-
-        public StatusBarItemViewModel()
-        {
-            Command = new Command(() => CommandAction?.Invoke(), () => CanExecuteCommand && CommandAction != null);
-        }
+        public ICommand Command { get; set; }
     }
 }

@@ -12,10 +12,10 @@ namespace MN.Shell.Framework
 
         public override void Load()
         {
-            Bind<IColorSchemeLoader, ColorSchemeLoader>().To<ColorSchemeLoader>().InSingletonScope();
             Bind<IMenuManager, MenuManager>().To<MenuManager>().InSingletonScope();
+            Bind<IStatusBarManager, StatusBarManager>().To<StatusBarManager>().InSingletonScope();
+            Bind<IColorSchemeLoader, ColorSchemeLoader>().To<ColorSchemeLoader>().InSingletonScope();
             Bind<IMessageBoxManager, MessageBoxManager>().To<MessageBoxManager>().InSingletonScope();
-            Bind<IStatusBarAggregator, StatusBarAggregator>().To<StatusBarAggregator>().InSingletonScope();
         }
     }
 }

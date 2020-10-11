@@ -13,6 +13,7 @@ namespace MN.Shell.Modules.Shell
     {
         private readonly ApplicationContext _applicationContext;
         private readonly IMenuManager _menuManager;
+        private readonly IStatusBarManager _statusBarManager;
 
         public ObservableCollection<MenuItemViewModel> MenuItems => _menuManager.MenuItems;
 
@@ -33,14 +34,14 @@ namespace MN.Shell.Modules.Shell
             }
         }
 
-        public ObservableCollection<IStatusBarItem> StatusBarItems { get; }
+        public ObservableCollection<StatusBarItemViewModel> StatusBarItems => _statusBarManager.StatusBarItems;
 
         public ShellViewModel(ApplicationContext applicationContext, IMenuManager menuManager,
-            IEnumerable<IMenuProvider> menuProviders, IStatusBarAggregator statusBarAggregator,
-            IEnumerable<IStatusBarProvider> statusBarProviders, IEnumerable<ITool> tools)
+            IStatusBarManager statusBarManager, IEnumerable<ITool> tools)
         {
             _applicationContext = applicationContext ?? throw new ArgumentNullException(nameof(applicationContext));
             _menuManager = menuManager ?? throw new ArgumentNullException(nameof(menuManager));
+            _statusBarManager = statusBarManager ?? throw new ArgumentNullException(nameof(statusBarManager));
 
             applicationContext.ApplicationTitleChanged += OnApplicationTitleChanged;
             applicationContext.ApplicationExitRequested += OnApplicationExitRequested;
@@ -49,11 +50,9 @@ namespace MN.Shell.Modules.Shell
             OnDocumentLoadRequested(applicationContext, EventArgs.Empty);
 
             _menuManager.CompileMenu();
+            _statusBarManager.CompileStatusBar();
 
             Tools = new ObservableCollection<ITool>(tools);
-
-            StatusBarItems = new ObservableCollection<IStatusBarItem>(
-                statusBarAggregator.ComposeStatusBar(statusBarProviders));
         }
 
         private void OnApplicationTitleChanged(object sender, string newTitle)

@@ -1,20 +1,19 @@
-﻿using MN.Shell.Framework.StatusBar;
-using MN.Shell.PluginContracts;
-using System.Collections.Generic;
+﻿using MN.Shell.PluginContracts;
+using System;
 
 namespace MN.Shell.Demo
 {
     public class DemoStatusBarProvider : IStatusBarProvider
     {
-        public IEnumerable<IStatusBarItem> GetStatusBarItems()
+        public void BuildStatusBar(IStatusBarBuilder builder)
         {
-            yield return new StatusBarItemViewModel()
-            {
-                Side = StatusBarSide.Left,
-                Priority = 100,
-                MinWidth = 200,
-                Content = "Ready",
-            };
+            if (builder == null)
+                throw new ArgumentNullException(nameof(builder));
+
+            builder
+                .AddItem("status")
+                .SetSizeAndPlacement(200, false, 10)
+                .SetContent("Ready");
         }
     }
 }

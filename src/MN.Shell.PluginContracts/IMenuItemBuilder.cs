@@ -18,7 +18,7 @@ namespace MN.Shell.PluginContracts
         /// <summary>
         /// Configures menu item as command menu item
         /// </summary>
-        /// <param name="command">Command to associated to menu item</param>
+        /// <param name="command">Command to associate to menu item</param>
         /// <returns>Menu item builder</returns>
         IMenuItemBuilder SetCommand(ICommand command);
 
