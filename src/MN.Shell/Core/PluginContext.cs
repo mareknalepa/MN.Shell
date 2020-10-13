@@ -78,6 +78,19 @@ namespace MN.Shell.Core
             _kernel.Bind<IStatusBarProvider>().To<T>().InSingletonScope();
         }
 
+        /// <summary>
+        /// Registers service to be injected into any object requiring it
+        /// </summary>
+        /// <typeparam name="TInterface">Type of service base interface</typeparam>
+        /// <typeparam name="TService">Type of service implementation</typeparam>
+        public void UseService<TInterface, TService>()
+            where TInterface : class
+            where TService : class, TInterface
+        {
+            VerifyScope();
+            _kernel.Bind<TInterface, TService>().To<TService>().InSingletonScope();
+        }
+
         private void VerifyScope([CallerMemberName] string callerName = null)
         {
             if (PluginInScope == null)

@@ -55,6 +55,13 @@ namespace MN.Shell.Tests.Core
                 () => _context.UseStatusBarProvider<MockStatusBarProvider>());
         }
 
+        [Test]
+        public void UseServiceOutOfScopeTest()
+        {
+            Assert.Throws<InvalidOperationException>(
+                () => _context.UseService<IService, Service>());
+        }
+
         private class MockTool : ToolBase { }
 
         private class MockDocument : DocumentBase { }
@@ -73,5 +80,9 @@ namespace MN.Shell.Tests.Core
         {
             public void BuildStatusBar(IStatusBarBuilder builder) { }
         }
+
+        private interface IService { }
+
+        private class Service : IService { }
     }
 }

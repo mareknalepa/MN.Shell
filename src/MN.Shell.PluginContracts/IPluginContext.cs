@@ -39,5 +39,14 @@
         /// <typeparam name="T">Type of status bar provider</typeparam>
         void UseStatusBarProvider<T>()
             where T : class, IStatusBarProvider;
+
+        /// <summary>
+        /// Registers service to be injected into any object requiring it
+        /// </summary>
+        /// <typeparam name="TInterface">Type of service base interface</typeparam>
+        /// <typeparam name="TService">Type of service implementation</typeparam>
+        void UseService<TInterface, TService>()
+            where TInterface : class
+            where TService : class, TInterface;
     }
 }
