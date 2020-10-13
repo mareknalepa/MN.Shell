@@ -62,6 +62,7 @@ namespace MN.Shell.Tests.Core
                 () => _context.UseService<IService, Service>());
         }
 
+#pragma warning disable CA1812
         private class MockTool : ToolBase { }
 
         private class MockDocument : DocumentBase { }
@@ -84,5 +85,7 @@ namespace MN.Shell.Tests.Core
         private interface IService { }
 
         private class Service : IService { }
+#pragma warning restore CA1812
+
     }
 }

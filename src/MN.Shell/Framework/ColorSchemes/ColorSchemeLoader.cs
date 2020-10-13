@@ -39,6 +39,9 @@ namespace MN.Shell.Framework.ColorSchemes
 
         public void LoadBaseColors(ColorScheme baseColorsScheme)
         {
+            if (baseColorsScheme == null)
+                throw new ArgumentNullException(nameof(baseColorsScheme));
+
             RemoveResourceDictionaries("pack://application:,,,MN.Shell;component/Themes/BaseColors/");
             RemoveResourceDictionaries(_avalonDockThemeUri.OriginalString);
 
@@ -57,6 +60,9 @@ namespace MN.Shell.Framework.ColorSchemes
 
         public void LoadAccentColors(ColorScheme accentColorsScheme)
         {
+            if (accentColorsScheme == null)
+                throw new ArgumentNullException(nameof(accentColorsScheme));
+
             RemoveResourceDictionaries("pack://application:,,,MN.Shell;component/Themes/AccentColors/");
             RemoveResourceDictionaries(_avalonDockThemeUri.OriginalString);
 
@@ -73,8 +79,11 @@ namespace MN.Shell.Framework.ColorSchemes
             CurrentAccentColors = accentColorsScheme;
         }
 
-        private void RemoveResourceDictionaries(string uriStartsWith)
+        private static void RemoveResourceDictionaries(string uriStartsWith)
         {
+            if (uriStartsWith == null)
+                throw new ArgumentNullException(nameof(uriStartsWith));
+
             var resourceDictionaries = new Queue<ResourceDictionary>();
             resourceDictionaries.Enqueue(Application.Current.Resources);
 
@@ -88,7 +97,9 @@ namespace MN.Shell.Framework.ColorSchemes
                     {
                         if (mergedDictionary.Source != null)
                         {
-                            if (mergedDictionary.Source.OriginalString.StartsWith(uriStartsWith))
+                            if (mergedDictionary.Source.OriginalString.
+                                StartsWith(uriStartsWith, StringComparison.Ordinal))
+
                                 resourceDictionary.Remove(mergedDictionary);
                         }
                         else

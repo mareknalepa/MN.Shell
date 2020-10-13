@@ -174,6 +174,9 @@ namespace MN.Shell.Modules.FolderExplorer
 
         public void TrySelectFolder(string path)
         {
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+
             var components = path.Split(Path.DirectorySeparatorChar);
             if (components.Length <= 1)
                 return;
@@ -229,7 +232,9 @@ namespace MN.Shell.Modules.FolderExplorer
                 if (justCreatedNode != null)
                     justCreatedNode.IsSelected = true;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 var specialNode = new SpecialNodeViewModel(e);
                 parentDirectory.AttachChild(specialNode, 0);
@@ -283,7 +288,9 @@ namespace MN.Shell.Modules.FolderExplorer
                 if (justRenamedNode != null)
                     justRenamedNode.IsSelected = true;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 CurrentRenameNode.ErrorMessage = e.Message;
             }
@@ -308,16 +315,18 @@ namespace MN.Shell.Modules.FolderExplorer
 
             if (_messageBoxManager.Show("Confirmation",
                 $"Are you sure want to move \"{SelectedNode.Name}\" to Recycle Bin?",
-                MessageBoxType.Warning, MessageBoxButtons.YesNo) != true)
+                MessageBoxType.Warning, MessageBoxButtonSet.YesNo) != true)
                 return;
 
             try
             {
-                FileSystemOperations.SendToRecycleBin(fileSystemNode.ElementInfo.FullName);
+                NativeMethods.SendToRecycleBin(fileSystemNode.ElementInfo.FullName);
                 SelectedNode.Parent.IsSelected = true;
                 SelectedNode.ReloadChildren();
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 fileSystemNode.ErrorMessage = e.Message;
             }

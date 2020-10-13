@@ -1,4 +1,5 @@
 ﻿using MN.Shell.MVVM;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -98,6 +99,9 @@ namespace MN.Shell.Framework.Tree
 
         public void AttachChild(TreeNodeBase child, int index = -1)
         {
+            if (child == null)
+                throw new ArgumentNullException(nameof(child));
+
             if (index < 0)
                 _children.Add(child);
             else
@@ -107,6 +111,9 @@ namespace MN.Shell.Framework.Tree
 
         public void DetachChild(TreeNodeBase child)
         {
+            if (child == null)
+                throw new ArgumentNullException(nameof(child));
+
             _children.Remove(child);
             if (child.Parent == this)
                 child.Parent = null;

@@ -15,24 +15,24 @@ namespace MN.Shell.Framework.MessageBox
         }
 
         public bool? Show(string title, string msg, MessageBoxType type = MessageBoxType.None,
-            MessageBoxButtons buttons = MessageBoxButtons.Ok)
+            MessageBoxButtonSet buttons = MessageBoxButtonSet.Ok)
         {
             var vm = new MessageBoxViewModel(title, msg, type);
 
             switch (buttons)
             {
-                case MessageBoxButtons.Ok:
+                case MessageBoxButtonSet.Ok:
                     vm.AddButton(DialogButtonType.Ok);
                     break;
-                case MessageBoxButtons.OkCancel:
+                case MessageBoxButtonSet.OkCancel:
                     vm.AddButton(DialogButtonType.Ok);
                     vm.AddButton(DialogButtonType.Cancel);
                     break;
-                case MessageBoxButtons.YesNo:
+                case MessageBoxButtonSet.YesNo:
                     vm.AddButton(DialogButtonType.Yes);
                     vm.AddButton(DialogButtonType.No);
                     break;
-                case MessageBoxButtons.YesNoCancel:
+                case MessageBoxButtonSet.YesNoCancel:
                     vm.AddButton(DialogButtonType.Yes);
                     vm.AddButton(DialogButtonType.No);
                     vm.AddButton(DialogButtonType.Cancel);

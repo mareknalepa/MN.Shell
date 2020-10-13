@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace MN.Shell.Modules.FolderExplorer
 {
-    public static class FileSystemOperations
+    public static class NativeMethods
     {
         [Flags]
         private enum OpFlags : ushort
@@ -60,7 +60,7 @@ namespace MN.Shell.Modules.FolderExplorer
                 pFrom = path + '\0' + '\0',
                 fFlags = OpFlags.FOF_ALLOWUNDO | OpFlags.FOF_NOCONFIRMATION | OpFlags.FOF_WANTNUKEWARNING,
             };
-            SHFileOperation(ref fs);
+            _ = SHFileOperation(ref fs);
         }
     }
 }

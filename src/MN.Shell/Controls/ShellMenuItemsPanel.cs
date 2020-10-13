@@ -14,10 +14,10 @@ namespace MN.Shell.Controls
         #region "Attached Properties"
 
         public static bool GetIsEllipsis(DependencyObject obj) =>
-            (bool)obj.GetValue(IsEllipsisProperty);
+            (bool)obj?.GetValue(IsEllipsisProperty);
 
         public static void SetIsEllipsis(DependencyObject obj, bool value) =>
-            obj.SetValue(IsEllipsisProperty, value);
+            obj?.SetValue(IsEllipsisProperty, value);
 
         public static readonly DependencyProperty IsEllipsisProperty =
             DependencyProperty.RegisterAttached("IsEllipsis", typeof(bool), typeof(ShellMenuItemsPanel),

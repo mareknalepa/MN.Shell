@@ -5,7 +5,7 @@ namespace MN.Shell.Modules.FolderExplorer
 {
     public class SpecialNodeViewModel : TreeNodeBase
     {
-        public bool IsError { get; } = false;
+        public bool IsError { get; }
 
         public SpecialNodeViewModel(string contents)
         {
@@ -14,7 +14,7 @@ namespace MN.Shell.Modules.FolderExplorer
 
         public SpecialNodeViewModel(Exception e)
         {
-            Name = e.Message;
+            Name = e?.Message;
             IsError = true;
         }
 

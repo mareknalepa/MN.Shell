@@ -8,6 +8,9 @@ namespace MN.Shell.Framework.Dialogs
         public static DialogButton AddButton(this IDialog dialog, DialogButtonType type, Action action = null,
             Func<bool> canExecute = null)
         {
+            if (dialog == null)
+                throw new ArgumentNullException(nameof(dialog));
+
             DialogButton button = DialogButton.Create(type);
             ProcessAddButton(dialog, button, action, canExecute);
 
@@ -17,6 +20,9 @@ namespace MN.Shell.Framework.Dialogs
         public static DialogButton AddCustomButton(this IDialog dialog, string caption, Action action = null,
             Func<bool> canExecute = null)
         {
+            if (dialog == null)
+                throw new ArgumentNullException(nameof(dialog));
+
             DialogButton button = DialogButton.Create(DialogButtonType.Custom, caption);
             ProcessAddButton(dialog, button, action, canExecute);
 

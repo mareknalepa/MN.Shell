@@ -21,7 +21,7 @@ namespace MN.Shell.Tests.Framework.Dialogs
             Assert.AreEqual(type, dialogButton.Type);
 
             if (type != DialogButtonType.Custom)
-                Assert.AreEqual(type.ToString().ToLower(), dialogButton.Caption.ToLower());
+                Assert.AreEqual(type.ToString().ToUpperInvariant(), dialogButton.Caption.ToUpperInvariant());
 
             Assert.AreEqual(type == DialogButtonType.Ok || type == DialogButtonType.Yes ||
                 type == DialogButtonType.Custom, dialogButton.IsDefault);
