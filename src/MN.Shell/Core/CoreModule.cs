@@ -1,5 +1,5 @@
-﻿using MN.Shell.Modules.Shell;
-using MN.Shell.MVVM;
+﻿using MN.Shell.MVVM;
+using MN.Shell.PluginContracts;
 using Ninject.Modules;
 
 namespace MN.Shell.Core
@@ -10,10 +10,11 @@ namespace MN.Shell.Core
 
         public override void Load()
         {
+            Bind<PluginManager>().ToSelf().InSingletonScope();
             Bind<IViewManager, ViewManager>().To<ViewManager>().InSingletonScope();
             Bind<IWindowManager, WindowManager, ShellWindowManager>().To<ShellWindowManager>().InSingletonScope();
             Bind<IMessageBus, MessageBus>().To<MessageBus>().InSingletonScope();
-            Bind<ShellContext>().ToSelf().InSingletonScope();
+            Bind<IApplicationContext, ApplicationContext>().To<ApplicationContext>().InSingletonScope();
         }
     }
 }

@@ -4,6 +4,7 @@ using AvalonDock.Converters;
 using AvalonDock.Layout;
 using Microsoft.Xaml.Behaviors;
 using MN.Shell.MVVM;
+using MN.Shell.PluginContracts;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -63,9 +64,6 @@ namespace MN.Shell.Framework.Docking
             Style commonLayoutItemStyle = new Style(typeof(LayoutItem));
             Style toolStyle = new Style(typeof(LayoutAnchorableItem), commonLayoutItemStyle);
             Style documentStyle = new Style(typeof(LayoutDocumentItem), commonLayoutItemStyle);
-
-            commonLayoutItemStyle.Setters.Add(new Setter(LayoutItem.ContentIdProperty,
-                new Binding($"Model.{nameof(ILayoutModule.ContentId)}")));
 
             commonLayoutItemStyle.Setters.Add(new Setter(LayoutItem.TitleProperty,
                 new Binding($"Model.{nameof(ILayoutModule.Title)}")));

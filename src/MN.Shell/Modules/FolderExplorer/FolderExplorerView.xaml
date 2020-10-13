@@ -8,8 +8,9 @@
              xmlns:tree="clr-namespace:MN.Shell.Framework.Tree"
              xmlns:local="clr-namespace:MN.Shell.Modules.FolderExplorer"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="360"
-             d:DataContext="{d:DesignInstance local:FolderExplorerViewModel}">
+             d:DataContext="{d:DesignInstance local:FolderExplorerViewModel, IsDesignTimeCreatable=False}"
+             d:DesignHeight="450" d:DesignWidth="360">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

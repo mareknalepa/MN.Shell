@@ -1,4 +1,4 @@
-﻿using MN.Shell.Framework;
+﻿using MN.Shell.PluginContracts;
 
 namespace MN.Shell.Demo.TabbedInterface
 {
@@ -9,4 +9,6 @@ namespace MN.Shell.Demo.TabbedInterface
             Title = "Tabbed Interface";
         }
     }
+
+    public interface ITabbedInterfaceFactory : IDocumentFactory<TabbedInterfaceViewModel> { }
 }

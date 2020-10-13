@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using MN.Shell.PluginContracts;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace MN.Shell.Framework.Docking

@@ -6,8 +6,9 @@
              xmlns:controls="clr-namespace:MN.Shell.Controls"
              xmlns:local="clr-namespace:MN.Shell.Modules.MessageBox"
              mc:Ignorable="d"
-             d:DesignHeight="120" d:DesignWidth="320"
-             d:DataContext="{d:DesignInstance local:MessageBoxViewModel, IsDesignTimeCreatable=False}">
+             d:DataContext="{d:DesignInstance local:MessageBoxViewModel, IsDesignTimeCreatable=False}"
+             d:DesignHeight="120" d:DesignWidth="320">
+
     <Grid Background="{DynamicResource BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

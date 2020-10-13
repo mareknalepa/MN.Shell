@@ -1,12 +1,11 @@
-﻿using MN.Shell.Modules.Shell;
+﻿using MN.Shell.Framework;
+using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
 using Ninject;
 using Ninject.Modules;
 using NLog;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Windows;
 
@@ -16,13 +15,18 @@ namespace MN.Shell.Core
     {
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        private IKernel _kernel;
+        public IKernel Kernel { get; private set; }
 
         protected override void Configure()
         {
             _logger.Info("Configuring Bootstrapper...");
 
-            _kernel = new StandardKernel();
+            Kernel = new StandardKernel();
+            Kernel.Load(new CoreModule());
+            Kernel.Load(new FrameworkModule());
+
+            foreach (INinjectModule module in Kernel.GetModules())
+                _logger.Info($"Loaded kernel module: {module.Name} [{module.GetType().Assembly.FullName}]");
 
             string path = Path.GetDirectoryName(Uri.UnescapeDataString(
                 new Uri(Assembly.GetExecutingAssembly().Location).AbsolutePath));
@@ -30,63 +34,46 @@ namespace MN.Shell.Core
             if (string.IsNullOrEmpty(path))
                 throw new InvalidOperationException("Cannot scan empty directory path");
 
-            _logger.Info($"Directory to scan for modules: {path}");
+            var plugins = PluginFinder.DiscoverPlugins(path);
 
-            IEnumerable<Assembly> assemblies = Directory.GetFiles(path, "*.dll")
-                .Union(Directory.GetFiles(path, "*.exe"))
-                .Select(f =>
-                {
-                    try
-                    {
-                        return Assembly.LoadFrom(f);
-                    }
-#pragma warning disable CA1031 // Do not catch general exception types
-                    catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
-                    {
-                        _logger.Error(e);
-                        return null;
-                    }
-                }).Where(assembly =>
-                {
-                    try
-                    {
-                        return assembly?.GetExportedTypes()
-                            .Any(type => typeof(INinjectModule).IsAssignableFrom(type)) ?? false;
-                    }
-#pragma warning disable CA1031 // Do not catch general exception types
-                    catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
-                    {
-                        _logger.Error(e);
-                        return false;
-                    }
-                });
+            _logger.Info($"Loading plugins...");
 
-            foreach (Assembly assembly in assemblies)
-                _kernel.Load(assembly);
+            var context = new PluginContext(Kernel);
+            var pluginManager = Kernel.Get<PluginManager>();
+            pluginManager.LoadPlugins(PluginFinder.DiscoverPlugins(path), context);
 
-            foreach (INinjectModule module in _kernel.GetModules())
-                _logger.Info($"Loaded module: {module.Name} [{module.GetType().Assembly.FullName}]");
+            _logger.Info("Plugins loaded.");
         }
 
-        protected override T GetInstance<T>() => _kernel.Get<T>();
+        protected override T GetInstance<T>() => Kernel.Get<T>();
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _logger.Info("Application startup");
+            _logger.Info("Starting application...");
+
+            Kernel.Get<PluginManager>().OnStartup(e);
             DisplayRootView<ShellViewModel>();
+
+            _logger.Info("Application started.");
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
-            _logger.Info("Application exit");
+            _logger.Info("Exiting application...");
+
+            Kernel.Get<PluginManager>().OnExit(e);
+
+            _logger.Info("Application exited.");
         }
 
         protected override void Dispose(bool disposing)
         {
-            _kernel.Dispose();
+            _logger.Info("Disposing resources...");
+
+            Kernel.Dispose();
             base.Dispose(disposing);
+
+            _logger.Info("Resources disposed.");
         }
     }
 }
