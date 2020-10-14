@@ -10,7 +10,7 @@ namespace MN.Shell.Framework.Docking
         public bool BeforeInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableToShow,
             ILayoutContainer destinationContainer)
         {
-            if (anchorableToShow.Content is ITool tool)
+            if (anchorableToShow?.Content is ITool tool)
             {
                 var pane = layout.Descendents().OfType<LayoutAnchorablePane>()
                     .FirstOrDefault(p => p.Name == $"{tool.InitialPosition}Pane");
@@ -47,7 +47,7 @@ namespace MN.Shell.Framework.Docking
 
         public void AfterInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableShown)
         {
-            if (anchorableShown.Content is ITool tool)
+            if (anchorableShown?.Content is ITool tool)
             {
                 anchorableShown.AutoHideMinWidth = tool.AutoHideMinWidth;
                 anchorableShown.AutoHideMinHeight = tool.AutoHideMinHeight;

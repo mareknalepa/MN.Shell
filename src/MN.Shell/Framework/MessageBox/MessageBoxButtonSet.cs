@@ -1,6 +1,6 @@
 ﻿namespace MN.Shell.Framework.MessageBox
 {
-    public enum MessageBoxButtons
+    public enum MessageBoxButtonSet
     {
         Ok,
         OkCancel,

@@ -1,4 +1,5 @@
 ﻿using MN.Shell.MVVM;
+using MN.Shell.Properties;
 using System;
 using System.Windows.Input;
 
@@ -54,13 +55,13 @@ namespace MN.Shell.Framework.Dialogs
             switch (type)
             {
                 case DialogButtonType.Ok:
-                    return new DialogButton(type, "OK", true, false, null);
+                    return new DialogButton(type, Resources.DialogButtonOK, true, false, null);
                 case DialogButtonType.Cancel:
-                    return new DialogButton(type, "Cancel", false, true, null);
+                    return new DialogButton(type, Resources.DialogButtonCancel, false, true, null);
                 case DialogButtonType.Yes:
-                    return new DialogButton(type, "Yes", true, false, null);
+                    return new DialogButton(type, Resources.DialogButtonYes, true, false, null);
                 case DialogButtonType.No:
-                    return new DialogButton(type, "No", false, false, null);
+                    return new DialogButton(type, Resources.DialogButtonNo, false, false, null);
                 case DialogButtonType.Custom:
                     return new DialogButton(type, caption, true, false, null);
                 default:

@@ -7,6 +7,7 @@
              xmlns:behaviors="clr-namespace:MN.Shell.Behaviors"
              xmlns:tree="clr-namespace:MN.Shell.Framework.Tree"
              xmlns:local="clr-namespace:MN.Shell.Modules.FolderExplorer"
+             xmlns:resx="clr-namespace:MN.Shell.Properties"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:FolderExplorerViewModel, IsDesignTimeCreatable=False}"
              d:DesignHeight="450" d:DesignWidth="360">
@@ -22,24 +23,24 @@
                 <Button Command="{Binding ReloadCommand}"
                         Style="{StaticResource ToolBarIconButtonBaseStyle}"
                         Content="&#xE72C;"
-                        ToolTip="Refresh"/>
+                        ToolTip="{x:Static resx:Resources.FolderExplorerRefresh}"/>
 
                 <Button Command="{Binding CollapseAllCommand}"
                         Style="{StaticResource ToolBarIconButtonBaseStyle}"
                         Content="&#xF165;"
-                        ToolTip="Collapse all"/>
+                        ToolTip="{x:Static resx:Resources.FolderExplorerCollapseAll}"/>
 
                 <Separator/>
 
                 <Button Command="{Binding NewDirectoryCommand}"
                         Style="{StaticResource ToolBarIconButtonBaseStyle}"
                         Content="&#xE8F4;"
-                        ToolTip="New Directory"/>
+                        ToolTip="{x:Static resx:Resources.FolderExplorerNewDirectory}"/>
 
                 <Button Command="{Binding NewFileCommand}"
                         Style="{StaticResource ToolBarIconButtonBaseStyle}"
                         Content="&#xE82E;"
-                        ToolTip="New File"/>
+                        ToolTip="{x:Static resx:Resources.FolderExplorerNewFile}"/>
 
                 <Separator/>
 
@@ -47,19 +48,19 @@
                               IsChecked="{Binding ShowHidden}"
                               Style="{StaticResource ToolBarIconToggleButtonStyle}"
                               Content="&#xF19D;"
-                              ToolTip="Show hidden elements"/>
+                              ToolTip="{x:Static resx:Resources.FolderExplorerShowHidden}"/>
 
                 <ToggleButton x:Name="ShowSystemToggleButton"
                               IsChecked="{Binding ShowSystem}"
                               Style="{StaticResource ToolBarIconToggleButtonStyle}"
                               Content="&#xE770;"
-                              ToolTip="Show system elements"/>
+                              ToolTip="{x:Static resx:Resources.FolderExplorerShowSystem}"/>
 
                 <ToggleButton x:Name="ShowFilesToggleButton"
                               IsChecked="{Binding ShowFiles}"
                               Style="{StaticResource ToolBarIconToggleButtonStyle}"
                               Content="&#xE7C3;"
-                              ToolTip="Show files"/>
+                              ToolTip="{x:Static resx:Resources.FolderExplorerShowFiles}"/>
             </ToolBar>
         </ToolBarTray>
 

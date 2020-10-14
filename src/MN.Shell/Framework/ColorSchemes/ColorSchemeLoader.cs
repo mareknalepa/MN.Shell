@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MN.Shell.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -22,15 +23,20 @@ namespace MN.Shell.Framework.ColorSchemes
         {
             AvailableBaseColors = new List<ColorScheme>()
             {
-                new ColorScheme("Dark", new Uri("pack://application:,,,/MN.Shell;component/Themes/BaseColors/Dark.xaml")),
-                new ColorScheme("Light", new Uri("pack://application:,,,/MN.Shell;component/Themes/BaseColors/Light.xaml")),
+                new ColorScheme("Dark", Resources.ColorSchemeBaseDark,
+                    new Uri("pack://application:,,,/MN.Shell;component/Themes/BaseColors/Dark.xaml")),
+                new ColorScheme("Light", Resources.ColorSchemeBaseLight,
+                    new Uri("pack://application:,,,/MN.Shell;component/Themes/BaseColors/Light.xaml")),
             };
 
             AvailableAccentColors = new List<ColorScheme>()
             {
-                new ColorScheme("Blue", new Uri("pack://application:,,,/MN.Shell;component/Themes/AccentColors/Blue.xaml")),
-                new ColorScheme("Green", new Uri("pack://application:,,,/MN.Shell;component/Themes/AccentColors/Green.xaml")),
-                new ColorScheme("Orange", new Uri("pack://application:,,,/MN.Shell;component/Themes/AccentColors/Orange.xaml")),
+                new ColorScheme("Blue", Resources.ColorSchemeAccentBlue,
+                    new Uri("pack://application:,,,/MN.Shell;component/Themes/AccentColors/Blue.xaml")),
+                new ColorScheme("Green", Resources.ColorSchemeAccentGreen,
+                    new Uri("pack://application:,,,/MN.Shell;component/Themes/AccentColors/Green.xaml")),
+                new ColorScheme("Orange", Resources.ColorSchemeAccentOrange,
+                    new Uri("pack://application:,,,/MN.Shell;component/Themes/AccentColors/Orange.xaml")),
             };
 
             LoadBaseColors(AvailableBaseColors.First());
@@ -39,6 +45,9 @@ namespace MN.Shell.Framework.ColorSchemes
 
         public void LoadBaseColors(ColorScheme baseColorsScheme)
         {
+            if (baseColorsScheme == null)
+                throw new ArgumentNullException(nameof(baseColorsScheme));
+
             RemoveResourceDictionaries("pack://application:,,,MN.Shell;component/Themes/BaseColors/");
             RemoveResourceDictionaries(_avalonDockThemeUri.OriginalString);
 
@@ -57,6 +66,9 @@ namespace MN.Shell.Framework.ColorSchemes
 
         public void LoadAccentColors(ColorScheme accentColorsScheme)
         {
+            if (accentColorsScheme == null)
+                throw new ArgumentNullException(nameof(accentColorsScheme));
+
             RemoveResourceDictionaries("pack://application:,,,MN.Shell;component/Themes/AccentColors/");
             RemoveResourceDictionaries(_avalonDockThemeUri.OriginalString);
 
@@ -73,8 +85,11 @@ namespace MN.Shell.Framework.ColorSchemes
             CurrentAccentColors = accentColorsScheme;
         }
 
-        private void RemoveResourceDictionaries(string uriStartsWith)
+        private static void RemoveResourceDictionaries(string uriStartsWith)
         {
+            if (uriStartsWith == null)
+                throw new ArgumentNullException(nameof(uriStartsWith));
+
             var resourceDictionaries = new Queue<ResourceDictionary>();
             resourceDictionaries.Enqueue(Application.Current.Resources);
 
@@ -88,7 +103,9 @@ namespace MN.Shell.Framework.ColorSchemes
                     {
                         if (mergedDictionary.Source != null)
                         {
-                            if (mergedDictionary.Source.OriginalString.StartsWith(uriStartsWith))
+                            if (mergedDictionary.Source.OriginalString.
+                                StartsWith(uriStartsWith, StringComparison.Ordinal))
+
                                 resourceDictionary.Remove(mergedDictionary);
                         }
                         else

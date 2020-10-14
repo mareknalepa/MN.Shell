@@ -21,7 +21,9 @@ namespace MN.Shell.Modules.FolderExplorer
                 foreach (var file in Directory.EnumerateFiles())
                     AttachChild(new FileViewModel(file));
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (SystemException e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 AttachChild(new SpecialNodeViewModel(e));
             }

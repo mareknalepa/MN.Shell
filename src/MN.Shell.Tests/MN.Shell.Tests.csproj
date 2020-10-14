@@ -12,6 +12,8 @@
     <PackageProjectUrl>https://github.com/mareknalepa/MN.Shell</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mareknalepa/MN.Shell</RepositoryUrl>
     <IsPackable>false</IsPackable>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <SatelliteResourceLanguages>en;pl</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>

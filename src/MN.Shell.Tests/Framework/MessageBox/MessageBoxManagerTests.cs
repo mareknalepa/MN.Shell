@@ -55,18 +55,18 @@ namespace MN.Shell.Tests.Framework.MessageBox
         }
 
         [Test]
-        public void MessageBoxManagerShowButtonsTest([Values] MessageBoxButtons buttons)
+        public void MessageBoxManagerShowButtonsTest([Values] MessageBoxButtonSet buttons)
         {
             OnDialogShown = vm =>
             {
                 if (!(vm is MessageBoxViewModel messageBoxViewModel))
                     throw new ArgumentException("Cannot handle view models other than MessageBoxViewModel");
 
-                if (buttons == MessageBoxButtons.Ok)
+                if (buttons == MessageBoxButtonSet.Ok)
                     Assert.That(messageBoxViewModel.Buttons, Has.Count.EqualTo(1));
-                else if (buttons == MessageBoxButtons.OkCancel || buttons == MessageBoxButtons.YesNo)
+                else if (buttons == MessageBoxButtonSet.OkCancel || buttons == MessageBoxButtonSet.YesNo)
                     Assert.That(messageBoxViewModel.Buttons, Has.Count.EqualTo(2));
-                else if (buttons == MessageBoxButtons.YesNoCancel)
+                else if (buttons == MessageBoxButtonSet.YesNoCancel)
                     Assert.That(messageBoxViewModel.Buttons, Has.Count.EqualTo(3));
                 else
                     Assert.Fail("Buttons argument out of scope");

@@ -4,9 +4,11 @@ using MN.Shell.Framework.Messages;
 using MN.Shell.Framework.Tree;
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
+using MN.Shell.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -23,7 +25,7 @@ namespace MN.Shell.Modules.FolderExplorer
             _messageBus = messageBus;
             _messageBoxManager = messageBoxManager;
 
-            Title = "Folder Explorer";
+            Title = Resources.FolderExplorerTitle;
 
             Root = new ComputerViewModel();
             RootSource = new ReadOnlyCollection<TreeNodeBase>(new[] { Root });
@@ -49,13 +51,13 @@ namespace MN.Shell.Modules.FolderExplorer
 
             ContextMenuItems.Add(new MenuItemViewModel()
             {
-                Name = "Rename",
+                Name = Resources.FolderExplorerRename,
                 Command = RenameNodeCommand,
             });
 
             ContextMenuItems.Add(new MenuItemViewModel()
             {
-                Name = "Delete",
+                Name = Resources.FolderExplorerDelete,
                 Command = DeleteNodeCommand,
             });
 
@@ -174,6 +176,9 @@ namespace MN.Shell.Modules.FolderExplorer
 
         public void TrySelectFolder(string path)
         {
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+
             var components = path.Split(Path.DirectorySeparatorChar);
             if (components.Length <= 1)
                 return;
@@ -229,7 +234,9 @@ namespace MN.Shell.Modules.FolderExplorer
                 if (justCreatedNode != null)
                     justCreatedNode.IsSelected = true;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 var specialNode = new SpecialNodeViewModel(e);
                 parentDirectory.AttachChild(specialNode, 0);
@@ -283,7 +290,9 @@ namespace MN.Shell.Modules.FolderExplorer
                 if (justRenamedNode != null)
                     justRenamedNode.IsSelected = true;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 CurrentRenameNode.ErrorMessage = e.Message;
             }
@@ -306,18 +315,20 @@ namespace MN.Shell.Modules.FolderExplorer
                 !(SelectedNode is FileSystemNodeViewModel fileSystemNode))
                 return;
 
-            if (_messageBoxManager.Show("Confirmation",
-                $"Are you sure want to move \"{SelectedNode.Name}\" to Recycle Bin?",
-                MessageBoxType.Warning, MessageBoxButtons.YesNo) != true)
+            if (_messageBoxManager.Show(Resources.FolderExplorerDeleteConfirmation,
+                string.Format(CultureInfo.InvariantCulture, Resources.FolderExplorerDeleteMessage, SelectedNode.Name),
+                MessageBoxType.Warning, MessageBoxButtonSet.YesNo) != true)
                 return;
 
             try
             {
-                FileSystemOperations.SendToRecycleBin(fileSystemNode.ElementInfo.FullName);
+                NativeMethods.SendToRecycleBin(fileSystemNode.ElementInfo.FullName);
                 SelectedNode.Parent.IsSelected = true;
                 SelectedNode.ReloadChildren();
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 fileSystemNode.ErrorMessage = e.Message;
             }

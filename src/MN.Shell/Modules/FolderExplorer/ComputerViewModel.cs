@@ -1,4 +1,5 @@
 ﻿using MN.Shell.Framework.Tree;
+using MN.Shell.Properties;
 using System;
 using System.IO;
 
@@ -10,11 +11,11 @@ namespace MN.Shell.Modules.FolderExplorer
         {
             try
             {
-                Name = $"Computer [{Environment.MachineName}]";
+                Name = $"{Resources.FolderExplorerComputer} [{Environment.MachineName}]";
             }
             catch (InvalidOperationException)
             {
-                Name = "Computer";
+                Name = Resources.FolderExplorerComputer;
             }
         }
 

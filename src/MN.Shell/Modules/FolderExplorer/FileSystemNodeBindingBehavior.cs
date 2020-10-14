@@ -1,4 +1,5 @@
 ﻿using MN.Shell.Framework.Tree;
+using System;
 using System.Windows;
 using System.Windows.Data;
 
@@ -44,6 +45,9 @@ namespace MN.Shell.Modules.FolderExplorer
 
         protected override void OverrideItemContainerStyle(Style style)
         {
+            if (style == null)
+                throw new ArgumentNullException(nameof(style));
+
             var showHiddenTrigger = new MultiDataTrigger();
             showHiddenTrigger.Conditions.Add(new Condition(new Binding(nameof(ShowHidden))
             {

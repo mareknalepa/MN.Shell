@@ -20,20 +20,20 @@ namespace MN.Shell.Demo
                 throw new ArgumentNullException(nameof(builder));
 
             builder
-                .AddItem("/Edit/Select All")
+                .AddItem("/Edit/Select All", "")
                 .SetPlacement(0, 10);
 
             builder
-                .AddItem("/File/New Project...")
+                .AddItem("/File/New Project...", "")
                 .SetPlacement(0, 10);
 
             builder
-                .AddItem("/File/Advanced Mode")
+                .AddItem("/File/Advanced Mode", "")
                 .SetPlacement(10, 10)
                 .SetCheckbox(false, true);
 
             builder
-                .AddItem("Help/About...")
+                .AddItem("Help/About...", "")
                 .SetPlacement(100, 100)
                 .SetCommand(new Command(() =>
                 {
