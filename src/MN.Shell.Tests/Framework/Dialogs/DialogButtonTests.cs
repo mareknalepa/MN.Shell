@@ -7,7 +7,7 @@ namespace MN.Shell.Tests.Framework.Dialogs
     [TestFixture]
     public class DialogButtonTests
     {
-        [Test]
+        [Test, SetUICulture("")]
         public void DialogButtonCreateTest([Values(
             DialogButtonType.Ok,
             DialogButtonType.Cancel,

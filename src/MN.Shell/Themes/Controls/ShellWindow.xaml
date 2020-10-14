@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:MN.Shell.Controls">
+                    xmlns:controls="clr-namespace:MN.Shell.Controls"
+                    xmlns:resx="clr-namespace:MN.Shell.Properties">
 
     <ControlTemplate TargetType="Button" x:Key="ShellWindowButtonControlTemplate">
         <Border Background="{TemplateBinding Background}"
@@ -122,6 +123,7 @@
                                         Grid.Column="1"
                                         Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}"
                                         Style="{StaticResource ShellWindowButtonStyle}"
+                                        ToolTip="{x:Static resx:Resources.ShellWindowMinimize}"
                                         WindowChrome.IsHitTestVisibleInChrome="True">
                                     <Path Data="M11 4.399V5.5H0V4.399h11z"
                                           Fill="{Binding Path=Foreground, ElementName=MinimizeButton}"
@@ -132,6 +134,7 @@
                                         Grid.Column="2"
                                         Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}"
                                         Style="{StaticResource ShellWindowButtonStyle}"
+                                        ToolTip="{x:Static resx:Resources.ShellWindowMaximize}"
                                         WindowChrome.IsHitTestVisibleInChrome="True">
                                     <Path Data="M11 0v11H0V0h11zM9.899 1.101H1.1V9.9h8.8V1.1z"
                                           Fill="{Binding Path=Foreground, ElementName=MaximizeButton}"
@@ -142,6 +145,7 @@
                                         Grid.Column="2"
                                         Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}"
                                         Style="{StaticResource ShellWindowButtonStyle}"
+                                        ToolTip="{x:Static resx:Resources.ShellWindowRestore}"
                                         Visibility="Collapsed"
                                         WindowChrome.IsHitTestVisibleInChrome="True">
                                     <Path Data="M11 8.798H8.798V11H0V2.202h2.202V0H11v8.798zm-3.298-5.5h-6.6v6.6h6.6v-6.6zM9.9 1.1H3.298v1.101h5.5v5.5h1.1v-6.6z"
@@ -152,6 +156,7 @@
                                 <Button x:Name="CloseButton"
                                         Grid.Column="3"
                                         Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"
+                                        ToolTip="{x:Static resx:Resources.ShellWindowClose}"
                                         WindowChrome.IsHitTestVisibleInChrome="True">
                                     <Path Data="M6.279 5.5L11 10.221l-.779.779L5.5 6.279.779 11 0 10.221 4.721 5.5 0 .779.779 0 5.5 4.721 10.221 0 11 .779 6.279 5.5z"
                                           Fill="{Binding Path=Foreground, ElementName=CloseButton}"

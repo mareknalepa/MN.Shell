@@ -14,6 +14,8 @@ namespace MN.Shell.Framework.Menu
 
         public string Name { get; }
 
+        public string LocalizedName { get; set; } = string.Empty;
+
         public int Section { get; private set; }
 
         public int Order { get; private set; }

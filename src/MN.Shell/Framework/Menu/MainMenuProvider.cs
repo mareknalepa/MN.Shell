@@ -1,6 +1,7 @@
 ﻿using MN.Shell.Framework.ColorSchemes;
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
+using MN.Shell.Properties;
 using System;
 
 namespace MN.Shell.Framework.Menu
@@ -22,33 +23,28 @@ namespace MN.Shell.Framework.Menu
                 throw new ArgumentNullException(nameof(builder));
 
             builder
-                .AddItem("File")
+                .AddItem("File", Resources.MenuFile)
                 .SetPlacement(0, 10);
 
             builder
-                .AddItem("Edit")
+                .AddItem("Edit", Resources.MenuEdit)
                 .SetPlacement(0, 20);
 
             builder
-                .AddItem("View")
+                .AddItem("View", Resources.MenuView)
                 .SetPlacement(0, 30);
 
             builder
-                .AddItem("Help")
+                .AddItem("Help", Resources.MenuHelp)
                 .SetPlacement(0, 40);
 
             builder
-                .AddItem("File/Exit")
+                .AddItem("File/Exit", Resources.MenuExit)
                 .SetPlacement(100, 100)
                 .SetCommand(new Command(() => _applicationContext.RequestApplicationExit()));
 
             builder
-                .AddItem("View/Base Colors")
-                .SetPlacement(30, 10);
-
-
-            builder
-                .AddItem("View/Base Colors")
+                .AddItem("View/Theme", Resources.MenuTheme)
                 .SetPlacement(30, 10);
 
             foreach (var baseColors in _colorSchemeLoader.AvailableBaseColors)
@@ -56,13 +52,13 @@ namespace MN.Shell.Framework.Menu
                 int groupOrder = 0;
 
                 builder
-                    .AddItem($"View/Base Colors/{baseColors.Name}")
+                    .AddItem($"View/Theme/{baseColors.Name}", baseColors.LocalizedName)
                     .SetPlacement(10, groupOrder++)
                     .SetCommand(new Command(() => _colorSchemeLoader.LoadBaseColors(baseColors)));
             }
 
             builder
-                .AddItem("View/Accent Colors")
+                .AddItem("View/Accent", Resources.MenuAccent)
                 .SetPlacement(30, 20);
 
             foreach (var accentColors in _colorSchemeLoader.AvailableAccentColors)
@@ -70,7 +66,7 @@ namespace MN.Shell.Framework.Menu
                 int groupOrder = 0;
 
                 builder
-                    .AddItem($"View/Accent Colors/{accentColors.Name}")
+                    .AddItem($"View/Accent/{accentColors.Name}", accentColors.LocalizedName)
                     .SetPlacement(10, groupOrder++)
                     .SetCommand(new Command(() => _colorSchemeLoader.LoadAccentColors(accentColors)));
             }

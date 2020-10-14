@@ -4,9 +4,11 @@ using MN.Shell.Framework.Messages;
 using MN.Shell.Framework.Tree;
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
+using MN.Shell.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -23,7 +25,7 @@ namespace MN.Shell.Modules.FolderExplorer
             _messageBus = messageBus;
             _messageBoxManager = messageBoxManager;
 
-            Title = "Folder Explorer";
+            Title = Resources.FolderExplorerTitle;
 
             Root = new ComputerViewModel();
             RootSource = new ReadOnlyCollection<TreeNodeBase>(new[] { Root });
@@ -49,13 +51,13 @@ namespace MN.Shell.Modules.FolderExplorer
 
             ContextMenuItems.Add(new MenuItemViewModel()
             {
-                Name = "Rename",
+                Name = Resources.FolderExplorerRename,
                 Command = RenameNodeCommand,
             });
 
             ContextMenuItems.Add(new MenuItemViewModel()
             {
-                Name = "Delete",
+                Name = Resources.FolderExplorerDelete,
                 Command = DeleteNodeCommand,
             });
 
@@ -313,8 +315,8 @@ namespace MN.Shell.Modules.FolderExplorer
                 !(SelectedNode is FileSystemNodeViewModel fileSystemNode))
                 return;
 
-            if (_messageBoxManager.Show("Confirmation",
-                $"Are you sure want to move \"{SelectedNode.Name}\" to Recycle Bin?",
+            if (_messageBoxManager.Show(Resources.FolderExplorerDeleteConfirmation,
+                string.Format(CultureInfo.InvariantCulture, Resources.FolderExplorerDeleteMessage, SelectedNode.Name),
                 MessageBoxType.Warning, MessageBoxButtonSet.YesNo) != true)
                 return;
 

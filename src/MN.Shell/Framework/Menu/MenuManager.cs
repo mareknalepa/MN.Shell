@@ -1,4 +1,5 @@
 ﻿using MN.Shell.PluginContracts;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace MN.Shell.Framework.Menu
 
         protected MenuItemDefinition RootItemDefinition { get; } = new MenuItemDefinition("ROOT");
 
-        public IMenuItemBuilder AddItem(string path)
+        public IMenuItemBuilder AddItem(string path, string localizedName)
         {
             var currentDefinition = RootItemDefinition;
 
@@ -34,6 +35,8 @@ namespace MN.Shell.Framework.Menu
                 }
                 currentDefinition = subItem;
             }
+
+            currentDefinition.LocalizedName = localizedName;
 
             return currentDefinition;
         }
@@ -63,7 +66,7 @@ namespace MN.Shell.Framework.Menu
         private static IEnumerable<string> ParsePath(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
-                return Enumerable.Empty<string>();
+                throw new ArgumentException("Cannot use empty path in menu builder");
 
             return path.Split('/').Where(p => !string.IsNullOrWhiteSpace(p));
         }
@@ -98,7 +101,7 @@ namespace MN.Shell.Framework.Menu
 
                     var newViewModel = new MenuItemViewModel()
                     {
-                        Name = subItem.Name,
+                        Name = string.IsNullOrEmpty(subItem.LocalizedName) ? subItem.Name : subItem.LocalizedName,
                         Command = subItem.Command,
                         IsCheckable = subItem.IsCheckbox,
                     };
