@@ -13,6 +13,8 @@
     <RepositoryUrl>https://github.com/mareknalepa/MN.Shell</RepositoryUrl>
     <PackageIcon>mnshell.png</PackageIcon>
     <PackageTags>netcore,wpf,mvvm,viewmodel-first</PackageTags>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <SatelliteResourceLanguages>en;pl</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>

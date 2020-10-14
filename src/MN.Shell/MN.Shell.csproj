@@ -14,6 +14,7 @@
     <PackageIcon>mnshell.png</PackageIcon>
     <PackageTags>netcore,wpf,mvvm,shell,plugins</PackageTags>
     <NeutralLanguage>en-US</NeutralLanguage>
+    <SatelliteResourceLanguages>en;pl</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>
