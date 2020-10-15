@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
     <UseWPF>true</UseWPF>
-    <Version>0.1.0</Version>
+    <Version>1.0.0-preview1</Version>
     <Authors>Marek Nalepa</Authors>
     <Product>MN.Shell</Product>
     <Description>MN.Shell demo application</Description>

@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
     <UseWPF>true</UseWPF>
-    <Version>0.1.0</Version>
+    <Version>1.0.0-preview1</Version>
     <Authors>Marek Nalepa</Authors>
     <Product>MN.Shell</Product>
     <Description>Lightweight MVVM framework for WPF on .NET Core and .NET Framework using ViewModel-first approach</Description>
@@ -15,6 +15,8 @@
     <PackageTags>netcore,wpf,mvvm,viewmodel-first</PackageTags>
     <NeutralLanguage>en-US</NeutralLanguage>
     <SatelliteResourceLanguages>en;pl</SatelliteResourceLanguages>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
