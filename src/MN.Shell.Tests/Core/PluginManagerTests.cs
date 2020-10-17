@@ -1,4 +1,5 @@
-﻿using MN.Shell.Core;
+﻿using Microsoft.Extensions.Logging.Abstractions;
+using MN.Shell.Core;
 using MN.Shell.PluginContracts;
 using Moq;
 using NUnit.Framework;
@@ -23,7 +24,7 @@ namespace MN.Shell.Tests.Core
             var mock2 = new Mock<IPlugin>();
             mock2.Setup(p => p.Load(context)).Verifiable();
 
-            using (var pluginManager = new PluginManager())
+            using (var pluginManager = new PluginManager(NullLogger.Instance))
             {
                 Assert.NotNull(pluginManager.Plugins);
                 Assert.IsEmpty(pluginManager.Plugins);
@@ -54,7 +55,7 @@ namespace MN.Shell.Tests.Core
             var mock2 = new Mock<IPlugin>();
             mock2.Setup(p => p.OnStartup(e)).Verifiable();
 
-            using (var pluginManager = new PluginManager())
+            using (var pluginManager = new PluginManager(NullLogger.Instance))
             {
                 pluginManager.LoadPlugins(new[] { mock1.Object, mock2.Object }, context);
                 pluginManager.OnStartup(e);
@@ -79,7 +80,7 @@ namespace MN.Shell.Tests.Core
             var mock2 = new Mock<IPlugin>();
             mock2.Setup(p => p.OnExit(e)).Verifiable();
 
-            using (var pluginManager = new PluginManager())
+            using (var pluginManager = new PluginManager(NullLogger.Instance))
             {
                 pluginManager.LoadPlugins(new[] { mock1.Object, mock2.Object }, context);
                 pluginManager.OnExit(e);
@@ -100,7 +101,7 @@ namespace MN.Shell.Tests.Core
 
             var mock2 = new Mock<IPlugin>();
 
-            using (var pluginManager = new PluginManager())
+            using (var pluginManager = new PluginManager(NullLogger.Instance))
             {
                 pluginManager.LoadPlugins(new[] { mock1.Object, mock2.Object }, context);
                 pluginManager.Dispose();

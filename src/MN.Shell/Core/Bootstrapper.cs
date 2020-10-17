@@ -1,9 +1,10 @@
-﻿using MN.Shell.Framework;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using MN.Shell.Framework;
 using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
 using Ninject;
 using Ninject.Modules;
-using NLog;
 using System;
 using System.IO;
 using System.Reflection;
@@ -13,20 +14,38 @@ namespace MN.Shell.Core
 {
     public class Bootstrapper : BootstrapperBase
     {
-        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
-
         public IKernel Kernel { get; private set; }
+
+        private ILogger _logger;
 
         protected override void Configure()
         {
-            _logger.Info("Configuring Bootstrapper...");
-
             Kernel = new StandardKernel();
+
+#pragma warning disable CA2000 // Dispose objects before losing scope (loggerFactory will be disposed by kernel)
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddDebug();
+            });
+#pragma warning restore CA2000 // Dispose objects before losing scope
+
+            Kernel.Bind<ILoggerFactory>().ToConstant(loggerFactory).InSingletonScope();
+            Kernel.Bind<ILogger>().ToMethod(context =>
+            {
+                var factory = context.Kernel.Get<ILoggerFactory>();
+                var categoryName = context.Request?.ParentRequest?.Service.FullName ?? "Uncategorized";
+                return factory.CreateLogger(categoryName);
+            });
+
+            _logger = loggerFactory.CreateLogger(GetType().FullName);
+
+            _logger.LogInformation("Configuring Bootstrapper...");
+
             Kernel.Load(new CoreModule());
             Kernel.Load(new FrameworkModule());
 
             foreach (INinjectModule module in Kernel.GetModules())
-                _logger.Info($"Loaded kernel module: {module.Name} [{module.GetType().Assembly.FullName}]");
+                _logger.LogInformation($"Loaded kernel module: {module.Name} [{module.GetType().Assembly.FullName}]");
 
             string path = Path.GetDirectoryName(Uri.UnescapeDataString(
                 new Uri(Assembly.GetExecutingAssembly().Location).AbsolutePath));
@@ -34,46 +53,45 @@ namespace MN.Shell.Core
             if (string.IsNullOrEmpty(path))
                 throw new InvalidOperationException("Cannot scan empty directory path");
 
-            var plugins = PluginFinder.DiscoverPlugins(path);
+            var pluginFinder = Kernel.Get<PluginFinder>();
+            var plugins = pluginFinder.DiscoverPlugins(path);
 
-            _logger.Info($"Loading plugins...");
+            _logger.LogInformation($"Loading plugins...");
 
-            var context = new PluginContext(Kernel);
+            var pluginContext = new PluginContext(Kernel);
             var pluginManager = Kernel.Get<PluginManager>();
-            pluginManager.LoadPlugins(PluginFinder.DiscoverPlugins(path), context);
+            pluginManager.LoadPlugins(plugins, pluginContext);
 
-            _logger.Info("Plugins loaded.");
+            _logger.LogInformation("Plugins loaded.");
         }
 
         protected override T GetInstance<T>() => Kernel.Get<T>();
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _logger.Info("Starting application...");
+            _logger.LogInformation("Starting application...");
 
             Kernel.Get<PluginManager>().OnStartup(e);
             DisplayRootView<ShellViewModel>();
 
-            _logger.Info("Application started.");
+            _logger.LogInformation("Application started.");
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
-            _logger.Info("Exiting application...");
+            _logger.LogInformation("Exiting application...");
 
             Kernel.Get<PluginManager>().OnExit(e);
 
-            _logger.Info("Application exited.");
+            _logger.LogInformation("Application exited.");
         }
 
         protected override void Dispose(bool disposing)
         {
-            _logger.Info("Disposing resources...");
+            _logger.LogInformation("Disposing resources...");
 
             Kernel.Dispose();
             base.Dispose(disposing);
-
-            _logger.Info("Resources disposed.");
         }
     }
 }

@@ -24,6 +24,10 @@ indent_size = 4
 [*.xaml]
 charset = utf-8-bom
 
+# Configuration files
+[*.config]
+charset = utf-8-bom
+
 # .NET Coding Conventions
 [*.{cs,vb}]
 # Organize usings

@@ -1,5 +1,5 @@
-﻿using MN.Shell.PluginContracts;
-using NLog;
+﻿using Microsoft.Extensions.Logging;
+using MN.Shell.PluginContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +12,13 @@ namespace MN.Shell.Core
     /// </summary>
     public sealed class PluginManager : IDisposable
     {
-        private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
-
+        private readonly ILogger _logger;
         private readonly List<IPlugin> _plugins = new List<IPlugin>();
+
+        public PluginManager(ILogger logger)
+        {
+            _logger = logger;
+        }
 
         /// <summary>
         /// Collection of plugins loaded and managed by this plugin manager
@@ -35,7 +39,7 @@ namespace MN.Shell.Core
 
             foreach (var plugin in _plugins)
             {
-                _logger.Info($"Loading plugin: [{plugin.Name}]");
+                _logger.LogInformation($"Loading plugin: [{plugin.Name}]");
 
                 context.PluginInScope = plugin;
                 plugin.Load(context);

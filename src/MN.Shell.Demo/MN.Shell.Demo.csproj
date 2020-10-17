@@ -30,7 +30,6 @@
     </PackageReference>
     <PackageReference Include="Dirkster.AvalonDock" version="4.40.0" />
     <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" version="4.40.0" />
-    <PackageReference Include="NLog" version="4.7.5" />
   </ItemGroup>
 
   <ItemGroup>
