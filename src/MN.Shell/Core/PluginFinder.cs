@@ -32,7 +32,9 @@ namespace MN.Shell.Core
 
         private IEnumerable<Assembly> LoadAssemblies(string path)
         {
-            return Directory.GetFiles(path, "*.dll").Select(f =>
+            var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic);
+
+            var potentialAssemblies = Directory.GetFiles(path, "*.dll").Select(f =>
             {
                 try
                 {
@@ -46,20 +48,20 @@ namespace MN.Shell.Core
                     return null;
                 }
             }).
-            Concat(Enumerable.Repeat(Assembly.GetExecutingAssembly(), 1)).
-            Where(a => a != null).
-            Distinct();
+            Where(a => a != null);
+
+            return loadedAssemblies.Concat(potentialAssemblies).Distinct();
         }
 
         private IEnumerable<Type> FindPluginTypes(IEnumerable<Assembly> assemblies)
         {
             return assemblies.SelectMany(a =>
             {
-                _logger.LogDebug($"Scanning assembly [{a.FullName}] for plugins...");
+                _logger.LogTrace($"Scanning assembly [{a.FullName}] for plugins...");
                 try
                 {
                     return a.GetExportedTypes().
-                        Where(t => t.IsClass && t.IsPublic && typeof(IPlugin).IsAssignableFrom(t));
+                        Where(t => t.IsClass && t.IsPublic && !t.IsAbstract && typeof(IPlugin).IsAssignableFrom(t));
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception e)
