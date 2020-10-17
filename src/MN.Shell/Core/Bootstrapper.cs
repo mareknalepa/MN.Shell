@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using MN.Shell.Framework;
 using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
 using Ninject;
 using Ninject.Modules;
+using NLog.Extensions.Logging;
 using System;
 using System.IO;
 using System.Reflection;
@@ -22,22 +24,7 @@ namespace MN.Shell.Core
         {
             Kernel = new StandardKernel();
 
-#pragma warning disable CA2000 // Dispose objects before losing scope (loggerFactory will be disposed by kernel)
-            var loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder.AddDebug();
-            });
-#pragma warning restore CA2000 // Dispose objects before losing scope
-
-            Kernel.Bind<ILoggerFactory>().ToConstant(loggerFactory).InSingletonScope();
-            Kernel.Bind<ILogger>().ToMethod(context =>
-            {
-                var factory = context.Kernel.Get<ILoggerFactory>();
-                var categoryName = context.Request?.ParentRequest?.Service.FullName ?? "Uncategorized";
-                return factory.CreateLogger(categoryName);
-            });
-
-            _logger = loggerFactory.CreateLogger(GetType().FullName);
+            ConfigureLogging();
 
             _logger.LogInformation("Configuring Bootstrapper...");
 
@@ -65,6 +52,73 @@ namespace MN.Shell.Core
             _logger.LogInformation("Plugins loaded.");
         }
 
+        private void ConfigureLogging()
+        {
+            var entryPointAssembly = Assembly.GetEntryAssembly();
+
+            if (entryPointAssembly == null)
+            {
+                // This can occur in unit tests
+                Kernel.Bind<ILoggerFactory>().To<NullLoggerFactory>().InSingletonScope();
+                Kernel.Bind<ILogger>().ToConstant(NullLogger.Instance);
+                _logger = NullLogger.Instance;
+                return;
+            }
+
+            var versionAttribute = entryPointAssembly.GetCustomAttribute<AssemblyVersionAttribute>();
+            var infoVersionAttribute = entryPointAssembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+
+            string version = versionAttribute?.Version ?? infoVersionAttribute?.InformationalVersion ?? "Unknown";
+
+            var appFolder = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                entryPointAssembly.GetName().Name,
+                version);
+
+            if (!Directory.Exists(appFolder))
+                Directory.CreateDirectory(appFolder);
+
+#pragma warning disable CA2000 // Dispose objects before losing scope (will be disposed by kernel)
+
+            var nlogConfig = new NLog.Config.LoggingConfiguration();
+
+#if DEBUG
+            var debugConsoleTarget = new NLog.Targets.DebuggerTarget("debuggerTarget");
+            nlogConfig.AddTarget(debugConsoleTarget);
+            nlogConfig.AddRule(NLog.LogLevel.Trace, NLog.LogLevel.Fatal, debugConsoleTarget);
+#endif
+
+            var logFileTarget = new NLog.Targets.FileTarget("logfileTarget")
+            {
+                FileName = Path.Combine(appFolder, "log.txt")
+            };
+            nlogConfig.AddTarget(logFileTarget);
+            nlogConfig.AddRule(NLog.LogLevel.Trace, NLog.LogLevel.Fatal, logFileTarget);
+
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+#if DEBUG
+                builder.SetMinimumLevel(LogLevel.Trace);
+#else
+                builder.SetMinimumLevel(LogLevel.Information);
+#endif
+                builder
+                    .AddDebug()
+                    .AddNLog(nlogConfig);
+            });
+#pragma warning restore CA2000 // Dispose objects before losing scope
+
+            Kernel.Bind<ILoggerFactory>().ToConstant(loggerFactory).InSingletonScope();
+            Kernel.Bind<ILogger>().ToMethod(context =>
+                {
+                    var factory = context.Kernel.Get<ILoggerFactory>();
+                    var categoryName = context.Request?.ParentRequest?.Service.FullName ?? "Uncategorized";
+                    return factory.CreateLogger(categoryName);
+                });
+
+            _logger = loggerFactory.CreateLogger(GetType().FullName);
+        }
+
         protected override T GetInstance<T>() => Kernel.Get<T>();
 
         protected override void OnStartup(StartupEventArgs e)
@@ -90,6 +144,7 @@ namespace MN.Shell.Core
         {
             _logger.LogInformation("Disposing resources...");
 
+            NLog.LogManager.Shutdown();
             Kernel.Dispose();
             base.Dispose(disposing);
         }
