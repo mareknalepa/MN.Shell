@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
     <UseWPF>true</UseWPF>
-    <Version>0.1.0</Version>
+    <Version>1.0.0-preview1</Version>
     <Authors>Marek Nalepa</Authors>
     <Product>MN.Shell</Product>
     <Description>Sample application for MN.Shell.MVVM framework</Description>
@@ -28,7 +28,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.9" />
   </ItemGroup>
 
   <ItemGroup>

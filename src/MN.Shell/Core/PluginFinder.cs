@@ -1,5 +1,5 @@
-﻿using MN.Shell.PluginContracts;
-using NLog;
+﻿using Microsoft.Extensions.Logging;
+using MN.Shell.PluginContracts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,26 +8,33 @@ using System.Reflection;
 
 namespace MN.Shell.Core
 {
-    public static class PluginFinder
+    public class PluginFinder
     {
-        private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+        private readonly ILogger _logger;
 
-        public static IList<IPlugin> DiscoverPlugins(string path)
+        public PluginFinder(ILogger logger)
         {
-            _logger.Info($"Starting plugins discovery process using directory [{path}]...");
+            _logger = logger;
+        }
+
+        public IList<IPlugin> DiscoverPlugins(string path)
+        {
+            _logger.LogInformation($"Starting plugins discovery process using directory [{path}]...");
 
             var assemblies = LoadAssemblies(path);
             var pluginTypes = FindPluginTypes(assemblies);
             var plugins = CreatePluginInstances(pluginTypes).ToList();
 
-            _logger.Info($"Plugins discovery finished, found {plugins.Count} plugins.");
+            _logger.LogInformation($"Plugins discovery finished, found {plugins.Count} plugins.");
 
             return plugins;
         }
 
-        private static IEnumerable<Assembly> LoadAssemblies(string path)
+        private IEnumerable<Assembly> LoadAssemblies(string path)
         {
-            return Directory.GetFiles(path, "*.dll").Select(f =>
+            var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic);
+
+            var potentialAssemblies = Directory.GetFiles(path, "*.dll").Select(f =>
             {
                 try
                 {
@@ -37,36 +44,36 @@ namespace MN.Shell.Core
                 catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    _logger.Error(e, $"Failed to load assembly from file [{f}]");
+                    _logger.LogError(e, $"Failed to load assembly from file [{f}]");
                     return null;
                 }
             }).
-            Concat(Enumerable.Repeat(Assembly.GetExecutingAssembly(), 1)).
-            Where(a => a != null).
-            Distinct();
+            Where(a => a != null);
+
+            return loadedAssemblies.Concat(potentialAssemblies).Distinct();
         }
 
-        private static IEnumerable<Type> FindPluginTypes(IEnumerable<Assembly> assemblies)
+        private IEnumerable<Type> FindPluginTypes(IEnumerable<Assembly> assemblies)
         {
             return assemblies.SelectMany(a =>
             {
-                _logger.Debug($"Scanning assembly [{a.FullName}] for plugins...");
+                _logger.LogTrace($"Scanning assembly [{a.FullName}] for plugins...");
                 try
                 {
                     return a.GetExportedTypes().
-                        Where(t => t.IsClass && t.IsPublic && typeof(IPlugin).IsAssignableFrom(t));
+                        Where(t => t.IsClass && t.IsPublic && !t.IsAbstract && typeof(IPlugin).IsAssignableFrom(t));
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    _logger.Error(e);
+                    _logger.LogError(e, e.Message);
                     return Enumerable.Empty<Type>();
                 }
             });
         }
 
-        private static IEnumerable<IPlugin> CreatePluginInstances(IEnumerable<Type> pluginTypes)
+        private IEnumerable<IPlugin> CreatePluginInstances(IEnumerable<Type> pluginTypes)
         {
             return pluginTypes.Select(pluginType =>
             {
@@ -82,7 +89,7 @@ namespace MN.Shell.Core
                 catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    _logger.Error(e, $"Cannot create instance of type [{pluginType}]: {e.Message}");
+                    _logger.LogError(e, $"Cannot create instance of type [{pluginType}]: {e.Message}");
                     return null;
                 }
             }).

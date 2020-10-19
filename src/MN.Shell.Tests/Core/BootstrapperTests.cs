@@ -1,4 +1,6 @@
-﻿using MN.Shell.Core;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using MN.Shell.Core;
 using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
@@ -122,6 +124,12 @@ namespace MN.Shell.Tests.Core
             Kernel.Rebind<ShellViewModel>().ToConstant(null as ShellViewModel);
 
             Kernel.Bind<IExampleService, ExampleService>().To<ExampleService>().InSingletonScope();
+        }
+
+        protected override ILogger ConfigureLogging()
+        {
+            Kernel.Bind<ILogger>().ToConstant(NullLogger.Instance).InSingletonScope();
+            return NullLogger.Instance;
         }
 
         public new T GetInstance<T>() => base.GetInstance<T>();
