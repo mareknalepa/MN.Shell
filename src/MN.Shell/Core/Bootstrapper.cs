@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using MN.Shell.Framework;
 using MN.Shell.Modules.Shell;
@@ -24,7 +23,7 @@ namespace MN.Shell.Core
         {
             Kernel = new StandardKernel();
 
-            ConfigureLogging();
+            _logger = ConfigureLogging();
 
             _logger.LogInformation("Configuring Bootstrapper...");
 
@@ -34,35 +33,17 @@ namespace MN.Shell.Core
             foreach (INinjectModule module in Kernel.GetModules())
                 _logger.LogInformation($"Loaded kernel module: {module.Name} [{module.GetType().Assembly.FullName}]");
 
-            string path = Path.GetDirectoryName(Uri.UnescapeDataString(
-                new Uri(Assembly.GetExecutingAssembly().Location).AbsolutePath));
-
-            if (string.IsNullOrEmpty(path))
-                throw new InvalidOperationException("Cannot scan empty directory path");
-
-            var pluginFinder = Kernel.Get<PluginFinder>();
-            var plugins = pluginFinder.DiscoverPlugins(path);
-
-            _logger.LogInformation($"Loading plugins...");
-
-            var pluginContext = new PluginContext(Kernel);
-            var pluginManager = Kernel.Get<PluginManager>();
-            pluginManager.LoadPlugins(plugins, pluginContext);
-
-            _logger.LogInformation("Plugins loaded.");
+            LoadPlugins();
         }
 
-        private void ConfigureLogging()
+        protected virtual ILogger ConfigureLogging()
         {
             var entryPointAssembly = Assembly.GetEntryAssembly();
-
             if (entryPointAssembly == null)
             {
-                // This can occur in unit tests
                 Kernel.Bind<ILoggerFactory>().To<NullLoggerFactory>().InSingletonScope();
                 Kernel.Bind<ILogger>().ToConstant(NullLogger.Instance);
-                _logger = NullLogger.Instance;
-                return;
+                return NullLogger.Instance;
             }
 
             var versionAttribute = entryPointAssembly.GetCustomAttribute<AssemblyVersionAttribute>();
@@ -110,13 +91,33 @@ namespace MN.Shell.Core
 
             Kernel.Bind<ILoggerFactory>().ToConstant(loggerFactory).InSingletonScope();
             Kernel.Bind<ILogger>().ToMethod(context =>
-                {
-                    var factory = context.Kernel.Get<ILoggerFactory>();
-                    var categoryName = context.Request?.ParentRequest?.Service.FullName ?? "Uncategorized";
-                    return factory.CreateLogger(categoryName);
-                });
+            {
+                var factory = context.Kernel.Get<ILoggerFactory>();
+                var categoryName = context.Request?.ParentRequest?.Service.FullName ?? "Uncategorized";
+                return factory.CreateLogger(categoryName);
+            });
 
-            _logger = loggerFactory.CreateLogger(GetType().FullName);
+            return loggerFactory.CreateLogger(GetType().FullName);
+        }
+
+        protected virtual void LoadPlugins()
+        {
+            string path = Path.GetDirectoryName(Uri.UnescapeDataString(
+                new Uri(Assembly.GetExecutingAssembly().Location).AbsolutePath));
+
+            if (string.IsNullOrEmpty(path))
+                throw new InvalidOperationException("Cannot scan empty directory path");
+
+            var pluginFinder = Kernel.Get<PluginFinder>();
+            var plugins = pluginFinder.DiscoverPlugins(path);
+
+            _logger.LogInformation($"Loading plugins...");
+
+            var pluginContext = new PluginContext(Kernel);
+            var pluginManager = Kernel.Get<PluginManager>();
+            pluginManager.LoadPlugins(plugins, pluginContext);
+
+            _logger.LogInformation("Plugins loaded.");
         }
 
         protected override T GetInstance<T>() => Kernel.Get<T>();
