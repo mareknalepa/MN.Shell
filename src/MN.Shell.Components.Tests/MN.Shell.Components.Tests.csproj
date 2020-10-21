@@ -7,7 +7,7 @@
     <Version>1.0.0-preview1</Version>
     <Authors>Marek Nalepa</Authors>
     <Product>MN.Shell</Product>
-    <Description>MN.Shell core test suite</Description>
+    <Description>MN.Shell.Components test suite</Description>
     <Copyright>Copyright © Marek Nalepa 2020</Copyright>
     <PackageProjectUrl>https://github.com/mareknalepa/MN.Shell</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mareknalepa/MN.Shell</RepositoryUrl>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MN.Shell\MN.Shell.csproj" />
+    <ProjectReference Include="..\MN.Shell.Components\MN.Shell.Components.csproj" />
   </ItemGroup>
 
 </Project>
