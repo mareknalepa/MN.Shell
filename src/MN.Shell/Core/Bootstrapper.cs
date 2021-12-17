@@ -58,9 +58,6 @@ namespace MN.Shell.Core
 
             if (!Directory.Exists(appFolder))
                 Directory.CreateDirectory(appFolder);
-
-#pragma warning disable CA2000 // Dispose objects before losing scope (will be disposed by kernel)
-
             var nlogConfig = new NLog.Config.LoggingConfiguration();
 
 #if DEBUG
@@ -87,8 +84,6 @@ namespace MN.Shell.Core
                     .AddDebug()
                     .AddNLog(nlogConfig);
             });
-#pragma warning restore CA2000 // Dispose objects before losing scope
-
             Kernel.Bind<ILoggerFactory>().ToConstant(loggerFactory).InSingletonScope();
             Kernel.Bind<ILogger>().ToMethod(context =>
             {

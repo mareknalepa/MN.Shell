@@ -14,7 +14,7 @@ namespace MN.Shell.MVVM
         /// <param name="task">Task to observe</param>
         /// <returns>Task notifier observing given task</returns>
         public static TaskNotifier ToTaskNotifier(this Task task) =>
-            new TaskNotifier(task);
+            new(task);
 
         /// <summary>
         /// Creates new task notifier for observing given asynchronous operation
@@ -22,7 +22,7 @@ namespace MN.Shell.MVVM
         /// <param name="asyncAction">Asynchronous operation to observe</param>
         /// <returns>Task notifier observing given asynchronous operation</returns>
         public static TaskNotifier ToTaskNotifier(this Func<Task> asyncAction) =>
-            new TaskNotifier(asyncAction);
+            new(asyncAction);
 
         /// <summary>
         /// Creates new task notifier for observing given generic task
@@ -32,7 +32,7 @@ namespace MN.Shell.MVVM
         /// <param name="defaultResult">Result to expose until task completes</param>
         /// <returns>Task notifier observing given task</returns>
         public static TaskNotifier<T> ToTaskNotifier<T>(this Task<T> task, T defaultResult) =>
-            new TaskNotifier<T>(task, defaultResult);
+            new(task, defaultResult);
 
         /// <summary>
         /// Creates new task notifier for observing given asynchronous operation
@@ -42,6 +42,6 @@ namespace MN.Shell.MVVM
         /// <param name="defaultResult">Result to expose until task completes</param>
         /// <returns>Task notifier observing given asynchronous operation</returns>
         public static TaskNotifier<T> ToTaskNotifier<T>(this Func<Task<T>> asyncAction, T defaultResult) =>
-            new TaskNotifier<T>(asyncAction, defaultResult);
+            new(asyncAction, defaultResult);
     }
 }

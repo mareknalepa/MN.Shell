@@ -40,9 +40,7 @@ namespace MN.Shell.Core
                 {
                     return Assembly.LoadFrom(f);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     _logger.LogError(e, $"Failed to load assembly from file [{f}]");
                     return null;
@@ -63,9 +61,7 @@ namespace MN.Shell.Core
                     return a.GetExportedTypes().
                         Where(t => t.IsClass && t.IsPublic && !t.IsAbstract && typeof(IPlugin).IsAssignableFrom(t));
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     _logger.LogError(e, e.Message);
                     return Enumerable.Empty<Type>();
@@ -85,9 +81,7 @@ namespace MN.Shell.Core
 
                     return null;
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     _logger.LogError(e, $"Cannot create instance of type [{pluginType}]: {e.Message}");
                     return null;

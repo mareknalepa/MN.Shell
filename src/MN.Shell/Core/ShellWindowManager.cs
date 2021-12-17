@@ -14,7 +14,7 @@ namespace MN.Shell.Core
             if (view == null)
                 throw new ArgumentNullException(nameof(view));
 
-            if (!(view is Window window))
+            if (view is not Window window)
             {
                 window = new ShellWindow()
                 {

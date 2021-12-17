@@ -3,9 +3,7 @@
     /// <summary>
     /// Non-generic interface for components which can subscribe to Message Bus for particular message types
     /// </summary>
-#pragma warning disable CA1040 // Avoid empty interfaces
     public interface IListener { }
-#pragma warning restore CA1040 // Avoid empty interfaces
 
     /// <summary>
     /// Generic interface for components which can subscribe to Message Bus for particular message types

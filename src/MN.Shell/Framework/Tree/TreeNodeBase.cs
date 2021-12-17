@@ -23,7 +23,7 @@ namespace MN.Shell.Framework.Tree
             set => Set(ref _name, value);
         }
 
-        private readonly ObservableCollection<TreeNodeBase> _children = new ObservableCollection<TreeNodeBase>();
+        private readonly ObservableCollection<TreeNodeBase> _children = new();
 
         public IEnumerable<TreeNodeBase> Children => _children;
 

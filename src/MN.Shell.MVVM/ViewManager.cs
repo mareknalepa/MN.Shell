@@ -9,7 +9,7 @@ namespace MN.Shell.MVVM
     /// </summary>
     public class ViewManager : IViewManager
     {
-        private readonly Dictionary<Type, Type> _mappingsCache = new Dictionary<Type, Type>();
+        private readonly Dictionary<Type, Type> _mappingsCache = new();
 
         /// <summary>
         /// Factory method used to create instances of views.
@@ -50,11 +50,7 @@ namespace MN.Shell.MVVM
 
             if (_mappingsCache.TryGetValue(viewModelType, out var cachedViewType))
                 return cachedViewType;
-
-#pragma warning disable CA1307 // Specify StringComparison
             var viewTypeName = viewModelType.FullName.Replace("ViewModel", "View");
-#pragma warning restore CA1307 // Specify StringComparison
-
             if (viewModelType.FullName == viewTypeName)
                 throw new InvalidOperationException($"Cannot transform ViewModel type [{viewModelType.FullName}] " +
                     "into matching View type");

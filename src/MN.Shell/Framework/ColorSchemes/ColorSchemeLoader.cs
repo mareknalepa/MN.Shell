@@ -17,7 +17,7 @@ namespace MN.Shell.Framework.ColorSchemes
         public ColorScheme CurrentAccentColors { get; private set; }
 
         private readonly Uri _avalonDockThemeUri
-            = new Uri("pack://application:,,,/MN.Shell;component/Themes/Controls/AvalonDock.xaml");
+            = new("pack://application:,,,/MN.Shell;component/Themes/Controls/AvalonDock.xaml");
 
         public ColorSchemeLoader()
         {
