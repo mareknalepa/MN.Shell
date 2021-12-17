@@ -2,7 +2,7 @@
 
 # MN.Shell
 
-Application shell inspired by Visual Studio and Visual Studio Code, based on .NET Core and WPF with MVVM architecture, providing plugin system, aesthetic themes, docking layout and much more.
+Application shell inspired by Visual Studio and Visual Studio Code, based on .NET and WPF with MVVM architecture, providing plugin system, aesthetic themes, docking layout and much more.
 
 ## Packages
 
@@ -22,8 +22,7 @@ Package | NuGet |
 
 ## Technologies used
 
-- .NET Core 3.1
-- .NET Framework 4.7
+- .NET 5.0
 - WPF
 - MVVM pattern
 - Ninject
