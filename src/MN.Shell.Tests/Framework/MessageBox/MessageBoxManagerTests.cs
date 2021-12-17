@@ -42,7 +42,7 @@ namespace MN.Shell.Tests.Framework.MessageBox
         {
             OnDialogShown = vm =>
             {
-                if (!(vm is MessageBoxViewModel messageBoxViewModel))
+                if (vm is not MessageBoxViewModel messageBoxViewModel)
                     throw new ArgumentException("Cannot handle view models other than MessageBoxViewModel");
 
                 Assert.AreEqual(caption, messageBoxViewModel.Title);
@@ -59,7 +59,7 @@ namespace MN.Shell.Tests.Framework.MessageBox
         {
             OnDialogShown = vm =>
             {
-                if (!(vm is MessageBoxViewModel messageBoxViewModel))
+                if (vm is not MessageBoxViewModel messageBoxViewModel)
                     throw new ArgumentException("Cannot handle view models other than MessageBoxViewModel");
 
                 if (buttons == MessageBoxButtonSet.Ok)

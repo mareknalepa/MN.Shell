@@ -85,13 +85,9 @@ namespace MN.Shell.MVVM
         {
             try
             {
-#pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
                 await task;
-#pragma warning restore CA2007 // Consider calling ConfigureAwait on the awaited task
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch
-#pragma warning restore CA1031 // Do not catch general exception types
             {
             }
             finally
@@ -217,13 +213,9 @@ namespace MN.Shell.MVVM
         {
             try
             {
-#pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
                 await task;
-#pragma warning restore CA2007 // Consider calling ConfigureAwait on the awaited task
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch
-#pragma warning restore CA1031 // Do not catch general exception types
             {
             }
             finally

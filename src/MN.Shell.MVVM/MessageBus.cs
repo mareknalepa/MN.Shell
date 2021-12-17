@@ -47,13 +47,13 @@ namespace MN.Shell.MVVM
             public Action<object, object> Invoker { get; }
         }
 
-        private readonly List<MessageBusListener> _listeners = new List<MessageBusListener>();
+        private readonly List<MessageBusListener> _listeners = new();
 
         private bool _inHandler;
 
-        private readonly Queue<Tuple<IListener, Type>> _listenersToAdd = new Queue<Tuple<IListener, Type>>();
+        private readonly Queue<Tuple<IListener, Type>> _listenersToAdd = new();
 
-        private readonly Queue<Tuple<IListener, Type>> _listenersToRemove = new Queue<Tuple<IListener, Type>>();
+        private readonly Queue<Tuple<IListener, Type>> _listenersToRemove = new();
 
         /// <summary>
         /// Subscribe given listener to particular type of messages

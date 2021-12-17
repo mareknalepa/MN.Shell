@@ -71,7 +71,7 @@ namespace MN.Shell.MVVM
             if (view == null)
                 throw new ArgumentNullException(nameof(view));
 
-            if (!(view is Window window))
+            if (view is not Window window)
             {
                 window = new Window()
                 {

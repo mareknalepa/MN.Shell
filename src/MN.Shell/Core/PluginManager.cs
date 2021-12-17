@@ -13,7 +13,7 @@ namespace MN.Shell.Core
     public sealed class PluginManager : IDisposable
     {
         private readonly ILogger _logger;
-        private readonly List<IPlugin> _plugins = new List<IPlugin>();
+        private readonly List<IPlugin> _plugins = new();
 
         public PluginManager(ILogger logger)
         {
