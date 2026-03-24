@@ -10,8 +10,8 @@ namespace MN.Shell.Tests.Core
     [TestFixture]
     public class ApplicationContextTests
     {
-        private Mock<IKernel> _kernelMock;
-        private ApplicationContext _applicationContext;
+        private Mock<IKernel> _kernelMock = new Mock<IKernel>();
+        private ApplicationContext _applicationContext = new ApplicationContext(new Mock<IKernel>().Object);
 
         [SetUp]
         public void SetUp()
@@ -25,7 +25,7 @@ namespace MN.Shell.Tests.Core
         {
             bool handlerCalled = false;
 
-            void OnApplicationTitleChanged(object sender, string newTitle)
+            void OnApplicationTitleChanged(object? sender, string newTitle)
             {
                 handlerCalled = true;
                 Assert.AreEqual("New Title", newTitle);
@@ -43,7 +43,7 @@ namespace MN.Shell.Tests.Core
         {
             bool handlerCalled = false;
 
-            void OnApplicationExitRequested(object sender, EventArgs e) => handlerCalled = true;
+            void OnApplicationExitRequested(object? sender, EventArgs e) => handlerCalled = true;
 
             _applicationContext.ApplicationExitRequested += OnApplicationExitRequested;
             _applicationContext.RequestApplicationExit();

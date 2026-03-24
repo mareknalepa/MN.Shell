@@ -8,8 +8,8 @@ namespace MN.Shell.MVVM.Tests
     [TestFixture, Apartment(ApartmentState.STA)]
     public class WindowManagerTests
     {
-        private Mock<IViewManager> _viewManagerMock;
-        private WindowManager _windowManager;
+        private Mock<IViewManager> _viewManagerMock = new Mock<IViewManager>(MockBehavior.Strict);
+        private WindowManager _windowManager = new WindowManager(new Mock<IViewManager>(MockBehavior.Strict).Object);
 
         [SetUp]
         public void SetUp()
@@ -24,13 +24,13 @@ namespace MN.Shell.MVVM.Tests
             var viewModel = new object();
             var view = new MockWindowView() { DataContext = viewModel };
 
-            Window ownerWindow = null;
+            Window? ownerWindow = null;
             if (isAnotherActiveWindow)
             {
                 ownerWindow = new Window() { Height = 1, Width = 1, WindowState = WindowState.Minimized };
                 ownerWindow.Show();
             }
-            _windowManager.GetActiveWindow = () => ownerWindow;
+            _windowManager.GetActiveWindow = () => ownerWindow!;
 
             bool windowShown = false;
             view.OnLoadedAction = window =>
@@ -55,13 +55,13 @@ namespace MN.Shell.MVVM.Tests
             var viewModel = new object();
             var view = new MockUserControlView() { DataContext = viewModel };
 
-            Window ownerWindow = null;
+            Window? ownerWindow = null;
             if (isAnotherActiveWindow)
             {
                 ownerWindow = new Window() { Height = 1, Width = 1, WindowState = WindowState.Minimized };
                 ownerWindow.Show();
             }
-            _windowManager.GetActiveWindow = () => ownerWindow;
+            _windowManager.GetActiveWindow = () => ownerWindow!;
 
             bool windowShown = false;
             view.OnLoadedAction = userControl =>
@@ -70,8 +70,8 @@ namespace MN.Shell.MVVM.Tests
                 Assert.AreSame(viewModel, userControl.DataContext);
                 var parentWindow = userControl.Parent as Window;
                 Assert.NotNull(parentWindow);
-                Assert.AreSame(viewModel, parentWindow.DataContext);
-                Assert.Null(parentWindow.Owner);
+                Assert.AreSame(viewModel, parentWindow?.DataContext);
+                Assert.Null(parentWindow?.Owner);
             };
 
             _viewManagerMock
@@ -89,13 +89,13 @@ namespace MN.Shell.MVVM.Tests
             var viewModel = new object();
             var view = new MockWindowView() { DataContext = viewModel };
 
-            Window ownerWindow = null;
+            Window? ownerWindow = null;
             if (isAnotherActiveWindow)
             {
                 ownerWindow = new Window() { Height = 1, Width = 1, WindowState = WindowState.Minimized };
                 ownerWindow.Show();
             }
-            _windowManager.GetActiveWindow = () => ownerWindow;
+            _windowManager.GetActiveWindow = () => ownerWindow!;
 
             bool windowShown = false;
             view.OnLoadedAction = window =>
@@ -123,13 +123,13 @@ namespace MN.Shell.MVVM.Tests
             var viewModel = new object();
             var view = new MockUserControlView() { DataContext = viewModel };
 
-            Window ownerWindow = null;
+            Window? ownerWindow = null;
             if (isAnotherActiveWindow)
             {
                 ownerWindow = new Window() { Height = 1, Width = 1, WindowState = WindowState.Minimized };
                 ownerWindow.Show();
             }
-            _windowManager.GetActiveWindow = () => ownerWindow;
+            _windowManager.GetActiveWindow = () => ownerWindow!;
 
             bool windowShown = false;
             view.OnLoadedAction = userControl =>
@@ -138,11 +138,11 @@ namespace MN.Shell.MVVM.Tests
                 Assert.AreSame(viewModel, userControl.DataContext);
                 var parentWindow = userControl.Parent as Window;
                 Assert.NotNull(parentWindow);
-                Assert.AreSame(viewModel, parentWindow.DataContext);
+                Assert.AreSame(viewModel, parentWindow?.DataContext);
                 if (isAnotherActiveWindow)
-                    Assert.AreSame(ownerWindow, parentWindow.Owner);
+                    Assert.AreSame(ownerWindow, parentWindow?.Owner);
                 else
-                    Assert.Null(parentWindow.Owner);
+                    Assert.Null(parentWindow?.Owner);
             };
 
             _viewManagerMock
@@ -242,11 +242,11 @@ namespace MN.Shell.MVVM.Tests
 
             string actualTitle = string.Empty;
 
-            FrameworkElement view = null;
+            FrameworkElement? view = null;
             if (isUserControl)
             {
                 var userControlView = new MockUserControlView() { DataContext = viewModel };
-                userControlView.OnLoadedAction = userControl => actualTitle = (userControl.Parent as Window)?.Title;
+                userControlView.OnLoadedAction = userControl => actualTitle = (userControl.Parent as Window)?.Title ?? string.Empty;
                 view = userControlView;
             }
             else
@@ -283,11 +283,11 @@ namespace MN.Shell.MVVM.Tests
 
             string actualTitle = string.Empty;
 
-            FrameworkElement view = null;
+            FrameworkElement? view = null;
             if (isUserControl)
             {
                 var userControlView = new MockUserControlView() { DataContext = viewModel };
-                userControlView.OnLoadedAction = userControl => actualTitle = (userControl.Parent as Window)?.Title;
+                userControlView.OnLoadedAction = userControl => actualTitle = (userControl.Parent as Window)?.Title ?? string.Empty;
                 view = userControlView;
             }
             else

@@ -16,7 +16,7 @@ namespace MN.Shell.Core
 
         private string _applicationTitle = string.Empty;
 
-        public event EventHandler<string> ApplicationTitleChanged;
+        public event EventHandler<string>? ApplicationTitleChanged;
 
         /// <summary>
         /// Application title shown on title bar
@@ -38,7 +38,7 @@ namespace MN.Shell.Core
 
         #region "Exit handling"
 
-        public event EventHandler ApplicationExitRequested;
+        public event EventHandler? ApplicationExitRequested;
 
         /// <summary>
         /// Requests application to gracefully shutdown
@@ -49,7 +49,7 @@ namespace MN.Shell.Core
 
         #region "Documents"
 
-        public event EventHandler DocumentLoadRequested;
+        public event EventHandler? DocumentLoadRequested;
 
         public Queue<IDocument> DocumentsToLoad { get; } = new Queue<IDocument>();
 

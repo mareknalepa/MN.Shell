@@ -9,6 +9,6 @@ namespace MN.Shell.Tests.Mocks
     {
         public ObservableCollection<DialogButton> Buttons { get; } = new ObservableCollection<DialogButton>();
 
-        public DialogButton SelectedButton { get; set; }
+        public DialogButton? SelectedButton { get; set; }
     }
 }

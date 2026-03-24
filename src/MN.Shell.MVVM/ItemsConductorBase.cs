@@ -32,9 +32,9 @@ namespace MN.Shell.MVVM
         /// Internal handler to activate item
         /// </summary>
         /// <param name="item">Item to activate</param>
-        protected void ActivateItemInternal(T item)
+        protected void ActivateItemInternal(T? item)
         {
-            if (!ItemsCollection.Contains(item))
+            if (item is not null && !ItemsCollection.Contains(item))
             {
                 ItemsCollection.Add(item);
                 if (item is IClosable closable)
@@ -48,14 +48,14 @@ namespace MN.Shell.MVVM
         /// Handler called when item activation was requested
         /// </summary>
         /// <param name="item">Item to activate</param>
-        protected abstract void OnActivateItem(T item);
+        protected abstract void OnActivateItem(T? item);
 
         /// <summary>
         /// Handler called when child item requests to be closed
         /// </summary>
         /// <param name="sender">Source of close request</param>
         /// <param name="result">Result (for dialogs only)</param>
-        protected void OnItemCloseRequested(object sender, bool? result)
+        protected void OnItemCloseRequested(object? sender, bool? result)
         {
             if (sender is T item)
                 CloseItemInternal(item);

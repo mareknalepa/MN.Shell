@@ -48,17 +48,17 @@
         /// <summary>
         /// Returns wrapped exception thrown by task (null if no exceptions have been thrown)
         /// </summary>
-        public AggregateException Exception => Task.Exception;
+        public AggregateException? Exception => Task.Exception;
 
         /// <summary>
         /// Returns the original exception thrown by task (null if no exception has been thrown)
         /// </summary>
-        public Exception InnerException => Exception?.InnerException;
+        public Exception? InnerException => Exception?.InnerException;
 
         /// <summary>
         /// Gets the error message for the original exception thrown by task
         /// </summary>
-        public string ErrorMessage => InnerException?.Message;
+        public string? ErrorMessage => InnerException?.Message;
 
         /// <summary>
         /// Creates new TaskNotifier to observe given asynchronous task
@@ -173,17 +173,17 @@
         /// <summary>
         /// Returns wrapped exception thrown by task (null if no exceptions have been thrown)
         /// </summary>
-        public AggregateException Exception => Task.Exception;
+        public AggregateException? Exception => Task.Exception;
 
         /// <summary>
         /// Returns the original exception thrown by task (null if no exception has been thrown)
         /// </summary>
-        public Exception InnerException => Exception?.InnerException;
+        public Exception? InnerException => Exception?.InnerException;
 
         /// <summary>
         /// Gets the error message for the original exception thrown by task
         /// </summary>
-        public string ErrorMessage => InnerException?.Message;
+        public string? ErrorMessage => InnerException?.Message;
 
         /// <summary>
         /// Creates new TaskNotifier to observe given asynchronous task

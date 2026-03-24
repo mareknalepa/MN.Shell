@@ -9,10 +9,10 @@ namespace MN.Shell.Tests.Framework.MessageBox
     [TestFixture]
     public class MessageBoxManagerTests
     {
-        private Mock<IWindowManager> _mockWindowManager;
-        private IMessageBoxManager _messageBoxManager;
+        private Mock<IWindowManager> _mockWindowManager = new Mock<IWindowManager>(MockBehavior.Strict);
+        private IMessageBoxManager _messageBoxManager = new MessageBoxManager(new Mock<IWindowManager>(MockBehavior.Strict).Object);
 
-        private Action<object> OnDialogShown;
+        private Action<object>? OnDialogShown;
         private int _showWindowInvoked;
 
         [SetUp]

@@ -5,7 +5,7 @@ namespace MN.Shell.Framework.StatusBar
 {
     public class StatusBarItemViewModel : PropertyChangedBase
     {
-        private string _content;
+        private string _content = string.Empty;
 
         public string Content
         {
@@ -17,6 +17,6 @@ namespace MN.Shell.Framework.StatusBar
 
         public double MinWidth { get; set; } = 100;
 
-        public ICommand Command { get; set; }
+        public ICommand? Command { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace MN.Shell.Core
         /// <summary>
         /// Plugin calling operations on current context (set by plugin manager)
         /// </summary>
-        public IPlugin PluginInScope { get; set; }
+        public IPlugin? PluginInScope { get; set; }
 
         /// <summary>
         /// Application context allowing access to application wide-features
@@ -90,7 +90,7 @@ namespace MN.Shell.Core
             _kernel.Bind<TInterface, TService>().To<TService>().InSingletonScope();
         }
 
-        private void VerifyScope([CallerMemberName] string callerName = null)
+        private void VerifyScope([CallerMemberName] string? callerName = null)
         {
             if (PluginInScope == null)
                 throw new InvalidOperationException($"Cannot use {callerName} outside of the plugin scope");

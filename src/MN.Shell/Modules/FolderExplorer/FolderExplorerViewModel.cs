@@ -71,9 +71,9 @@ namespace MN.Shell.Modules.FolderExplorer
 
         public IEnumerable<TreeNodeBase> RootSource { get; }
 
-        private TreeNodeBase _selectedNode;
+        private TreeNodeBase? _selectedNode;
 
-        public TreeNodeBase SelectedNode
+        public TreeNodeBase? SelectedNode
         {
             get => _selectedNode;
             set
@@ -90,9 +90,9 @@ namespace MN.Shell.Modules.FolderExplorer
             }
         }
 
-        private DirectoryViewModel _selectedDirectory;
+        private DirectoryViewModel? _selectedDirectory;
 
-        public DirectoryViewModel SelectedDirectory
+        public DirectoryViewModel? SelectedDirectory
         {
             get => _selectedDirectory;
             set
@@ -131,17 +131,17 @@ namespace MN.Shell.Modules.FolderExplorer
             set => Set(ref _showFiles, value);
         }
 
-        private InsertNodeViewModel _currentInsertNode;
+        private InsertNodeViewModel? _currentInsertNode;
 
-        public InsertNodeViewModel CurrentInsertNode
+        public InsertNodeViewModel? CurrentInsertNode
         {
             get => _currentInsertNode;
             private set => Set(ref _currentInsertNode, value);
         }
 
-        private FileSystemNodeViewModel _currentRenameNode;
+        private FileSystemNodeViewModel? _currentRenameNode;
 
-        public FileSystemNodeViewModel CurrentRenameNode
+        public FileSystemNodeViewModel? CurrentRenameNode
         {
             get => _currentRenameNode;
             private set => Set(ref _currentRenameNode, value);
@@ -213,20 +213,20 @@ namespace MN.Shell.Modules.FolderExplorer
                 return;
 
             var parentDirectory = CurrentInsertNode.Parent as DirectoryViewModel;
-            parentDirectory.DetachChild(CurrentInsertNode);
+            parentDirectory?.DetachChild(CurrentInsertNode);
             string newName = CurrentInsertNode.Name;
 
             try
             {
                 if (CurrentInsertNode.IsDirectory)
-                    parentDirectory.Directory.CreateSubdirectory(CurrentInsertNode.Name);
+                    parentDirectory?.Directory.CreateSubdirectory(CurrentInsertNode.Name);
                 else
-                    using (var fs = File.Create(Path.Combine(parentDirectory.Directory.FullName, newName)))
+                    using (var fs = File.Create(Path.Combine(parentDirectory?.Directory.FullName ?? string.Empty, newName)))
                         fs.Close();
 
-                parentDirectory.ReloadChildren();
+                parentDirectory?.ReloadChildren();
 
-                var justCreatedNode = parentDirectory.Children.
+                var justCreatedNode = parentDirectory?.Children.
                     FirstOrDefault(child => child.Name == newName);
                 if (justCreatedNode != null)
                     justCreatedNode.IsSelected = true;
@@ -234,7 +234,7 @@ namespace MN.Shell.Modules.FolderExplorer
             catch (Exception e)
             {
                 var specialNode = new SpecialNodeViewModel(e);
-                parentDirectory.AttachChild(specialNode, 0);
+                parentDirectory?.AttachChild(specialNode, 0);
                 specialNode.IsSelected = true;
             }
 
@@ -274,13 +274,13 @@ namespace MN.Shell.Modules.FolderExplorer
             try
             {
                 if (CurrentRenameNode is DirectoryViewModel dir)
-                    dir.Directory.MoveTo(Path.Combine(parentDirectory.Directory.FullName, newName));
+                    dir.Directory.MoveTo(Path.Combine(parentDirectory?.Directory.FullName ?? string.Empty, newName));
                 else if (CurrentRenameNode is FileViewModel file)
-                    file.File.MoveTo(Path.Combine(parentDirectory.Directory.FullName, newName));
+                    file.File.MoveTo(Path.Combine(parentDirectory?.Directory.FullName ?? string.Empty, newName));
 
-                parentDirectory.ReloadChildren();
+                parentDirectory?.ReloadChildren();
 
-                var justRenamedNode = parentDirectory.Children.
+                var justRenamedNode = parentDirectory?.Children.
                     FirstOrDefault(child => child.Name == newName);
                 if (justRenamedNode != null)
                     justRenamedNode.IsSelected = true;

@@ -24,6 +24,7 @@
         /// </summary>
         /// <typeparam name="T">Type of message</typeparam>
         /// <param name="message">Message to publish</param>
-        void Publish<T>(T message);
+        void Publish<T>(T message)
+            where T : notnull;
     }
 }

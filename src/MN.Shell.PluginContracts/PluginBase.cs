@@ -10,12 +10,12 @@ namespace MN.Shell.PluginContracts
         /// <summary>
         /// Internal name of the plugin (composition root class full name)
         /// </summary>
-        public virtual string Name => GetType().FullName;
+        public virtual string Name => GetType().FullName ?? GetType().Name;
 
         /// <summary>
         /// Plugin loader context, allowing access to various extension points by a plugin composition root
         /// </summary>
-        public IPluginContext Context { get; private set; }
+        public IPluginContext? Context { get; private set; }
 
         /// <summary>
         /// Method called by application infrastructure while loading the plugin

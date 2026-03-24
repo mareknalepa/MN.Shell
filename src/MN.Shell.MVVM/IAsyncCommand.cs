@@ -10,7 +10,7 @@ namespace MN.Shell.MVVM
         /// <summary>
         /// TaskNotifier exposed to allow observing command execution progress via data binding
         /// </summary>
-        TaskNotifier Execution { get; }
+        TaskNotifier? Execution { get; }
 
         /// <summary>
         /// Status of command execution - true if currently command is running, false otherwise
@@ -22,6 +22,6 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="parameter">Internal parameter which can be optionally passed to command</param>
         /// <returns>Task representing asynchronous operation</returns>
-        Task ExecuteAsync(object parameter);
+        Task ExecuteAsync(object? parameter);
     }
 }

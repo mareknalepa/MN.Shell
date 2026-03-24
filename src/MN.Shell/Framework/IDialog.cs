@@ -7,6 +7,6 @@ namespace MN.Shell.Framework
     public interface IDialog : IScreen
     {
         ObservableCollection<DialogButton> Buttons { get; }
-        DialogButton SelectedButton { get; set; }
+        DialogButton? SelectedButton { get; set; }
     }
 }

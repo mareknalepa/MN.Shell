@@ -25,7 +25,7 @@ namespace MN.Shell.Tests.Framework.Dialogs
             Assert.AreEqual(type, button.Type);
 
             Assert.Null(vm.SelectedButton);
-            button.Command.Execute(null);
+            button.Command?.Execute(null);
             Assert.AreEqual(button, vm.SelectedButton);
         }
 
@@ -46,7 +46,7 @@ namespace MN.Shell.Tests.Framework.Dialogs
             Assert.False(handlerFired);
 
             Assert.Null(vm.SelectedButton);
-            button.Command.Execute(null);
+            button.Command?.Execute(null);
             Assert.AreEqual(button, vm.SelectedButton);
             Assert.True(handlerFired);
         }

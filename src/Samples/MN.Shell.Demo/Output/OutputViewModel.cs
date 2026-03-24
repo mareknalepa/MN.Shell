@@ -19,7 +19,7 @@ namespace MN.Shell.Demo.Output
 
         public override ToolPosition InitialPosition => ToolPosition.Bottom;
 
-        private string _output;
+        private string _output = string.Empty;
 
         public string Output
         {

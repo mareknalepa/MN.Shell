@@ -155,7 +155,7 @@ namespace MN.Shell.MVVM.Tests
                 Assert.False(command.CanExecute(new object()));
 
                 completionSemaphore.Release();
-                command.Execution.TaskCompleted.Wait();
+                command.Execution?.TaskCompleted.Wait();
 
                 Assert.True(command.CanExecute(new object()));
             }
@@ -181,7 +181,7 @@ namespace MN.Shell.MVVM.Tests
                 Assert.False(command.CanExecute(new object()));
 
                 completionSemaphore.Release();
-                command.Execution.TaskCompleted.Wait();
+                command.Execution?.TaskCompleted.Wait();
 
                 Assert.True(command.CanExecute(new object()));
             }
@@ -206,22 +206,22 @@ namespace MN.Shell.MVVM.Tests
 
                 Assert.True(command.IsExecuting);
 
-                Assert.False(command.Execution.IsCompleted);
-                Assert.True(command.Execution.IsNotCompleted);
-                Assert.False(command.Execution.IsCompletedSuccessfully);
-                Assert.False(command.Execution.IsCanceled);
-                Assert.False(command.Execution.IsFaulted);
+                Assert.False(command.Execution?.IsCompleted);
+                Assert.True(command.Execution?.IsNotCompleted);
+                Assert.False(command.Execution?.IsCompletedSuccessfully);
+                Assert.False(command.Execution?.IsCanceled);
+                Assert.False(command.Execution?.IsFaulted);
 
                 completionSemaphore.Release();
-                command.Execution.TaskCompleted.Wait();
+                command.Execution?.TaskCompleted.Wait();
 
                 Assert.False(command.IsExecuting);
 
-                Assert.True(command.Execution.IsCompleted);
-                Assert.False(command.Execution.IsNotCompleted);
-                Assert.True(command.Execution.IsCompletedSuccessfully);
-                Assert.False(command.Execution.IsCanceled);
-                Assert.False(command.Execution.IsFaulted);
+                Assert.True(command.Execution?.IsCompleted);
+                Assert.False(command.Execution?.IsNotCompleted);
+                Assert.True(command.Execution?.IsCompletedSuccessfully);
+                Assert.False(command.Execution?.IsCanceled);
+                Assert.False(command.Execution?.IsFaulted);
             }
         }
 
@@ -244,22 +244,22 @@ namespace MN.Shell.MVVM.Tests
 
                 Assert.True(command.IsExecuting);
 
-                Assert.False(command.Execution.IsCompleted);
-                Assert.True(command.Execution.IsNotCompleted);
-                Assert.False(command.Execution.IsCompletedSuccessfully);
-                Assert.False(command.Execution.IsCanceled);
-                Assert.False(command.Execution.IsFaulted);
+                Assert.False(command.Execution?.IsCompleted);
+                Assert.True(command.Execution?.IsNotCompleted);
+                Assert.False(command.Execution?.IsCompletedSuccessfully);
+                Assert.False(command.Execution?.IsCanceled);
+                Assert.False(command.Execution?.IsFaulted);
 
                 completionSemaphore.Release();
-                command.Execution.TaskCompleted.Wait();
+                command.Execution?.TaskCompleted.Wait();
 
                 Assert.False(command.IsExecuting);
 
-                Assert.True(command.Execution.IsCompleted);
-                Assert.False(command.Execution.IsNotCompleted);
-                Assert.True(command.Execution.IsCompletedSuccessfully);
-                Assert.False(command.Execution.IsCanceled);
-                Assert.False(command.Execution.IsFaulted);
+                Assert.True(command.Execution?.IsCompleted);
+                Assert.False(command.Execution?.IsNotCompleted);
+                Assert.True(command.Execution?.IsCompletedSuccessfully);
+                Assert.False(command.Execution?.IsCanceled);
+                Assert.False(command.Execution?.IsFaulted);
             }
         }
 
@@ -284,23 +284,23 @@ namespace MN.Shell.MVVM.Tests
 
                 Assert.True(command.IsExecuting);
 
-                Assert.False(command.Execution.IsCompleted);
-                Assert.True(command.Execution.IsNotCompleted);
-                Assert.False(command.Execution.IsCompletedSuccessfully);
-                Assert.False(command.Execution.IsCanceled);
-                Assert.False(command.Execution.IsFaulted);
+                Assert.False(command.Execution?.IsCompleted);
+                Assert.True(command.Execution?.IsNotCompleted);
+                Assert.False(command.Execution?.IsCompletedSuccessfully);
+                Assert.False(command.Execution?.IsCanceled);
+                Assert.False(command.Execution?.IsFaulted);
 
                 cts.Cancel();
                 cancelSemaphore.Release();
-                command.Execution.TaskCompleted.Wait();
+                command.Execution?.TaskCompleted.Wait();
 
                 Assert.False(command.IsExecuting);
 
-                Assert.True(command.Execution.IsCompleted);
-                Assert.False(command.Execution.IsNotCompleted);
-                Assert.False(command.Execution.IsCompletedSuccessfully);
-                Assert.True(command.Execution.IsCanceled);
-                Assert.False(command.Execution.IsFaulted);
+                Assert.True(command.Execution?.IsCompleted);
+                Assert.False(command.Execution?.IsNotCompleted);
+                Assert.False(command.Execution?.IsCompletedSuccessfully);
+                Assert.True(command.Execution?.IsCanceled);
+                Assert.False(command.Execution?.IsFaulted);
             }
         }
 
@@ -325,23 +325,23 @@ namespace MN.Shell.MVVM.Tests
 
                 Assert.True(command.IsExecuting);
 
-                Assert.False(command.Execution.IsCompleted);
-                Assert.True(command.Execution.IsNotCompleted);
-                Assert.False(command.Execution.IsCompletedSuccessfully);
-                Assert.False(command.Execution.IsCanceled);
-                Assert.False(command.Execution.IsFaulted);
+                Assert.False(command.Execution?.IsCompleted);
+                Assert.True(command.Execution?.IsNotCompleted);
+                Assert.False(command.Execution?.IsCompletedSuccessfully);
+                Assert.False(command.Execution?.IsCanceled);
+                Assert.False(command.Execution?.IsFaulted);
 
                 cts.Cancel();
                 cancelSemaphore.Release();
-                command.Execution.TaskCompleted.Wait();
+                command.Execution?.TaskCompleted.Wait();
 
                 Assert.False(command.IsExecuting);
 
-                Assert.True(command.Execution.IsCompleted);
-                Assert.False(command.Execution.IsNotCompleted);
-                Assert.False(command.Execution.IsCompletedSuccessfully);
-                Assert.True(command.Execution.IsCanceled);
-                Assert.False(command.Execution.IsFaulted);
+                Assert.True(command.Execution?.IsCompleted);
+                Assert.False(command.Execution?.IsNotCompleted);
+                Assert.False(command.Execution?.IsCompletedSuccessfully);
+                Assert.True(command.Execution?.IsCanceled);
+                Assert.False(command.Execution?.IsFaulted);
             }
         }
 
@@ -365,24 +365,24 @@ namespace MN.Shell.MVVM.Tests
 
                 Assert.True(command.IsExecuting);
 
-                Assert.False(command.Execution.IsCompleted);
-                Assert.True(command.Execution.IsNotCompleted);
-                Assert.False(command.Execution.IsCompletedSuccessfully);
-                Assert.False(command.Execution.IsCanceled);
-                Assert.False(command.Execution.IsFaulted);
+                Assert.False(command.Execution?.IsCompleted);
+                Assert.True(command.Execution?.IsNotCompleted);
+                Assert.False(command.Execution?.IsCompletedSuccessfully);
+                Assert.False(command.Execution?.IsCanceled);
+                Assert.False(command.Execution?.IsFaulted);
 
                 faultSemaphore.Release();
-                command.Execution.TaskCompleted.Wait();
+                command.Execution?.TaskCompleted.Wait();
 
                 Assert.False(command.IsExecuting);
 
-                Assert.True(command.Execution.IsCompleted);
-                Assert.False(command.Execution.IsNotCompleted);
-                Assert.False(command.Execution.IsCompletedSuccessfully);
-                Assert.False(command.Execution.IsCanceled);
-                Assert.True(command.Execution.IsFaulted);
-                Assert.AreEqual(typeof(InvalidOperationException), command.Execution.InnerException.GetType());
-                Assert.AreEqual("Example exception thrown from async command", command.Execution.ErrorMessage);
+                Assert.True(command.Execution?.IsCompleted);
+                Assert.False(command.Execution?.IsNotCompleted);
+                Assert.False(command.Execution?.IsCompletedSuccessfully);
+                Assert.False(command.Execution?.IsCanceled);
+                Assert.True(command.Execution?.IsFaulted);
+                Assert.AreEqual(typeof(InvalidOperationException), command.Execution?.InnerException?.GetType());
+                Assert.AreEqual("Example exception thrown from async command", command.Execution?.ErrorMessage);
             }
         }
 
@@ -406,24 +406,24 @@ namespace MN.Shell.MVVM.Tests
 
                 Assert.True(command.IsExecuting);
 
-                Assert.False(command.Execution.IsCompleted);
-                Assert.True(command.Execution.IsNotCompleted);
-                Assert.False(command.Execution.IsCompletedSuccessfully);
-                Assert.False(command.Execution.IsCanceled);
-                Assert.False(command.Execution.IsFaulted);
+                Assert.False(command.Execution?.IsCompleted);
+                Assert.True(command.Execution?.IsNotCompleted);
+                Assert.False(command.Execution?.IsCompletedSuccessfully);
+                Assert.False(command.Execution?.IsCanceled);
+                Assert.False(command.Execution?.IsFaulted);
 
                 faultSemaphore.Release();
-                command.Execution.TaskCompleted.Wait();
+                command.Execution?.TaskCompleted.Wait();
 
                 Assert.False(command.IsExecuting);
 
-                Assert.True(command.Execution.IsCompleted);
-                Assert.False(command.Execution.IsNotCompleted);
-                Assert.False(command.Execution.IsCompletedSuccessfully);
-                Assert.False(command.Execution.IsCanceled);
-                Assert.True(command.Execution.IsFaulted);
-                Assert.AreEqual(typeof(InvalidOperationException), command.Execution.InnerException.GetType());
-                Assert.AreEqual("Example exception thrown from async command", command.Execution.ErrorMessage);
+                Assert.True(command.Execution?.IsCompleted);
+                Assert.False(command.Execution?.IsNotCompleted);
+                Assert.False(command.Execution?.IsCompletedSuccessfully);
+                Assert.False(command.Execution?.IsCanceled);
+                Assert.True(command.Execution?.IsFaulted);
+                Assert.AreEqual(typeof(InvalidOperationException), command.Execution?.InnerException?.GetType());
+                Assert.AreEqual("Example exception thrown from async command", command.Execution?.ErrorMessage);
             }
         }
     }

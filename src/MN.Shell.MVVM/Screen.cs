@@ -12,7 +12,7 @@ namespace MN.Shell.MVVM
         /// <summary>
         /// Reference to the View associated with this ViewModel
         /// </summary>
-        public FrameworkElement View { get; private set; }
+        public FrameworkElement? View { get; private set; }
 
         /// <summary>
         /// Attaches View to this ViewModel, should be used only internally
@@ -34,7 +34,7 @@ namespace MN.Shell.MVVM
 
         #region "IHaveTitle implementation"
 
-        private string _title;
+        private string _title = string.Empty;
 
         /// <summary>
         /// Title property of component displayed in UI
@@ -122,7 +122,7 @@ namespace MN.Shell.MVVM
 
         #region "IClosable implementation"
 
-        public event EventHandler<bool?> CloseRequested;
+        public event EventHandler<bool?>? CloseRequested;
 
         /// <summary>
         /// Asks parent to close this component instance

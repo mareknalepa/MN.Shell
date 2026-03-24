@@ -5,7 +5,7 @@ namespace MN.Shell.MVVM.Sample
 {
     public class SampleBootstrapper : BootstrapperBase
     {
-        private IServiceProvider _serviceProvider;
+        private ServiceProvider? _serviceProvider;
 
         protected override void Configure()
         {
@@ -23,17 +23,25 @@ namespace MN.Shell.MVVM.Sample
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
 
-            var viewManager = _serviceProvider.GetService<IViewManager>();
+            var viewManager = _serviceProvider.GetRequiredService<IViewManager>();
             viewManager.ViewFactory = type => _serviceProvider.GetService(type);
         }
 
-        protected override T GetInstance<T>() => _serviceProvider.GetService<T>();
+        protected override T GetInstance<T>()
+        {
+            if (_serviceProvider is null)
+            {
+                throw new InvalidOperationException($"Service provider is uninitialized");
+            }
+
+            return _serviceProvider.GetRequiredService<T>();
+        }
 
         protected override void OnStartup(StartupEventArgs e) => DisplayRootView<ShellViewModel>();
 
         protected override void Dispose(bool disposing)
         {
-            (_serviceProvider as IDisposable).Dispose();
+            _serviceProvider?.Dispose();
             base.Dispose(disposing);
         }
     }

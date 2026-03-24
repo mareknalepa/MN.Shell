@@ -14,9 +14,9 @@ namespace MN.Shell.Core
 {
     public class Bootstrapper : BootstrapperBase
     {
-        public IKernel Kernel { get; private set; }
+        public IKernel? Kernel { get; private set; }
 
-        private ILogger _logger;
+        private ILogger? _logger;
 
         protected override void Configure()
         {
@@ -40,8 +40,8 @@ namespace MN.Shell.Core
             var entryPointAssembly = Assembly.GetEntryAssembly();
             if (entryPointAssembly == null)
             {
-                Kernel.Bind<ILoggerFactory>().To<NullLoggerFactory>().InSingletonScope();
-                Kernel.Bind<ILogger>().ToConstant(NullLogger.Instance);
+                Kernel?.Bind<ILoggerFactory>().To<NullLoggerFactory>().InSingletonScope();
+                Kernel?.Bind<ILogger>().ToConstant(NullLogger.Instance);
                 return NullLogger.Instance;
             }
 
@@ -52,7 +52,7 @@ namespace MN.Shell.Core
 
             var appFolder = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                entryPointAssembly.GetName().Name,
+                entryPointAssembly.GetName().Name ?? "Unknown",
                 version);
 
             if (!Directory.Exists(appFolder))
@@ -83,21 +83,21 @@ namespace MN.Shell.Core
                     .AddDebug()
                     .AddNLog(nlogConfig);
             });
-            Kernel.Bind<ILoggerFactory>().ToConstant(loggerFactory).InSingletonScope();
-            Kernel.Bind<ILogger>().ToMethod(context =>
+            Kernel?.Bind<ILoggerFactory>().ToConstant(loggerFactory).InSingletonScope();
+            Kernel?.Bind<ILogger>().ToMethod(context =>
             {
                 var factory = context.Kernel.Get<ILoggerFactory>();
                 var categoryName = context.Request?.ParentRequest?.Service.FullName ?? "Uncategorized";
                 return factory.CreateLogger(categoryName);
             });
 
-            return loggerFactory.CreateLogger(GetType().FullName);
+            return loggerFactory.CreateLogger(GetType().FullName ?? "Bootstrapper");
         }
 
         protected virtual void LoadPlugins()
         {
             string path = Path.GetDirectoryName(Uri.UnescapeDataString(
-                new Uri(Assembly.GetExecutingAssembly().Location).AbsolutePath));
+                new Uri(Assembly.GetExecutingAssembly().Location).AbsolutePath))!;
 
             if (string.IsNullOrEmpty(path))
                 throw new InvalidOperationException("Cannot scan empty directory path");
@@ -105,42 +105,42 @@ namespace MN.Shell.Core
             var pluginFinder = Kernel.Get<PluginFinder>();
             var plugins = pluginFinder.DiscoverPlugins(path);
 
-            _logger.LogInformation($"Loading plugins...");
+            _logger?.LogInformation($"Loading plugins...");
 
-            var pluginContext = new PluginContext(Kernel);
+            var pluginContext = new PluginContext(Kernel!);
             var pluginManager = Kernel.Get<PluginManager>();
             pluginManager.LoadPlugins(plugins, pluginContext);
 
-            _logger.LogInformation("Plugins loaded.");
+            _logger?.LogInformation("Plugins loaded.");
         }
 
         protected override T GetInstance<T>() => Kernel.Get<T>();
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _logger.LogInformation("Starting application...");
+            _logger?.LogInformation("Starting application...");
 
             Kernel.Get<PluginManager>().OnStartup(e);
             DisplayRootView<ShellViewModel>();
 
-            _logger.LogInformation("Application started.");
+            _logger?.LogInformation("Application started.");
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
-            _logger.LogInformation("Exiting application...");
+            _logger?.LogInformation("Exiting application...");
 
             Kernel.Get<PluginManager>().OnExit(e);
 
-            _logger.LogInformation("Application exited.");
+            _logger?.LogInformation("Application exited.");
         }
 
         protected override void Dispose(bool disposing)
         {
-            _logger.LogInformation("Disposing resources...");
+            _logger?.LogInformation("Disposing resources...");
 
             NLog.LogManager.Shutdown();
-            Kernel.Dispose();
+            Kernel?.Dispose();
             base.Dispose(disposing);
         }
     }

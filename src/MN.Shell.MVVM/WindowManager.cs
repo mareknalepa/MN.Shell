@@ -40,7 +40,7 @@ namespace MN.Shell.MVVM
         /// <summary>
         /// Delegate to get current active Window, needs to be set up during applications bootup
         /// </summary>
-        public Func<Window> GetActiveWindow { get; set; }
+        public Func<Window>? GetActiveWindow { get; set; }
 
         /// <summary>
         /// Creates Window for given ViewModel, attaches necessary handlers to it, binds to ViewModel and returns it
@@ -125,10 +125,10 @@ namespace MN.Shell.MVVM
             if (window == null)
                 throw new ArgumentNullException(nameof(window));
 
-            EventHandler onActivated = null;
-            EventHandler onDeactivated = null;
-            EventHandler<bool?> onCloseRequested = null;
-            CancelEventHandler onClosing = null;
+            EventHandler? onActivated = null;
+            EventHandler? onDeactivated = null;
+            EventHandler<bool?>? onCloseRequested = null;
+            CancelEventHandler? onClosing = null;
 
             if (viewModel is ILifecycleAware lifecycleAware)
             {
@@ -155,7 +155,7 @@ namespace MN.Shell.MVVM
                 window.Closing += onClosing;
             }
 
-            void OnClosed(object sender, EventArgs e)
+            void OnClosed(object? sender, EventArgs e)
             {
                 if (sender is Window wnd)
                 {

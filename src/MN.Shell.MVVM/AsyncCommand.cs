@@ -7,24 +7,24 @@ namespace MN.Shell.MVVM
     /// </summary>
     public class AsyncCommand : PropertyChangedBase, IAsyncCommand
     {
-        private readonly Func<object, Task> _executeAsync;
-        private readonly Func<object, bool> _canExecute;
+        private readonly Func<object?, Task> _executeAsync;
+        private readonly Func<object?, bool>? _canExecute;
 
         /// <summary>
         /// Event raised when CanExecute state should be refreshed
         /// </summary>
-        public event EventHandler CanExecuteChanged
+        public event EventHandler? CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
             remove => CommandManager.RequerySuggested -= value;
         }
 
-        private TaskNotifier _execution;
+        private TaskNotifier? _execution;
 
         /// <summary>
         /// TaskNotifier exposed to allow observing command execution progress via data binding
         /// </summary>
-        public TaskNotifier Execution
+        public TaskNotifier? Execution
         {
             get => _execution;
             private set
@@ -45,7 +45,7 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="executeAsync">Asynchronous delegate executed with command</param>
         /// <param name="canExecute">Delegate used to determine if command can be executed (optional)</param>
-        public AsyncCommand(Func<object, Task> executeAsync, Func<object, bool> canExecute = null)
+        public AsyncCommand(Func<object?, Task> executeAsync, Func<object?, bool>? canExecute = null)
         {
             _executeAsync = executeAsync;
             _canExecute = canExecute;
@@ -56,7 +56,7 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="executeAsync">Asynchronous delegate executed with command</param>
         /// <param name="canExecute">Delegate used to determine if command can be executed (optional)</param>
-        public AsyncCommand(Func<Task> executeAsync, Func<bool> canExecute = null)
+        public AsyncCommand(Func<Task> executeAsync, Func<bool>? canExecute = null)
         {
             _executeAsync = o => executeAsync.Invoke();
             if (canExecute != null)
@@ -68,7 +68,7 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="parameter">Internal parameter which can be optionally passed to command</param>
         /// <returns>True if command can be executed, false otherwise</returns>
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             return (Execution == null || Execution.IsCompleted) && (_canExecute?.Invoke(parameter) ?? true);
         }
@@ -78,7 +78,7 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="parameter">Internal parameter which can be optionally passed to command</param>
         /// <returns>Task representing asynchronous execution of command</returns>
-        public async Task ExecuteAsync(object parameter)
+        public async Task ExecuteAsync(object? parameter)
         {
             Execution = new TaskNotifier(_executeAsync(parameter));
             NotifyPropertyChanged(nameof(IsExecuting));
@@ -92,7 +92,7 @@ namespace MN.Shell.MVVM
         /// Asynchronous method executed with command
         /// </summary>
         /// <param name="parameter">Internal parameter which can be optionally passed to command</param>
-        public async void Execute(object parameter)
+        public async void Execute(object? parameter)
         {
             if (CanExecute(parameter))
                 await ExecuteAsync(parameter).ConfigureAwait(false);

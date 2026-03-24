@@ -27,7 +27,7 @@ namespace MN.Shell.MVVM.Tests
             }
         }
 
-        private PropertyChangedBaseTestingMock _model;
+        private PropertyChangedBaseTestingMock _model = new PropertyChangedBaseTestingMock();
 
         [SetUp]
         public void SetUp()
@@ -38,10 +38,10 @@ namespace MN.Shell.MVVM.Tests
         [Test]
         public void NotifyPropertyChangedTest()
         {
-            Assert.Throws<ArgumentNullException>(() => _model.CallNotifyPropertyChanged(null));
+            Assert.Throws<ArgumentNullException>(() => _model.CallNotifyPropertyChanged(null!));
 
             bool handlerFired = false;
-            void handler(object sender, PropertyChangedEventArgs e)
+            void handler(object? sender, PropertyChangedEventArgs e)
             {
                 handlerFired = true;
                 Assert.AreEqual(_model, sender);
@@ -58,7 +58,7 @@ namespace MN.Shell.MVVM.Tests
         public void SetTest()
         {
             bool handlerFired = false;
-            void handler(object sender, PropertyChangedEventArgs e)
+            void handler(object? sender, PropertyChangedEventArgs e)
             {
                 handlerFired = true;
                 Assert.AreEqual(_model, sender);
@@ -75,7 +75,7 @@ namespace MN.Shell.MVVM.Tests
         public void RefreshTest()
         {
             bool handlerFired = false;
-            void handler(object sender, PropertyChangedEventArgs e)
+            void handler(object? sender, PropertyChangedEventArgs e)
             {
                 handlerFired = true;
                 Assert.AreEqual(_model, sender);

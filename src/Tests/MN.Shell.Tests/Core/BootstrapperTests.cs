@@ -59,15 +59,20 @@ namespace MN.Shell.Tests.Core
 
                 // Hack to create instance of StartupEventArgs in tests:
                 var constructorInfo = typeof(StartupEventArgs).GetTypeInfo().DeclaredConstructors.First();
-                var e = constructorInfo.Invoke(null) as StartupEventArgs;
-
-                try
+                if (constructorInfo.Invoke(null) is StartupEventArgs startupEventArgs)
                 {
-                    bootstrapper.OnStartup(e);
-                }
-                catch (ActivationException) { }
+                    try
+                    {
+                        bootstrapper.OnStartup(startupEventArgs);
+                    }
+                    catch (ActivationException) { }
 
-                Assert.True(PluginOnStartupCalled);
+                    Assert.True(PluginOnStartupCalled);
+                }
+                else
+                {
+                    Assert.Fail();
+                }
             }
         }
 
@@ -83,11 +88,16 @@ namespace MN.Shell.Tests.Core
 
                 // Hack to create instance of ExitEventArgs in tests:
                 var constructorInfo = typeof(ExitEventArgs).GetTypeInfo().DeclaredConstructors.First();
-                var e = constructorInfo.Invoke(new object[] { 0 }) as ExitEventArgs;
+                if (constructorInfo.Invoke(new object[] { 0 }) is ExitEventArgs exitEventArgs)
+                {
+                    bootstrapper.OnExit(exitEventArgs);
 
-                bootstrapper.OnExit(e);
-
-                Assert.True(PluginOnExitCalled);
+                    Assert.True(PluginOnExitCalled);
+                }
+                else
+                {
+                    Assert.Fail();
+                }
             }
         }
 
@@ -116,21 +126,23 @@ namespace MN.Shell.Tests.Core
 
             // Hack to suppress creating real WindowManager
             var windowManagerMock = new Mock<IWindowManager>();
-            Kernel.Rebind<IWindowManager>().ToConstant(windowManagerMock.Object);
+            Kernel?.Rebind<IWindowManager>().ToConstant(windowManagerMock.Object);
 
             // Hack to suppress creating real ShellViewModel
-            Kernel.Rebind<ShellViewModel>().ToConstant(null as ShellViewModel);
+            Kernel?.Rebind<ShellViewModel>()?.ToConstant((null as ShellViewModel)!);
 
-            Kernel.Bind<IExampleService, ExampleService>().To<ExampleService>().InSingletonScope();
+            Kernel?.Bind<IExampleService, ExampleService>().To<ExampleService>().InSingletonScope();
         }
 
         protected override ILogger ConfigureLogging()
         {
-            Kernel.Bind<ILogger>().ToConstant(NullLogger.Instance).InSingletonScope();
+            Kernel?.Bind<ILogger>().ToConstant(NullLogger.Instance).InSingletonScope();
             return NullLogger.Instance;
         }
 
-        public new T GetInstance<T>() => base.GetInstance<T>();
+        public new T GetInstance<T>()
+            where T : notnull
+            => base.GetInstance<T>();
 
         public new void OnStartup(StartupEventArgs e) => base.OnStartup(e);
 

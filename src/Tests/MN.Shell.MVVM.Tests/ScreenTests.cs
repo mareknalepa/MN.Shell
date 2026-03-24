@@ -9,8 +9,8 @@ namespace MN.Shell.MVVM.Tests
     [TestFixture, Apartment(ApartmentState.STA)]
     public class ScreenTests
     {
-        private Mock<Screen> _screenMock;
-        private Screen _screen;
+        private Mock<Screen> _screenMock = new Mock<Screen>(MockBehavior.Loose) { CallBase = true };
+        private Screen _screen = new Mock<Screen>(MockBehavior.Loose) { CallBase = true }.Object;
 
         [SetUp]
         public void SetUp()
@@ -22,7 +22,7 @@ namespace MN.Shell.MVVM.Tests
         [Test]
         public void AttachViewTest()
         {
-            Assert.Throws<ArgumentNullException>(() => (_screen as IViewAware).AttachView(null));
+            Assert.Throws<ArgumentNullException>(() => (_screen as IViewAware).AttachView(null!));
 
             var view = new Control() { DataContext = _screen };
 
@@ -42,7 +42,7 @@ namespace MN.Shell.MVVM.Tests
         {
             bool handler1Fired = false;
 
-            void handler1(object sender, PropertyChangedEventArgs e)
+            void handler1(object? sender, PropertyChangedEventArgs e)
             {
                 Assert.AreEqual(nameof(Screen.Title), e.PropertyName);
                 handler1Fired = true;
@@ -192,7 +192,7 @@ namespace MN.Shell.MVVM.Tests
         public void RequestCloseTest([Values] bool? result)
         {
             bool handlerFired = false;
-            void CloseRequestedHandler(object sender, bool? dialogResult)
+            void CloseRequestedHandler(object? sender, bool? dialogResult)
             {
                 handlerFired = true;
                 Assert.AreEqual(result, dialogResult);

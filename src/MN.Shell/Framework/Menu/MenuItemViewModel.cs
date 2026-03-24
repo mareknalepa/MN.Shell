@@ -6,7 +6,7 @@ namespace MN.Shell.Framework.Menu
 {
     public class MenuItemViewModel : PropertyChangedBase
     {
-        private string _name;
+        private string _name = string.Empty;
 
         public string Name
         {
@@ -17,9 +17,9 @@ namespace MN.Shell.Framework.Menu
         public ObservableCollection<MenuItemViewModel> SubItems { get; }
             = new ObservableCollection<MenuItemViewModel>();
 
-        private Uri _icon;
+        private Uri? _icon;
 
-        public Uri Icon
+        public Uri? Icon
         {
             get => _icon;
             set => Set(ref _icon, value);
@@ -27,7 +27,7 @@ namespace MN.Shell.Framework.Menu
 
         public bool IsCheckable { get; set; }
 
-        public Action<bool> OnIsCheckedChanged { get; set; }
+        public Action<bool>? OnIsCheckedChanged { get; set; }
 
         private bool _isChecked;
 
@@ -45,9 +45,9 @@ namespace MN.Shell.Framework.Menu
             }
         }
 
-        private ICommand _command;
+        private ICommand? _command;
 
-        public ICommand Command
+        public ICommand? Command
         {
             get => _command;
             set => Set(ref _command, value);

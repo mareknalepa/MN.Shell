@@ -8,7 +8,7 @@ namespace MN.Shell.MVVM.Tests
     [TestFixture, Apartment(ApartmentState.STA)]
     public class ViewManagerTests
     {
-        private ViewManager _viewManager;
+        private ViewManager _viewManager = new ViewManager();
 
         [SetUp]
         public void SetUp()
@@ -59,7 +59,7 @@ namespace MN.Shell.MVVM.Tests
         [Test]
         public void GetViewForInvalidTest()
         {
-            Assert.Throws<ArgumentNullException>(() => _viewManager.GetViewFor(null));
+            Assert.Throws<ArgumentNullException>(() => _viewManager.GetViewFor(null!));
 
             Assert.Throws<InvalidOperationException>(() => _viewManager.GetViewFor(
                 new Example2.Example2ViewModel()));
@@ -165,7 +165,7 @@ namespace MN.Shell.MVVM.Tests
     {
         public class Example6ViewModel : IViewAware
         {
-            public FrameworkElement View { get; private set; }
+            public FrameworkElement? View { get; private set; }
             public void AttachView(FrameworkElement view) => View = view;
         }
         public class Example6View : Control { }

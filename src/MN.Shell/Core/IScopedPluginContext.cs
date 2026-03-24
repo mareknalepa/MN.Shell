@@ -7,6 +7,6 @@ namespace MN.Shell.Core
         /// <summary>
         /// Plugin calling operations on current context (set by plugin manager)
         /// </summary>
-        IPlugin PluginInScope { get; set; }
+        IPlugin? PluginInScope { get; set; }
     }
 }

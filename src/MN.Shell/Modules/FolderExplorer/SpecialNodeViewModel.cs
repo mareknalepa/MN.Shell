@@ -13,7 +13,7 @@ namespace MN.Shell.Modules.FolderExplorer
 
         public SpecialNodeViewModel(Exception e)
         {
-            Name = e?.Message;
+            Name = e.Message;
             IsError = true;
         }
 

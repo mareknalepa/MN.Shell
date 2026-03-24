@@ -17,9 +17,9 @@ namespace MN.Shell.Modules.Shell
 
         public ObservableCollection<ITool> Tools { get; }
 
-        private ILayoutModule _activeLayoutModule;
+        private ILayoutModule? _activeLayoutModule;
 
-        public ILayoutModule ActiveLayoutModule
+        public ILayoutModule? ActiveLayoutModule
         {
             get => _activeLayoutModule;
             set
@@ -53,15 +53,15 @@ namespace MN.Shell.Modules.Shell
             Tools = new ObservableCollection<ITool>(tools);
         }
 
-        private void OnApplicationTitleChanged(object sender, string newTitle)
+        private void OnApplicationTitleChanged(object? sender, string newTitle)
         {
             if (!string.IsNullOrEmpty(newTitle))
                 Title = newTitle;
         }
 
-        private void OnApplicationExitRequested(object sender, EventArgs _) => RequestClose();
+        private void OnApplicationExitRequested(object? sender, EventArgs _) => RequestClose();
 
-        private void OnDocumentLoadRequested(object sender, EventArgs _)
+        private void OnDocumentLoadRequested(object? sender, EventArgs _)
         {
             while (_applicationContext.DocumentsToLoad.Count > 0)
                 ActivateItem(_applicationContext.DocumentsToLoad.Dequeue());

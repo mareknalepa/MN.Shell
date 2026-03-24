@@ -10,7 +10,7 @@ namespace MN.Shell.MVVM
         /// <summary>
         /// Factory method used to create instances of views.
         /// </summary>
-        Func<Type, object> ViewFactory { get; set; }
+        Func<Type, object?> ViewFactory { get; set; }
 
         /// <summary>
         /// Creates or reuses instance of View for given ViewModel, binds them together and returns it

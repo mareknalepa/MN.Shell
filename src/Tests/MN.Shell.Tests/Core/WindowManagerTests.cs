@@ -11,7 +11,7 @@ namespace MN.Shell.Tests.Core
     [Apartment(ApartmentState.STA)]
     public class WindowManagerTests
     {
-        private IViewManager _viewManager;
+        private IViewManager _viewManager = new Mock<IViewManager>(MockBehavior.Loose).Object;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()

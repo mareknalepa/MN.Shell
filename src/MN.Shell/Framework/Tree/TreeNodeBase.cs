@@ -24,9 +24,9 @@ namespace MN.Shell.Framework.Tree
 
         public IEnumerable<TreeNodeBase> Children => _children;
 
-        private TreeNodeBase _parent;
+        private TreeNodeBase? _parent;
 
-        public TreeNodeBase Parent
+        public TreeNodeBase? Parent
         {
             get => _parent;
             set => Set(ref _parent, value);

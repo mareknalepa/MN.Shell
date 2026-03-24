@@ -66,7 +66,7 @@ namespace MN.Shell.MVVM.Tests
 
                 taskNotifier.PropertyChanged += (sender, e) =>
                 {
-                    if (propertiesToNotify.ContainsKey(e.PropertyName))
+                    if (e.PropertyName is not null && propertiesToNotify.ContainsKey(e.PropertyName))
                         propertiesToNotify[e.PropertyName] = true;
                     else
                         Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
@@ -116,7 +116,7 @@ namespace MN.Shell.MVVM.Tests
 
                 taskNotifier.PropertyChanged += (sender, e) =>
                 {
-                    if (propertiesToNotify.ContainsKey(e.PropertyName))
+                    if (e.PropertyName is not null && propertiesToNotify.ContainsKey(e.PropertyName))
                         propertiesToNotify[e.PropertyName] = true;
                     else
                         Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
@@ -164,7 +164,7 @@ namespace MN.Shell.MVVM.Tests
 
                 taskNotifier.PropertyChanged += (sender, e) =>
                 {
-                    if (propertiesToNotify.ContainsKey(e.PropertyName))
+                    if (e.PropertyName is not null && propertiesToNotify.ContainsKey(e.PropertyName))
                         propertiesToNotify[e.PropertyName] = true;
                     else
                         Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");

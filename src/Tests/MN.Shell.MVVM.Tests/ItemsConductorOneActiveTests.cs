@@ -6,7 +6,7 @@ namespace MN.Shell.MVVM.Tests
     [TestFixture]
     public class ItemsConductorOneActiveTests
     {
-        private MockItemsConductorOneActive _conductor;
+        private MockItemsConductorOneActive _conductor = new MockItemsConductorOneActive();
 
         [SetUp]
         public void SetUp()

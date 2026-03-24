@@ -13,13 +13,13 @@ namespace MN.Shell.MVVM.Tests.Mocks
             Loaded += OnLoaded;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private void OnLoaded(object? sender, RoutedEventArgs e)
         {
             Loaded -= OnLoaded;
             OnLoadedAction?.Invoke(this);
             Close();
         }
 
-        public Action<Window> OnLoadedAction { get; set; }
+        public Action<Window>? OnLoadedAction { get; set; }
     }
 }

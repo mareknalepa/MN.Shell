@@ -1,4 +1,5 @@
 ﻿using MN.Shell.Properties;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 
 namespace MN.Shell.Framework.ColorSchemes
@@ -40,6 +41,7 @@ namespace MN.Shell.Framework.ColorSchemes
             LoadAccentColors(AvailableAccentColors.First());
         }
 
+        [MemberNotNull(nameof(CurrentBaseColors))]
         public void LoadBaseColors(ColorScheme baseColorsScheme)
         {
             if (baseColorsScheme == null)
@@ -61,6 +63,7 @@ namespace MN.Shell.Framework.ColorSchemes
             CurrentBaseColors = baseColorsScheme;
         }
 
+        [MemberNotNull(nameof(CurrentAccentColors))]
         public void LoadAccentColors(ColorScheme accentColorsScheme)
         {
             if (accentColorsScheme == null)

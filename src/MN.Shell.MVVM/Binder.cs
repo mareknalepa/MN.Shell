@@ -19,9 +19,9 @@ namespace MN.Shell.MVVM
         /// ViewManager dependency, should be externally set prior to using ViewModel attached property
         /// (preferably by bootstrapper)
         /// </summary>
-        public static IViewManager ViewManager { get; set; }
+        public static IViewManager? ViewManager { get; set; }
 
-        private static object ViewModel { get; }
+        private static object? ViewModel { get; }
 
         public static object GetViewModel(DependencyObject obj) => obj.GetValue(ViewModelProperty);
 
@@ -66,7 +66,7 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="element">Element to set content on</param>
         /// <param name="view">View to set as a content</param>
-        public static void SetContentView(DependencyObject element, FrameworkElement view)
+        public static void SetContentView(DependencyObject element, FrameworkElement? view)
         {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));

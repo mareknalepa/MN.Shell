@@ -12,24 +12,24 @@ namespace MN.Shell.Demo
     {
         protected override void OnLoad()
         {
-            Context.UseTool<FolderExplorerViewModel>();
-            Context.UseTool<OutputViewModel>();
-            Context.UseTool<ProgressBarsViewModel>();
+            Context?.UseTool<FolderExplorerViewModel>();
+            Context?.UseTool<OutputViewModel>();
+            Context?.UseTool<ProgressBarsViewModel>();
 
-            Context.UseDocumentFactory<IControlsDemoFactory, ControlsDemoViewModel>();
-            Context.UseDocumentFactory<ITabbedInterfaceFactory, TabbedInterfaceViewModel>();
+            Context?.UseDocumentFactory<IControlsDemoFactory, ControlsDemoViewModel>();
+            Context?.UseDocumentFactory<ITabbedInterfaceFactory, TabbedInterfaceViewModel>();
 
-            Context.UseMenuProvider<DemoMenuProvider>();
+            Context?.UseMenuProvider<DemoMenuProvider>();
 
-            Context.UseStatusBarProvider<DemoStatusBarProvider>();
+            Context?.UseStatusBarProvider<DemoStatusBarProvider>();
         }
 
         public override void OnStartup(StartupEventArgs e)
         {
-            Context.ApplicationContext.ApplicationTitle = "MN.Shell Demo Application";
+            Context?.ApplicationContext.ApplicationTitle = "MN.Shell Demo Application";
 
-            Context.ApplicationContext.LoadDocumentUsingFactory<IControlsDemoFactory, ControlsDemoViewModel>();
-            Context.ApplicationContext.LoadDocumentUsingFactory<ITabbedInterfaceFactory, TabbedInterfaceViewModel>();
+            Context?.ApplicationContext.LoadDocumentUsingFactory<IControlsDemoFactory, ControlsDemoViewModel>();
+            Context?.ApplicationContext.LoadDocumentUsingFactory<ITabbedInterfaceFactory, TabbedInterfaceViewModel>();
         }
     }
 }

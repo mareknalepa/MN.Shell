@@ -8,8 +8,6 @@ namespace MN.Shell.MVVM
     /// </summary>
     public abstract class BootstrapperBase : IBootstrapper, IDisposable
     {
-        private Application _application;
-
         /// <summary>
         /// Called at application startup to allow Bootstrapper to attach itself to currently running application
         /// in order to start MVVM framework
@@ -17,12 +15,12 @@ namespace MN.Shell.MVVM
         /// <param name="application">Currently running application to attach to</param>
         public void Setup(Application application)
         {
-            _application = application ?? throw new ArgumentNullException(nameof(application));
+            ArgumentNullException.ThrowIfNull(application);
 
             application.Startup += (sender, e) =>
             {
                 Configure();
-                ConfigureInternals();
+                ConfigureInternals(application);
                 OnStartup(e);
             };
 
@@ -48,12 +46,13 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <typeparam name="T">Type of instance to create</typeparam>
         /// <returns>Instance created by IoC container</returns>
-        protected abstract T GetInstance<T>();
+        protected abstract T GetInstance<T>()
+            where T : notnull;
 
         /// <summary>
         /// Private method to configure internal components
         /// </summary>
-        private void ConfigureInternals()
+        private void ConfigureInternals(Application application)
         {
             var viewManager = GetInstance<IViewManager>();
             if (viewManager is null)
@@ -66,7 +65,7 @@ namespace MN.Shell.MVVM
                 throw new InvalidOperationException("Cannot create instance of IWindowManager");
 
             windowManager.GetActiveWindow =
-                () => _application.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive) ?? _application.MainWindow;
+                () => application.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive) ?? application.MainWindow;
         }
 
         /// <summary>

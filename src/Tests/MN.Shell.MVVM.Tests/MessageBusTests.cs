@@ -5,7 +5,7 @@ namespace MN.Shell.MVVM.Tests
     [TestFixture]
     public class MessageBusTests
     {
-        private MessageBus _messageBus;
+        private MessageBus _messageBus = new MessageBus();
 
         [SetUp]
         public void SetUp()
@@ -236,7 +236,7 @@ namespace MN.Shell.MVVM.Tests
             Assert.That(listener.ProcessedMessages, Has.Exactly(1).Items);
             Assert.AreSame(message, listener.ProcessedMessages[0]);
             Assert.NotNull(listener.InnerListener);
-            Assert.IsEmpty(listener.InnerListener.ProcessedMessages);
+            Assert.IsEmpty(listener.InnerListener!.ProcessedMessages);
 
             _messageBus.Unsubscribe(listener);
 
@@ -331,7 +331,7 @@ namespace MN.Shell.MVVM.Tests
 
         public List<Message1> ProcessedMessages { get; } = new List<Message1>();
 
-        public Listener1 InnerListener { get; private set; }
+        public Listener1? InnerListener { get; private set; }
 
         public void Process(Message1 message)
         {

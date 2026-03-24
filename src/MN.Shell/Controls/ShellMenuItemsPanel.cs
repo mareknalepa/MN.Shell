@@ -7,15 +7,15 @@ namespace MN.Shell.Controls
 {
     public class ShellMenuItemsPanel : Panel
     {
-        private MenuItem _ellipsisMenuItem;
+        private MenuItem? _ellipsisMenuItem;
 
         #region "Attached Properties"
 
         public static bool GetIsEllipsis(DependencyObject obj) =>
-            (bool)obj?.GetValue(IsEllipsisProperty);
+            (bool)obj.GetValue(IsEllipsisProperty);
 
         public static void SetIsEllipsis(DependencyObject obj, bool value) =>
-            obj?.SetValue(IsEllipsisProperty, value);
+            obj.SetValue(IsEllipsisProperty, value);
 
         public static readonly DependencyProperty IsEllipsisProperty =
             DependencyProperty.RegisterAttached("IsEllipsis", typeof(bool), typeof(ShellMenuItemsPanel),
@@ -47,11 +47,11 @@ namespace MN.Shell.Controls
             }
         }
 
-        private static T GetVisualParentOfType<T>(DependencyObject d)
+        private static T? GetVisualParentOfType<T>(DependencyObject d)
             where T : DependencyObject
         {
             var parent = VisualTreeHelper.GetParent(d);
-            while (parent != null && !(parent is T))
+            while (parent != null && parent is not T)
                 parent = VisualTreeHelper.GetParent(parent);
 
             if (parent is T parentOfType)

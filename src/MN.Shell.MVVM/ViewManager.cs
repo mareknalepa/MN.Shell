@@ -13,7 +13,7 @@ namespace MN.Shell.MVVM
         /// Factory method used to create instances of views.
         /// Uses reflection by default, but can be configured to use IoC container instead.
         /// </summary>
-        public Func<Type, object> ViewFactory { get; set; } = type => Activator.CreateInstance(type);
+        public Func<Type, object?> ViewFactory { get; set; } = Activator.CreateInstance;
 
         /// <summary>
         /// Creates or reuses instance of View for given ViewModel, binds them together and returns it
@@ -43,19 +43,23 @@ namespace MN.Shell.MVVM
         /// <returns>Type of corresponding View</returns>
         protected virtual Type TransformViewModelTypeToViewType(Type viewModelType)
         {
-            if (viewModelType == null)
-                throw new ArgumentNullException(nameof(viewModelType));
-
             if (_mappingsCache.TryGetValue(viewModelType, out var cachedViewType))
                 return cachedViewType;
-            var viewTypeName = viewModelType.FullName.Replace("ViewModel", "View");
+
+            var viewTypeName = viewModelType.FullName?.Replace("ViewModel", "View") ?? string.Empty;
             if (viewModelType.FullName == viewTypeName)
                 throw new InvalidOperationException($"Cannot transform ViewModel type [{viewModelType.FullName}] " +
                     "into matching View type");
 
             try
             {
-                var viewType = viewModelType.Assembly.GetType(viewTypeName, throwOnError: true);
+                var viewType = viewModelType.Assembly.GetType(viewTypeName, throwOnError: false);
+
+                if (viewType == null)
+                {
+                    throw new InvalidOperationException($"Cannot load View type [{viewTypeName}]");
+                }
+
                 _mappingsCache.Add(viewModelType, viewType);
                 return viewType;
             }
@@ -72,13 +76,10 @@ namespace MN.Shell.MVVM
         /// <returns>Instance of View</returns>
         protected virtual FrameworkElement CreateView(Type viewType)
         {
-            if (viewType == null)
-                throw new ArgumentNullException(nameof(viewType));
-
-            object createdInstance;
+            object? createdInstance;
             try
             {
-                createdInstance = ViewFactory?.Invoke(viewType);
+                createdInstance = ViewFactory.Invoke(viewType);
             }
             catch (Exception e)
             {

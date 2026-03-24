@@ -11,7 +11,7 @@ namespace MN.Shell.Behaviors
 
         protected override void OnDetaching() => AssociatedObject.GotFocus -= OnGotFocus;
 
-        private void OnGotFocus(object sender, RoutedEventArgs e)
+        private void OnGotFocus(object? sender, RoutedEventArgs e)
         {
             Keyboard.Focus(AssociatedObject);
 

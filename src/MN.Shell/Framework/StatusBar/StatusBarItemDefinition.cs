@@ -20,7 +20,7 @@ namespace MN.Shell.Framework.StatusBar
 
         public string Content { get; private set; } = string.Empty;
 
-        public ICommand Command { get; private set; }
+        public ICommand? Command { get; private set; }
 
         public IStatusBarItemBuilder SetSizeAndPlacement(int minWidth, bool isRightSide, int order)
         {

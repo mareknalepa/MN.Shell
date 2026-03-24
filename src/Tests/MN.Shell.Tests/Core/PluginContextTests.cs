@@ -6,12 +6,10 @@ using NUnit.Framework;
 namespace MN.Shell.Tests.Core
 {
     [TestFixture]
-#pragma warning disable CA1001 // Types that own disposable fields should be disposable
     public class PluginContextTests
-#pragma warning restore CA1001 // Types that own disposable fields should be disposable
     {
-        private IKernel _kernel;
-        private PluginContext _context;
+        private IKernel _kernel = new StandardKernel();
+        private PluginContext _context = new PluginContext(new StandardKernel());
 
         [SetUp]
         public void SetUp()
