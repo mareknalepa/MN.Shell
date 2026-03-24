@@ -3,7 +3,6 @@ using MN.Shell.Modules.MessageBox;
 using MN.Shell.MVVM;
 using Moq;
 using NUnit.Framework;
-using System;
 
 namespace MN.Shell.Tests.Framework.MessageBox
 {

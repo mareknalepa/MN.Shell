@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace MN.Shell.MVVM
+﻿namespace MN.Shell.MVVM
 {
     /// <summary>
     /// Wrapper for asynchronous task, which enables easy data binding to observe its state

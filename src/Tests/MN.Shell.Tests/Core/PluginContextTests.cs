@@ -2,7 +2,6 @@
 using MN.Shell.PluginContracts;
 using Ninject;
 using NUnit.Framework;
-using System;
 
 namespace MN.Shell.Tests.Core
 {

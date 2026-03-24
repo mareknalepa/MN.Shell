@@ -1,8 +1,6 @@
 ﻿using MN.Shell.MVVM.Tests.Mocks;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Threading;
 using System.Windows;
 
 namespace MN.Shell.MVVM.Tests

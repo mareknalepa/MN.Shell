@@ -1,7 +1,6 @@
 ﻿using MN.Shell.Framework.Dialogs;
 using MN.Shell.Tests.Mocks;
 using NUnit.Framework;
-using System.Linq;
 
 namespace MN.Shell.Tests.Framework.Dialogs
 {

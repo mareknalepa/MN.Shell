@@ -1,5 +1,4 @@
 ﻿using MN.Shell.Framework.Tree;
-using System;
 
 namespace MN.Shell.Modules.FolderExplorer
 {

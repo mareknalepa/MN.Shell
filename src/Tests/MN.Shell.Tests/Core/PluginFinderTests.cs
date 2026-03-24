@@ -3,7 +3,6 @@ using MN.Shell.Core;
 using MN.Shell.PluginContracts;
 using NUnit.Framework;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace MN.Shell.Tests.Core

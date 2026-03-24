@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace MN.Shell.MVVM
+﻿namespace MN.Shell.MVVM
 {
     /// <summary>
     /// Base class for ViewModels having many children components and all active simultaneously

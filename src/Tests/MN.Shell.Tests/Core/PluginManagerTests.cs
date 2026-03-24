@@ -3,8 +3,6 @@ using MN.Shell.Core;
 using MN.Shell.PluginContracts;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Linq;
 using System.Reflection;
 using System.Windows;
 

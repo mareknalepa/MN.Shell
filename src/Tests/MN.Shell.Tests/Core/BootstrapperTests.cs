@@ -7,8 +7,6 @@ using MN.Shell.PluginContracts;
 using Moq;
 using Ninject;
 using NUnit.Framework;
-using System;
-using System.Linq;
 using System.Reflection;
 using System.Windows;
 

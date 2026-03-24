@@ -1,8 +1,6 @@
 ﻿using MN.Shell.Framework.StatusBar;
 using MN.Shell.PluginContracts;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MN.Shell.Tests.Framework.StatusBar
 {

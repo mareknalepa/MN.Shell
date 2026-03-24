@@ -1,5 +1,4 @@
 ﻿using MN.Shell.Framework.Tree;
-using System;
 using System.Windows;
 using System.Windows.Data;
 

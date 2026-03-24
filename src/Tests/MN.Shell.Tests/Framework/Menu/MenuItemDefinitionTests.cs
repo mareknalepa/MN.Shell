@@ -1,7 +1,6 @@
 ﻿using MN.Shell.Framework.Menu;
 using MN.Shell.MVVM;
 using NUnit.Framework;
-using System;
 
 namespace MN.Shell.Tests.Framework.Menu
 {

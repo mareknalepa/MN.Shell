@@ -6,7 +6,6 @@ using MN.Shell.MVVM;
 using Ninject;
 using Ninject.Modules;
 using NLog.Extensions.Logging;
-using System;
 using System.IO;
 using System.Reflection;
 using System.Windows;

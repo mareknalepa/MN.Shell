@@ -4,8 +4,6 @@ using Moq;
 using Ninject;
 using Ninject.Activation;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace MN.Shell.Tests.Core
 {

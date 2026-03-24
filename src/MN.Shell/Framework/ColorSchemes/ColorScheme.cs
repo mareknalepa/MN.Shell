@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MN.Shell.Framework.ColorSchemes
+﻿namespace MN.Shell.Framework.ColorSchemes
 {
     public class ColorScheme
     {

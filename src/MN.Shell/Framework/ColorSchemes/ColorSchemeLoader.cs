@@ -1,7 +1,4 @@
 ﻿using MN.Shell.Properties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 
 namespace MN.Shell.Framework.ColorSchemes

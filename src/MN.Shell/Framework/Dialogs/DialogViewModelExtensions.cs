@@ -1,5 +1,4 @@
 ﻿using MN.Shell.MVVM;
-using System;
 
 namespace MN.Shell.Framework.Dialogs
 {

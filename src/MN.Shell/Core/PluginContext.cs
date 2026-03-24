@@ -1,7 +1,6 @@
 ﻿using MN.Shell.PluginContracts;
 using Ninject;
 using Ninject.Extensions.Factory;
-using System;
 using System.Runtime.CompilerServices;
 
 namespace MN.Shell.Core

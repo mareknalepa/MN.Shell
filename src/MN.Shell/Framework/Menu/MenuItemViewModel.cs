@@ -1,5 +1,4 @@
 ﻿using MN.Shell.MVVM;
-using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 

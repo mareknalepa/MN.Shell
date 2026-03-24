@@ -5,12 +5,9 @@ using MN.Shell.Framework.Tree;
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
 using MN.Shell.Properties;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Windows.Input;
 
 namespace MN.Shell.Modules.FolderExplorer

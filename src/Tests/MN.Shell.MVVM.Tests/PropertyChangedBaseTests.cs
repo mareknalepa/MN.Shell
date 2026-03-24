@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 using System.ComponentModel;
 
 namespace MN.Shell.MVVM.Tests

@@ -1,7 +1,5 @@
 ﻿using MN.Shell.PluginContracts;
 using Ninject;
-using System;
-using System.Collections.Generic;
 
 namespace MN.Shell.Core
 {

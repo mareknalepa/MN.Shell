@@ -1,5 +1,4 @@
 ﻿using MN.Shell.PluginContracts;
-using System;
 
 namespace MN.Shell.Demo
 {

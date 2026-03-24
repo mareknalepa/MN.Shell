@@ -1,8 +1,6 @@
 ﻿using MN.Shell.Framework.Menu;
 using MN.Shell.PluginContracts;
 using NUnit.Framework;
-using System;
-using System.Linq;
 
 namespace MN.Shell.Tests.Framework.Menu
 {

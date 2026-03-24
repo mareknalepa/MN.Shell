@@ -1,6 +1,5 @@
 ﻿using MN.Shell.MVVM.Tests.Mocks;
 using NUnit.Framework;
-using System.Linq;
 
 namespace MN.Shell.MVVM.Tests
 {

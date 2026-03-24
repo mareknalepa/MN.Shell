@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using MN.Shell.PluginContracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 
 namespace MN.Shell.Core

@@ -1,6 +1,4 @@
 ﻿using MN.Shell.PluginContracts;
-using System;
-using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace MN.Shell.Framework.Menu

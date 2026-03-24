@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MN.Shell.MVVM
+﻿namespace MN.Shell.MVVM
 {
     /// <summary>
     /// Interface for components which need to be closed (Screens, dialogs, documents)

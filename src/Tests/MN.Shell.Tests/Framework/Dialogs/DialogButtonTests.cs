@@ -1,6 +1,5 @@
 ﻿using MN.Shell.Framework.Dialogs;
 using NUnit.Framework;
-using System;
 
 namespace MN.Shell.Tests.Framework.Dialogs
 {

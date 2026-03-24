@@ -2,7 +2,6 @@
 using MN.Shell.Tests.Mocks;
 using Moq;
 using NUnit.Framework;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 

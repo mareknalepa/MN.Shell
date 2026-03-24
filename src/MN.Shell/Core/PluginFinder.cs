@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using MN.Shell.PluginContracts;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace MN.Shell.Core
