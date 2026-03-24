@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Resource Include="..\mnshell.png">
+    <Resource Include="..\..\mnshell.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </Resource>
@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MN.Shell.MVVM\MN.Shell.MVVM.csproj" />
+    <ProjectReference Include="..\..\MN.Shell.MVVM\MN.Shell.MVVM.csproj" />
   </ItemGroup>
 
 </Project>

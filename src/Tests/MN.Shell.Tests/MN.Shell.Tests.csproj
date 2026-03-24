@@ -14,7 +14,7 @@
     <Version>1.0.0-preview1</Version>
     <Authors>Marek Nalepa</Authors>
     <Product>MN.Shell</Product>
-    <Description>MN.Shell.MVVM test suite</Description>
+    <Description>MN.Shell core components test suite</Description>
     <Copyright>Copyright © Marek Nalepa 2020</Copyright>
     <PackageProjectUrl>https://github.com/mareknalepa/MN.Shell</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mareknalepa/MN.Shell</RepositoryUrl>
@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MN.Shell.MVVM\MN.Shell.MVVM.csproj" />
+    <ProjectReference Include="..\..\MN.Shell\MN.Shell.csproj" />
   </ItemGroup>
 
 </Project>
