@@ -10,12 +10,12 @@ namespace MN.Shell.Tests.Core
     [TestFixture]
     public class PluginFinderTests
     {
-        private PluginFinder _pluginFinder = new PluginFinder(NullLogger.Instance);
+        private PluginFinder _pluginFinder = new PluginFinder(NullLogger<PluginFinder>.Instance);
 
         [SetUp]
         public void SetUp()
         {
-            _pluginFinder = new PluginFinder(NullLogger.Instance);
+            _pluginFinder = new PluginFinder(NullLogger<PluginFinder>.Instance);
         }
 
         [Test]

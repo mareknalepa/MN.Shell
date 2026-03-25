@@ -134,10 +134,19 @@ namespace MN.Shell.Tests.Core
             Kernel?.Bind<IExampleService, ExampleService>().To<ExampleService>().InSingletonScope();
         }
 
-        protected override ILogger ConfigureLogging()
+        protected override ILoggerFactory ConfigureLogging()
         {
-            Kernel?.Bind<ILogger>().ToConstant(NullLogger.Instance).InSingletonScope();
-            return NullLogger.Instance;
+            Kernel?.Bind<ILoggerFactory>().ToConstant(NullLoggerFactory.Instance).InSingletonScope();
+            Kernel?.Bind(typeof(ILogger<>))
+                .ToMethod(context =>
+                {
+                    var requestedLoggerType = context.Request.Service.GenericTypeArguments[0];
+                    var loggerType = typeof(NullLogger<>).MakeGenericType(requestedLoggerType);
+                    return Activator.CreateInstance(loggerType);
+                })
+                .InTransientScope();
+
+            return NullLoggerFactory.Instance;
         }
 
         public new T GetInstance<T>()

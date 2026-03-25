@@ -7,9 +7,9 @@ namespace MN.Shell.Core
 {
     public class PluginFinder
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<PluginFinder> _logger;
 
-        public PluginFinder(ILogger logger)
+        public PluginFinder(ILogger<PluginFinder> logger)
         {
             _logger = logger;
         }

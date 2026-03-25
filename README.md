@@ -22,11 +22,10 @@ Package | NuGet |
 
 ## Technologies used
 
-- .NET 5.0
+- .NET 10
 - WPF
 - MVVM pattern
 - Ninject
-- NLog
 - AvalonDock
 
 

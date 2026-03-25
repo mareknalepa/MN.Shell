@@ -1,11 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using MN.Shell.Framework;
 using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
 using Ninject;
 using Ninject.Modules;
-using NLog.Extensions.Logging;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -16,13 +14,15 @@ namespace MN.Shell.Core
     {
         public IKernel? Kernel { get; private set; }
 
+        private ILoggerFactory? _loggerFactory;
         private ILogger? _logger;
 
         protected override void Configure()
         {
             Kernel = new StandardKernel();
 
-            _logger = ConfigureLogging();
+            _loggerFactory = ConfigureLogging();
+            _logger = _loggerFactory.CreateLogger(GetType());
 
             _logger.LogInformation("Configuring Bootstrapper...");
 
@@ -35,63 +35,28 @@ namespace MN.Shell.Core
             LoadPlugins();
         }
 
-        protected virtual ILogger ConfigureLogging()
+        protected virtual ILoggerFactory ConfigureLogging()
         {
-            var entryPointAssembly = Assembly.GetEntryAssembly();
-            if (entryPointAssembly == null)
-            {
-                Kernel?.Bind<ILoggerFactory>().To<NullLoggerFactory>().InSingletonScope();
-                Kernel?.Bind<ILogger>().ToConstant(NullLogger.Instance);
-                return NullLogger.Instance;
-            }
-
-            var versionAttribute = entryPointAssembly.GetCustomAttribute<AssemblyVersionAttribute>();
-            var infoVersionAttribute = entryPointAssembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
-
-            string version = versionAttribute?.Version ?? infoVersionAttribute?.InformationalVersion ?? "Unknown";
-
-            var appFolder = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                entryPointAssembly.GetName().Name ?? "Unknown",
-                version);
-
-            if (!Directory.Exists(appFolder))
-                Directory.CreateDirectory(appFolder);
-            var nlogConfig = new NLog.Config.LoggingConfiguration();
-
+            var loggerFactory = LoggerFactory.Create(builder => builder
 #if DEBUG
-            var debugConsoleTarget = new NLog.Targets.DebuggerTarget("debuggerTarget");
-            nlogConfig.AddTarget(debugConsoleTarget);
-            nlogConfig.AddRule(NLog.LogLevel.Trace, NLog.LogLevel.Fatal, debugConsoleTarget);
-#endif
-
-            var logFileTarget = new NLog.Targets.FileTarget("logfileTarget")
-            {
-                FileName = Path.Combine(appFolder, "log.txt")
-            };
-            nlogConfig.AddTarget(logFileTarget);
-            nlogConfig.AddRule(NLog.LogLevel.Trace, NLog.LogLevel.Fatal, logFileTarget);
-
-            var loggerFactory = LoggerFactory.Create(builder =>
-            {
-#if DEBUG
-                builder.SetMinimumLevel(LogLevel.Trace);
+                .SetMinimumLevel(LogLevel.Debug)
+                .AddDebug());
 #else
-                builder.SetMinimumLevel(LogLevel.Information);
+                .SetMinimumLevel(LogLevel.Information));
 #endif
-                builder
-                    .AddDebug()
-                    .AddNLog(nlogConfig);
-            });
-            Kernel?.Bind<ILoggerFactory>().ToConstant(loggerFactory).InSingletonScope();
-            Kernel?.Bind<ILogger>().ToMethod(context =>
-            {
-                var factory = context.Kernel.Get<ILoggerFactory>();
-                var categoryName = context.Request?.ParentRequest?.Service.FullName ?? "Uncategorized";
-                return factory.CreateLogger(categoryName);
-            });
 
-            return loggerFactory.CreateLogger(GetType().FullName ?? "Bootstrapper");
+            Kernel?.Bind<ILoggerFactory>().ToConstant(loggerFactory).InSingletonScope();
+            Kernel?.Bind(typeof(ILogger<>))
+                .ToMethod(context =>
+                {
+                    var factory = context.Kernel.Get<ILoggerFactory>();
+                    var requestedLoggerType = context.Request.Service.GenericTypeArguments[0];
+                    var loggerType = typeof(Logger<>).MakeGenericType(requestedLoggerType);
+                    return Activator.CreateInstance(loggerType, factory);
+                })
+                .InTransientScope();
+
+            return loggerFactory;
         }
 
         protected virtual void LoadPlugins()
@@ -138,8 +103,8 @@ namespace MN.Shell.Core
         protected override void Dispose(bool disposing)
         {
             _logger?.LogInformation("Disposing resources...");
+            _loggerFactory?.Dispose();
 
-            NLog.LogManager.Shutdown();
             Kernel?.Dispose();
             base.Dispose(disposing);
         }
