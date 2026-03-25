@@ -7,7 +7,7 @@ namespace MN.Shell.Framework
     {
         protected override void OnLoad()
         {
-            Context.UseMenuProvider<MainMenuProvider>();
+            Context?.UseMenuProvider<MainMenuProvider>();
         }
     }
 }

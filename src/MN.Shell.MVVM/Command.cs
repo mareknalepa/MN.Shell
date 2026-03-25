@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace MN.Shell.MVVM
 {
@@ -8,13 +7,13 @@ namespace MN.Shell.MVVM
     /// </summary>
     public class Command : ICommand
     {
-        private readonly Action<object> _execute;
-        private readonly Func<object, bool> _canExecute;
+        private readonly Action<object?> _execute;
+        private readonly Func<object?, bool>? _canExecute;
 
         /// <summary>
         /// Event raised when CanExecute state should be refreshed
         /// </summary>
-        public event EventHandler CanExecuteChanged
+        public event EventHandler? CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
             remove => CommandManager.RequerySuggested -= value;
@@ -25,7 +24,7 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="execute">Delegate executed with command</param>
         /// <param name="canExecute">Delegate used to determine if command can be executed (optional)</param>
-        public Command(Action<object> execute, Func<object, bool> canExecute = null)
+        public Command(Action<object?> execute, Func<object?, bool>? canExecute = null)
         {
             _execute = execute;
             _canExecute = canExecute;
@@ -36,7 +35,7 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="execute">Delegate executed with command</param>
         /// <param name="canExecute">Delegate used to determine if command can be executed (optional)</param>
-        public Command(Action execute, Func<bool> canExecute = null)
+        public Command(Action execute, Func<bool>? canExecute = null)
         {
             _execute = o => execute.Invoke();
             if (canExecute != null)
@@ -48,7 +47,7 @@ namespace MN.Shell.MVVM
         /// </summary>
         /// <param name="parameter">Internal parameter which can be optionally passed to command</param>
         /// <returns>True if command can be executed, false otherwise</returns>
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             return _canExecute?.Invoke(parameter) ?? true;
         }
@@ -57,7 +56,7 @@ namespace MN.Shell.MVVM
         /// Method executed with command
         /// </summary>
         /// <param name="parameter">Internal parameter which can be optionally passed to command</param>
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             if (CanExecute(parameter))
                 _execute.Invoke(parameter);

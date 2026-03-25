@@ -2,7 +2,6 @@
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
 using MN.Shell.Properties;
-using System;
 
 namespace MN.Shell.Framework.Menu
 {

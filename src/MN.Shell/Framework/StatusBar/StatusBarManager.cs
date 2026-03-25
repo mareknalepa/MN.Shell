@@ -1,7 +1,5 @@
 ﻿using MN.Shell.PluginContracts;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace MN.Shell.Framework.StatusBar
 {

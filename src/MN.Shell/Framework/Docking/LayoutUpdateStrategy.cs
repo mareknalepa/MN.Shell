@@ -1,6 +1,5 @@
 ﻿using AvalonDock.Layout;
 using MN.Shell.PluginContracts;
-using System.Linq;
 using System.Windows.Controls;
 
 namespace MN.Shell.Framework.Docking

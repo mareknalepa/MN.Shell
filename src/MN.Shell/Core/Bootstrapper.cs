@@ -1,12 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MN.Shell.Framework;
 using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
-using Ninject;
-using Ninject.Modules;
-using NLog.Extensions.Logging;
-using System;
+using MN.Shell.PluginContracts;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -15,133 +12,105 @@ namespace MN.Shell.Core
 {
     public class Bootstrapper : BootstrapperBase
     {
-        public IKernel Kernel { get; private set; }
+        protected ServiceProvider? ServiceProvider { get; set; }
 
-        private ILogger _logger;
+        private ILoggerFactory? _loggerFactory;
+        private ILogger? _logger;
+        private PluginManager? _pluginManager;
 
         protected override void Configure()
         {
-            Kernel = new StandardKernel();
+            var services = new ServiceCollection();
 
-            _logger = ConfigureLogging();
+            _loggerFactory = ConfigureLogging(services);
+            _logger = _loggerFactory.CreateLogger(GetType());
 
             _logger.LogInformation("Configuring Bootstrapper...");
 
-            Kernel.Load(new CoreModule());
-            Kernel.Load(new FrameworkModule());
+            services.AddShellCore();
+            services.AddShellFramework();
 
-            foreach (INinjectModule module in Kernel.GetModules())
-                _logger.LogInformation($"Loaded kernel module: {module.Name} [{module.GetType().Assembly.FullName}]");
+            LoadPlugins(services, _loggerFactory);
 
-            LoadPlugins();
+            ServiceProvider = services.BuildServiceProvider();
         }
 
-        protected virtual ILogger ConfigureLogging()
+        protected virtual ILoggerFactory ConfigureLogging(IServiceCollection services)
         {
-            var entryPointAssembly = Assembly.GetEntryAssembly();
-            if (entryPointAssembly == null)
-            {
-                Kernel.Bind<ILoggerFactory>().To<NullLoggerFactory>().InSingletonScope();
-                Kernel.Bind<ILogger>().ToConstant(NullLogger.Instance);
-                return NullLogger.Instance;
-            }
-
-            var versionAttribute = entryPointAssembly.GetCustomAttribute<AssemblyVersionAttribute>();
-            var infoVersionAttribute = entryPointAssembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
-
-            string version = versionAttribute?.Version ?? infoVersionAttribute?.InformationalVersion ?? "Unknown";
-
-            var appFolder = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                entryPointAssembly.GetName().Name,
-                version);
-
-            if (!Directory.Exists(appFolder))
-                Directory.CreateDirectory(appFolder);
-            var nlogConfig = new NLog.Config.LoggingConfiguration();
-
+            var loggerFactory = LoggerFactory.Create(builder => builder
 #if DEBUG
-            var debugConsoleTarget = new NLog.Targets.DebuggerTarget("debuggerTarget");
-            nlogConfig.AddTarget(debugConsoleTarget);
-            nlogConfig.AddRule(NLog.LogLevel.Trace, NLog.LogLevel.Fatal, debugConsoleTarget);
-#endif
-
-            var logFileTarget = new NLog.Targets.FileTarget("logfileTarget")
-            {
-                FileName = Path.Combine(appFolder, "log.txt")
-            };
-            nlogConfig.AddTarget(logFileTarget);
-            nlogConfig.AddRule(NLog.LogLevel.Trace, NLog.LogLevel.Fatal, logFileTarget);
-
-            var loggerFactory = LoggerFactory.Create(builder =>
-            {
-#if DEBUG
-                builder.SetMinimumLevel(LogLevel.Trace);
+                .SetMinimumLevel(LogLevel.Debug)
+                .AddDebug()
 #else
-                builder.SetMinimumLevel(LogLevel.Information);
+                .SetMinimumLevel(LogLevel.Information)
 #endif
-                builder
-                    .AddDebug()
-                    .AddNLog(nlogConfig);
-            });
-            Kernel.Bind<ILoggerFactory>().ToConstant(loggerFactory).InSingletonScope();
-            Kernel.Bind<ILogger>().ToMethod(context =>
-            {
-                var factory = context.Kernel.Get<ILoggerFactory>();
-                var categoryName = context.Request?.ParentRequest?.Service.FullName ?? "Uncategorized";
-                return factory.CreateLogger(categoryName);
-            });
+            );
 
-            return loggerFactory.CreateLogger(GetType().FullName);
+            services.AddSingleton(loggerFactory);
+            services.AddLogging();
+
+            return loggerFactory;
         }
 
-        protected virtual void LoadPlugins()
+        protected virtual void LoadPlugins(ServiceCollection services, ILoggerFactory loggerFactory)
         {
             string path = Path.GetDirectoryName(Uri.UnescapeDataString(
-                new Uri(Assembly.GetExecutingAssembly().Location).AbsolutePath));
+                new Uri(Assembly.GetExecutingAssembly().Location).AbsolutePath))!;
 
             if (string.IsNullOrEmpty(path))
                 throw new InvalidOperationException("Cannot scan empty directory path");
 
-            var pluginFinder = Kernel.Get<PluginFinder>();
+            var pluginFinder = new PluginFinder(loggerFactory.CreateLogger<PluginFinder>());
             var plugins = pluginFinder.DiscoverPlugins(path);
 
-            _logger.LogInformation($"Loading plugins...");
+            _logger?.LogInformation($"Loading plugins...");
 
-            var pluginContext = new PluginContext(Kernel);
-            var pluginManager = Kernel.Get<PluginManager>();
-            pluginManager.LoadPlugins(plugins, pluginContext);
+            var pluginContext = new PluginContext(services);
+            _pluginManager = new PluginManager(loggerFactory.CreateLogger<PluginManager>());
+            services.AddSingleton(_pluginManager);
+            _pluginManager.LoadPlugins(plugins, pluginContext);
 
-            _logger.LogInformation("Plugins loaded.");
+            _logger?.LogInformation("Plugins loaded.");
         }
 
-        protected override T GetInstance<T>() => Kernel.Get<T>();
+        protected override T GetInstance<T>()
+        {
+            if (ServiceProvider is null)
+            {
+                throw new InvalidOperationException($"Service provider is uninitialized");
+            }
+
+            return ServiceProvider.GetRequiredService<T>();
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _logger.LogInformation("Starting application...");
+            _logger?.LogInformation("Starting application...");
 
-            Kernel.Get<PluginManager>().OnStartup(e);
+            IApplicationContext applicationContext = ServiceProvider?.GetRequiredService<IApplicationContext>()!;
+            ServiceProvider?.GetRequiredService<PluginManager>().OnStartup(e, applicationContext);
             DisplayRootView<ShellViewModel>();
 
-            _logger.LogInformation("Application started.");
+            _logger?.LogInformation("Application started.");
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
-            _logger.LogInformation("Exiting application...");
+            _logger?.LogInformation("Exiting application...");
 
-            Kernel.Get<PluginManager>().OnExit(e);
+            IApplicationContext applicationContext = ServiceProvider?.GetRequiredService<IApplicationContext>()!;
+            ServiceProvider?.GetRequiredService<PluginManager>().OnExit(e, applicationContext);
 
-            _logger.LogInformation("Application exited.");
+            _logger?.LogInformation("Application exited.");
         }
 
         protected override void Dispose(bool disposing)
         {
-            _logger.LogInformation("Disposing resources...");
+            _logger?.LogInformation("Disposing resources...");
+            _loggerFactory?.Dispose();
+            _pluginManager?.Dispose();
 
-            NLog.LogManager.Shutdown();
-            Kernel.Dispose();
+            ServiceProvider?.Dispose();
             base.Dispose(disposing);
         }
     }

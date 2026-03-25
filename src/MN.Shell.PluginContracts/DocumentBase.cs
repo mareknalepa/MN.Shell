@@ -13,7 +13,7 @@ namespace MN.Shell.PluginContracts
         /// </summary>
         public ICommand CloseCommand { get; }
 
-        private string _description;
+        private string _description = string.Empty;
 
         /// <summary>
         /// Description of document

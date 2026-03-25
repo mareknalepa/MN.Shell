@@ -1,7 +1,5 @@
-﻿using MN.Shell.PluginContracts;
-using Ninject;
-using Ninject.Extensions.Factory;
-using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MN.Shell.PluginContracts;
 using System.Runtime.CompilerServices;
 
 namespace MN.Shell.Core
@@ -12,26 +10,21 @@ namespace MN.Shell.Core
     /// </summary>
     public class PluginContext : IScopedPluginContext, IPluginContext
     {
-        private readonly IKernel _kernel;
+        private readonly IServiceCollection _services;
 
         /// <summary>
         /// Creates new plugin context using dependency injection container
         /// </summary>
-        /// <param name="kernel">Dependency injection container</param>
-        public PluginContext(IKernel kernel)
+        /// <param name="services">Dependency injection container</param>
+        public PluginContext(IServiceCollection services)
         {
-            _kernel = kernel;
+            _services = services;
         }
 
         /// <summary>
         /// Plugin calling operations on current context (set by plugin manager)
         /// </summary>
-        public IPlugin PluginInScope { get; set; }
-
-        /// <summary>
-        /// Application context allowing access to application wide-features
-        /// </summary>
-        public IApplicationContext ApplicationContext => _kernel.Get<IApplicationContext>();
+        public IPlugin? PluginInScope { get; set; }
 
         /// <summary>
         /// Registers given tool to be available in shell
@@ -41,19 +34,19 @@ namespace MN.Shell.Core
             where T : class, ITool
         {
             VerifyScope();
-            _kernel.Bind<ITool>().To<T>().InSingletonScope();
+            _services.AddSingleton<ITool, T>();
         }
 
         /// <summary>
         /// Registers given interface type as auto-implemented document factory
         /// </summary>
         /// <typeparam name="T">Interface of document factory</typeparam>
-        public void UseDocumentFactory<T, TDocument>()
-            where T : class, IDocumentFactory<TDocument>
-            where TDocument : IDocument
+        public void UseDocumentFactory<T>()
+            where T : class, IDocument
         {
             VerifyScope();
-            _kernel.Bind<T>().ToFactory();
+            _services.AddTransient<T>();
+            _services.AddTransient<Func<T>>(sp => () => sp.GetRequiredService<T>());
         }
 
         /// <summary>
@@ -64,7 +57,7 @@ namespace MN.Shell.Core
             where T : class, IMenuProvider
         {
             VerifyScope();
-            _kernel.Bind<IMenuProvider>().To<T>().InSingletonScope();
+            _services.AddSingleton<IMenuProvider, T>();
         }
 
         /// <summary>
@@ -75,7 +68,7 @@ namespace MN.Shell.Core
             where T : class, IStatusBarProvider
         {
             VerifyScope();
-            _kernel.Bind<IStatusBarProvider>().To<T>().InSingletonScope();
+            _services.AddSingleton<IStatusBarProvider, T>();
         }
 
         /// <summary>
@@ -88,10 +81,10 @@ namespace MN.Shell.Core
             where TService : class, TInterface
         {
             VerifyScope();
-            _kernel.Bind<TInterface, TService>().To<TService>().InSingletonScope();
+            _services.AddSingleton<TInterface, TService>();
         }
 
-        private void VerifyScope([CallerMemberName] string callerName = null)
+        private void VerifyScope([CallerMemberName] string? callerName = null)
         {
             if (PluginInScope == null)
                 throw new InvalidOperationException($"Cannot use {callerName} outside of the plugin scope");

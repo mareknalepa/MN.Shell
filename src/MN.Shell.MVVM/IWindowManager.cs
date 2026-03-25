@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 namespace MN.Shell.MVVM
 {
@@ -24,6 +23,6 @@ namespace MN.Shell.MVVM
         /// <summary>
         /// Delegate to get current active Window
         /// </summary>
-        Func<Window> GetActiveWindow { get; set; }
+        Func<Window>? GetActiveWindow { get; set; }
     }
 }

@@ -1,24 +1,22 @@
-﻿using MN.Shell.PluginContracts;
-using Ninject;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MN.Shell.PluginContracts;
 
 namespace MN.Shell.Core
 {
     public class ApplicationContext : IApplicationContext
     {
-        private readonly IKernel _kernel;
+        private readonly IServiceProvider _serviceProvider;
 
-        public ApplicationContext(IKernel kernel)
+        public ApplicationContext(IServiceProvider serviceProvider)
         {
-            _kernel = kernel;
+            _serviceProvider = serviceProvider;
         }
 
         #region "Application Title"
 
         private string _applicationTitle = string.Empty;
 
-        public event EventHandler<string> ApplicationTitleChanged;
+        public event EventHandler<string>? ApplicationTitleChanged;
 
         /// <summary>
         /// Application title shown on title bar
@@ -40,7 +38,7 @@ namespace MN.Shell.Core
 
         #region "Exit handling"
 
-        public event EventHandler ApplicationExitRequested;
+        public event EventHandler? ApplicationExitRequested;
 
         /// <summary>
         /// Requests application to gracefully shutdown
@@ -51,21 +49,19 @@ namespace MN.Shell.Core
 
         #region "Documents"
 
-        public event EventHandler DocumentLoadRequested;
+        public event EventHandler? DocumentLoadRequested;
 
         public Queue<IDocument> DocumentsToLoad { get; } = new Queue<IDocument>();
 
         /// <summary>
         /// Loads document of given type using its factory
         /// </summary>
-        /// <typeparam name="T">Document factory type</typeparam>
-        /// <typeparam name="TDocument">Document type</typeparam>
-        public void LoadDocumentUsingFactory<T, TDocument>()
-            where T : IDocumentFactory<TDocument>
-            where TDocument : IDocument
+        /// <typeparam name="T">Document type</typeparam>
+        public void LoadDocumentUsingFactory<T>()
+            where T : IDocument
         {
-            var factory = _kernel.Get<T>();
-            var vm = factory.Create();
+            var factory = _serviceProvider.GetRequiredService<Func<T>>();
+            var vm = factory.Invoke();
 
             DocumentsToLoad.Enqueue(vm);
             DocumentLoadRequested?.Invoke(this, EventArgs.Empty);

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace MN.Shell.MVVM
 {
@@ -31,6 +28,11 @@ namespace MN.Shell.MVVM
 
                 var method = targetInterface
                     .GetMethod(nameof(IListener<object>.Process));
+
+                if (method is null)
+                {
+                    throw new InvalidOperationException($"Cannot create MessageBusHandler for message of type [{messageType.FullName}]");
+                }
 
                 var target = Expression.Parameter(typeof(object));
                 var message = Expression.Parameter(typeof(object));
@@ -121,6 +123,7 @@ namespace MN.Shell.MVVM
         /// <typeparam name="T">Type of message</typeparam>
         /// <param name="message">Message to publish</param>
         public void Publish<T>(T message)
+            where T : notnull
         {
             if (_inHandler)
                 return;

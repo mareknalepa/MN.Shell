@@ -1,8 +1,5 @@
 ﻿using MN.Shell.MVVM;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Input;
 
 namespace MN.Shell.Framework.Tree
@@ -27,9 +24,9 @@ namespace MN.Shell.Framework.Tree
 
         public IEnumerable<TreeNodeBase> Children => _children;
 
-        private TreeNodeBase _parent;
+        private TreeNodeBase? _parent;
 
-        public TreeNodeBase Parent
+        public TreeNodeBase? Parent
         {
             get => _parent;
             set => Set(ref _parent, value);

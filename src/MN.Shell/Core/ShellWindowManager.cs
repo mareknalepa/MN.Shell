@@ -1,6 +1,5 @@
 ﻿using MN.Shell.Controls;
 using MN.Shell.MVVM;
-using System;
 using System.Windows;
 
 namespace MN.Shell.Core

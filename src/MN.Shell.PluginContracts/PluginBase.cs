@@ -10,12 +10,12 @@ namespace MN.Shell.PluginContracts
         /// <summary>
         /// Internal name of the plugin (composition root class full name)
         /// </summary>
-        public virtual string Name => GetType().FullName;
+        public virtual string Name => GetType().FullName ?? GetType().Name;
 
         /// <summary>
         /// Plugin loader context, allowing access to various extension points by a plugin composition root
         /// </summary>
-        public IPluginContext Context { get; private set; }
+        public IPluginContext? Context { get; private set; }
 
         /// <summary>
         /// Method called by application infrastructure while loading the plugin
@@ -37,12 +37,14 @@ namespace MN.Shell.PluginContracts
         /// Method called by application's plugin infrastructure upon application's startup
         /// </summary>
         /// <param name="e">StartupEventArgs containing command-line arguments</param>
-        public virtual void OnStartup(StartupEventArgs e) { }
+        /// /// <param name="applicationContext">Application context allowing to access application-wide functionalities</param>
+        public virtual void OnStartup(StartupEventArgs e, IApplicationContext applicationContext) { }
 
         /// <summary>
         /// Method called by application's plugin infrastructure just before application's exit
         /// </summary>
         /// <param name="e">ExitEventArgs allowing to set exit code</param>
-        public virtual void OnExit(ExitEventArgs e) { }
+        /// /// <param name="applicationContext">Application context allowing to access application-wide functionalities</param>
+        public virtual void OnExit(ExitEventArgs e, IApplicationContext applicationContext) { }
     }
 }

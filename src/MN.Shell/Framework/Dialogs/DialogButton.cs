@@ -1,6 +1,5 @@
 ﻿using MN.Shell.MVVM;
 using MN.Shell.Properties;
-using System;
 using System.Windows.Input;
 
 namespace MN.Shell.Framework.Dialogs
@@ -33,24 +32,24 @@ namespace MN.Shell.Framework.Dialogs
             set => Set(ref _isCancel, value);
         }
 
-        private ICommand _command;
+        private ICommand? _command;
 
-        public ICommand Command
+        public ICommand? Command
         {
             get => _command;
             set => Set(ref _command, value);
         }
 
-        protected DialogButton(DialogButtonType type, string caption, bool isDefault, bool isCancel, ICommand command)
+        protected DialogButton(DialogButtonType type, string caption, bool isDefault, bool isCancel, ICommand? command)
         {
             Type = type;
-            Caption = caption;
-            IsDefault = isDefault;
-            IsCancel = isCancel;
-            Command = command;
+            _caption = caption;
+            _isDefault = isDefault;
+            _isCancel = isCancel;
+            _command = command;
         }
 
-        public static DialogButton Create(DialogButtonType type, string caption = null)
+        public static DialogButton Create(DialogButtonType type, string? caption = null)
         {
             switch (type)
             {
@@ -63,7 +62,7 @@ namespace MN.Shell.Framework.Dialogs
                 case DialogButtonType.No:
                     return new DialogButton(type, Resources.DialogButtonNo, false, false, null);
                 case DialogButtonType.Custom:
-                    return new DialogButton(type, caption, true, false, null);
+                    return new DialogButton(type, caption ?? string.Empty, true, false, null);
                 default:
                     throw new ArgumentException("Unsupported dialog button type");
             }

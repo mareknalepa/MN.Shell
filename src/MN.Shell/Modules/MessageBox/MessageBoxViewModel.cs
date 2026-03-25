@@ -8,7 +8,7 @@ namespace MN.Shell.Modules.MessageBox
 {
     public class MessageBoxViewModel : Screen, IDialog
     {
-        private string _message;
+        private string _message = string.Empty;
 
         public string Message
         {
@@ -26,7 +26,7 @@ namespace MN.Shell.Modules.MessageBox
 
         public ObservableCollection<DialogButton> Buttons { get; } = new ObservableCollection<DialogButton>();
 
-        public DialogButton SelectedButton { get; set; }
+        public DialogButton? SelectedButton { get; set; }
 
         public MessageBoxViewModel(string title, string message, MessageBoxType type)
         {

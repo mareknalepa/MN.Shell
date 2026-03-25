@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace MN.Shell.MVVM
+﻿namespace MN.Shell.MVVM
 {
     /// <summary>
     /// Collection of extension methods for Task

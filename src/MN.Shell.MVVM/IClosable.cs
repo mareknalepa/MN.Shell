@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MN.Shell.MVVM
+﻿namespace MN.Shell.MVVM
 {
     /// <summary>
     /// Interface for components which need to be closed (Screens, dialogs, documents)
@@ -10,7 +8,7 @@ namespace MN.Shell.MVVM
         /// <summary>
         /// Event raised from within a ViewModel requesting to be closed
         /// </summary>
-        event EventHandler<bool?> CloseRequested;
+        event EventHandler<bool?>? CloseRequested;
 
         /// <summary>
         /// Asks parent to close this component instance

@@ -10,18 +10,24 @@
         /// </summary>
         string ApplicationTitle { get; set; }
 
+        event EventHandler<string>? ApplicationTitleChanged;
+
         /// <summary>
         /// Requests application to gracefully shutdown
         /// </summary>
         void RequestApplicationExit();
 
+        event EventHandler? ApplicationExitRequested;
+
         /// <summary>
         /// Loads document of given type using its factory
         /// </summary>
-        /// <typeparam name="T">Document factory type</typeparam>
-        /// <typeparam name="TDocument">Document type</typeparam>
-        void LoadDocumentUsingFactory<T, TDocument>()
-            where T : IDocumentFactory<TDocument>
-            where TDocument : IDocument;
+        /// <typeparam name="T">Document type</typeparam>
+        void LoadDocumentUsingFactory<T>()
+            where T : IDocument;
+
+        event EventHandler? DocumentLoadRequested;
+
+        Queue<IDocument> DocumentsToLoad { get; }
     }
 }

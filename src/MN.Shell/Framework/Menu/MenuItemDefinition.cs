@@ -1,6 +1,4 @@
 ﻿using MN.Shell.PluginContracts;
-using System;
-using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace MN.Shell.Framework.Menu
@@ -20,7 +18,7 @@ namespace MN.Shell.Framework.Menu
 
         public int Order { get; private set; }
 
-        public ICommand Command { get; private set; }
+        public ICommand? Command { get; private set; }
 
         public bool IsCheckbox { get; private set; }
 

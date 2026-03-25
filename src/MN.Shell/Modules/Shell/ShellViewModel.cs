@@ -1,17 +1,14 @@
-﻿using MN.Shell.Core;
-using MN.Shell.Framework.Menu;
+﻿using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.StatusBar;
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace MN.Shell.Modules.Shell
 {
     public class ShellViewModel : ItemsConductorOneActive<IDocument>
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly IApplicationContext _applicationContext;
         private readonly IMenuManager _menuManager;
         private readonly IStatusBarManager _statusBarManager;
 
@@ -19,9 +16,9 @@ namespace MN.Shell.Modules.Shell
 
         public ObservableCollection<ITool> Tools { get; }
 
-        private ILayoutModule _activeLayoutModule;
+        private ILayoutModule? _activeLayoutModule;
 
-        public ILayoutModule ActiveLayoutModule
+        public ILayoutModule? ActiveLayoutModule
         {
             get => _activeLayoutModule;
             set
@@ -36,7 +33,7 @@ namespace MN.Shell.Modules.Shell
 
         public ObservableCollection<StatusBarItemViewModel> StatusBarItems => _statusBarManager.StatusBarItems;
 
-        public ShellViewModel(ApplicationContext applicationContext, IMenuManager menuManager,
+        public ShellViewModel(IApplicationContext applicationContext, IMenuManager menuManager,
             IStatusBarManager statusBarManager, IEnumerable<ITool> tools)
         {
             _applicationContext = applicationContext ?? throw new ArgumentNullException(nameof(applicationContext));
@@ -55,15 +52,15 @@ namespace MN.Shell.Modules.Shell
             Tools = new ObservableCollection<ITool>(tools);
         }
 
-        private void OnApplicationTitleChanged(object sender, string newTitle)
+        private void OnApplicationTitleChanged(object? sender, string newTitle)
         {
             if (!string.IsNullOrEmpty(newTitle))
                 Title = newTitle;
         }
 
-        private void OnApplicationExitRequested(object sender, EventArgs _) => RequestClose();
+        private void OnApplicationExitRequested(object? sender, EventArgs _) => RequestClose();
 
-        private void OnDocumentLoadRequested(object sender, EventArgs _)
+        private void OnDocumentLoadRequested(object? sender, EventArgs _)
         {
             while (_applicationContext.DocumentsToLoad.Count > 0)
                 ActivateItem(_applicationContext.DocumentsToLoad.Dequeue());

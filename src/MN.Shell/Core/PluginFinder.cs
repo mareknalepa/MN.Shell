@@ -1,18 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 using MN.Shell.PluginContracts;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace MN.Shell.Core
 {
     public class PluginFinder
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<PluginFinder> _logger;
 
-        public PluginFinder(ILogger logger)
+        public PluginFinder(ILogger<PluginFinder> logger)
         {
             _logger = logger;
         }
@@ -32,9 +29,9 @@ namespace MN.Shell.Core
 
         private IEnumerable<Assembly> LoadAssemblies(string path)
         {
-            var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic);
+            IEnumerable<Assembly> loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic);
 
-            var potentialAssemblies = Directory.GetFiles(path, "*.dll").Select(f =>
+            IEnumerable<Assembly> potentialAssemblies = Directory.GetFiles(path, "*.dll").Select(f =>
             {
                 try
                 {
@@ -46,7 +43,8 @@ namespace MN.Shell.Core
                     return null;
                 }
             }).
-            Where(a => a != null);
+            Where(a => a != null)
+            .OfType<Assembly>();
 
             return loadedAssemblies.Concat(potentialAssemblies).Distinct();
         }
@@ -75,7 +73,7 @@ namespace MN.Shell.Core
             {
                 try
                 {
-                    object pluginInstance = Activator.CreateInstance(pluginType);
+                    object? pluginInstance = Activator.CreateInstance(pluginType);
                     if (pluginInstance is IPlugin plugin)
                         return plugin;
 
@@ -87,7 +85,8 @@ namespace MN.Shell.Core
                     return null;
                 }
             }).
-            Where(p => p != null);
+            Where(p => p != null)
+            .OfType<IPlugin>();
         }
     }
 }

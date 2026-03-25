@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace MN.Shell.MVVM
+﻿namespace MN.Shell.MVVM
 {
     /// <summary>
     /// Base class for ViewModels having many children components and all active simultaneously
@@ -13,7 +11,7 @@ namespace MN.Shell.MVVM
         /// Handler called when item activation was requested
         /// </summary>
         /// <param name="item">Item to activate</param>
-        protected override void OnActivateItem(T item)
+        protected override void OnActivateItem(T? item)
         {
             if (IsActive && item is ILifecycleAware lifecycleAware)
                 lifecycleAware.Activate();

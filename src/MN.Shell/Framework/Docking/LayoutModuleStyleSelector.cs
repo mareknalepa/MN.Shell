@@ -6,14 +6,14 @@ namespace MN.Shell.Framework.Docking
 {
     public class LayoutModuleStyleSelector : StyleSelector
     {
-        public Style ToolStyle { get; set; }
-        public Style DocumentStyle { get; set; }
+        public Style? ToolStyle { get; set; }
+        public Style? DocumentStyle { get; set; }
 
         public override Style SelectStyle(object item, DependencyObject container)
         {
-            if (item is ITool)
+            if (item is ITool && ToolStyle is not null)
                 return ToolStyle;
-            else if (item is IDocument)
+            else if (item is IDocument && DocumentStyle is not null)
                 return DocumentStyle;
 
             return base.SelectStyle(item, container);

@@ -10,7 +10,7 @@ namespace MN.Shell.MVVM
         /// <summary>
         /// Reference to the View associated with this ViewModel
         /// </summary>
-        FrameworkElement View { get; }
+        FrameworkElement? View { get; }
 
         /// <summary>
         /// Attaches View to this ViewModel

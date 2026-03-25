@@ -10,10 +10,10 @@ namespace MN.Shell.Framework.Tree
         private static bool IsBringIntoView { get; }
 
         public static bool GetIsBringIntoView(DependencyObject obj) =>
-            (bool)obj?.GetValue(IsBringIntoViewProperty);
+            (bool)obj.GetValue(IsBringIntoViewProperty);
 
         public static void SetIsBringIntoView(DependencyObject obj, bool value) =>
-            obj?.SetValue(IsBringIntoViewProperty, value);
+            obj.SetValue(IsBringIntoViewProperty, value);
 
         public static readonly DependencyProperty IsBringIntoViewProperty =
             DependencyProperty.RegisterAttached(nameof(IsBringIntoView), typeof(bool),

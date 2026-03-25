@@ -5,7 +5,6 @@ using AvalonDock.Layout;
 using Microsoft.Xaml.Behaviors;
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;

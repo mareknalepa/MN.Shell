@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace MN.Shell.MVVM
+﻿namespace MN.Shell.MVVM
 {
     /// <summary>
     /// Base class for ViewModels having many children components and only one active at a time
@@ -9,12 +7,12 @@ namespace MN.Shell.MVVM
     public abstract class ItemsConductorOneActive<T> : ItemsConductorBase<T>
         where T : class
     {
-        private T _activeItem;
+        private T? _activeItem;
 
         /// <summary>
         /// Currently active item
         /// </summary>
-        public T ActiveItem
+        public T? ActiveItem
         {
             get => _activeItem;
             set => ActivateItemInternal(value);
@@ -24,7 +22,7 @@ namespace MN.Shell.MVVM
         /// Handler called when item activation was requested
         /// </summary>
         /// <param name="item">Item to activate</param>
-        protected override void OnActivateItem(T item)
+        protected override void OnActivateItem(T? item)
         {
             if (IsActive && ActiveItem is ILifecycleAware oldLifecycleAware)
                 oldLifecycleAware.Deactivate();

@@ -1,24 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29806.167
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11612.150
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{39728C81-44A5-45E1-8FDB-65DDFC482A77}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{2F3A4D65-F586-4D56-AA84-076CCA8B999C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C019E89B-DBDA-4D29-8FC4-2DCB83C93930}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.Demo", "Samples\MN.Shell.Demo\MN.Shell.Demo.csproj", "{31D983A7-E7D7-4694-80A9-9C397A81D3A1}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.MVVM", "MN.Shell.MVVM\MN.Shell.MVVM.csproj", "{17357901-C882-422C-8B82-4D62E5533A80}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.MVVM.Tests", "MN.Shell.MVVM.Tests\MN.Shell.MVVM.Tests.csproj", "{552C0631-20C9-4E02-9281-02B2140F9D7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.MVVM.Tests", "Tests\MN.Shell.MVVM.Tests\MN.Shell.MVVM.Tests.csproj", "{552C0631-20C9-4E02-9281-02B2140F9D7A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.MVVM.Sample", "MN.Shell.MVVM.Sample\MN.Shell.MVVM.Sample.csproj", "{C4EFA68E-2137-49C9-97D9-D316364CD959}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.MVVM.Sample", "Samples\MN.Shell.MVVM.Sample\MN.Shell.MVVM.Sample.csproj", "{C4EFA68E-2137-49C9-97D9-D316364CD959}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell", "MN.Shell\MN.Shell.csproj", "{646BF09C-A5DB-499C-9E1C-9A1920008A83}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.Tests", "MN.Shell.Tests\MN.Shell.Tests.csproj", "{350AA769-51E6-4826-BBF6-1C27644C8E11}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.Demo", "MN.Shell.Demo\MN.Shell.Demo.csproj", "{31D983A7-E7D7-4694-80A9-9C397A81D3A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.Tests", "Tests\MN.Shell.Tests\MN.Shell.Tests.csproj", "{350AA769-51E6-4826-BBF6-1C27644C8E11}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MN.Shell.PluginContracts", "MN.Shell.PluginContracts\MN.Shell.PluginContracts.csproj", "{413B734D-4475-4AE9-96AC-F635B0716C6B}"
 EndProject
@@ -28,6 +32,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31D983A7-E7D7-4694-80A9-9C397A81D3A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31D983A7-E7D7-4694-80A9-9C397A81D3A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31D983A7-E7D7-4694-80A9-9C397A81D3A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31D983A7-E7D7-4694-80A9-9C397A81D3A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{17357901-C882-422C-8B82-4D62E5533A80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{17357901-C882-422C-8B82-4D62E5533A80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17357901-C882-422C-8B82-4D62E5533A80}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,10 +56,6 @@ Global
 		{350AA769-51E6-4826-BBF6-1C27644C8E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{350AA769-51E6-4826-BBF6-1C27644C8E11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{350AA769-51E6-4826-BBF6-1C27644C8E11}.Release|Any CPU.Build.0 = Release|Any CPU
-		{31D983A7-E7D7-4694-80A9-9C397A81D3A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{31D983A7-E7D7-4694-80A9-9C397A81D3A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{31D983A7-E7D7-4694-80A9-9C397A81D3A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{31D983A7-E7D7-4694-80A9-9C397A81D3A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{413B734D-4475-4AE9-96AC-F635B0716C6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{413B734D-4475-4AE9-96AC-F635B0716C6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{413B734D-4475-4AE9-96AC-F635B0716C6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,6 +63,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{31D983A7-E7D7-4694-80A9-9C397A81D3A1} = {2F3A4D65-F586-4D56-AA84-076CCA8B999C}
+		{552C0631-20C9-4E02-9281-02B2140F9D7A} = {C019E89B-DBDA-4D29-8FC4-2DCB83C93930}
+		{C4EFA68E-2137-49C9-97D9-D316364CD959} = {2F3A4D65-F586-4D56-AA84-076CCA8B999C}
+		{350AA769-51E6-4826-BBF6-1C27644C8E11} = {C019E89B-DBDA-4D29-8FC4-2DCB83C93930}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E7EAD17-B0E0-4CD6-866A-FDEAD234547A}
