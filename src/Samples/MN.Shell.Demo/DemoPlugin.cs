@@ -16,20 +16,20 @@ namespace MN.Shell.Demo
             Context?.UseTool<OutputViewModel>();
             Context?.UseTool<ProgressBarsViewModel>();
 
-            Context?.UseDocumentFactory<IControlsDemoFactory, ControlsDemoViewModel>();
-            Context?.UseDocumentFactory<ITabbedInterfaceFactory, TabbedInterfaceViewModel>();
+            Context?.UseDocumentFactory<ControlsDemoViewModel>();
+            Context?.UseDocumentFactory<TabbedInterfaceViewModel>();
 
             Context?.UseMenuProvider<DemoMenuProvider>();
 
             Context?.UseStatusBarProvider<DemoStatusBarProvider>();
         }
 
-        public override void OnStartup(StartupEventArgs e)
+        public override void OnStartup(StartupEventArgs e, IApplicationContext applicationContext)
         {
-            Context?.ApplicationContext.ApplicationTitle = "MN.Shell Demo Application";
+            applicationContext.ApplicationTitle = "MN.Shell Demo Application";
 
-            Context?.ApplicationContext.LoadDocumentUsingFactory<IControlsDemoFactory, ControlsDemoViewModel>();
-            Context?.ApplicationContext.LoadDocumentUsingFactory<ITabbedInterfaceFactory, TabbedInterfaceViewModel>();
+            applicationContext.LoadDocumentUsingFactory<ControlsDemoViewModel>();
+            applicationContext.LoadDocumentUsingFactory<TabbedInterfaceViewModel>();
         }
     }
 }

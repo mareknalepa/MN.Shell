@@ -25,7 +25,6 @@ Package | NuGet |
 - .NET 10
 - WPF
 - MVVM pattern
-- Ninject
 - AvalonDock
 
 

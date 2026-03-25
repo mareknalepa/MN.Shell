@@ -42,21 +42,22 @@ namespace MN.Shell.Tests.Core
         public void OnStartupTest()
         {
             var context = new Mock<IScopedPluginContext>().Object;
+            var applicationContext = new Mock<IApplicationContext>().Object;
 
             // Hack to create instance of StartupEventArgs in tests:
             var constructorInfo = typeof(StartupEventArgs).GetTypeInfo().DeclaredConstructors.First();
             if (constructorInfo.Invoke(null) is StartupEventArgs startupEventArgs)
             {
                 var mock1 = new Mock<IPlugin>();
-                mock1.Setup(p => p.OnStartup(startupEventArgs)).Verifiable();
+                mock1.Setup(p => p.OnStartup(startupEventArgs, applicationContext)).Verifiable();
 
                 var mock2 = new Mock<IPlugin>();
-                mock2.Setup(p => p.OnStartup(startupEventArgs)).Verifiable();
+                mock2.Setup(p => p.OnStartup(startupEventArgs, applicationContext)).Verifiable();
 
                 using (var pluginManager = new PluginManager(NullLogger<PluginManager>.Instance))
                 {
                     pluginManager.LoadPlugins(new[] { mock1.Object, mock2.Object }, context);
-                    pluginManager.OnStartup(startupEventArgs);
+                    pluginManager.OnStartup(startupEventArgs, applicationContext);
                 }
 
                 mock1.VerifyAll();
@@ -72,21 +73,22 @@ namespace MN.Shell.Tests.Core
         public void OnExitTest()
         {
             var context = new Mock<IScopedPluginContext>().Object;
+            var applicationContext = new Mock<IApplicationContext>().Object;
 
             // Hack to create instance of ExitEventArgs in tests:
             var constructorInfo = typeof(ExitEventArgs).GetTypeInfo().DeclaredConstructors.First();
             if (constructorInfo.Invoke(new object[] { 0 }) is ExitEventArgs exitEventArgs)
             {
                 var mock1 = new Mock<IPlugin>();
-                mock1.Setup(p => p.OnExit(exitEventArgs)).Verifiable();
+                mock1.Setup(p => p.OnExit(exitEventArgs, applicationContext)).Verifiable();
 
                 var mock2 = new Mock<IPlugin>();
-                mock2.Setup(p => p.OnExit(exitEventArgs)).Verifiable();
+                mock2.Setup(p => p.OnExit(exitEventArgs, applicationContext)).Verifiable();
 
                 using (var pluginManager = new PluginManager(NullLogger<PluginManager>.Instance))
                 {
                     pluginManager.LoadPlugins(new[] { mock1.Object, mock2.Object }, context);
-                    pluginManager.OnExit(exitEventArgs);
+                    pluginManager.OnExit(exitEventArgs, applicationContext);
                 }
 
                 mock1.VerifyAll();

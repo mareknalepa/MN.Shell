@@ -9,6 +9,4 @@ namespace MN.Shell.Demo.ControlsDemo
             Title = "Controls Demo";
         }
     }
-
-    public interface IControlsDemoFactory : IDocumentFactory<ControlsDemoViewModel> { }
 }

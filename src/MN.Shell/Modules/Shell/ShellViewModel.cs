@@ -1,5 +1,4 @@
-﻿using MN.Shell.Core;
-using MN.Shell.Framework.Menu;
+﻿using MN.Shell.Framework.Menu;
 using MN.Shell.Framework.StatusBar;
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
@@ -9,7 +8,7 @@ namespace MN.Shell.Modules.Shell
 {
     public class ShellViewModel : ItemsConductorOneActive<IDocument>
     {
-        private readonly ApplicationContext _applicationContext;
+        private readonly IApplicationContext _applicationContext;
         private readonly IMenuManager _menuManager;
         private readonly IStatusBarManager _statusBarManager;
 
@@ -34,7 +33,7 @@ namespace MN.Shell.Modules.Shell
 
         public ObservableCollection<StatusBarItemViewModel> StatusBarItems => _statusBarManager.StatusBarItems;
 
-        public ShellViewModel(ApplicationContext applicationContext, IMenuManager menuManager,
+        public ShellViewModel(IApplicationContext applicationContext, IMenuManager menuManager,
             IStatusBarManager statusBarManager, IEnumerable<ITool> tools)
         {
             _applicationContext = applicationContext ?? throw new ArgumentNullException(nameof(applicationContext));

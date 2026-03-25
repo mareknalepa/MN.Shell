@@ -23,12 +23,14 @@ namespace MN.Shell.PluginContracts
         /// Method called by application's plugin infrastructure upon application's startup
         /// </summary>
         /// <param name="e">StartupEventArgs containing command-line arguments</param>
-        void OnStartup(StartupEventArgs e);
+        /// <param name="applicationContext">Application context allowing to access application-wide functionalities</param>
+        void OnStartup(StartupEventArgs e, IApplicationContext applicationContext);
 
         /// <summary>
         /// Method called by application's plugin infrastructure just before application's exit
         /// </summary>
         /// <param name="e">ExitEventArgs allowing to set exit code</param>
-        void OnExit(ExitEventArgs e);
+        /// <param name="applicationContext">Application context allowing to access application-wide functionalities</param>
+        void OnExit(ExitEventArgs e, IApplicationContext applicationContext);
     }
 }

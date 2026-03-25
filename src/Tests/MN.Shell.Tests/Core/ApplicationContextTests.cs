@@ -1,8 +1,6 @@
 ﻿using MN.Shell.Core;
 using MN.Shell.PluginContracts;
 using Moq;
-using Ninject;
-using Ninject.Activation;
 using NUnit.Framework;
 
 namespace MN.Shell.Tests.Core
@@ -10,14 +8,14 @@ namespace MN.Shell.Tests.Core
     [TestFixture]
     public class ApplicationContextTests
     {
-        private Mock<IKernel> _kernelMock = new Mock<IKernel>();
-        private ApplicationContext _applicationContext = new ApplicationContext(new Mock<IKernel>().Object);
+        private Mock<IServiceProvider> _serviceProviderMock = new Mock<IServiceProvider>();
+        private ApplicationContext _applicationContext = new ApplicationContext(new Mock<IServiceProvider>().Object);
 
         [SetUp]
         public void SetUp()
         {
-            _kernelMock = new Mock<IKernel>();
-            _applicationContext = new ApplicationContext(_kernelMock.Object);
+            _serviceProviderMock = new Mock<IServiceProvider>();
+            _applicationContext = new ApplicationContext(_serviceProviderMock.Object);
         }
 
         [Test]
@@ -57,28 +55,17 @@ namespace MN.Shell.Tests.Core
         [Test]
         public void LoadDocumentUsingFactoryTest()
         {
-            _kernelMock
-                .Setup(k => k.Resolve(It.IsAny<IRequest>()))
-                .Returns(() => new List<object>() { new ExampleDocumentFactory() });
+            _serviceProviderMock
+                .Setup(sp => sp.GetService(It.IsAny<Type>()))
+                .Returns(() => () => new ExampleDocument());
 
             Assert.AreEqual(0, _applicationContext.DocumentsToLoad.Count);
-            _applicationContext.LoadDocumentUsingFactory<IExampleDocumentFactory, ExampleDocument>();
+            _applicationContext.LoadDocumentUsingFactory<ExampleDocument>();
             Assert.AreEqual(1, _applicationContext.DocumentsToLoad.Count);
 
             Assert.True(_applicationContext.DocumentsToLoad.Peek() is ExampleDocument);
         }
 
         private class ExampleDocument : DocumentBase { }
-
-        private interface IExampleDocumentFactory : IDocumentFactory<ExampleDocument> { }
-
-        private class ExampleDocumentFactory : IExampleDocumentFactory
-        {
-            public ExampleDocument Create()
-            {
-                CreateCalled = true;
-                return new ExampleDocument();
-            }
-        }
     }
 }

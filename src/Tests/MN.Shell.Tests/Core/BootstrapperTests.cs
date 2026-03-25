@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using MN.Shell.Core;
+using MN.Shell.Framework;
 using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
 using Moq;
-using Ninject;
 using NUnit.Framework;
 using System.Reflection;
 using System.Windows;
@@ -65,7 +66,7 @@ namespace MN.Shell.Tests.Core
                     {
                         bootstrapper.OnStartup(startupEventArgs);
                     }
-                    catch (ActivationException) { }
+                    catch (InvalidOperationException) { }
 
                     Assert.True(PluginOnStartupCalled);
                 }
@@ -122,30 +123,39 @@ namespace MN.Shell.Tests.Core
     {
         public new void Configure()
         {
-            base.Configure();
+            var services = new ServiceCollection();
+
+            var loggerFactory = ConfigureLogging(services);
+            services.AddShellCore();
+            services.AddShellFramework();
 
             // Hack to suppress creating real WindowManager
             var windowManagerMock = new Mock<IWindowManager>();
-            Kernel?.Rebind<IWindowManager>().ToConstant(windowManagerMock.Object);
+
+            var descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(IWindowManager));
+            if (descriptor != null)
+            {
+                services.Remove(descriptor);
+            }
+            services.AddSingleton<IWindowManager>(windowManagerMock.Object);
 
             // Hack to suppress creating real ShellViewModel
-            Kernel?.Rebind<ShellViewModel>()?.ToConstant((null as ShellViewModel)!);
+            descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(ShellViewModel));
+            if (descriptor != null)
+            {
+                services.Remove(descriptor);
+            }
 
-            Kernel?.Bind<IExampleService, ExampleService>().To<ExampleService>().InSingletonScope();
+            services.AddSingleton<IExampleService, ExampleService>();
+
+            LoadPlugins(services, loggerFactory);
+
+            ServiceProvider = services.BuildServiceProvider();
         }
 
-        protected override ILoggerFactory ConfigureLogging()
+        protected override ILoggerFactory ConfigureLogging(IServiceCollection services)
         {
-            Kernel?.Bind<ILoggerFactory>().ToConstant(NullLoggerFactory.Instance).InSingletonScope();
-            Kernel?.Bind(typeof(ILogger<>))
-                .ToMethod(context =>
-                {
-                    var requestedLoggerType = context.Request.Service.GenericTypeArguments[0];
-                    var loggerType = typeof(NullLogger<>).MakeGenericType(requestedLoggerType);
-                    return Activator.CreateInstance(loggerType);
-                })
-                .InTransientScope();
-
+            services.AddTransient(typeof(ILogger<>), typeof(NullLogger<>));
             return NullLoggerFactory.Instance;
         }
 
@@ -162,9 +172,9 @@ namespace MN.Shell.Tests.Core
     {
         protected override void OnLoad() => BootstrapperTests.PluginLoadCalled = true;
 
-        public override void OnStartup(StartupEventArgs e) => BootstrapperTests.PluginOnStartupCalled = true;
+        public override void OnStartup(StartupEventArgs e, IApplicationContext applicationContext) => BootstrapperTests.PluginOnStartupCalled = true;
 
-        public override void OnExit(ExitEventArgs e) => BootstrapperTests.PluginOnExitCalled = true;
+        public override void OnExit(ExitEventArgs e, IApplicationContext applicationContext) => BootstrapperTests.PluginOnExitCalled = true;
 
         public void Dispose() => BootstrapperTests.PluginDisposeCalled = true;
     }

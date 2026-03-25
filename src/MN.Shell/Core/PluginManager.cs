@@ -48,18 +48,20 @@ namespace MN.Shell.Core
         /// Method which should be called upon application's startup process to allow plugins to hook-in
         /// </summary>
         /// <param name="e">StartupEventArgs passed to plugins</param>
-        public void OnStartup(StartupEventArgs e)
+        /// <param name="applicationContext">Application context allowing to access application-wide functionalities</param>
+        public void OnStartup(StartupEventArgs e, IApplicationContext applicationContext)
         {
-            _plugins.ForEach(p => p.OnStartup(e));
+            _plugins.ForEach(p => p.OnStartup(e, applicationContext));
         }
 
         /// <summary>
         /// Method which should be called upon application's exit to allow plugins gracefully shutdown
         /// </summary>
         /// <param name="e">ExitEventArgs passed to plugins</param>
-        public void OnExit(ExitEventArgs e)
+        /// <param name="applicationContext">Application context allowing to access application-wide functionalities</param>
+        public void OnExit(ExitEventArgs e, IApplicationContext applicationContext)
         {
-            _plugins.ForEach(p => p.OnExit(e));
+            _plugins.ForEach(p => p.OnExit(e, applicationContext));
         }
 
         /// <summary>

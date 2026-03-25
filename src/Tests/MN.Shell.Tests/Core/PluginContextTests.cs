@@ -1,6 +1,7 @@
-﻿using MN.Shell.Core;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MN.Shell.Core;
 using MN.Shell.PluginContracts;
-using Ninject;
+using Moq;
 using NUnit.Framework;
 
 namespace MN.Shell.Tests.Core
@@ -8,20 +9,12 @@ namespace MN.Shell.Tests.Core
     [TestFixture]
     public class PluginContextTests
     {
-        private IKernel _kernel = new StandardKernel();
-        private PluginContext _context = new PluginContext(new StandardKernel());
+        private PluginContext _context = new PluginContext(new Mock<IServiceCollection>().Object);
 
         [SetUp]
         public void SetUp()
         {
-            _kernel = new StandardKernel();
-            _context = new PluginContext(_kernel);
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            _kernel.Dispose();
+            _context = new PluginContext(new Mock<IServiceCollection>().Object);
         }
 
         [Test]
@@ -35,7 +28,7 @@ namespace MN.Shell.Tests.Core
         public void UseDocumentFactoryOutOfScopeTest()
         {
             Assert.Throws<InvalidOperationException>(
-                () => _context.UseDocumentFactory<IMockDocumentFactory, MockDocument>());
+                () => _context.UseDocumentFactory<MockDocument>());
         }
 
         [Test]
@@ -63,11 +56,6 @@ namespace MN.Shell.Tests.Core
         private class MockTool : ToolBase { }
 
         private class MockDocument : DocumentBase { }
-
-        private class IMockDocumentFactory : IDocumentFactory<MockDocument>
-        {
-            public MockDocument Create() => throw new NotImplementedException();
-        }
 
         private class MockMenuProvider : IMenuProvider
         {
