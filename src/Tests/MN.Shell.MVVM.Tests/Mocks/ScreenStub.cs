@@ -1,6 +1,6 @@
 ﻿namespace MN.Shell.MVVM.Tests.Mocks
 {
-    public class MockScreen : Screen
+    public sealed class ScreenStub : Screen
     {
         public int OnInitializedCalledCount { get; private set; }
 

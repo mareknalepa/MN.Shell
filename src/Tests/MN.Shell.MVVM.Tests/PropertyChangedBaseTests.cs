@@ -1,12 +1,10 @@
-﻿using NUnit.Framework;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace MN.Shell.MVVM.Tests
 {
-    [TestFixture]
-    public class PropertyChangedBaseTests
+    public sealed class PropertyChangedBaseTests
     {
-        private class PropertyChangedBaseTestingMock : PropertyChangedBase
+        private sealed class PropertyChangedBaseTestingMock : PropertyChangedBase
         {
             public void CallNotifyPropertyChanged(string propertyName) => NotifyPropertyChanged(propertyName);
 
@@ -27,16 +25,10 @@ namespace MN.Shell.MVVM.Tests
             }
         }
 
-        private PropertyChangedBaseTestingMock _model = new PropertyChangedBaseTestingMock();
+        private readonly PropertyChangedBaseTestingMock _model = new();
 
-        [SetUp]
-        public void SetUp()
-        {
-            _model = new PropertyChangedBaseTestingMock();
-        }
-
-        [Test]
-        public void NotifyPropertyChangedTest()
+        [Fact]
+        public void NotifyPropertyChanged_RaisesEvent()
         {
             Assert.Throws<ArgumentNullException>(() => _model.CallNotifyPropertyChanged(null!));
 
@@ -44,47 +36,47 @@ namespace MN.Shell.MVVM.Tests
             void handler(object? sender, PropertyChangedEventArgs e)
             {
                 handlerFired = true;
-                Assert.AreEqual(_model, sender);
-                Assert.AreEqual(nameof(PropertyChangedBaseTestingMock.NotifyPropertyChangedTestProperty), e.PropertyName);
+                sender.ShouldBe(_model);
+                e.PropertyName.ShouldBe(nameof(PropertyChangedBaseTestingMock.NotifyPropertyChangedTestProperty));
             }
 
             _model.PropertyChanged += handler;
             _model.NotifyPropertyChangedTestProperty = true;
-            Assert.True(handlerFired);
+            handlerFired.ShouldBeTrue();
             _model.PropertyChanged -= handler;
         }
 
-        [Test]
+        [Fact]
         public void SetTest()
         {
             bool handlerFired = false;
             void handler(object? sender, PropertyChangedEventArgs e)
             {
                 handlerFired = true;
-                Assert.AreEqual(_model, sender);
-                Assert.AreEqual(nameof(PropertyChangedBaseTestingMock.SetTestProperty), e.PropertyName);
+                sender.ShouldBe(_model);
+                e.PropertyName.ShouldBe(nameof(PropertyChangedBaseTestingMock.SetTestProperty));
             }
 
             _model.PropertyChanged += handler;
             _model.SetTestProperty = true;
-            Assert.True(handlerFired);
+            handlerFired.ShouldBeTrue();
             _model.PropertyChanged -= handler;
         }
 
-        [Test]
+        [Fact]
         public void RefreshTest()
         {
             bool handlerFired = false;
             void handler(object? sender, PropertyChangedEventArgs e)
             {
                 handlerFired = true;
-                Assert.AreEqual(_model, sender);
-                Assert.AreEqual(string.Empty, e.PropertyName);
+                sender.ShouldBe(_model);
+                e.PropertyName.ShouldBeEmpty();
             }
 
             _model.PropertyChanged += handler;
             _model.CallRefresh();
-            Assert.True(handlerFired);
+            handlerFired.ShouldBeTrue();
             _model.PropertyChanged -= handler;
         }
     }

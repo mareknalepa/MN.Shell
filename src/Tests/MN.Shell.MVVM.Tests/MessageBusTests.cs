@@ -1,28 +1,21 @@
-﻿using NUnit.Framework;
-
-namespace MN.Shell.MVVM.Tests
+﻿namespace MN.Shell.MVVM.Tests
 {
-    [TestFixture]
-    public class MessageBusTests
+    public sealed class MessageBusTests
     {
-        private MessageBus _messageBus = new MessageBus();
+        private readonly MessageBus _messageBus = new();
 
-        [SetUp]
-        public void SetUp()
-        {
-            _messageBus = new MessageBus();
-        }
-
-        [Test]
-        public void PublishWithNoListenersTest()
+        [Fact]
+        public void Publish_DoesNothing_WhenNoListenersSubscribed()
         {
             var message = new Message1();
 
-            Assert.DoesNotThrow(() => _messageBus.Publish(message));
+            var act = () => _messageBus.Publish(message);
+
+            act.ShouldNotThrow();
         }
 
-        [Test]
-        public void SubscribePublishBasicTest()
+        [Fact]
+        public void Publish_NotifiesSubscribedListeners()
         {
             var listener = new Listener1();
             _messageBus.Subscribe(listener);
@@ -30,12 +23,11 @@ namespace MN.Shell.MVVM.Tests
             var message = new Message1();
             _messageBus.Publish(message);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message, listener.ProcessedMessages[0]);
+            listener.ProcessedMessages.ShouldContain(message);
         }
 
-        [Test]
-        public void UnsubscribeBasicTest()
+        [Fact]
+        public void Unsubscribe_StopsReceivingMessages()
         {
             var listener = new Listener1();
             _messageBus.Subscribe(listener);
@@ -45,20 +37,18 @@ namespace MN.Shell.MVVM.Tests
             var message = new Message1();
             _messageBus.Publish(message);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message, listener.ProcessedMessages[0]);
+            listener.ProcessedMessages.ShouldContain(message);
 
             _messageBus.Unsubscribe(listener);
 
             var anotherMessage = new Message1();
             _messageBus.Publish(anotherMessage);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message, listener.ProcessedMessages[0]);
+            listener.ProcessedMessages.ShouldNotContain(anotherMessage);
         }
 
-        [Test]
-        public void SubscribePublishMessagesInheritanceTest()
+        [Fact]
+        public void Publish_NotifiesMatchingListeners()
         {
             var listener1 = new Listener1();
             _messageBus.Subscribe(listener1);
@@ -72,16 +62,15 @@ namespace MN.Shell.MVVM.Tests
             var message2 = new Message2();
             _messageBus.Publish(message2);
 
-            Assert.That(listener1.ProcessedMessages, Has.Exactly(2).Items);
-            Assert.AreSame(message1, listener1.ProcessedMessages[0]);
-            Assert.AreSame(message2, listener1.ProcessedMessages[1]);
+            listener1.ProcessedMessages.ShouldContain(message1);
+            listener1.ProcessedMessages.ShouldContain(message2);
 
-            Assert.That(listener2.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message2, listener2.ProcessedMessages[0]);
+            listener2.ProcessedMessages.ShouldNotContain(message1);
+            listener2.ProcessedMessages.ShouldContain(message2);
         }
 
-        [Test]
-        public void SubscribeUnsubscribeBaseClassListenerTest()
+        [Fact]
+        public void Unsubscribe_StopsReceivingBaseMessages()
         {
             var listener = new Listener3();
             _messageBus.Subscribe<Message1>(listener);
@@ -90,43 +79,38 @@ namespace MN.Shell.MVVM.Tests
             var message1 = new Message1();
             _messageBus.Publish(message1);
 
-            Assert.That(listener.ProcessedMessages1, Has.Exactly(1).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
-            Assert.IsEmpty(listener.ProcessedMessages2);
+            listener.ProcessedMessages1.ShouldContain(message1);
+            listener.ProcessedMessages2.ShouldBeEmpty();
 
             var message2 = new Message2();
             _messageBus.Publish(message2);
 
-            Assert.That(listener.ProcessedMessages1, Has.Exactly(2).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
-            Assert.AreSame(message2, listener.ProcessedMessages1[1]);
-            Assert.That(listener.ProcessedMessages2, Has.Exactly(1).Items);
-            Assert.AreSame(message2, listener.ProcessedMessages2[0]);
+            listener.ProcessedMessages1.ShouldContain(message1);
+            listener.ProcessedMessages1.ShouldContain(message2);
+            listener.ProcessedMessages2.ShouldContain(message2);
 
             _messageBus.Unsubscribe<Message1>(listener);
 
             var anotherMessage1 = new Message1();
             _messageBus.Publish(anotherMessage1);
 
-            Assert.That(listener.ProcessedMessages1, Has.Exactly(2).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
-            Assert.AreSame(message2, listener.ProcessedMessages1[1]);
-            Assert.That(listener.ProcessedMessages2, Has.Exactly(1).Items);
-            Assert.AreSame(message2, listener.ProcessedMessages2[0]);
+            listener.ProcessedMessages1.ShouldContain(message1);
+            listener.ProcessedMessages1.ShouldContain(message2);
+            listener.ProcessedMessages1.ShouldNotContain(anotherMessage1);
+            listener.ProcessedMessages2.ShouldContain(message2);
 
             var anotherMessage2 = new Message2();
             _messageBus.Publish(anotherMessage2);
 
-            Assert.That(listener.ProcessedMessages1, Has.Exactly(2).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
-            Assert.AreSame(message2, listener.ProcessedMessages1[1]);
-            Assert.That(listener.ProcessedMessages2, Has.Exactly(2).Items);
-            Assert.AreSame(message2, listener.ProcessedMessages2[0]);
-            Assert.AreSame(anotherMessage2, listener.ProcessedMessages2[1]);
+            listener.ProcessedMessages1.ShouldContain(message1);
+            listener.ProcessedMessages1.ShouldContain(message2);
+            listener.ProcessedMessages1.ShouldNotContain(anotherMessage1);
+            listener.ProcessedMessages2.ShouldContain(message2);
+            listener.ProcessedMessages2.ShouldContain(anotherMessage2);
         }
 
-        [Test]
-        public void SubscribeUnsubscribeDerivedClassListenerTest()
+        [Fact]
+        public void Unsubscribe_StopsReceivingDerivedMessages()
         {
             var listener = new Listener3();
             _messageBus.Subscribe<Message1>(listener);
@@ -135,45 +119,39 @@ namespace MN.Shell.MVVM.Tests
             var message1 = new Message1();
             _messageBus.Publish(message1);
 
-            Assert.That(listener.ProcessedMessages1, Has.Exactly(1).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
-            Assert.IsEmpty(listener.ProcessedMessages2);
+            listener.ProcessedMessages1.ShouldContain(message1);
+            listener.ProcessedMessages2.ShouldBeEmpty();
 
             var message2 = new Message2();
             _messageBus.Publish(message2);
 
-            Assert.That(listener.ProcessedMessages1, Has.Exactly(2).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
-            Assert.AreSame(message2, listener.ProcessedMessages1[1]);
-            Assert.That(listener.ProcessedMessages2, Has.Exactly(1).Items);
-            Assert.AreSame(message2, listener.ProcessedMessages2[0]);
+            listener.ProcessedMessages1.ShouldContain(message1);
+            listener.ProcessedMessages1.ShouldContain(message2);
+            listener.ProcessedMessages2.ShouldContain(message2);
 
             _messageBus.Unsubscribe<Message2>(listener);
 
             var anotherMessage1 = new Message1();
             _messageBus.Publish(anotherMessage1);
 
-            Assert.That(listener.ProcessedMessages1, Has.Exactly(3).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
-            Assert.AreSame(message2, listener.ProcessedMessages1[1]);
-            Assert.AreSame(anotherMessage1, listener.ProcessedMessages1[2]);
-            Assert.That(listener.ProcessedMessages2, Has.Exactly(1).Items);
-            Assert.AreSame(message2, listener.ProcessedMessages2[0]);
+            listener.ProcessedMessages1.ShouldContain(message1);
+            listener.ProcessedMessages1.ShouldContain(message2);
+            listener.ProcessedMessages1.ShouldContain(anotherMessage1);
+            listener.ProcessedMessages2.ShouldContain(message2);
 
             var anotherMessage2 = new Message2();
             _messageBus.Publish(anotherMessage2);
 
-            Assert.That(listener.ProcessedMessages1, Has.Exactly(4).Items);
-            Assert.AreSame(message1, listener.ProcessedMessages1[0]);
-            Assert.AreSame(message2, listener.ProcessedMessages1[1]);
-            Assert.AreSame(anotherMessage1, listener.ProcessedMessages1[2]);
-            Assert.AreSame(anotherMessage2, listener.ProcessedMessages1[3]);
-            Assert.That(listener.ProcessedMessages2, Has.Exactly(1).Items);
-            Assert.AreSame(message2, listener.ProcessedMessages2[0]);
+            listener.ProcessedMessages1.ShouldContain(message1);
+            listener.ProcessedMessages1.ShouldContain(message2);
+            listener.ProcessedMessages1.ShouldContain(anotherMessage1);
+            listener.ProcessedMessages1.ShouldContain(anotherMessage2);
+            listener.ProcessedMessages2.ShouldContain(message2);
+            listener.ProcessedMessages2.ShouldNotContain(anotherMessage2);
         }
 
-        [Test]
-        public void SubscribePublishGCTest()
+        [Fact]
+        public void SubscribeUsesWeakReferencesInternally()
         {
             WeakReference<Listener1> CreateWeakReferenceToListener()
             {
@@ -184,92 +162,99 @@ namespace MN.Shell.MVVM.Tests
 
             var reference = CreateWeakReferenceToListener();
 
-            GC.Collect();
+            int tries = 0;
+            do
+            {
+                GC.Collect();
+                ++tries;
+            } while (reference.TryGetTarget(out _) && tries < 10);
 
             if (reference.TryGetTarget(out _))
+            {
                 Assert.Fail();
+            }
 
-            Assert.DoesNotThrow(() => _messageBus.Publish(new Message1()));
+            var act = () => _messageBus.Publish(new Message1());
+            act.ShouldNotThrow();
 
             if (reference.TryGetTarget(out _))
+            {
                 Assert.Fail();
+            }
         }
 
-        [Test]
-        public void DoubleSubscribeTest()
+        [Fact]
+        public void Subscribe_DoesNothingOnSecondCall()
         {
             var listener = new Listener1();
             _messageBus.Subscribe(listener);
-
-            Assert.DoesNotThrow(() => _messageBus.Subscribe(listener));
+            _messageBus.Subscribe(listener);
 
             var message = new Message1();
             _messageBus.Publish(message);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message, listener.ProcessedMessages[0]);
+            listener.ProcessedMessages.ShouldContain(message);
         }
 
-        [Test]
-        public void DoubleUnsubscribeTest()
+        [Fact]
+        public void Unsubscribe_DoesNothingOnSecondCall()
         {
             var listener = new Listener1();
             _messageBus.Subscribe(listener);
             _messageBus.Unsubscribe(listener);
-
-            Assert.DoesNotThrow(() => _messageBus.Unsubscribe(listener));
+            _messageBus.Unsubscribe(listener);
 
             _messageBus.Publish(new Message1());
 
-            Assert.IsEmpty(listener.ProcessedMessages);
+            listener.ProcessedMessages.ShouldBeEmpty();
         }
 
-        [Test]
-        public void SubscribeFromHandlerTest()
+        [Fact]
+        public void Subscribe_CanBeCalledFromHandler()
         {
             var listener = new Listener4(_messageBus);
             _messageBus.Subscribe(listener);
 
             var message = new Message1();
-            Assert.DoesNotThrow(() => _messageBus.Publish(message));
+            var act = () => _messageBus.Publish(message);
+            act.ShouldNotThrow();
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message, listener.ProcessedMessages[0]);
-            Assert.NotNull(listener.InnerListener);
-            Assert.IsEmpty(listener.InnerListener!.ProcessedMessages);
+            listener.ProcessedMessages.ShouldContain(message);
+            listener.InnerListener.ShouldNotBeNull();
+            listener.InnerListener.ProcessedMessages.ShouldBeEmpty();
 
             _messageBus.Unsubscribe(listener);
 
             var anotherMessage = new Message1();
             _messageBus.Publish(anotherMessage);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message, listener.ProcessedMessages[0]);
-            Assert.That(listener.InnerListener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(anotherMessage, listener.InnerListener.ProcessedMessages[0]);
+            listener.ProcessedMessages.ShouldContain(message);
+            listener.ProcessedMessages.ShouldNotContain(anotherMessage);
+            listener.InnerListener.ProcessedMessages.ShouldNotContain(message);
+            listener.InnerListener.ProcessedMessages.ShouldContain(anotherMessage);
         }
 
-        [Test]
-        public void UnsubscribeFromHandlerTest()
+        [Fact]
+        public void Unsubscribe_CanBeCalledFromHandler()
         {
             var listener = new Listener5(_messageBus);
             _messageBus.Subscribe(listener);
 
             var message = new Message1();
-            Assert.DoesNotThrow(() => _messageBus.Publish(message));
+            var act = () => _messageBus.Publish(message);
+            act.ShouldNotThrow();
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message, listener.ProcessedMessages[0]);
+            listener.ProcessedMessages.ShouldContain(message);
 
             var anotherMessage = new Message1();
             _messageBus.Publish(anotherMessage);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message, listener.ProcessedMessages[0]);
+            listener.ProcessedMessages.ShouldContain(message);
+            listener.ProcessedMessages.ShouldNotContain(anotherMessage);
         }
 
-        [Test]
-        public void PublishFromHandlerNotRecursiveTest()
+        [Fact]
+        public void Publish_IsReentrant()
         {
             var listener = new Listener6(_messageBus);
             _messageBus.Subscribe(listener);
@@ -278,24 +263,19 @@ namespace MN.Shell.MVVM.Tests
             _messageBus.Subscribe(anotherListener);
 
             var message = new Message1();
-            Assert.DoesNotThrow(() => _messageBus.Publish(message));
+            var act = () => _messageBus.Publish(message);
+            act.ShouldNotThrow();
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message, listener.ProcessedMessages[0]);
-
-            Assert.That(anotherListener.ProcessedMessages, Has.Exactly(1).Items);
-            Assert.AreSame(message, anotherListener.ProcessedMessages[0]);
+            listener.ProcessedMessages.ShouldContain(message);
+            anotherListener.ProcessedMessages.ShouldContain(message);
 
             var anotherMessage = new Message1();
             _messageBus.Publish(anotherMessage);
 
-            Assert.That(listener.ProcessedMessages, Has.Exactly(2).Items);
-            Assert.AreSame(message, listener.ProcessedMessages[0]);
-            Assert.AreSame(anotherMessage, listener.ProcessedMessages[1]);
-
-            Assert.That(anotherListener.ProcessedMessages, Has.Exactly(2).Items);
-            Assert.AreSame(message, anotherListener.ProcessedMessages[0]);
-            Assert.AreSame(anotherMessage, anotherListener.ProcessedMessages[1]);
+            listener.ProcessedMessages.ShouldContain(message);
+            listener.ProcessedMessages.ShouldContain(anotherMessage);
+            anotherListener.ProcessedMessages.ShouldContain(message);
+            anotherListener.ProcessedMessages.ShouldContain(anotherMessage);
         }
     }
 
@@ -305,31 +285,27 @@ namespace MN.Shell.MVVM.Tests
 
     internal class Listener1 : IListener<Message1>
     {
-        public List<Message1> ProcessedMessages { get; } = new List<Message1>();
+        public List<Message1> ProcessedMessages { get; } = [];
         public void Process(Message1 message) => ProcessedMessages.Add(message);
     }
 
     internal class Listener2 : IListener<Message2>
     {
-        public List<Message2> ProcessedMessages { get; } = new List<Message2>();
+        public List<Message2> ProcessedMessages { get; } = [];
         public void Process(Message2 message) => ProcessedMessages.Add(message);
     }
 
     internal class Listener3 : IListener<Message1>, IListener<Message2>
     {
-        public List<Message1> ProcessedMessages1 { get; } = new List<Message1>();
-        public List<Message1> ProcessedMessages2 { get; } = new List<Message1>();
+        public List<Message1> ProcessedMessages1 { get; } = [];
+        public List<Message1> ProcessedMessages2 { get; } = [];
         public void Process(Message1 message) => ProcessedMessages1.Add(message);
         public void Process(Message2 message) => ProcessedMessages2.Add(message);
     }
 
-    internal class Listener4 : IListener<Message1>
+    internal class Listener4(IMessageBus messageBus) : IListener<Message1>
     {
-        private readonly IMessageBus _messageBus;
-
-        public Listener4(IMessageBus messageBus) => _messageBus = messageBus;
-
-        public List<Message1> ProcessedMessages { get; } = new List<Message1>();
+        public List<Message1> ProcessedMessages { get; } = [];
 
         public Listener1? InnerListener { get; private set; }
 
@@ -337,37 +313,29 @@ namespace MN.Shell.MVVM.Tests
         {
             ProcessedMessages.Add(message);
             InnerListener = new Listener1();
-            _messageBus.Subscribe(InnerListener);
+            messageBus.Subscribe(InnerListener);
         }
     }
 
-    internal class Listener5 : IListener<Message1>
+    internal class Listener5(IMessageBus messageBus) : IListener<Message1>
     {
-        private readonly IMessageBus _messageBus;
-
-        public Listener5(IMessageBus messageBus) => _messageBus = messageBus;
-
-        public List<Message1> ProcessedMessages { get; } = new List<Message1>();
+        public List<Message1> ProcessedMessages { get; } = [];
 
         public void Process(Message1 message)
         {
             ProcessedMessages.Add(message);
-            _messageBus.Unsubscribe(this);
+            messageBus.Unsubscribe(this);
         }
     }
 
-    internal class Listener6 : IListener<Message1>
+    internal class Listener6(IMessageBus messageBus) : IListener<Message1>
     {
-        private readonly IMessageBus _messageBus;
-
-        public Listener6(IMessageBus messageBus) => _messageBus = messageBus;
-
-        public List<Message1> ProcessedMessages { get; } = new List<Message1>();
+        public List<Message1> ProcessedMessages { get; } = [];
 
         public void Process(Message1 message)
         {
             ProcessedMessages.Add(message);
-            _messageBus.Publish(new Message1());
+            messageBus.Publish(new Message1());
         }
     }
 }

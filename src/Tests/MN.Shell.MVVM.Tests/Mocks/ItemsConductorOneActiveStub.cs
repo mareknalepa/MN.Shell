@@ -1,6 +1,6 @@
 ﻿namespace MN.Shell.MVVM.Tests.Mocks
 {
-    public class MockItemsConductorAllActive : ItemsConductorAllActive<object>
+    public sealed class ItemsConductorOneActiveStub : ItemsConductorOneActive<object>
     {
         public int OnConductorActivatedCalledCount { get; private set; }
 

@@ -1,12 +1,9 @@
-﻿using NUnit.Framework;
-
-namespace MN.Shell.MVVM.Tests
+﻿namespace MN.Shell.MVVM.Tests
 {
-    [TestFixture]
-    public class AsyncCommandTests
+    public sealed class AsyncCommandTests
     {
-        [Test]
-        public void CanExecuteWithParameterTest()
+        [Fact]
+        public void CanExecute_WithParameter_ReturnsCorrectResult()
         {
             bool canExecuteFired = false;
             bool canExecute = false;
@@ -17,20 +14,19 @@ namespace MN.Shell.MVVM.Tests
                 return canExecute;
             });
 
-            Assert.False(canExecuteFired);
-
-            Assert.False(command.CanExecute(new object()));
-            Assert.True(canExecuteFired);
+            canExecuteFired.ShouldBeFalse();
+            command.CanExecute(new()).ShouldBeFalse();
+            canExecuteFired.ShouldBeTrue();
 
             canExecuteFired = false;
             canExecute = true;
 
-            Assert.True(command.CanExecute(new object()));
-            Assert.True(canExecuteFired);
+            command.CanExecute(new()).ShouldBeTrue();
+            canExecuteFired.ShouldBeTrue();
         }
 
-        [Test]
-        public void CanExecuteWithoutParameterTest()
+        [Fact]
+        public void CanExecute_WithoutParameter_ReturnsCorrectResult()
         {
             bool canExecuteFired = false;
             bool canExecute = false;
@@ -41,20 +37,19 @@ namespace MN.Shell.MVVM.Tests
                 return canExecute;
             });
 
-            Assert.False(canExecuteFired);
-
-            Assert.False(command.CanExecute(new object()));
-            Assert.True(canExecuteFired);
+            canExecuteFired.ShouldBeFalse();
+            command.CanExecute(new()).ShouldBeFalse();
+            canExecuteFired.ShouldBeTrue();
 
             canExecuteFired = false;
             canExecute = true;
 
-            Assert.True(command.CanExecute(new object()));
-            Assert.True(canExecuteFired);
+            command.CanExecute(new()).ShouldBeTrue();
+            canExecuteFired.ShouldBeTrue();
         }
 
-        [Test]
-        public void ExecuteWithParameterTest()
+        [Fact]
+        public void Execute_WithParameter_CallsDelegateOnlyWhenCanExecuteAllows()
         {
             bool executeFired = false;
             bool canExecute = false;
@@ -65,19 +60,19 @@ namespace MN.Shell.MVVM.Tests
                 return Task.CompletedTask;
             }, o => canExecute);
 
-            Assert.False(executeFired);
+            executeFired.ShouldBeFalse();
 
-            command.Execute(new object());
-            Assert.False(executeFired);
+            command.Execute(new());
+            executeFired.ShouldBeFalse();
 
             canExecute = true;
 
-            command.Execute(new object());
-            Assert.True(executeFired);
+            command.Execute(new());
+            executeFired.ShouldBeTrue();
         }
 
-        [Test]
-        public void ExecuteWithoutParameterTest()
+        [Fact]
+        public void Execute_WithoutParameter_CallsDelegateOnlyWhenCanExecuteAllows()
         {
             bool executeFired = false;
             bool canExecute = false;
@@ -88,19 +83,19 @@ namespace MN.Shell.MVVM.Tests
                 return Task.CompletedTask;
             }, () => canExecute);
 
-            Assert.False(executeFired);
+            executeFired.ShouldBeFalse();
 
-            command.Execute(new object());
-            Assert.False(executeFired);
+            command.Execute(new());
+            executeFired.ShouldBeFalse();
 
             canExecute = true;
 
-            command.Execute(new object());
-            Assert.True(executeFired);
+            command.Execute(new());
+            executeFired.ShouldBeTrue();
         }
 
-        [Test]
-        public void CanExecuteWithParameterWithoutDelegateIsTrueByDefaultTest()
+        [Fact]
+        public void CanExecute_WithParameter_WithoutDelegateIsTrueByDefault()
         {
             bool executeFired = false;
 
@@ -110,15 +105,15 @@ namespace MN.Shell.MVVM.Tests
                 return Task.CompletedTask;
             });
 
-            Assert.True(command.CanExecute(new object()));
-            Assert.False(executeFired);
+            command.CanExecute(new()).ShouldBeTrue();
+            executeFired.ShouldBeFalse();
 
-            command.Execute(new object());
-            Assert.True(executeFired);
+            command.Execute(new());
+            executeFired.ShouldBeTrue();
         }
 
-        [Test]
-        public void CanExecuteWithoutParameterWithoutDelegateIsTrueByDefaultTest()
+        [Fact]
+        public void CanExecute_WithoutParameter_WithoutDelegateIsTrueByDefault()
         {
             bool executeFired = false;
 
@@ -128,303 +123,309 @@ namespace MN.Shell.MVVM.Tests
                 return Task.CompletedTask;
             });
 
-            Assert.True(command.CanExecute(new object()));
-            Assert.False(executeFired);
+            command.CanExecute(new()).ShouldBeTrue();
+            executeFired.ShouldBeFalse();
 
-            command.Execute(new object());
-            Assert.True(executeFired);
+            command.Execute(new());
+            executeFired.ShouldBeTrue();
         }
 
-        [Test]
-        public void CannotExecuteWhileCommandIsRunningWithParameterTest()
+        [Fact]
+        public async Task CanExecute_WithParameter_ReturnsFalse_WhileCommandIsAlreadyRunning()
         {
-            using (var runningSemaphore = new SemaphoreSlim(0))
-            using (var completionSemaphore = new SemaphoreSlim(0))
+            using var runningSemaphore = new SemaphoreSlim(0);
+            using var completionSemaphore = new SemaphoreSlim(0);
+
+            var command = new AsyncCommand(async o =>
             {
-                var command = new AsyncCommand(async o =>
-                {
-                    runningSemaphore.Release();
-                    await completionSemaphore.WaitAsync().ConfigureAwait(false);
-                });
+                runningSemaphore.Release();
+                await completionSemaphore.WaitAsync().ConfigureAwait(false);
+            });
 
-                Assert.True(command.CanExecute(new object()));
+            command.CanExecute(new()).ShouldBeTrue();
 
-                command.Execute(new object());
-                runningSemaphore.Wait();
+            command.Execute(new());
+            runningSemaphore.Wait(TestContext.Current.CancellationToken);
 
-                Assert.False(command.CanExecute(new object()));
+            command.CanExecute(new()).ShouldBeFalse();
 
-                completionSemaphore.Release();
-                command.Execution?.TaskCompleted.Wait();
+            completionSemaphore.Release();
+            await command.Execution!.TaskCompleted;
 
-                Assert.True(command.CanExecute(new object()));
-            }
+            command.CanExecute(new()).ShouldBeTrue();
         }
 
-        [Test]
-        public void CannotExecuteWhileCommandIsRunningWithoutParameterTest()
+        [Fact]
+        public async Task CanExecute_WithoutParameter_ReturnsFalse_WhileCommandIsAlreadyRunning()
         {
-            using (var runningSemaphore = new SemaphoreSlim(0))
-            using (var completionSemaphore = new SemaphoreSlim(0))
+            using var runningSemaphore = new SemaphoreSlim(0);
+            using var completionSemaphore = new SemaphoreSlim(0);
+
+            var command = new AsyncCommand(async () =>
             {
-                var command = new AsyncCommand(async () =>
-                {
-                    runningSemaphore.Release();
-                    await completionSemaphore.WaitAsync().ConfigureAwait(false);
-                });
+                runningSemaphore.Release();
+                await completionSemaphore.WaitAsync().ConfigureAwait(false);
+            });
 
-                Assert.True(command.CanExecute(new object()));
+            command.CanExecute(new()).ShouldBeTrue();
 
-                command.Execute(new object());
-                runningSemaphore.Wait();
+            command.Execute(new());
+            runningSemaphore.Wait(TestContext.Current.CancellationToken);
 
-                Assert.False(command.CanExecute(new object()));
+            command.CanExecute(new()).ShouldBeFalse();
 
-                completionSemaphore.Release();
-                command.Execution?.TaskCompleted.Wait();
+            completionSemaphore.Release();
+            await command.Execution!.TaskCompleted;
 
-                Assert.True(command.CanExecute(new object()));
-            }
+            command.CanExecute(new()).ShouldBeTrue();
         }
 
-        [Test]
-        public void SuccessfullCommandWithParametersTest()
+        [Fact]
+        public async Task Execute_WithParameter_TransitionsToCorrectStateOnSuccess()
         {
-            using (var runningSemaphore = new SemaphoreSlim(0))
-            using (var completionSemaphore = new SemaphoreSlim(0))
+            using var runningSemaphore = new SemaphoreSlim(0);
+            using var completionSemaphore = new SemaphoreSlim(0);
+
+            var command = new AsyncCommand(async o =>
             {
-                var command = new AsyncCommand(async o =>
-                {
-                    runningSemaphore.Release();
-                    await completionSemaphore.WaitAsync().ConfigureAwait(false);
-                });
+                runningSemaphore.Release();
+                await completionSemaphore.WaitAsync().ConfigureAwait(false);
+            });
 
-                Assert.False(command.IsExecuting);
+            command.IsExecuting.ShouldBeFalse();
+            command.Execution.ShouldBeNull();
 
-                command.Execute(new object());
-                runningSemaphore.Wait();
+            command.Execute(new());
+            runningSemaphore.Wait(TestContext.Current.CancellationToken);
 
-                Assert.True(command.IsExecuting);
+            command.IsExecuting.ShouldBeTrue();
+            command.Execution.ShouldNotBeNull();
 
-                Assert.False(command.Execution?.IsCompleted);
-                Assert.True(command.Execution?.IsNotCompleted);
-                Assert.False(command.Execution?.IsCompletedSuccessfully);
-                Assert.False(command.Execution?.IsCanceled);
-                Assert.False(command.Execution?.IsFaulted);
+            command.Execution?.IsCompleted.ShouldBeFalse();
+            command.Execution?.IsNotCompleted.ShouldBeTrue();
+            command.Execution?.IsCompletedSuccessfully.ShouldBeFalse();
+            command.Execution?.IsCanceled.ShouldBeFalse();
+            command.Execution?.IsFaulted.ShouldBeFalse();
 
-                completionSemaphore.Release();
-                command.Execution?.TaskCompleted.Wait();
+            completionSemaphore.Release();
+            await command.Execution!.TaskCompleted;
 
-                Assert.False(command.IsExecuting);
+            command.IsExecuting.ShouldBeFalse();
+            command.Execution.ShouldNotBeNull();
 
-                Assert.True(command.Execution?.IsCompleted);
-                Assert.False(command.Execution?.IsNotCompleted);
-                Assert.True(command.Execution?.IsCompletedSuccessfully);
-                Assert.False(command.Execution?.IsCanceled);
-                Assert.False(command.Execution?.IsFaulted);
-            }
+            command.Execution?.IsCompleted.ShouldBeTrue();
+            command.Execution?.IsNotCompleted.ShouldBeFalse();
+            command.Execution?.IsCompletedSuccessfully.ShouldBeTrue();
+            command.Execution?.IsCanceled.ShouldBeFalse();
+            command.Execution?.IsFaulted.ShouldBeFalse();
         }
 
-        [Test]
-        public void SuccessfullCommandWithoutParametersTest()
+        [Fact]
+        public async Task Execute_WithoutParameter_TransitionsToCorrectStateOnSuccess()
         {
-            using (var runningSemaphore = new SemaphoreSlim(0))
-            using (var completionSemaphore = new SemaphoreSlim(0))
+            using var runningSemaphore = new SemaphoreSlim(0);
+            using var completionSemaphore = new SemaphoreSlim(0);
+
+            var command = new AsyncCommand(async () =>
             {
-                var command = new AsyncCommand(async () =>
-                {
-                    runningSemaphore.Release();
-                    await completionSemaphore.WaitAsync().ConfigureAwait(false);
-                });
+                runningSemaphore.Release();
+                await completionSemaphore.WaitAsync().ConfigureAwait(false);
+            });
 
-                Assert.False(command.IsExecuting);
+            command.IsExecuting.ShouldBeFalse();
+            command.Execution.ShouldBeNull();
 
-                command.Execute(new object());
-                runningSemaphore.Wait();
+            command.Execute(new());
+            runningSemaphore.Wait(TestContext.Current.CancellationToken);
 
-                Assert.True(command.IsExecuting);
+            command.IsExecuting.ShouldBeTrue();
+            command.Execution.ShouldNotBeNull();
 
-                Assert.False(command.Execution?.IsCompleted);
-                Assert.True(command.Execution?.IsNotCompleted);
-                Assert.False(command.Execution?.IsCompletedSuccessfully);
-                Assert.False(command.Execution?.IsCanceled);
-                Assert.False(command.Execution?.IsFaulted);
+            command.Execution?.IsCompleted.ShouldBeFalse();
+            command.Execution?.IsNotCompleted.ShouldBeTrue();
+            command.Execution?.IsCompletedSuccessfully.ShouldBeFalse();
+            command.Execution?.IsCanceled.ShouldBeFalse();
+            command.Execution?.IsFaulted.ShouldBeFalse();
 
-                completionSemaphore.Release();
-                command.Execution?.TaskCompleted.Wait();
+            completionSemaphore.Release();
+            await command.Execution!.TaskCompleted;
 
-                Assert.False(command.IsExecuting);
+            command.IsExecuting.ShouldBeFalse();
+            command.Execution.ShouldNotBeNull();
 
-                Assert.True(command.Execution?.IsCompleted);
-                Assert.False(command.Execution?.IsNotCompleted);
-                Assert.True(command.Execution?.IsCompletedSuccessfully);
-                Assert.False(command.Execution?.IsCanceled);
-                Assert.False(command.Execution?.IsFaulted);
-            }
+            command.Execution?.IsCompleted.ShouldBeTrue();
+            command.Execution?.IsNotCompleted.ShouldBeFalse();
+            command.Execution?.IsCompletedSuccessfully.ShouldBeTrue();
+            command.Execution?.IsCanceled.ShouldBeFalse();
+            command.Execution?.IsFaulted.ShouldBeFalse();
         }
 
-        [Test]
-        public void CanceledCommandWithParametersTest()
+        [Fact]
+        public async Task Execute_WithParameter_TransitionsToCorrectStateOnCancel()
         {
-            using (var runningSemaphore = new SemaphoreSlim(0))
-            using (var cancelSemaphore = new SemaphoreSlim(0))
-            using (var cts = new CancellationTokenSource())
+            using var runningSemaphore = new SemaphoreSlim(0);
+            using var cancelSemaphore = new SemaphoreSlim(0);
+            using var cts = new CancellationTokenSource();
+
+            var command = new AsyncCommand(async o =>
             {
-                var command = new AsyncCommand(async o =>
-                {
-                    runningSemaphore.Release();
-                    await cancelSemaphore.WaitAsync().ConfigureAwait(false);
-                    cts.Token.ThrowIfCancellationRequested();
-                });
+                runningSemaphore.Release();
+                await cancelSemaphore.WaitAsync().ConfigureAwait(false);
+                cts.Token.ThrowIfCancellationRequested();
+            });
 
-                Assert.False(command.IsExecuting);
+            command.IsExecuting.ShouldBeFalse();
+            command.Execution.ShouldBeNull();
 
-                command.Execute(new object());
-                runningSemaphore.Wait();
+            command.Execute(new());
+            runningSemaphore.Wait(TestContext.Current.CancellationToken);
 
-                Assert.True(command.IsExecuting);
+            command.IsExecuting.ShouldBeTrue();
+            command.Execution.ShouldNotBeNull();
 
-                Assert.False(command.Execution?.IsCompleted);
-                Assert.True(command.Execution?.IsNotCompleted);
-                Assert.False(command.Execution?.IsCompletedSuccessfully);
-                Assert.False(command.Execution?.IsCanceled);
-                Assert.False(command.Execution?.IsFaulted);
+            command.Execution?.IsCompleted.ShouldBeFalse();
+            command.Execution?.IsNotCompleted.ShouldBeTrue();
+            command.Execution?.IsCompletedSuccessfully.ShouldBeFalse();
+            command.Execution?.IsCanceled.ShouldBeFalse();
+            command.Execution?.IsFaulted.ShouldBeFalse();
 
-                cts.Cancel();
-                cancelSemaphore.Release();
-                command.Execution?.TaskCompleted.Wait();
+            cts.Cancel();
+            cancelSemaphore.Release();
+            await command.Execution!.TaskCompleted;
 
-                Assert.False(command.IsExecuting);
+            command.IsExecuting.ShouldBeFalse();
+            command.Execution.ShouldNotBeNull();
 
-                Assert.True(command.Execution?.IsCompleted);
-                Assert.False(command.Execution?.IsNotCompleted);
-                Assert.False(command.Execution?.IsCompletedSuccessfully);
-                Assert.True(command.Execution?.IsCanceled);
-                Assert.False(command.Execution?.IsFaulted);
-            }
+            command.Execution?.IsCompleted.ShouldBeTrue();
+            command.Execution?.IsNotCompleted.ShouldBeFalse();
+            command.Execution?.IsCompletedSuccessfully.ShouldBeFalse();
+            command.Execution?.IsCanceled.ShouldBeTrue();
+            command.Execution?.IsFaulted.ShouldBeFalse();
         }
 
-        [Test]
-        public void CanceledCommandWithoutParametersTest()
+        [Fact]
+        public async Task Execute_WithoutParameter_TransitionsToCorrectStateOnCancel()
         {
-            using (var runningSemaphore = new SemaphoreSlim(0))
-            using (var cancelSemaphore = new SemaphoreSlim(0))
-            using (var cts = new CancellationTokenSource())
+            using var runningSemaphore = new SemaphoreSlim(0);
+            using var cancelSemaphore = new SemaphoreSlim(0);
+            using var cts = new CancellationTokenSource();
+
+            var command = new AsyncCommand(async () =>
             {
-                var command = new AsyncCommand(async () =>
-                {
-                    runningSemaphore.Release();
-                    await cancelSemaphore.WaitAsync().ConfigureAwait(false);
-                    cts.Token.ThrowIfCancellationRequested();
-                });
+                runningSemaphore.Release();
+                await cancelSemaphore.WaitAsync().ConfigureAwait(false);
+                cts.Token.ThrowIfCancellationRequested();
+            });
 
-                Assert.False(command.IsExecuting);
+            command.IsExecuting.ShouldBeFalse();
+            command.Execution.ShouldBeNull();
 
-                command.Execute(new object());
-                runningSemaphore.Wait();
+            command.Execute(new());
+            runningSemaphore.Wait(TestContext.Current.CancellationToken);
 
-                Assert.True(command.IsExecuting);
+            command.IsExecuting.ShouldBeTrue();
+            command.Execution.ShouldNotBeNull();
 
-                Assert.False(command.Execution?.IsCompleted);
-                Assert.True(command.Execution?.IsNotCompleted);
-                Assert.False(command.Execution?.IsCompletedSuccessfully);
-                Assert.False(command.Execution?.IsCanceled);
-                Assert.False(command.Execution?.IsFaulted);
+            command.Execution?.IsCompleted.ShouldBeFalse();
+            command.Execution?.IsNotCompleted.ShouldBeTrue();
+            command.Execution?.IsCompletedSuccessfully.ShouldBeFalse();
+            command.Execution?.IsCanceled.ShouldBeFalse();
+            command.Execution?.IsFaulted.ShouldBeFalse();
 
-                cts.Cancel();
-                cancelSemaphore.Release();
-                command.Execution?.TaskCompleted.Wait();
+            cts.Cancel();
+            cancelSemaphore.Release();
+            await command.Execution!.TaskCompleted;
 
-                Assert.False(command.IsExecuting);
+            command.IsExecuting.ShouldBeFalse();
+            command.Execution.ShouldNotBeNull();
 
-                Assert.True(command.Execution?.IsCompleted);
-                Assert.False(command.Execution?.IsNotCompleted);
-                Assert.False(command.Execution?.IsCompletedSuccessfully);
-                Assert.True(command.Execution?.IsCanceled);
-                Assert.False(command.Execution?.IsFaulted);
-            }
+            command.Execution?.IsCompleted.ShouldBeTrue();
+            command.Execution?.IsNotCompleted.ShouldBeFalse();
+            command.Execution?.IsCompletedSuccessfully.ShouldBeFalse();
+            command.Execution?.IsCanceled.ShouldBeTrue();
+            command.Execution?.IsFaulted.ShouldBeFalse();
         }
 
-        [Test]
-        public void FaultedCommandWithParametersTest()
+        [Fact]
+        public async Task Execute_WithParameter_TransitionsToCorrectStateOnFailure()
         {
-            using (var runningSemaphore = new SemaphoreSlim(0))
-            using (var faultSemaphore = new SemaphoreSlim(0))
+            using var runningSemaphore = new SemaphoreSlim(0);
+            using var faultSemaphore = new SemaphoreSlim(0);
+
+            var command = new AsyncCommand(async o =>
             {
-                var command = new AsyncCommand(async o =>
-                {
-                    runningSemaphore.Release();
-                    await faultSemaphore.WaitAsync().ConfigureAwait(false);
-                    throw new InvalidOperationException("Example exception thrown from async command");
-                });
+                runningSemaphore.Release();
+                await faultSemaphore.WaitAsync().ConfigureAwait(false);
+                throw new InvalidOperationException("Example exception thrown from async command");
+            });
 
-                Assert.False(command.IsExecuting);
+            command.IsExecuting.ShouldBeFalse();
+            command.Execution.ShouldBeNull();
 
-                command.Execute(new object());
-                runningSemaphore.Wait();
+            command.Execute(new());
+            runningSemaphore.Wait(TestContext.Current.CancellationToken);
 
-                Assert.True(command.IsExecuting);
+            command.IsExecuting.ShouldBeTrue();
+            command.Execution.ShouldNotBeNull();
 
-                Assert.False(command.Execution?.IsCompleted);
-                Assert.True(command.Execution?.IsNotCompleted);
-                Assert.False(command.Execution?.IsCompletedSuccessfully);
-                Assert.False(command.Execution?.IsCanceled);
-                Assert.False(command.Execution?.IsFaulted);
+            command.Execution?.IsCompleted.ShouldBeFalse();
+            command.Execution?.IsNotCompleted.ShouldBeTrue();
+            command.Execution?.IsCompletedSuccessfully.ShouldBeFalse();
+            command.Execution?.IsCanceled.ShouldBeFalse();
+            command.Execution?.IsFaulted.ShouldBeFalse();
 
-                faultSemaphore.Release();
-                command.Execution?.TaskCompleted.Wait();
+            faultSemaphore.Release();
+            await command.Execution!.TaskCompleted;
 
-                Assert.False(command.IsExecuting);
+            command.IsExecuting.ShouldBeFalse();
+            command.Execution.ShouldNotBeNull();
 
-                Assert.True(command.Execution?.IsCompleted);
-                Assert.False(command.Execution?.IsNotCompleted);
-                Assert.False(command.Execution?.IsCompletedSuccessfully);
-                Assert.False(command.Execution?.IsCanceled);
-                Assert.True(command.Execution?.IsFaulted);
-                Assert.AreEqual(typeof(InvalidOperationException), command.Execution?.InnerException?.GetType());
-                Assert.AreEqual("Example exception thrown from async command", command.Execution?.ErrorMessage);
-            }
+            command.Execution?.IsCompleted.ShouldBeTrue();
+            command.Execution?.IsNotCompleted.ShouldBeFalse();
+            command.Execution?.IsCompletedSuccessfully.ShouldBeFalse();
+            command.Execution?.IsCanceled.ShouldBeFalse();
+            command.Execution?.IsFaulted.ShouldBeTrue();
         }
 
-        [Test]
-        public void FaultedCommandWithoutParametersTest()
+        [Fact]
+        public async Task Execute_WithoutParameter_TransitionsToCorrectStateOnFailure()
         {
-            using (var runningSemaphore = new SemaphoreSlim(0))
-            using (var faultSemaphore = new SemaphoreSlim(0))
+            using var runningSemaphore = new SemaphoreSlim(0);
+            using var faultSemaphore = new SemaphoreSlim(0);
+
+            var command = new AsyncCommand(async () =>
             {
-                var command = new AsyncCommand(async () =>
-                {
-                    runningSemaphore.Release();
-                    await faultSemaphore.WaitAsync().ConfigureAwait(false);
-                    throw new InvalidOperationException("Example exception thrown from async command");
-                });
+                runningSemaphore.Release();
+                await faultSemaphore.WaitAsync().ConfigureAwait(false);
+                throw new InvalidOperationException("Example exception thrown from async command");
+            });
 
-                Assert.False(command.IsExecuting);
+            command.IsExecuting.ShouldBeFalse();
+            command.Execution.ShouldBeNull();
 
-                command.Execute(new object());
-                runningSemaphore.Wait();
+            command.Execute(new());
+            runningSemaphore.Wait(TestContext.Current.CancellationToken);
 
-                Assert.True(command.IsExecuting);
+            command.IsExecuting.ShouldBeTrue();
+            command.Execution.ShouldNotBeNull();
 
-                Assert.False(command.Execution?.IsCompleted);
-                Assert.True(command.Execution?.IsNotCompleted);
-                Assert.False(command.Execution?.IsCompletedSuccessfully);
-                Assert.False(command.Execution?.IsCanceled);
-                Assert.False(command.Execution?.IsFaulted);
+            command.Execution?.IsCompleted.ShouldBeFalse();
+            command.Execution?.IsNotCompleted.ShouldBeTrue();
+            command.Execution?.IsCompletedSuccessfully.ShouldBeFalse();
+            command.Execution?.IsCanceled.ShouldBeFalse();
+            command.Execution?.IsFaulted.ShouldBeFalse();
 
-                faultSemaphore.Release();
-                command.Execution?.TaskCompleted.Wait();
+            faultSemaphore.Release();
+            await command.Execution!.TaskCompleted;
 
-                Assert.False(command.IsExecuting);
+            command.IsExecuting.ShouldBeFalse();
+            command.Execution.ShouldNotBeNull();
 
-                Assert.True(command.Execution?.IsCompleted);
-                Assert.False(command.Execution?.IsNotCompleted);
-                Assert.False(command.Execution?.IsCompletedSuccessfully);
-                Assert.False(command.Execution?.IsCanceled);
-                Assert.True(command.Execution?.IsFaulted);
-                Assert.AreEqual(typeof(InvalidOperationException), command.Execution?.InnerException?.GetType());
-                Assert.AreEqual("Example exception thrown from async command", command.Execution?.ErrorMessage);
-            }
+            command.Execution?.IsCompleted.ShouldBeTrue();
+            command.Execution?.IsNotCompleted.ShouldBeFalse();
+            command.Execution?.IsCompletedSuccessfully.ShouldBeFalse();
+            command.Execution?.IsCanceled.ShouldBeFalse();
+            command.Execution?.IsFaulted.ShouldBeTrue();
         }
     }
 }

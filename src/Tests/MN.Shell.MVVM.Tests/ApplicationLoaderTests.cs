@@ -1,27 +1,22 @@
-﻿using Moq;
-using NUnit.Framework;
-using System.Windows;
+﻿using System.Windows;
 
 namespace MN.Shell.MVVM.Tests
 {
-    [TestFixture]
-    public class ApplicationLoaderTests
-
+    public sealed class ApplicationLoaderTests
     {
-        [Test]
-        public void ApplicationLoaderDictionaryBootstrapperSetupTest()
+        [Fact]
+        public void BootstrapperSetter_CallsSetup()
         {
             var application = new Application();
 
-            var bootstrapperMock = new Mock<IBootstrapper>();
-            bootstrapperMock.Setup(b => b.Setup(application)).Verifiable();
+            var bootstrapper = Substitute.For<IBootstrapper>();
 
-            var appLoader = new ApplicationLoader
+            _ = new ApplicationLoader
             {
-                Bootstrapper = bootstrapperMock.Object
+                Bootstrapper = bootstrapper
             };
 
-            bootstrapperMock.VerifyAll();
+            bootstrapper.Received(1).Setup(application);
         }
     }
 }

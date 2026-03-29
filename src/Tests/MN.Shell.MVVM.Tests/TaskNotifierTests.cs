@@ -1,12 +1,9 @@
-﻿using NUnit.Framework;
-
-namespace MN.Shell.MVVM.Tests
+﻿namespace MN.Shell.MVVM.Tests
 {
-    [TestFixture]
-    public class TaskNotifierTests
+    public sealed class TaskNotifierTests
     {
-        [Test]
-        public void AlreadyCompletedTaskTest()
+        [Fact]
+        public void ToTaskNotifier_FromCompletedTask_ReturnsNotifierInCorrectState()
         {
             var task = Task.CompletedTask;
             Assert.True(task.IsCompleted);
@@ -16,8 +13,8 @@ namespace MN.Shell.MVVM.Tests
             CheckCompletedTaskNotifier(task, taskNotifier);
         }
 
-        [Test]
-        public void AlreadyCanceledTaskTest()
+        [Fact]
+        public void ToTaskNotifier_FromCanceledTask_ReturnsNotifierInCorrectState()
         {
             var cancellationToken = new CancellationToken(true);
             var task = Task.FromCanceled(cancellationToken);
@@ -27,8 +24,8 @@ namespace MN.Shell.MVVM.Tests
             CheckCanceledTaskNotifier(task, taskNotifier);
         }
 
-        [Test]
-        public void AlreadyFailedTaskTest()
+        [Fact]
+        public void ToTaskNotifier_FromFailedTask_ReturnsNotifierInCorrectState()
         {
             var exception = new Exception("Exception message");
             var task = Task.FromException(exception);
@@ -38,25 +35,24 @@ namespace MN.Shell.MVVM.Tests
             CheckFaultedTaskNotifier(task, taskNotifier, exception);
         }
 
-        [Test]
-        public void NotifyUponCompletionTest()
+        [Fact]
+        public async Task TaskCompletion_RaisesPropertyChanged()
         {
-            using (var runningSemaphore = new SemaphoreSlim(0))
-            using (var completionSemaphore = new SemaphoreSlim(0))
+            using var runningSemaphore = new SemaphoreSlim(0);
+            using var completionSemaphore = new SemaphoreSlim(0);
+            var task = Task.Run(async () =>
             {
-                var task = Task.Run(() =>
-                {
-                    runningSemaphore.Release();
-                    completionSemaphore.Wait();
-                });
+                runningSemaphore.Release();
+                await completionSemaphore.WaitAsync();
+            }, TestContext.Current.CancellationToken);
 
-                var taskNotifier = task.ToTaskNotifier();
+            var taskNotifier = task.ToTaskNotifier();
 
-                runningSemaphore.Wait();
+            await runningSemaphore.WaitAsync(TestContext.Current.CancellationToken);
 
-                CheckRunningTaskNotifier(task, taskNotifier, TaskStatus.Running);
+            CheckRunningTaskNotifier(task, taskNotifier);
 
-                var propertiesToNotify = new Dictionary<string, bool>
+            var propertiesToNotify = new Dictionary<string, bool>
                 {
                     { nameof(TaskNotifier.Status), false },
                     { nameof(TaskNotifier.IsCompleted), false },
@@ -64,49 +60,50 @@ namespace MN.Shell.MVVM.Tests
                     { nameof(TaskNotifier.IsCompletedSuccessfully), false },
                 };
 
-                taskNotifier.PropertyChanged += (sender, e) =>
+            taskNotifier.PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName is not null && propertiesToNotify.ContainsKey(e.PropertyName))
                 {
-                    if (e.PropertyName is not null && propertiesToNotify.ContainsKey(e.PropertyName))
-                        propertiesToNotify[e.PropertyName] = true;
-                    else
-                        Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
-                };
+                    propertiesToNotify[e.PropertyName] = true;
+                }
+                else
+                {
+                    Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
+                }
+            };
 
-                completionSemaphore.Release();
-                taskNotifier.TaskCompleted.Wait();
+            completionSemaphore.Release();
+            await taskNotifier.TaskCompleted;
 
-                Assert.True(propertiesToNotify.All(kvp => kvp.Value));
+            propertiesToNotify.ShouldAllBe(kvp => kvp.Value);
 
-                CheckCompletedTaskNotifier(task, taskNotifier);
-            }
+            CheckCompletedTaskNotifier(task, taskNotifier);
         }
 
-        [Test]
-        public void NotifyUponCancelTest()
+        [Fact]
+        public async Task TaskCancelation_RaisesPropertyChanged()
         {
-            using (var runningSemaphore = new SemaphoreSlim(0))
-            using (var cancellationTokenSource = new CancellationTokenSource())
+            using var runningSemaphore = new SemaphoreSlim(0);
+            using var cancellationTokenSource = new CancellationTokenSource();
+            var token = cancellationTokenSource.Token;
+            var task = Task.Run(async () =>
             {
-                var token = cancellationTokenSource.Token;
-                var task = Task.Run(() =>
+                runningSemaphore.Release();
+
+                while (true)
                 {
-                    runningSemaphore.Release();
                     token.ThrowIfCancellationRequested();
+                    await Task.Delay(1);
+                }
+            }, cancellationTokenSource.Token);
 
-                    while (true)
-                    {
-                        token.ThrowIfCancellationRequested();
-                        Thread.Sleep(1);
-                    }
-                }, cancellationTokenSource.Token);
+            var taskNotifier = task.ToTaskNotifier();
 
-                var taskNotifier = task.ToTaskNotifier();
+            await runningSemaphore.WaitAsync(TestContext.Current.CancellationToken);
 
-                runningSemaphore.Wait();
+            CheckRunningTaskNotifier(task, taskNotifier);
 
-                CheckRunningTaskNotifier(task, taskNotifier, TaskStatus.WaitingForActivation);
-
-                var propertiesToNotify = new Dictionary<string, bool>
+            var propertiesToNotify = new Dictionary<string, bool>
                 {
                     { nameof(TaskNotifier.Status), false },
                     { nameof(TaskNotifier.IsCompleted), false },
@@ -114,44 +111,46 @@ namespace MN.Shell.MVVM.Tests
                     { nameof(TaskNotifier.IsCanceled), false },
                 };
 
-                taskNotifier.PropertyChanged += (sender, e) =>
+            taskNotifier.PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName is not null && propertiesToNotify.ContainsKey(e.PropertyName))
                 {
-                    if (e.PropertyName is not null && propertiesToNotify.ContainsKey(e.PropertyName))
-                        propertiesToNotify[e.PropertyName] = true;
-                    else
-                        Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
-                };
+                    propertiesToNotify[e.PropertyName] = true;
+                }
+                else
+                {
+                    Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
+                }
+            };
 
-                cancellationTokenSource.Cancel();
-                taskNotifier.TaskCompleted.Wait();
+            cancellationTokenSource.Cancel();
+            await taskNotifier.TaskCompleted;
 
-                Assert.True(propertiesToNotify.All(kvp => kvp.Value));
+            propertiesToNotify.ShouldAllBe(kvp => kvp.Value);
 
-                CheckCanceledTaskNotifier(task, taskNotifier);
-            }
+            CheckCanceledTaskNotifier(task, taskNotifier);
         }
 
-        [Test]
-        public void NotifyUponFailingTest()
+        [Fact]
+        public async Task TaskFailure_RaisesPropertyChanged()
         {
-            using (var runningSemaphore = new SemaphoreSlim(0))
-            using (var failingSemaphore = new SemaphoreSlim(0))
+            using var runningSemaphore = new SemaphoreSlim(0);
+            using var failingSemaphore = new SemaphoreSlim(0);
+            var exception = new Exception("Exception message");
+            var task = Task.Run(async () =>
             {
-                var exception = new Exception("Exception message");
-                var task = Task.Run(() =>
-                {
-                    runningSemaphore.Release();
-                    failingSemaphore.Wait();
-                    throw exception;
-                });
+                runningSemaphore.Release();
+                await failingSemaphore.WaitAsync();
+                throw exception;
+            }, TestContext.Current.CancellationToken);
 
-                var taskNotifier = task.ToTaskNotifier();
+            var taskNotifier = task.ToTaskNotifier();
 
-                runningSemaphore.Wait();
+            await runningSemaphore.WaitAsync(TestContext.Current.CancellationToken);
 
-                CheckRunningTaskNotifier(task, taskNotifier, TaskStatus.WaitingForActivation);
+            CheckRunningTaskNotifier(task, taskNotifier);
 
-                var propertiesToNotify = new Dictionary<string, bool>
+            var propertiesToNotify = new Dictionary<string, bool>
                 {
                     { nameof(TaskNotifier.Status), false },
                     { nameof(TaskNotifier.IsCompleted), false },
@@ -162,94 +161,95 @@ namespace MN.Shell.MVVM.Tests
                     { nameof(TaskNotifier.ErrorMessage), false },
                 };
 
-                taskNotifier.PropertyChanged += (sender, e) =>
+            taskNotifier.PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName is not null && propertiesToNotify.ContainsKey(e.PropertyName))
                 {
-                    if (e.PropertyName is not null && propertiesToNotify.ContainsKey(e.PropertyName))
-                        propertiesToNotify[e.PropertyName] = true;
-                    else
-                        Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
-                };
+                    propertiesToNotify[e.PropertyName] = true;
+                }
+                else
+                {
+                    Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
+                }
+            };
 
-                failingSemaphore.Release();
-                taskNotifier.TaskCompleted.Wait();
+            failingSemaphore.Release();
+            await taskNotifier.TaskCompleted;
 
-                Assert.True(propertiesToNotify.All(kvp => kvp.Value));
+            Assert.True(propertiesToNotify.All(kvp => kvp.Value));
 
-                CheckFaultedTaskNotifier(task, taskNotifier, exception);
-            }
+            CheckFaultedTaskNotifier(task, taskNotifier, exception);
         }
 
-        private static void CheckRunningTaskNotifier(Task task, TaskNotifier taskNotifier,
-            TaskStatus expectedTaskStatus)
+        private static void CheckRunningTaskNotifier(Task task, TaskNotifier taskNotifier)
         {
-            Assert.AreSame(task, taskNotifier.Task);
+            taskNotifier.Task.ShouldBeSameAs(task);
 
-            Assert.NotNull(taskNotifier.TaskCompleted);
-            Assert.False(taskNotifier.TaskCompleted.IsCompleted);
+            taskNotifier.TaskCompleted.ShouldNotBeNull();
+            taskNotifier.TaskCompleted.IsCompleted.ShouldBeFalse();
 
-            Assert.AreEqual(expectedTaskStatus, taskNotifier.Status);
-            Assert.False(taskNotifier.IsCompleted);
-            Assert.True(taskNotifier.IsNotCompleted);
-            Assert.False(taskNotifier.IsCompletedSuccessfully);
-            Assert.False(taskNotifier.IsCanceled);
-            Assert.False(taskNotifier.IsFaulted);
-            Assert.Null(taskNotifier.Exception);
-            Assert.Null(taskNotifier.InnerException);
-            Assert.Null(taskNotifier.ErrorMessage);
+            taskNotifier.IsCompleted.ShouldBeFalse();
+            taskNotifier.IsNotCompleted.ShouldBeTrue();
+            taskNotifier.IsCompletedSuccessfully.ShouldBeFalse();
+            taskNotifier.IsCanceled.ShouldBeFalse();
+            taskNotifier.IsFaulted.ShouldBeFalse();
+            taskNotifier.Exception.ShouldBeNull();
+            taskNotifier.InnerException.ShouldBeNull();
+            taskNotifier.ErrorMessage.ShouldBeNull();
         }
 
         private static void CheckCompletedTaskNotifier(Task task, TaskNotifier taskNotifier)
         {
-            Assert.AreSame(task, taskNotifier.Task);
+            taskNotifier.Task.ShouldBeSameAs(task);
 
-            Assert.NotNull(taskNotifier.TaskCompleted);
-            Assert.True(taskNotifier.TaskCompleted.IsCompleted);
+            taskNotifier.TaskCompleted.ShouldNotBeNull();
+            taskNotifier.TaskCompleted.IsCompleted.ShouldBeTrue();
 
-            Assert.AreEqual(TaskStatus.RanToCompletion, taskNotifier.Status);
-            Assert.True(taskNotifier.IsCompleted);
-            Assert.False(taskNotifier.IsNotCompleted);
-            Assert.True(taskNotifier.IsCompletedSuccessfully);
-            Assert.False(taskNotifier.IsCanceled);
-            Assert.False(taskNotifier.IsFaulted);
-            Assert.Null(taskNotifier.Exception);
-            Assert.Null(taskNotifier.InnerException);
-            Assert.Null(taskNotifier.ErrorMessage);
+            taskNotifier.Status.ShouldBe(TaskStatus.RanToCompletion);
+            taskNotifier.IsCompleted.ShouldBeTrue();
+            taskNotifier.IsNotCompleted.ShouldBeFalse();
+            taskNotifier.IsCompletedSuccessfully.ShouldBeTrue();
+            taskNotifier.IsCanceled.ShouldBeFalse();
+            taskNotifier.IsFaulted.ShouldBeFalse();
+            taskNotifier.Exception.ShouldBeNull();
+            taskNotifier.InnerException.ShouldBeNull();
+            taskNotifier.ErrorMessage.ShouldBeNull();
         }
 
         private static void CheckCanceledTaskNotifier(Task task, TaskNotifier taskNotifier)
         {
-            Assert.AreSame(task, taskNotifier.Task);
+            taskNotifier.Task.ShouldBeSameAs(task);
 
-            Assert.NotNull(taskNotifier.TaskCompleted);
-            Assert.True(taskNotifier.TaskCompleted.IsCompleted);
+            taskNotifier.TaskCompleted.ShouldNotBeNull();
+            taskNotifier.TaskCompleted.IsCompleted.ShouldBeTrue();
 
-            Assert.AreEqual(TaskStatus.Canceled, taskNotifier.Status);
-            Assert.True(taskNotifier.IsCompleted);
-            Assert.False(taskNotifier.IsNotCompleted);
-            Assert.False(taskNotifier.IsCompletedSuccessfully);
-            Assert.True(taskNotifier.IsCanceled);
-            Assert.False(taskNotifier.IsFaulted);
-            Assert.Null(taskNotifier.Exception);
-            Assert.Null(taskNotifier.InnerException);
-            Assert.Null(taskNotifier.ErrorMessage);
+            taskNotifier.Status.ShouldBe(TaskStatus.Canceled);
+            taskNotifier.IsCompleted.ShouldBeTrue();
+            taskNotifier.IsNotCompleted.ShouldBeFalse();
+            taskNotifier.IsCompletedSuccessfully.ShouldBeFalse();
+            taskNotifier.IsCanceled.ShouldBeTrue();
+            taskNotifier.IsFaulted.ShouldBeFalse();
+            taskNotifier.Exception.ShouldBeNull();
+            taskNotifier.InnerException.ShouldBeNull();
+            taskNotifier.ErrorMessage.ShouldBeNull();
         }
 
         private static void CheckFaultedTaskNotifier(Task task, TaskNotifier taskNotifier, Exception exception)
         {
-            Assert.AreSame(task, taskNotifier.Task);
+            taskNotifier.Task.ShouldBeSameAs(task);
 
-            Assert.NotNull(taskNotifier.TaskCompleted);
-            Assert.True(taskNotifier.TaskCompleted.IsCompleted);
+            taskNotifier.TaskCompleted.ShouldNotBeNull();
+            taskNotifier.TaskCompleted.IsCompleted.ShouldBeTrue();
 
-            Assert.AreEqual(TaskStatus.Faulted, taskNotifier.Status);
-            Assert.True(taskNotifier.IsCompleted);
-            Assert.False(taskNotifier.IsNotCompleted);
-            Assert.False(taskNotifier.IsCompletedSuccessfully);
-            Assert.False(taskNotifier.IsCanceled);
-            Assert.True(taskNotifier.IsFaulted);
-            Assert.NotNull(taskNotifier.Exception);
-            Assert.AreSame(exception, taskNotifier.InnerException);
-            Assert.AreEqual(exception.Message, taskNotifier.ErrorMessage);
+            taskNotifier.Status.ShouldBe(TaskStatus.Faulted);
+            taskNotifier.IsCompleted.ShouldBeTrue();
+            taskNotifier.IsNotCompleted.ShouldBeFalse();
+            taskNotifier.IsCompletedSuccessfully.ShouldBeFalse();
+            taskNotifier.IsCanceled.ShouldBeFalse();
+            taskNotifier.IsFaulted.ShouldBeTrue();
+            taskNotifier.Exception.ShouldNotBeNull();
+            taskNotifier.InnerException.ShouldBeSameAs(exception);
+            taskNotifier.ErrorMessage.ShouldBe(exception.Message);
         }
     }
 }

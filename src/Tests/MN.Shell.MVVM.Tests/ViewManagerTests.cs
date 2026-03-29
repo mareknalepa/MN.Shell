@@ -1,135 +1,127 @@
 ﻿using MN.Shell.MVVM.Tests.Example1;
-using NUnit.Framework;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace MN.Shell.MVVM.Tests
 {
-    [TestFixture, Apartment(ApartmentState.STA)]
-    public class ViewManagerTests
+    public sealed class ViewManagerTests
     {
-        private ViewManager _viewManager = new ViewManager();
+        private readonly ViewManager _viewManager = new();
 
-        [SetUp]
-        public void SetUp()
-        {
-            _viewManager = new ViewManager();
-        }
-
-        [Test]
-        public void GetViewForTest()
+        [StaFact]
+        public void GetViewFor_ReturnsCorrectResult()
         {
             var viewModel = new Example1ViewModel();
-            var expectedViewType = new Example1View();
 
             var view = _viewManager.GetViewFor(viewModel);
-            Assert.NotNull(view);
-            Assert.AreEqual(expectedViewType.GetType(), view.GetType());
-            Assert.AreSame(viewModel, view.DataContext);
+            view.ShouldNotBeNull();
+            view.ShouldBeOfType<Example1View>();
+            view.DataContext.ShouldBeSameAs(viewModel);
         }
 
-        [Test]
-        public void GetViewForUsingViewFactoryTest()
+        [StaFact]
+        public void GetViewFor_UsesViewStaFactory()
         {
-            var viewModel1 = new Example1ViewModel();
+            var viewModel = new Example1ViewModel();
             var expectedView = new Example1View();
 
-            bool factoryCalled = false;
+            bool StaFactoryCalled = false;
 
-            object viewFactory(Type type)
+            object viewStaFactory(Type type)
             {
-                factoryCalled = true;
-                Assert.AreEqual(typeof(Example1View), type);
+                StaFactoryCalled = true;
+                type.ShouldBe(typeof(Example1View));
                 return expectedView;
             }
 
-            var view1 = _viewManager.GetViewFor(viewModel1);
-            Assert.NotNull(view1);
-            Assert.False(factoryCalled);
-            Assert.AreEqual(expectedView.GetType(), view1.GetType());
+            var view1 = _viewManager.GetViewFor(viewModel);
+            view1.ShouldNotBeNull();
+            StaFactoryCalled.ShouldBeFalse();
+            view1.ShouldBeOfType<Example1View>();
 
-            _viewManager.ViewFactory = viewFactory;
+            _viewManager.ViewFactory = viewStaFactory;
 
-            var viewModel2 = new Example1ViewModel();
-            var view2 = _viewManager.GetViewFor(viewModel1);
-            Assert.AreSame(expectedView, view2);
-            Assert.True(factoryCalled);
+            var view2 = _viewManager.GetViewFor(viewModel);
+            view2.ShouldNotBeNull();
+            StaFactoryCalled.ShouldBeTrue();
+            view2.ShouldBeSameAs(expectedView);
         }
 
-        [Test]
-        public void GetViewForInvalidTest()
+        [StaFact]
+        public void GetViewFor_ThrowsForInvalidInput()
         {
-            Assert.Throws<ArgumentNullException>(() => _viewManager.GetViewFor(null!));
+            var act = () => _viewManager.GetViewFor(null!);
+            act.ShouldThrow<ArgumentNullException>();
 
-            Assert.Throws<InvalidOperationException>(() => _viewManager.GetViewFor(
-                new Example2.Example2ViewModel()));
+            act = () => _viewManager.GetViewFor(new Example2.Example2ViewModel());
+            act.ShouldThrow<InvalidOperationException>();
 
-            Assert.Throws<InvalidOperationException>(() => _viewManager.GetViewFor(
-                new Example3.Example3InvalidName()));
+            act = () => _viewManager.GetViewFor(new Example3.Example3InvalidName());
+            act.ShouldThrow<InvalidOperationException>();
 
-            Assert.Throws<InvalidOperationException>(() => _viewManager.GetViewFor(
-                new Example4.Example4InvalidViewModel()));
+            act = () => _viewManager.GetViewFor(new Example4.Example4InvalidView());
+            act.ShouldThrow<InvalidOperationException>();
 
-            Assert.Throws<InvalidOperationException>(() => _viewManager.GetViewFor(
-                new Example5.Example5AbstractViewModel()));
+            act = () => _viewManager.GetViewFor(new Example5.Example5AbstractViewModel());
+            act.ShouldThrow<InvalidOperationException>();
         }
 
-        [Test]
-        public void GetViewForNotViewAwareTest()
+        [StaFact]
+        public void GetViewFor_ReturnsCorrectResult_ForNotViewAware()
         {
             var viewModel1 = new Example1ViewModel();
             var viewModel2 = new Example1ViewModel();
 
-            Assert.AreNotSame(viewModel1, viewModel2);
+            viewModel2.ShouldNotBeSameAs(viewModel1);
 
             var view1 = _viewManager.GetViewFor(viewModel1);
-            Assert.NotNull(view1);
-            Assert.AreEqual(typeof(Example1View), view1.GetType());
-            Assert.AreSame(viewModel1, view1.DataContext);
+            view1.ShouldNotBeNull();
+            view1.ShouldBeOfType<Example1View>();
+            view1.DataContext.ShouldBeSameAs(viewModel1);
 
             var view1a = _viewManager.GetViewFor(viewModel1);
-            Assert.NotNull(view1a);
-            Assert.AreEqual(typeof(Example1View), view1a.GetType());
-            Assert.AreSame(viewModel1, view1a.DataContext);
+            view1a.ShouldNotBeNull();
+            view1a.ShouldBeOfType<Example1View>();
+            view1a.DataContext.ShouldBeSameAs(viewModel1);
 
-            Assert.AreNotSame(view1, view1a);
+            view1a.ShouldNotBeSameAs(view1);
 
             var view2 = _viewManager.GetViewFor(viewModel2);
-            Assert.NotNull(view2);
-            Assert.AreEqual(typeof(Example1View), view2.GetType());
-            Assert.AreSame(viewModel2, view2.DataContext);
+            view2.ShouldNotBeNull();
+            view2.ShouldBeOfType<Example1View>();
+            view2.DataContext.ShouldBeSameAs(viewModel2);
 
-            Assert.AreNotSame(view1, view2);
-            Assert.AreNotSame(view1a, view2);
+            view2.ShouldNotBeSameAs(view1);
+            view2.ShouldNotBeSameAs(view1a);
         }
 
-        [Test]
-        public void GetViewForViewAwareTest()
+        [StaFact]
+        public void GetViewFor_ReturnsCorrectResult_ForViewAware()
         {
             var viewModel1 = new Example6.Example6ViewModel();
             var viewModel2 = new Example6.Example6ViewModel();
 
-            Assert.AreNotSame(viewModel1, viewModel2);
+            viewModel2.ShouldNotBeSameAs(viewModel1);
 
             var view1 = _viewManager.GetViewFor(viewModel1);
-            Assert.NotNull(view1);
-            Assert.AreEqual(typeof(Example6.Example6View), view1.GetType());
-            Assert.AreSame(viewModel1, view1.DataContext);
+            view1.ShouldNotBeNull();
+            view1.ShouldBeOfType<Example6.Example6View>();
+            view1.DataContext.ShouldBeSameAs(viewModel1);
 
             var view1a = _viewManager.GetViewFor(viewModel1);
-            Assert.NotNull(view1a);
-            Assert.AreEqual(typeof(Example6.Example6View), view1a.GetType());
-            Assert.AreSame(viewModel1, view1a.DataContext);
+            view1a.ShouldNotBeNull();
+            view1a.ShouldBeOfType<Example6.Example6View>();
+            view1a.DataContext.ShouldBeSameAs(viewModel1);
 
-            Assert.AreSame(view1, view1a);
+            view1a.ShouldBeSameAs(view1);
 
             var view2 = _viewManager.GetViewFor(viewModel2);
-            Assert.NotNull(view2);
-            Assert.AreEqual(typeof(Example6.Example6View), view2.GetType());
-            Assert.AreSame(viewModel2, view2.DataContext);
+            view2.ShouldNotBeNull();
+            view2.ShouldBeOfType<Example6.Example6View>();
+            view2.DataContext.ShouldBeSameAs(viewModel2);
 
-            Assert.AreNotSame(view1, view2);
-            Assert.AreNotSame(view1a, view2);
+            view2.ShouldNotBeSameAs(view1);
+            view2.ShouldNotBeSameAs(view1a);
         }
     }
 

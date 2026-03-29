@@ -1,49 +1,47 @@
 ﻿using MN.Shell.MVVM.Tests.BinderExample;
-using Moq;
-using NUnit.Framework;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace MN.Shell.MVVM.Tests
 {
-    [TestFixture, Apartment(ApartmentState.STA)]
-    public class BinderTests
+    public sealed class BinderTests
     {
-        [Test]
-        public void ViewModelPropertyTest()
+        [StaFact]
+        public void SetViewModel_BindsViewModelAndView()
         {
             var exampleViewModel = new ExampleViewModel();
             var exampleView = new ExampleView();
 
-            var viewManagerMock = new Mock<IViewManager>();
-            viewManagerMock.Setup(vm => vm.GetViewFor(exampleViewModel)).Returns(exampleView).Verifiable();
-            Binder.ViewManager = viewManagerMock.Object;
+            var viewManager = Substitute.For<IViewManager>();
+            viewManager.GetViewFor(exampleViewModel).Returns(exampleView);
+
+            Binder.ViewManager = viewManager;
 
             var viewContainer = new ContentControl();
             Binder.SetViewModel(viewContainer, exampleViewModel);
 
-            Assert.AreSame(exampleView, viewContainer.Content);
-            viewManagerMock.VerifyAll();
+            viewContainer.Content.ShouldBeSameAs(exampleView);
+            viewManager.Received(1).GetViewFor(exampleViewModel);
         }
 
-        [Test]
-        public void SetContentTest()
+        [StaFact]
+        public void SetContent_SetsViewAsContent()
         {
             var element = new ContentControl();
             var view = new FrameworkElement();
 
-            Assert.Null(element.Content);
+            element.Content.ShouldBeNull();
 
             Binder.SetContentView(element, view);
 
-            Assert.AreSame(view, element.Content);
+            element.Content.ShouldBeSameAs(view);
         }
     }
 
     namespace BinderExample
     {
-        public class ExampleViewModel { }
+        public sealed class ExampleViewModel { }
 
-        public class ExampleView : Control { }
+        public sealed class ExampleView : Control { }
     }
 }

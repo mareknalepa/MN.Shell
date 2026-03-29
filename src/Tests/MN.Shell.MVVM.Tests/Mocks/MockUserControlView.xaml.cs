@@ -19,7 +19,9 @@ namespace MN.Shell.MVVM.Tests.Mocks
             Loaded -= OnLoaded;
             OnLoadedAction?.Invoke(this);
             if (Parent is Window window)
+            {
                 window.Close();
+            }
         }
 
         public Action<UserControl>? OnLoadedAction { get; set; }

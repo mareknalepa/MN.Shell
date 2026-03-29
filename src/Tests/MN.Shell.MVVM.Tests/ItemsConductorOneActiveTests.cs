@@ -1,214 +1,206 @@
 ﻿using MN.Shell.MVVM.Tests.Mocks;
-using NUnit.Framework;
 
 namespace MN.Shell.MVVM.Tests
 {
-    [TestFixture]
-    public class ItemsConductorOneActiveTests
+    public sealed class ItemsConductorOneActiveTests
     {
-        private MockItemsConductorOneActive _conductor = new MockItemsConductorOneActive();
+        private readonly ItemsConductorOneActiveStub _conductor = new();
 
-        [SetUp]
-        public void SetUp()
+        [Fact]
+        public void ActivateItem_AddsItem()
         {
-            _conductor = new MockItemsConductorOneActive();
-        }
-
-        [Test]
-        public void ActivateItemAddsItemTest()
-        {
-            Assert.NotNull(_conductor.Items);
-            Assert.IsEmpty(_conductor.Items);
-            Assert.Null(_conductor.ActiveItem);
+            _conductor.Items.ShouldNotBeNull();
+            _conductor.Items.ShouldBeEmpty();
+            _conductor.ActiveItem.ShouldBeNull();
 
             var item1 = new object();
             _conductor.ActivateItem(item1);
 
-            Assert.That(_conductor.Items, Has.Exactly(1).Items);
-            Assert.AreSame(item1, _conductor.Items.First());
-            Assert.AreSame(item1, _conductor.ActiveItem);
+            _conductor.Items.ShouldHaveSingleItem();
+            _conductor.Items.First().ShouldBeSameAs(item1);
+            _conductor.ActiveItem.ShouldBeSameAs(item1);
 
             var item2 = new object();
             _conductor.ActivateItem(item2);
 
-            Assert.That(_conductor.Items, Has.Exactly(2).Items);
-            Assert.AreSame(item1, _conductor.Items.First());
-            Assert.AreSame(item2, _conductor.Items.Skip(1).First());
-            Assert.AreSame(item2, _conductor.ActiveItem);
+            _conductor.Items.Count().ShouldBe(2);
+            _conductor.Items.First().ShouldBeSameAs(item1);
+            _conductor.Items.Skip(1).First().ShouldBeSameAs(item2);
+            _conductor.ActiveItem.ShouldBeSameAs(item2);
         }
 
-        [Test]
-        public void CloseItemForNotActiveTest()
+        [Fact]
+        public void CloseItem_ForNotActive_RemovesIt()
         {
             var item1 = new object();
             _conductor.ActivateItem(item1);
             var item2 = new object();
             _conductor.ActivateItem(item2);
 
-            Assert.That(_conductor.Items, Has.Exactly(2).Items);
-            Assert.AreSame(item2, _conductor.ActiveItem);
+            _conductor.Items.Count().ShouldBe(2);
+            _conductor.ActiveItem.ShouldBeSameAs(item2);
 
             _conductor.CloseItem(item1);
 
-            Assert.That(_conductor.Items, Has.Exactly(1).Items);
-            Assert.AreSame(item2, _conductor.ActiveItem);
+            _conductor.Items.ShouldHaveSingleItem();
+            _conductor.ActiveItem.ShouldBeSameAs(item2);
         }
 
-        [Test]
-        public void CloseItemForActiveTest()
+        [Fact]
+        public void CloseItem_ForActive_RemovesIt()
         {
             var item1 = new object();
             _conductor.ActivateItem(item1);
             var item2 = new object();
             _conductor.ActivateItem(item2);
 
-            Assert.That(_conductor.Items, Has.Exactly(2).Items);
-            Assert.AreSame(item2, _conductor.ActiveItem);
+            _conductor.Items.Count().ShouldBe(2);
+            _conductor.ActiveItem.ShouldBeSameAs(item2);
 
             _conductor.CloseItem(item2);
 
-            Assert.That(_conductor.Items, Has.Exactly(1).Items);
-            Assert.AreSame(item1, _conductor.ActiveItem);
+            _conductor.Items.ShouldHaveSingleItem();
+            _conductor.ActiveItem.ShouldBeSameAs(item1);
         }
 
-        [Test]
-        public void ActivateItemWhenConductorIsInactiveTest()
+        [Fact]
+        public void ActivateItem_WhenConductorIsInactive_DoesNotActivateItem()
         {
-            var item = new MockScreen();
+            var item = new ScreenStub();
 
-            Assert.AreEqual(0, _conductor.OnConductorActivatedCalledCount);
-            Assert.AreEqual(0, item.OnActivatedCalledCount);
+            _conductor.OnConductorActivatedCalledCount.ShouldBe(0);
+            item.OnActivatedCalledCount.ShouldBe(0);
 
             _conductor.ActivateItem(item);
 
-            Assert.AreEqual(0, _conductor.OnConductorActivatedCalledCount);
-            Assert.AreEqual(0, item.OnActivatedCalledCount);
+            _conductor.OnConductorActivatedCalledCount.ShouldBe(0);
+            item.OnActivatedCalledCount.ShouldBe(0);
         }
 
-        [Test]
-        public void ActivateItemWhenConductorIsActiveTest()
+        [Fact]
+        public void ActivateItem_WhenConductorIsActive_ActivatesItem()
         {
-            var item = new MockScreen();
+            var item = new ScreenStub();
 
-            Assert.AreEqual(0, _conductor.OnConductorActivatedCalledCount);
-            Assert.AreEqual(0, item.OnActivatedCalledCount);
+            _conductor.OnConductorActivatedCalledCount.ShouldBe(0);
+            item.OnActivatedCalledCount.ShouldBe(0);
 
             _conductor.Activate();
             _conductor.ActivateItem(item);
 
-            Assert.AreEqual(1, _conductor.OnConductorActivatedCalledCount);
-            Assert.AreEqual(1, item.OnActivatedCalledCount);
+            _conductor.OnConductorActivatedCalledCount.ShouldBe(1);
+            item.OnActivatedCalledCount.ShouldBe(1);
         }
 
-        [Test]
-        public void ChangeActiveItemActivateDeactivateTest()
+        [Fact]
+        public void ActivateItem_DeactivatesPreviousAndActivatesCurrent()
         {
-            var item1 = new MockScreen();
-            var item2 = new MockScreen();
+            var item1 = new ScreenStub();
+            var item2 = new ScreenStub();
 
             _conductor.Activate();
             _conductor.ActivateItem(item1);
 
-            Assert.AreEqual(1, item1.OnActivatedCalledCount);
-            Assert.AreEqual(0, item1.OnDeactivatedCalledCount);
-            Assert.AreEqual(0, item2.OnActivatedCalledCount);
-            Assert.AreEqual(0, item2.OnDeactivatedCalledCount);
+            item1.OnActivatedCalledCount.ShouldBe(1);
+            item1.OnDeactivatedCalledCount.ShouldBe(0);
+            item2.OnActivatedCalledCount.ShouldBe(0);
+            item2.OnDeactivatedCalledCount.ShouldBe(0);
 
             _conductor.ActivateItem(item2);
 
-            Assert.AreEqual(1, item1.OnActivatedCalledCount);
-            Assert.AreEqual(1, item1.OnDeactivatedCalledCount);
-            Assert.AreEqual(1, item2.OnActivatedCalledCount);
-            Assert.AreEqual(0, item2.OnDeactivatedCalledCount);
+            item1.OnActivatedCalledCount.ShouldBe(1);
+            item1.OnDeactivatedCalledCount.ShouldBe(1);
+            item2.OnActivatedCalledCount.ShouldBe(1);
+            item2.OnDeactivatedCalledCount.ShouldBe(0);
 
             _conductor.ActiveItem = item1;
 
-            Assert.AreEqual(2, item1.OnActivatedCalledCount);
-            Assert.AreEqual(1, item1.OnDeactivatedCalledCount);
-            Assert.AreEqual(1, item2.OnActivatedCalledCount);
-            Assert.AreEqual(1, item2.OnDeactivatedCalledCount);
+            item1.OnActivatedCalledCount.ShouldBe(2);
+            item1.OnDeactivatedCalledCount.ShouldBe(1);
+            item2.OnActivatedCalledCount.ShouldBe(1);
+            item2.OnDeactivatedCalledCount.ShouldBe(1);
 
             _conductor.ActiveItem = item2;
 
-            Assert.AreEqual(2, item1.OnActivatedCalledCount);
-            Assert.AreEqual(2, item1.OnDeactivatedCalledCount);
-            Assert.AreEqual(2, item2.OnActivatedCalledCount);
-            Assert.AreEqual(1, item2.OnDeactivatedCalledCount);
+            item1.OnActivatedCalledCount.ShouldBe(2);
+            item1.OnDeactivatedCalledCount.ShouldBe(2);
+            item2.OnActivatedCalledCount.ShouldBe(2);
+            item2.OnDeactivatedCalledCount.ShouldBe(1);
 
             _conductor.ActiveItem = null;
 
-            Assert.AreEqual(2, item1.OnActivatedCalledCount);
-            Assert.AreEqual(2, item1.OnDeactivatedCalledCount);
-            Assert.AreEqual(2, item2.OnActivatedCalledCount);
-            Assert.AreEqual(2, item2.OnDeactivatedCalledCount);
+            item1.OnActivatedCalledCount.ShouldBe(2);
+            item1.OnDeactivatedCalledCount.ShouldBe(2);
+            item2.OnActivatedCalledCount.ShouldBe(2);
+            item2.OnDeactivatedCalledCount.ShouldBe(2);
         }
 
-        [Test]
-        public void ActivateConductorTest()
+        [Fact]
+        public void Activate_ActivatesItems()
         {
-            var item1 = new MockScreen();
-            var item2 = new MockScreen();
+            var item1 = new ScreenStub();
+            var item2 = new ScreenStub();
 
-            Assert.AreEqual(0, item1.OnActivatedCalledCount);
-            Assert.AreEqual(0, item2.OnActivatedCalledCount);
+            item1.OnActivatedCalledCount.ShouldBe(0);
+            item2.OnActivatedCalledCount.ShouldBe(0);
 
             _conductor.ActivateItem(item1);
             _conductor.ActivateItem(item2);
 
-            Assert.AreEqual(0, item1.OnActivatedCalledCount);
-            Assert.AreEqual(0, item2.OnActivatedCalledCount);
+            item1.OnActivatedCalledCount.ShouldBe(0);
+            item2.OnActivatedCalledCount.ShouldBe(0);
 
             _conductor.Activate();
 
-            Assert.AreEqual(0, item1.OnActivatedCalledCount);
-            Assert.AreEqual(1, item2.OnActivatedCalledCount);
+            item1.OnActivatedCalledCount.ShouldBe(0);
+            item2.OnActivatedCalledCount.ShouldBe(1);
         }
 
-        [Test]
-        public void DeactivateConductorTest()
+        [Fact]
+        public void Deactivate_DeactivatesItems()
         {
-            var item1 = new MockScreen();
-            var item2 = new MockScreen();
+            var item1 = new ScreenStub();
+            var item2 = new ScreenStub();
 
             _conductor.ActivateItem(item1);
             _conductor.ActivateItem(item2);
             _conductor.Activate();
 
-            Assert.AreEqual(0, item1.OnDeactivatedCalledCount);
-            Assert.AreEqual(0, item2.OnDeactivatedCalledCount);
+            item1.OnDeactivatedCalledCount.ShouldBe(0);
+            item2.OnDeactivatedCalledCount.ShouldBe(0);
 
             _conductor.Deactivate();
 
-            Assert.AreEqual(0, item1.OnDeactivatedCalledCount);
-            Assert.AreEqual(1, item2.OnDeactivatedCalledCount);
+            item1.OnDeactivatedCalledCount.ShouldBe(0);
+            item2.OnDeactivatedCalledCount.ShouldBe(1);
         }
 
-        [Test]
-        public void CloseConductorTest()
+        [Fact]
+        public void Close_ClosesItems()
         {
-            var item1 = new MockScreen();
-            var item2 = new MockScreen();
+            var item1 = new ScreenStub();
+            var item2 = new ScreenStub();
 
             _conductor.Activate();
             _conductor.ActivateItem(item1);
             _conductor.ActivateItem(item2);
 
-            Assert.AreEqual(0, item1.OnClosedCalledCount);
-            Assert.AreEqual(0, item2.OnClosedCalledCount);
+            item1.OnClosedCalledCount.ShouldBe(0);
+            item2.OnClosedCalledCount.ShouldBe(0);
 
             _conductor.Close();
 
-            Assert.AreEqual(1, item1.OnClosedCalledCount);
-            Assert.AreEqual(1, item2.OnClosedCalledCount);
+            item1.OnClosedCalledCount.ShouldBe(1);
+            item2.OnClosedCalledCount.ShouldBe(1);
         }
 
-        [Test]
-        public void NextItemAfterFirstClosedTest()
+        [Fact]
+        public void CloseItem_ActivatesNextOneAfterFirstOne()
         {
-            var item1 = new MockScreen();
-            var item2 = new MockScreen();
-            var item3 = new MockScreen();
-            var item4 = new MockScreen();
+            var item1 = new ScreenStub();
+            var item2 = new ScreenStub();
+            var item3 = new ScreenStub();
+            var item4 = new ScreenStub();
 
             _conductor.Activate();
             _conductor.ActivateItem(item1);
@@ -219,16 +211,16 @@ namespace MN.Shell.MVVM.Tests
             _conductor.ActiveItem = item1;
             _conductor.CloseItem(item1);
 
-            Assert.AreEqual(item2, _conductor.ActiveItem);
+            _conductor.ActiveItem.ShouldBeSameAs(item2);
         }
 
-        [Test]
-        public void NextItemAfterLastClosedTest()
+        [Fact]
+        public void CloseItem_ActivatesPreviousOneBeforeLastOne()
         {
-            var item1 = new MockScreen();
-            var item2 = new MockScreen();
-            var item3 = new MockScreen();
-            var item4 = new MockScreen();
+            var item1 = new ScreenStub();
+            var item2 = new ScreenStub();
+            var item3 = new ScreenStub();
+            var item4 = new ScreenStub();
 
             _conductor.Activate();
             _conductor.ActivateItem(item1);
@@ -239,16 +231,16 @@ namespace MN.Shell.MVVM.Tests
             _conductor.ActiveItem = item4;
             _conductor.CloseItem(item4);
 
-            Assert.AreEqual(item3, _conductor.ActiveItem);
+            _conductor.ActiveItem.ShouldBeSameAs(item3);
         }
 
-        [Test]
-        public void NextItemAfterMiddleClosedTest()
+        [Fact]
+        public void CloseItem_ActivatesNextOneAfterMiddleOne()
         {
-            var item1 = new MockScreen();
-            var item2 = new MockScreen();
-            var item3 = new MockScreen();
-            var item4 = new MockScreen();
+            var item1 = new ScreenStub();
+            var item2 = new ScreenStub();
+            var item3 = new ScreenStub();
+            var item4 = new ScreenStub();
 
             _conductor.Activate();
             _conductor.ActivateItem(item1);
@@ -259,33 +251,33 @@ namespace MN.Shell.MVVM.Tests
             _conductor.ActiveItem = item2;
             _conductor.CloseItem(item2);
 
-            Assert.AreEqual(item3, _conductor.ActiveItem);
+            _conductor.ActiveItem.ShouldBeSameAs(item3);
 
             _conductor.CloseItem(item3);
 
-            Assert.AreEqual(item4, _conductor.ActiveItem);
+            _conductor.ActiveItem.ShouldBeSameAs(item4);
         }
 
-        [Test]
-        public void NextItemAfterOnlyItemClosedTest()
+        [Fact]
+        public void CloseItem_ActivatesNothingAfterClosingTheOnlyOne()
         {
-            var item = new MockScreen();
+            var item = new ScreenStub();
 
             _conductor.Activate();
             _conductor.ActivateItem(item);
 
-            Assert.AreEqual(item, _conductor.ActiveItem);
+            _conductor.ActiveItem.ShouldBeSameAs(item);
 
             _conductor.CloseItem(item);
 
-            Assert.Null(_conductor.ActiveItem);
+            _conductor.ActiveItem.ShouldBeNull();
         }
 
-        [Test]
-        public void CanBeClosedTest()
+        [Fact]
+        public void CanBeClosed_PropagatesItemsCanBeClosed()
         {
-            var item1 = new MockScreen();
-            var item2 = new MockScreen();
+            var item1 = new ScreenStub();
+            var item2 = new ScreenStub();
 
             _conductor.ActivateItem(item1);
             _conductor.ActivateItem(item2);
@@ -294,31 +286,31 @@ namespace MN.Shell.MVVM.Tests
             item1.CanBeClosedReturnValue = true;
             item2.CanBeClosedReturnValue = true;
 
-            Assert.True(_conductor.CanBeClosed());
+            _conductor.CanBeClosed().ShouldBeTrue();
 
             _conductor.CanBeClosedReturnValue = false;
             item1.CanBeClosedReturnValue = true;
             item2.CanBeClosedReturnValue = true;
 
-            Assert.False(_conductor.CanBeClosed());
+            _conductor.CanBeClosed().ShouldBeFalse();
 
             _conductor.CanBeClosedReturnValue = true;
             item1.CanBeClosedReturnValue = false;
             item2.CanBeClosedReturnValue = true;
 
-            Assert.False(_conductor.CanBeClosed());
+            _conductor.CanBeClosed().ShouldBeFalse();
 
             _conductor.CanBeClosedReturnValue = true;
             item1.CanBeClosedReturnValue = true;
             item2.CanBeClosedReturnValue = false;
 
-            Assert.False(_conductor.CanBeClosed());
+            _conductor.CanBeClosed().ShouldBeFalse();
 
             _conductor.CanBeClosedReturnValue = false;
             item1.CanBeClosedReturnValue = false;
             item2.CanBeClosedReturnValue = false;
 
-            Assert.False(_conductor.CanBeClosed());
+            _conductor.CanBeClosed().ShouldBeFalse();
         }
     }
 }

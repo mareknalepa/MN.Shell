@@ -1,12 +1,9 @@
-﻿using NUnit.Framework;
-
-namespace MN.Shell.MVVM.Tests
+﻿namespace MN.Shell.MVVM.Tests
 {
-    [TestFixture]
-    public class CommandTests
+    public sealed class CommandTests
     {
-        [Test]
-        public void CanExecuteWithParameterTest()
+        [Fact]
+        public void CanExecute_WithParameter_ReturnsCorrectResult()
         {
             bool canExecuteFired = false;
             bool canExecute = false;
@@ -17,20 +14,19 @@ namespace MN.Shell.MVVM.Tests
                 return canExecute;
             });
 
-            Assert.False(canExecuteFired);
-
-            Assert.False(command.CanExecute(new object()));
-            Assert.True(canExecuteFired);
+            canExecuteFired.ShouldBeFalse();
+            command.CanExecute(new()).ShouldBeFalse();
+            canExecuteFired.ShouldBeTrue();
 
             canExecuteFired = false;
             canExecute = true;
 
-            Assert.True(command.CanExecute(new object()));
-            Assert.True(canExecuteFired);
+            command.CanExecute(new()).ShouldBeTrue();
+            canExecuteFired.ShouldBeTrue();
         }
 
-        [Test]
-        public void CanExecuteWithoutParameterTest()
+        [Fact]
+        public void CanExecute_WithoutParameter_ReturnsCorrectResult()
         {
             bool canExecuteFired = false;
             bool canExecute = false;
@@ -41,82 +37,81 @@ namespace MN.Shell.MVVM.Tests
                 return canExecute;
             });
 
-            Assert.False(canExecuteFired);
-
-            Assert.False(command.CanExecute(new object()));
-            Assert.True(canExecuteFired);
+            canExecuteFired.ShouldBeFalse();
+            command.CanExecute(new()).ShouldBeFalse();
+            canExecuteFired.ShouldBeTrue();
 
             canExecuteFired = false;
             canExecute = true;
 
-            Assert.True(command.CanExecute(new object()));
-            Assert.True(canExecuteFired);
+            command.CanExecute(new()).ShouldBeTrue();
+            canExecuteFired.ShouldBeTrue();
         }
 
-        [Test]
-        public void ExecuteWithParameterTest()
+        [Fact]
+        public void Execute_WithParameter_CallsDelegateOnlyWhenCanExecuteAllows()
         {
             bool executeFired = false;
             bool canExecute = false;
 
             var command = new Command(o => executeFired = true, o => canExecute);
 
-            Assert.False(executeFired);
+            executeFired.ShouldBeFalse();
 
-            command.Execute(new object());
-            Assert.False(executeFired);
+            command.Execute(new());
+            executeFired.ShouldBeFalse();
 
             canExecute = true;
 
-            command.Execute(new object());
-            Assert.True(executeFired);
+            command.Execute(new());
+            executeFired.ShouldBeTrue();
         }
 
-        [Test]
-        public void ExecuteWithoutParameterTest()
+        [Fact]
+        public void Execute_WithoutParameter_CallsDelegateOnlyWhenCanExecuteAllows()
         {
             bool executeFired = false;
             bool canExecute = false;
 
             var command = new Command(() => executeFired = true, () => canExecute);
 
-            Assert.False(executeFired);
+            executeFired.ShouldBeFalse();
 
-            command.Execute(new object());
-            Assert.False(executeFired);
+            command.Execute(new());
+            executeFired.ShouldBeFalse();
 
             canExecute = true;
 
-            command.Execute(new object());
-            Assert.True(executeFired);
+            command.Execute(new());
+            executeFired.ShouldBeTrue();
         }
 
-        [Test]
-        public void CanExecuteWithParameterWithoutDelegateIsTrueByDefaultTest()
+        [Fact]
+        public void CanExecute_WithParameter_WithoutDelegateIsTrueByDefault()
         {
             bool executeFired = false;
 
             var command = new Command(o => executeFired = true);
 
-            Assert.True(command.CanExecute(new object()));
-            Assert.False(executeFired);
+            command.CanExecute(new()).ShouldBeTrue();
+            executeFired.ShouldBeFalse();
 
-            command.Execute(new object());
-            Assert.True(executeFired);
+            command.Execute(new());
+            executeFired.ShouldBeTrue();
         }
 
-        [Test]
-        public void CanExecuteWithoutParameterWithoutDelegateIsTrueByDefaultTest()
+        [Fact]
+        public void CanExecute_WithoutParameter_WithoutDelegateIsTrueByDefault()
         {
             bool executeFired = false;
 
             var command = new Command(() => executeFired = true);
 
-            Assert.True(command.CanExecute(new object()));
-            Assert.False(executeFired);
+            command.CanExecute(new()).ShouldBeTrue();
+            executeFired.ShouldBeFalse();
 
-            command.Execute(new object());
-            Assert.True(executeFired);
+            command.Execute(new());
+            executeFired.ShouldBeTrue();
         }
     }
 }
