@@ -70,7 +70,7 @@
                 }
                 else
                 {
-                    Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
+                    throw new InvalidOperationException($"Unexpected PropertyChanged notification: {e.PropertyName}");
                 }
             };
 
@@ -122,7 +122,7 @@
                 }
                 else
                 {
-                    Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
+                    throw new InvalidOperationException($"Unexpected PropertyChanged notification: {e.PropertyName}");
                 }
             };
 
@@ -172,7 +172,7 @@
                 }
                 else
                 {
-                    Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
+                    throw new InvalidOperationException($"Unexpected PropertyChanged notification: {e.PropertyName}");
                 }
             };
 

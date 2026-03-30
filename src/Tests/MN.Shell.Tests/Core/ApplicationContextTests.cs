@@ -1,43 +1,39 @@
 ﻿using MN.Shell.Core;
 using MN.Shell.PluginContracts;
-using Moq;
-using NUnit.Framework;
 
 namespace MN.Shell.Tests.Core
 {
-    [TestFixture]
-    public class ApplicationContextTests
+    public sealed class ApplicationContextTests
     {
-        private Mock<IServiceProvider> _serviceProviderMock = new Mock<IServiceProvider>();
-        private ApplicationContext _applicationContext = new ApplicationContext(new Mock<IServiceProvider>().Object);
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ApplicationContext _applicationContext;
 
-        [SetUp]
-        public void SetUp()
+        public ApplicationContextTests()
         {
-            _serviceProviderMock = new Mock<IServiceProvider>();
-            _applicationContext = new ApplicationContext(_serviceProviderMock.Object);
+            _serviceProvider = Substitute.For<IServiceProvider>();
+            _applicationContext = new(_serviceProvider);
         }
 
-        [Test]
-        public void ApplicationTitleSetterRaisesEventTest()
+        [Fact]
+        public void ApplicationTitle_RaisesEvent()
         {
             bool handlerCalled = false;
 
             void OnApplicationTitleChanged(object? sender, string newTitle)
             {
                 handlerCalled = true;
-                Assert.AreEqual("New Title", newTitle);
+                newTitle.ShouldBe("New Title");
             }
 
             _applicationContext.ApplicationTitleChanged += OnApplicationTitleChanged;
             _applicationContext.ApplicationTitle = "New Title";
             _applicationContext.ApplicationTitleChanged -= OnApplicationTitleChanged;
 
-            Assert.True(handlerCalled);
+            handlerCalled.ShouldBeTrue();
         }
 
-        [Test]
-        public void RequestApplicationExitTest()
+        [Fact]
+        public void RequestApplicationExit_RaisesEvent()
         {
             bool handlerCalled = false;
 
@@ -47,23 +43,22 @@ namespace MN.Shell.Tests.Core
             _applicationContext.RequestApplicationExit();
             _applicationContext.ApplicationExitRequested -= OnApplicationExitRequested;
 
-            Assert.True(handlerCalled);
+            handlerCalled.ShouldBeTrue();
         }
 
-        public static bool CreateCalled { get; set; }
-
-        [Test]
-        public void LoadDocumentUsingFactoryTest()
+        [Fact]
+        public void LoadDocumentUsingFactory_UsesServiceProvider()
         {
-            _serviceProviderMock
-                .Setup(sp => sp.GetService(It.IsAny<Type>()))
-                .Returns(() => () => new ExampleDocument());
+            _serviceProvider.GetService(typeof(Func<ExampleDocument>)).Returns(new Func<ExampleDocument>(() => new ExampleDocument()));
 
-            Assert.AreEqual(0, _applicationContext.DocumentsToLoad.Count);
+            _applicationContext.DocumentsToLoad.Count.ShouldBe(0);
             _applicationContext.LoadDocumentUsingFactory<ExampleDocument>();
-            Assert.AreEqual(1, _applicationContext.DocumentsToLoad.Count);
+            _applicationContext.DocumentsToLoad.Count.ShouldBe(1);
 
-            Assert.True(_applicationContext.DocumentsToLoad.Peek() is ExampleDocument);
+            _applicationContext.DocumentsToLoad.ShouldHaveSingleItem();
+            _applicationContext.DocumentsToLoad.First().ShouldBeOfType<ExampleDocument>();
+
+            _serviceProvider.Received(1).GetService(typeof(Func<ExampleDocument>));
         }
 
         private class ExampleDocument : DocumentBase { }

@@ -4,10 +4,9 @@ using System.Windows;
 
 namespace MN.Shell.Tests.Mocks
 {
-    public class MockWindowManager : ShellWindowManager
+    public sealed class WindowManagerStub(IViewManager viewManager)
+        : ShellWindowManager(viewManager)
     {
-        public MockWindowManager(IViewManager viewManager) : base(viewManager) { }
-
         public new Window EnsureWindow(FrameworkElement view, bool isDialog) =>
             base.EnsureWindow(view, isDialog);
     }

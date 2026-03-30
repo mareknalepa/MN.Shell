@@ -1,82 +1,84 @@
 ﻿using MN.Shell.Framework.Menu;
 using MN.Shell.MVVM;
-using NUnit.Framework;
 
 namespace MN.Shell.Tests.Framework.Menu
 {
-    [TestFixture]
-    public class MenuItemDefinitionTests
+    public sealed class MenuItemDefinitionTests
     {
-        [Test]
-        public void SetPlacementTest()
+        [Fact]
+        public void SetPlacement_SetsCorrectValues()
         {
             var menuItem = new MenuItemDefinition("Sample");
 
-            Assert.AreEqual(0, menuItem.Section);
-            Assert.AreEqual(0, menuItem.Order);
+            menuItem.Section.ShouldBe(0);
+            menuItem.Order.ShouldBe(0);
 
             menuItem.SetPlacement(1, 2);
 
-            Assert.AreEqual(1, menuItem.Section);
-            Assert.AreEqual(2, menuItem.Order);
+            menuItem.Section.ShouldBe(1);
+            menuItem.Order.ShouldBe(2);
         }
 
-        [Test]
-        public void SetCommandTest()
+        [Fact]
+        public void SetCommand_SetsCommand()
         {
             var menuItem = new MenuItemDefinition("Sample");
             var command = new Command(() => { });
 
             menuItem.SetCommand(command);
 
-            Assert.AreSame(command, menuItem.Command);
+            menuItem.Command.ShouldBeSameAs(command);
         }
 
-        [Test]
-        public void SetCommandWhenContainsSubItemsTest()
+        [Fact]
+        public void SetCommand_Throws_WhenItemContainsSubItems()
         {
             var menuItem = new MenuItemDefinition("Sample");
             var subItem = new MenuItemDefinition("Sample Sub Item");
             menuItem.SubItems.Add(subItem);
 
-            Assert.Throws<InvalidOperationException>(() => menuItem.SetCommand(new Command(() => { })));
+            var act = () => menuItem.SetCommand(new Command(() => { }));
+            act.ShouldThrow<InvalidOperationException>();
         }
 
-        [Test]
-        public void SetCommandWhenIsCheckboxTest()
+        [Fact]
+        public void SetCommand_Throws_WhenItemIsCheckbox()
         {
             var menuItem = new MenuItemDefinition("Sample");
             menuItem.SetCheckbox(false);
 
-            Assert.Throws<InvalidOperationException>(() => menuItem.SetCommand(new Command(() => { })));
+            var act = () => menuItem.SetCommand(new Command(() => { }));
+            act.ShouldThrow<InvalidOperationException>();
         }
 
-        [Test]
-        public void SetCheckboxTest()
+        [Fact]
+        public void SetCheckbox_SetsCorrectValues()
         {
             var menuItem = new MenuItemDefinition("Sample");
             menuItem.SetCheckbox(false);
 
-            Assert.True(menuItem.IsCheckbox);
+            menuItem.IsCheckbox.ShouldBeTrue();
         }
 
-        [Test]
-        public void SetCheckboxWhenContainsSubItemsTest()
+        [Fact]
+        public void SetCheckbox_Throws_WhenItemContainsSubItems()
         {
             var menuItem = new MenuItemDefinition("Sample");
             var subItem = new MenuItemDefinition("Sample Sub Item");
             menuItem.SubItems.Add(subItem);
 
-            Assert.Throws<InvalidOperationException>(() => menuItem.SetCheckbox(false));
+            var act = () => menuItem.SetCheckbox(false);
+            act.ShouldThrow<InvalidOperationException>();
         }
 
-        [Test]
-        public void SetCheckboxWhenIsCommandTest()
+        [Fact]
+        public void SetCheckbox_Throws_WhenItemIsCommand()
         {
             var menuItem = new MenuItemDefinition("Sample");
             menuItem.SetCommand(new Command(() => { }));
 
-            Assert.Throws<InvalidOperationException>(() => menuItem.SetCheckbox(false));
+            var act = () => menuItem.SetCheckbox(false);
+            act.ShouldThrow<InvalidOperationException>();
         }
     }
 }

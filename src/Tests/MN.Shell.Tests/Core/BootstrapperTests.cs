@@ -6,116 +6,92 @@ using MN.Shell.Framework;
 using MN.Shell.Modules.Shell;
 using MN.Shell.MVVM;
 using MN.Shell.PluginContracts;
-using Moq;
-using NUnit.Framework;
 using System.Reflection;
 using System.Windows;
 
 namespace MN.Shell.Tests.Core
 {
-    [TestFixture]
-    public class BootstrapperTests
+    public sealed class BootstrapperTests
     {
-        [Test]
-        public void BootstrapperGetInstanceTest()
+        [Fact]
+        public void GetInstance_UsesInternalServiceProvider()
+
         {
-            using (var bootstrapper = new MockBootstrapper())
-            {
-                bootstrapper.Configure();
-                var instance = bootstrapper.GetInstance<IExampleService>();
+            using var bootstrapper = new MockBootstrapper();
+            bootstrapper.Configure();
+            var instance = bootstrapper.GetInstance<IExampleService>();
 
-                Assert.NotNull(instance);
-                Assert.AreEqual(typeof(ExampleService), instance.GetType());
+            instance.ShouldNotBeNull();
+            instance.GetType().ShouldBe(typeof(ExampleService));
 
-                var anotherInstance = bootstrapper.GetInstance<IExampleService>();
+            var anotherInstance = bootstrapper.GetInstance<IExampleService>();
 
-                Assert.NotNull(anotherInstance);
-                Assert.AreSame(instance, anotherInstance);
-            }
+            anotherInstance.ShouldNotBeNull();
+            anotherInstance.ShouldBeSameAs(instance);
         }
 
-        public static bool PluginLoadCalled { get; set; }
-
-        [Test]
-        public void PluginLoadTest()
+        [Fact]
+        public void Configure_LoadsPlugins()
         {
-            using (var bootstrapper = new MockBootstrapper())
-            {
-                PluginLoadCalled = false;
-                bootstrapper.Configure();
+            using var bootstrapper = new MockBootstrapper();
+            BootstrapperTestsExamplePlugin.PluginLoadCalled = false;
+            bootstrapper.Configure();
 
-                Assert.True(PluginLoadCalled);
-            }
+            BootstrapperTestsExamplePlugin.PluginLoadCalled.ShouldBeTrue();
         }
 
-        public static bool PluginOnStartupCalled { get; set; }
-
-        [Test]
-        public void PluginOnStartupTest()
+        [Fact]
+        public void OnStartup_CallsPluginOnStartup()
         {
-            using (var bootstrapper = new MockBootstrapper())
+            using var bootstrapper = new MockBootstrapper();
+            BootstrapperTestsExamplePlugin.PluginOnStartupCalled = false;
+            bootstrapper.Configure();
+
+            // Hack to create instance of StartupEventArgs in tests:
+            var constructorInfo = typeof(StartupEventArgs).GetTypeInfo().DeclaredConstructors.First();
+            if (constructorInfo.Invoke(null) is not StartupEventArgs startupEventArgs)
             {
-                PluginOnStartupCalled = false;
-                bootstrapper.Configure();
-
-                // Hack to create instance of StartupEventArgs in tests:
-                var constructorInfo = typeof(StartupEventArgs).GetTypeInfo().DeclaredConstructors.First();
-                if (constructorInfo.Invoke(null) is StartupEventArgs startupEventArgs)
-                {
-                    try
-                    {
-                        bootstrapper.OnStartup(startupEventArgs);
-                    }
-                    catch (InvalidOperationException) { }
-
-                    Assert.True(PluginOnStartupCalled);
-                }
-                else
-                {
-                    Assert.Fail();
-                }
+                throw new InvalidOperationException($"Cannot create {nameof(StartupEventArgs)} instance");
             }
+
+            try
+            {
+                bootstrapper.OnStartup(startupEventArgs);
+            }
+            catch (InvalidOperationException) { }
+
+            BootstrapperTestsExamplePlugin.PluginOnStartupCalled.ShouldBeTrue();
         }
 
-        public static bool PluginOnExitCalled { get; set; }
-
-        [Test]
-        public void PluginOnExitTest()
+        [Fact]
+        public void OnExit_CallsPluginOnExit()
         {
-            using (var bootstrapper = new MockBootstrapper())
+            using var bootstrapper = new MockBootstrapper();
+            BootstrapperTestsExamplePlugin.PluginOnExitCalled = false;
+            bootstrapper.Configure();
+
+            // Hack to create instance of ExitEventArgs in tests:
+            var constructorInfo = typeof(ExitEventArgs).GetTypeInfo().DeclaredConstructors.First();
+            if (constructorInfo.Invoke([0]) is not ExitEventArgs exitEventArgs)
             {
-                PluginOnExitCalled = false;
-                bootstrapper.Configure();
-
-                // Hack to create instance of ExitEventArgs in tests:
-                var constructorInfo = typeof(ExitEventArgs).GetTypeInfo().DeclaredConstructors.First();
-                if (constructorInfo.Invoke(new object[] { 0 }) is ExitEventArgs exitEventArgs)
-                {
-                    bootstrapper.OnExit(exitEventArgs);
-
-                    Assert.True(PluginOnExitCalled);
-                }
-                else
-                {
-                    Assert.Fail();
-                }
+                throw new InvalidOperationException($"Cannot create {nameof(ExitEventArgs)} instance");
             }
+
+            bootstrapper.OnExit(exitEventArgs);
+
+            BootstrapperTestsExamplePlugin.PluginOnExitCalled.ShouldBeTrue();
         }
 
-        public static bool PluginDisposeCalled { get; set; }
-
-        [Test]
-        public void PluginDisposeCalledTest()
+        [Fact]
+        public void Dispose_DisposesPlugins()
         {
-            using (var bootstrapper = new MockBootstrapper())
-            {
-                PluginDisposeCalled = false;
-                bootstrapper.Configure();
+            using var bootstrapper = new MockBootstrapper();
+            BootstrapperTestsExamplePlugin.PluginDisposeCalled = false;
+            bootstrapper.Configure();
 
-                bootstrapper.Dispose();
+            bootstrapper.Dispose();
 
-                Assert.True(PluginDisposeCalled);
-            }
+            BootstrapperTestsExamplePlugin.PluginDisposeCalled.ShouldBeTrue();
         }
     }
 
@@ -130,14 +106,14 @@ namespace MN.Shell.Tests.Core
             services.AddShellFramework();
 
             // Hack to suppress creating real WindowManager
-            var windowManagerMock = new Mock<IWindowManager>();
+            var windowManager = Substitute.For<IWindowManager>();
 
             var descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(IWindowManager));
             if (descriptor != null)
             {
                 services.Remove(descriptor);
             }
-            services.AddSingleton<IWindowManager>(windowManagerMock.Object);
+            services.AddSingleton(windowManager);
 
             // Hack to suppress creating real ShellViewModel
             descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(ShellViewModel));
@@ -170,13 +146,18 @@ namespace MN.Shell.Tests.Core
 
     public sealed class BootstrapperTestsExamplePlugin : PluginBase, IDisposable
     {
-        protected override void OnLoad() => BootstrapperTests.PluginLoadCalled = true;
+        public static bool PluginLoadCalled { get; set; }
+        public static bool PluginOnStartupCalled { get; set; }
+        public static bool PluginOnExitCalled { get; set; }
+        public static bool PluginDisposeCalled { get; set; }
 
-        public override void OnStartup(StartupEventArgs e, IApplicationContext applicationContext) => BootstrapperTests.PluginOnStartupCalled = true;
+        protected override void OnLoad() => PluginLoadCalled = true;
 
-        public override void OnExit(ExitEventArgs e, IApplicationContext applicationContext) => BootstrapperTests.PluginOnExitCalled = true;
+        public override void OnStartup(StartupEventArgs e, IApplicationContext applicationContext) => PluginOnStartupCalled = true;
 
-        public void Dispose() => BootstrapperTests.PluginDisposeCalled = true;
+        public override void OnExit(ExitEventArgs e, IApplicationContext applicationContext) => PluginOnExitCalled = true;
+
+        public void Dispose() => PluginDisposeCalled = true;
     }
 
     internal interface IExampleService { }

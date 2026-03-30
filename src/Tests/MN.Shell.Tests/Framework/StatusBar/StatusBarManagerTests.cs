@@ -1,56 +1,53 @@
 ﻿using MN.Shell.Framework.StatusBar;
-using MN.Shell.PluginContracts;
-using NUnit.Framework;
 
 namespace MN.Shell.Tests.Framework.StatusBar
 {
-    [TestFixture]
-    public class StatusBarManagerTests
+    public sealed class StatusBarManagerTests
     {
-        [Test]
-        public void AddItemTest()
+        [Fact]
+        public void AddItem_AddsStatusBarItem()
         {
             var statusBarManager = new StatusBarManagerWrapper();
 
-            Assert.NotNull(statusBarManager.StatusBarItemDefinitions);
-            Assert.IsEmpty(statusBarManager.StatusBarItemDefinitions);
+            statusBarManager.StatusBarItemDefinitions.ShouldNotBeNull();
+            statusBarManager.StatusBarItemDefinitions.ShouldBeEmpty();
 
             statusBarManager.AddItem("Sample");
 
-            Assert.AreEqual(1, statusBarManager.StatusBarItemDefinitions.Count);
-            Assert.True(statusBarManager.StatusBarItemDefinitions.Any(d => d.Name == "Sample"));
+            statusBarManager.StatusBarItemDefinitions.Count.ShouldBe(1);
+            statusBarManager.StatusBarItemDefinitions.ShouldContain(d => d.Name == "Sample");
         }
 
-        [Test]
-        public void RemoveItemBasicTest()
+        [Fact]
+        public void RemoveItem_RemovesItem()
         {
             var statusBarManager = new StatusBarManagerWrapper();
 
             statusBarManager.AddItem("Sample");
 
-            Assert.AreEqual(1, statusBarManager.StatusBarItemDefinitions.Count);
+            statusBarManager.StatusBarItemDefinitions.Count.ShouldBe(1);
 
             statusBarManager.RemoveItem("Sample");
 
-            Assert.AreEqual(0, statusBarManager.StatusBarItemDefinitions.Count);
+            statusBarManager.StatusBarItemDefinitions.Count.ShouldBe(0);
         }
 
-        [Test]
-        public void RemoveItemNotExistingTest()
+        [Fact]
+        public void RemoveItem_DoesNothing_ForNotExistingItem()
         {
             var statusBarManager = new StatusBarManagerWrapper();
 
             statusBarManager.AddItem("Sample");
 
-            Assert.AreEqual(1, statusBarManager.StatusBarItemDefinitions.Count);
+            statusBarManager.StatusBarItemDefinitions.Count.ShouldBe(1);
 
             statusBarManager.RemoveItem("Not existing");
 
-            Assert.AreEqual(1, statusBarManager.StatusBarItemDefinitions.Count);
+            statusBarManager.StatusBarItemDefinitions.Count.ShouldBe(1);
         }
 
-        [Test]
-        public void CompileStatusBarSimpleTest()
+        [Fact]
+        public void CompileStatusBar_CreatesStatusBarCorrectly()
         {
             var statusBarManager = new StatusBarManagerWrapper();
 
@@ -62,27 +59,27 @@ namespace MN.Shell.Tests.Framework.StatusBar
 
             statusBarManager.CompileStatusBar();
 
-            Assert.AreEqual(5, statusBarManager.StatusBarItems.Count);
+            statusBarManager.StatusBarItems.Count.ShouldBe(5);
 
-            Assert.AreEqual("Status", statusBarManager.StatusBarItems[0].Content);
-            Assert.False(statusBarManager.StatusBarItems[0].IsRightSide);
+            statusBarManager.StatusBarItems[0].Content.ShouldBe("Status");
+            statusBarManager.StatusBarItems[0].IsRightSide.ShouldBeFalse();
 
-            Assert.AreEqual("Background tasks in progress...", statusBarManager.StatusBarItems[1].Content);
-            Assert.False(statusBarManager.StatusBarItems[1].IsRightSide);
+            statusBarManager.StatusBarItems[1].Content.ShouldBe("Background tasks in progress...");
+            statusBarManager.StatusBarItems[1].IsRightSide.ShouldBeFalse();
 
-            Assert.AreEqual("Charset", statusBarManager.StatusBarItems[2].Content);
-            Assert.True(statusBarManager.StatusBarItems[2].IsRightSide);
+            statusBarManager.StatusBarItems[2].Content.ShouldBe("Charset");
+            statusBarManager.StatusBarItems[2].IsRightSide.ShouldBeTrue();
 
-            Assert.AreEqual("Repository", statusBarManager.StatusBarItems[3].Content);
-            Assert.True(statusBarManager.StatusBarItems[3].IsRightSide);
+            statusBarManager.StatusBarItems[3].Content.ShouldBe("Repository");
+            statusBarManager.StatusBarItems[3].IsRightSide.ShouldBeTrue();
 
-            Assert.AreEqual("User", statusBarManager.StatusBarItems[4].Content);
-            Assert.True(statusBarManager.StatusBarItems[4].IsRightSide);
+            statusBarManager.StatusBarItems[4].Content.ShouldBe("User");
+            statusBarManager.StatusBarItems[4].IsRightSide.ShouldBeTrue();
         }
 
         private class StatusBarManagerWrapper : StatusBarManager
         {
-            public StatusBarManagerWrapper() : base(Enumerable.Empty<IStatusBarProvider>()) { }
+            public StatusBarManagerWrapper() : base([]) { }
 
             public new List<StatusBarItemDefinition> StatusBarItemDefinitions => base.StatusBarItemDefinitions;
         }

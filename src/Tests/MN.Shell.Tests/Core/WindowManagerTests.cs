@@ -1,44 +1,37 @@
 ﻿using MN.Shell.MVVM;
 using MN.Shell.Tests.Mocks;
-using Moq;
-using NUnit.Framework;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace MN.Shell.Tests.Core
 {
-    [TestFixture]
-    [Apartment(ApartmentState.STA)]
-    public class WindowManagerTests
+    public sealed class WindowManagerTests
     {
-        private IViewManager _viewManager = new Mock<IViewManager>(MockBehavior.Loose).Object;
+        private readonly IViewManager _viewManager;
+        private readonly WindowManagerStub _windowManager;
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        public WindowManagerTests()
         {
-            _viewManager = new Mock<IViewManager>(MockBehavior.Loose).Object;
+            _viewManager = Substitute.For<IViewManager>();
+            _windowManager = new(_viewManager);
         }
 
-        [Test]
-        public void WindowManagerEnsureWindowForWindowTest()
+        [StaFact]
+        public void EnsureWindow_ReturnsInput_ForWindows()
         {
-            var windowManager = new MockWindowManager(_viewManager);
-
             Window window = new MockWindowView();
-            var view = windowManager.EnsureWindow(window, false);
+            var view = _windowManager.EnsureWindow(window, false);
 
-            Assert.AreSame(window, view);
+            view.ShouldBeSameAs(window);
         }
 
-        [Test]
-        public void WindowManagerEnsureWindowForUserControlTest()
+        [StaFact]
+        public void EnsureWindow_ReturnsControlWrappedInWindow_ForUserControl()
         {
-            var windowManager = new MockWindowManager(_viewManager);
-
             UserControl userControl = new MockUserControlView();
-            var view = windowManager.EnsureWindow(userControl, false);
+            var view = _windowManager.EnsureWindow(userControl, false);
 
-            Assert.AreSame(userControl, view.Content);
+            view.Content.ShouldBeSameAs(userControl);
         }
     }
 }

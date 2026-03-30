@@ -1,55 +1,46 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MN.Shell.Core;
 using MN.Shell.PluginContracts;
-using Moq;
-using NUnit.Framework;
 
 namespace MN.Shell.Tests.Core
 {
-    [TestFixture]
-    public class PluginContextTests
+    public sealed class PluginContextTests
     {
-        private PluginContext _context = new PluginContext(new Mock<IServiceCollection>().Object);
+        private readonly PluginContext _context = new(Substitute.For<IServiceCollection>());
 
-        [SetUp]
-        public void SetUp()
+        [Fact]
+        public void UseTool_Throws_WhenOutOfScope()
         {
-            _context = new PluginContext(new Mock<IServiceCollection>().Object);
+            var act = _context.UseTool<MockTool>;
+            act.ShouldThrow<InvalidOperationException>();
         }
 
-        [Test]
-        public void UseToolOutOfScopeTest()
+        [Fact]
+        public void UseDocumentFactory_Throws_WhenOutOfScope()
         {
-            Assert.Throws<InvalidOperationException>(
-                () => _context.UseTool<MockTool>());
+            var act = _context.UseDocumentFactory<MockDocument>;
+            act.ShouldThrow<InvalidOperationException>();
         }
 
-        [Test]
-        public void UseDocumentFactoryOutOfScopeTest()
+        [Fact]
+        public void UseMenuProvider_Throws_WhenOutOfScope()
         {
-            Assert.Throws<InvalidOperationException>(
-                () => _context.UseDocumentFactory<MockDocument>());
+            var act = _context.UseMenuProvider<MockMenuProvider>;
+            act.ShouldThrow<InvalidOperationException>();
         }
 
-        [Test]
-        public void UseMenuProviderOutOfScopeTest()
+        [Fact]
+        public void UseStatusBarProvider_Throws_WhenOutOfScope()
         {
-            Assert.Throws<InvalidOperationException>(
-                () => _context.UseMenuProvider<MockMenuProvider>());
+            var act = _context.UseStatusBarProvider<MockStatusBarProvider>;
+            act.ShouldThrow<InvalidOperationException>();
         }
 
-        [Test]
-        public void UseStatusBarProviderOutOfScopeTest()
+        [Fact]
+        public void UseService_Throws_WhenOutOfScope()
         {
-            Assert.Throws<InvalidOperationException>(
-                () => _context.UseStatusBarProvider<MockStatusBarProvider>());
-        }
-
-        [Test]
-        public void UseServiceOutOfScopeTest()
-        {
-            Assert.Throws<InvalidOperationException>(
-                () => _context.UseService<IService, Service>());
+            var act = _context.UseService<IService, Service>;
+            act.ShouldThrow<InvalidOperationException>();
         }
 
 #pragma warning disable CA1812

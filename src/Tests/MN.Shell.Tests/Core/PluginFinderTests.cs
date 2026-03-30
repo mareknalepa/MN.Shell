@@ -1,36 +1,28 @@
 ﻿using Microsoft.Extensions.Logging.Abstractions;
 using MN.Shell.Core;
 using MN.Shell.PluginContracts;
-using NUnit.Framework;
 using System.IO;
 using System.Reflection;
 
 namespace MN.Shell.Tests.Core
 {
-    [TestFixture]
-    public class PluginFinderTests
+    public sealed class PluginFinderTests
     {
-        private PluginFinder _pluginFinder = new PluginFinder(NullLogger<PluginFinder>.Instance);
+        private readonly PluginFinder _pluginFinder = new(NullLogger<PluginFinder>.Instance);
 
-        [SetUp]
-        public void SetUp()
-        {
-            _pluginFinder = new PluginFinder(NullLogger<PluginFinder>.Instance);
-        }
-
-        [Test]
-        public void PluginDiscoveredTest()
+        [Fact]
+        public void DiscoverPlugins_ReturnsCorrectResult()
         {
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
             var discoveredPlugins = _pluginFinder.DiscoverPlugins(path);
 
-            Assert.NotNull(discoveredPlugins);
-            Assert.IsNotEmpty(discoveredPlugins);
-            Assert.True(discoveredPlugins.Any(p => p.GetType() == typeof(PluginLoaderTestsExamplePlugin)));
+            discoveredPlugins.ShouldNotBeNull();
+            discoveredPlugins.ShouldNotBeEmpty();
+            discoveredPlugins.ShouldContain(p => p.GetType() == typeof(PluginLoaderTestsExamplePlugin));
         }
     }
 
-    public class PluginLoaderTestsExamplePlugin : PluginBase
+    public sealed class PluginLoaderTestsExamplePlugin : PluginBase
     {
         protected override void OnLoad() { }
     }

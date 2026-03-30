@@ -171,7 +171,7 @@
 
             if (reference.TryGetTarget(out _))
             {
-                Assert.Fail();
+                throw new InvalidOperationException("GC didn't collect the reference");
             }
 
             var act = () => _messageBus.Publish(new Message1());
@@ -179,7 +179,7 @@
 
             if (reference.TryGetTarget(out _))
             {
-                Assert.Fail();
+                throw new InvalidOperationException("GC didn't collect the reference");
             }
         }
 

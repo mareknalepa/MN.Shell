@@ -5,9 +5,9 @@ using System.Collections.ObjectModel;
 
 namespace MN.Shell.Tests.Mocks
 {
-    public class MockDialogViewModel : Screen, IDialog
+    public sealed class MockDialogViewModel : Screen, IDialog
     {
-        public ObservableCollection<DialogButton> Buttons { get; } = new ObservableCollection<DialogButton>();
+        public ObservableCollection<DialogButton> Buttons { get; } = [];
 
         public DialogButton? SelectedButton { get; set; }
     }

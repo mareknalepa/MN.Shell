@@ -6,7 +6,7 @@
         public void ToTaskNotifier_FromCompletedTask_ReturnsNotifierInCorrectState()
         {
             var task = Task.CompletedTask;
-            Assert.True(task.IsCompleted);
+            task.IsCompleted.ShouldBeTrue();
 
             var taskNotifier = task.ToTaskNotifier();
 
@@ -68,7 +68,7 @@
                 }
                 else
                 {
-                    Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
+                    throw new InvalidOperationException($"Unexpected PropertyChanged notification: {e.PropertyName}");
                 }
             };
 
@@ -119,7 +119,7 @@
                 }
                 else
                 {
-                    Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
+                    throw new InvalidOperationException($"Unexpected PropertyChanged notification: {e.PropertyName}");
                 }
             };
 
@@ -169,14 +169,14 @@
                 }
                 else
                 {
-                    Assert.Fail($"Unexpected PropertyChanged notification: {e.PropertyName}");
+                    throw new InvalidOperationException($"Unexpected PropertyChanged notification: {e.PropertyName}");
                 }
             };
 
             failingSemaphore.Release();
             await taskNotifier.TaskCompleted;
 
-            Assert.True(propertiesToNotify.All(kvp => kvp.Value));
+            propertiesToNotify.ShouldAllBe(kvp => kvp.Value);
 
             CheckFaultedTaskNotifier(task, taskNotifier, exception);
         }

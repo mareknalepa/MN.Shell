@@ -1,78 +1,63 @@
-﻿using MN.Shell.Framework.MessageBox;
+﻿using MN.Shell.Framework.Dialogs;
+using MN.Shell.Framework.MessageBox;
 using MN.Shell.Modules.MessageBox;
 using MN.Shell.MVVM;
-using Moq;
-using NUnit.Framework;
 
 namespace MN.Shell.Tests.Framework.MessageBox
 {
-    [TestFixture]
-    public class MessageBoxManagerTests
+    public sealed class MessageBoxManagerTests
     {
-        private Mock<IWindowManager> _mockWindowManager = new Mock<IWindowManager>(MockBehavior.Strict);
-        private IMessageBoxManager _messageBoxManager = new MessageBoxManager(new Mock<IWindowManager>(MockBehavior.Strict).Object);
+        private readonly IWindowManager _windowManager;
+        private readonly MessageBoxManager _messageBoxManager;
 
-        private Action<object>? OnDialogShown;
-        private int _showWindowInvoked;
-
-        [SetUp]
-        public void SetUp()
+        public MessageBoxManagerTests()
         {
-            OnDialogShown = null;
-            _showWindowInvoked = 0;
+            _windowManager = Substitute.For<IWindowManager>();
+            _messageBoxManager = new(_windowManager);
 
-            _mockWindowManager = new Mock<IWindowManager>(MockBehavior.Strict);
-            _mockWindowManager.Setup(m => m.ShowDialog(It.IsAny<MessageBoxViewModel>()))
-                .Callback<object>(viewModel =>
-                {
-                    ++_showWindowInvoked;
-                    OnDialogShown?.Invoke(viewModel);
-                })
-                .Returns(true);
-
-            _messageBoxManager = new MessageBoxManager(_mockWindowManager.Object);
+            _windowManager.ShowDialog(Arg.Any<MessageBoxViewModel>()).Returns(true);
         }
 
-        [Test, Pairwise]
-        public void MessageBoxManagerShowCaptionMessageTypeTest(
-            [Values("", "Caption 1", "Caption 2")] string caption,
-            [Values("", "Message 1", "Message 2")] string message,
-            [Values] MessageBoxType type)
+        [Theory]
+        [InlineData("", "", MessageBoxType.None)]
+        [InlineData("Caption 1", "", MessageBoxType.None)]
+        [InlineData("", "Message 1", MessageBoxType.Info)]
+        [InlineData("Caption 2", "Message 2", MessageBoxType.Warning)]
+        [InlineData("Caption 3", "Message 3", MessageBoxType.Error)]
+        public void Show_CallsWindowsManager_WithCorrectCaptionMessageType(string caption, string message, MessageBoxType type)
         {
-            OnDialogShown = vm =>
-            {
-                if (vm is not MessageBoxViewModel messageBoxViewModel)
-                    throw new ArgumentException("Cannot handle view models other than MessageBoxViewModel");
-
-                Assert.AreEqual(caption, messageBoxViewModel.Title);
-                Assert.AreEqual(message, messageBoxViewModel.Message);
-                Assert.AreEqual(type, messageBoxViewModel.Type);
-            };
-
             _messageBoxManager.Show(caption, message, type);
-            Assert.AreEqual(1, _showWindowInvoked);
+            _windowManager.Received(1).ShowDialog(Arg.Is<MessageBoxViewModel>(
+                vm => vm.Title == caption && vm.Message == message && vm.Type == type));
         }
 
-        [Test]
-        public void MessageBoxManagerShowButtonsTest([Values] MessageBoxButtonSet buttons)
+        [Theory]
+        [InlineData(MessageBoxButtonSet.Ok)]
+        [InlineData(MessageBoxButtonSet.OkCancel)]
+        [InlineData(MessageBoxButtonSet.YesNo)]
+        [InlineData(MessageBoxButtonSet.YesNoCancel)]
+        public void Show_AddsCorrectButtons(MessageBoxButtonSet buttons)
         {
-            OnDialogShown = vm =>
-            {
-                if (vm is not MessageBoxViewModel messageBoxViewModel)
-                    throw new ArgumentException("Cannot handle view models other than MessageBoxViewModel");
-
-                if (buttons == MessageBoxButtonSet.Ok)
-                    Assert.That(messageBoxViewModel.Buttons, Has.Count.EqualTo(1));
-                else if (buttons == MessageBoxButtonSet.OkCancel || buttons == MessageBoxButtonSet.YesNo)
-                    Assert.That(messageBoxViewModel.Buttons, Has.Count.EqualTo(2));
-                else if (buttons == MessageBoxButtonSet.YesNoCancel)
-                    Assert.That(messageBoxViewModel.Buttons, Has.Count.EqualTo(3));
-                else
-                    Assert.Fail("Buttons argument out of scope");
-            };
-
             _messageBoxManager.Show("Caption", "Message", MessageBoxType.None, buttons);
-            Assert.AreEqual(1, _showWindowInvoked);
+            _windowManager.Received(1).ShowDialog(Arg.Is<MessageBoxViewModel>(vm => IsViewModelCorrect(vm, buttons)));
         }
+
+        private static bool IsViewModelCorrect(MessageBoxViewModel vm, MessageBoxButtonSet buttons)
+            => buttons switch
+            {
+                MessageBoxButtonSet.Ok => vm.Buttons.Count == 1
+                    && vm.Buttons.Any(b => b.Type == DialogButtonType.Ok),
+                MessageBoxButtonSet.OkCancel => vm.Buttons.Count == 2
+                    && vm.Buttons.Any(b => b.Type == DialogButtonType.Ok)
+                    && vm.Buttons.Any(b => b.Type == DialogButtonType.Cancel),
+                MessageBoxButtonSet.YesNo => vm.Buttons.Count == 2
+                    && vm.Buttons.Any(b => b.Type == DialogButtonType.Yes)
+                    && vm.Buttons.Any(b => b.Type == DialogButtonType.No),
+                MessageBoxButtonSet.YesNoCancel => vm.Buttons.Count == 3
+                    && vm.Buttons.Any(b => b.Type == DialogButtonType.Yes)
+                    && vm.Buttons.Any(b => b.Type == DialogButtonType.No)
+                    && vm.Buttons.Any(b => b.Type == DialogButtonType.Cancel),
+                _ => throw new ArgumentException("Buttons argument out of scope")
+            };
     }
 }

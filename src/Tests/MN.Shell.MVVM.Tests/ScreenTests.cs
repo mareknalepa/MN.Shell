@@ -183,7 +183,7 @@ namespace MN.Shell.MVVM.Tests
         [InlineData(false)]
         [InlineData(true)]
         [InlineData(null)]
-        public void RequestCloseTest(bool? expectedResult)
+        public void RequestClose_RaisesEvent(bool? expectedResult)
         {
             bool handlerFired = false;
             void CloseRequestedHandler(object? sender, bool? dialogResult)

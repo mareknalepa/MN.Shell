@@ -30,7 +30,8 @@ namespace MN.Shell.MVVM.Tests
         [Fact]
         public void NotifyPropertyChanged_RaisesEvent()
         {
-            Assert.Throws<ArgumentNullException>(() => _model.CallNotifyPropertyChanged(null!));
+            var act = () => _model.CallNotifyPropertyChanged(null!);
+            act.ShouldThrow<ArgumentNullException>();
 
             bool handlerFired = false;
             void handler(object? sender, PropertyChangedEventArgs e)
@@ -47,7 +48,7 @@ namespace MN.Shell.MVVM.Tests
         }
 
         [Fact]
-        public void SetTest()
+        public void Set_SetsValueAndRaisesEvent()
         {
             bool handlerFired = false;
             void handler(object? sender, PropertyChangedEventArgs e)
@@ -64,7 +65,7 @@ namespace MN.Shell.MVVM.Tests
         }
 
         [Fact]
-        public void RefreshTest()
+        public void Refresh_RaisesEventWithEmptyPropertyName()
         {
             bool handlerFired = false;
             void handler(object? sender, PropertyChangedEventArgs e)

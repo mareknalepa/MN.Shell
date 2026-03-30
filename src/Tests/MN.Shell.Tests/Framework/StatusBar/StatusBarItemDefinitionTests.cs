@@ -1,48 +1,46 @@
 ﻿using MN.Shell.Framework.StatusBar;
 using MN.Shell.MVVM;
-using NUnit.Framework;
 
 namespace MN.Shell.Tests.Framework.StatusBar
 {
-    [TestFixture]
-    public class StatusBarItemDefinitionTests
+    public sealed class StatusBarItemDefinitionTests
     {
-        [Test]
-        public void SetPlacementTest()
+        [Fact]
+        public void SetPlacement_SetsCorrectValues()
         {
             var statusBarItem = new StatusBarItemDefinition("Sample");
 
-            Assert.False(statusBarItem.IsRightSide);
-            Assert.AreEqual(0, statusBarItem.Order);
+            statusBarItem.IsRightSide.ShouldBeFalse();
+            statusBarItem.Order.ShouldBe(0);
 
             statusBarItem.SetSizeAndPlacement(150, true, 1);
 
-            Assert.AreEqual(150, statusBarItem.MinWidth);
-            Assert.True(statusBarItem.IsRightSide);
-            Assert.AreEqual(1, statusBarItem.Order);
+            statusBarItem.MinWidth.ShouldBe(150);
+            statusBarItem.IsRightSide.ShouldBeTrue();
+            statusBarItem.Order.ShouldBe(1);
         }
 
-        [Test]
-        public void SetContentTest()
+        [Fact]
+        public void SetContent_SetsContent()
         {
             var statusBarItem = new StatusBarItemDefinition("Sample");
 
-            Assert.True(string.IsNullOrEmpty(statusBarItem.Content));
+            statusBarItem.Content.ShouldBeNullOrEmpty();
 
             statusBarItem.SetContent("Content");
 
-            Assert.AreEqual("Content", statusBarItem.Content);
+            statusBarItem.Content.ShouldBe("Content");
         }
 
-        [Test]
-        public void SetCommandTest()
+        [Fact]
+        public void SetCommand_SetsCommand()
         {
             var statusBarItem = new StatusBarItemDefinition("Sample");
             var command = new Command(() => { });
 
             statusBarItem.SetCommand(command);
 
-            Assert.AreSame(command, statusBarItem.Command);
+            statusBarItem.Command.ShouldBeSameAs(command);
         }
     }
 }

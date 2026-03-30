@@ -1,54 +1,52 @@
 ﻿using MN.Shell.Framework.Dialogs;
 using MN.Shell.Tests.Mocks;
-using NUnit.Framework;
 
 namespace MN.Shell.Tests.Framework.Dialogs
 {
-    [TestFixture]
-    public class DialogViewModelExtensionsTests
+    public sealed class DialogViewModelExtensionsTests
     {
-        [Test]
-        public void DialogViewModelExtensionAddButtonTest([Values(
-            DialogButtonType.Ok,
-            DialogButtonType.Cancel,
-            DialogButtonType.Yes,
-            DialogButtonType.No,
-            DialogButtonType.Custom)] DialogButtonType type)
+        [Theory]
+        [InlineData(DialogButtonType.Ok)]
+        [InlineData(DialogButtonType.Cancel)]
+        [InlineData(DialogButtonType.Yes)]
+        [InlineData(DialogButtonType.No)]
+        [InlineData(DialogButtonType.Custom)]
+        public void AddButton_AddsButtonCorrectly(DialogButtonType type)
         {
             var vm = new MockDialogViewModel();
             vm.AddButton(type);
 
-            Assert.NotNull(vm.Buttons);
+            vm.Buttons.ShouldNotBeNull();
 
             var button = vm.Buttons.First();
-            Assert.NotNull(button);
-            Assert.AreEqual(type, button.Type);
+            button.ShouldNotBeNull();
+            button.Type.ShouldBe(type);
 
-            Assert.Null(vm.SelectedButton);
+            vm.SelectedButton.ShouldBeNull();
             button.Command?.Execute(null);
-            Assert.AreEqual(button, vm.SelectedButton);
+            vm.SelectedButton.ShouldBe(button);
         }
 
-        [Test]
-        public void DialogViewModelExtensionAddCustomButtonTest()
+        [Fact]
+        public void AddCustomButton_AddsButtonCorrectly()
         {
             var vm = new MockDialogViewModel();
 
             bool handlerFired = false;
             vm.AddCustomButton("Caption 1", () => handlerFired = true);
 
-            Assert.NotNull(vm.Buttons);
+            vm.Buttons.ShouldNotBeNull();
 
             var button = vm.Buttons.First();
-            Assert.NotNull(button);
-            Assert.AreEqual(DialogButtonType.Custom, button.Type);
-            Assert.AreEqual("Caption 1", button.Caption);
-            Assert.False(handlerFired);
+            button.ShouldNotBeNull();
+            button.Type.ShouldBe(DialogButtonType.Custom);
+            button.Caption.ShouldBe("Caption 1");
+            handlerFired.ShouldBeFalse();
 
-            Assert.Null(vm.SelectedButton);
+            vm.SelectedButton.ShouldBeNull();
             button.Command?.Execute(null);
-            Assert.AreEqual(button, vm.SelectedButton);
-            Assert.True(handlerFired);
+            vm.SelectedButton.ShouldBe(button);
+            handlerFired.ShouldBeTrue();
         }
     }
 }

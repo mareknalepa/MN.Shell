@@ -1,77 +1,75 @@
 ﻿using MN.Shell.Framework.Menu;
-using MN.Shell.PluginContracts;
-using NUnit.Framework;
 
 namespace MN.Shell.Tests.Framework.Menu
 {
-    [TestFixture]
-    public class MenuManagerTests
+    public sealed class MenuManagerTests
     {
-        [Test]
-        public void AddItemBasicTest()
+        [Fact]
+        public void AddItem_AddsMenuItem()
         {
             var menuManager = new MenuManagerWrapper();
 
-            Assert.NotNull(menuManager.RootItemDefinition);
-            Assert.NotNull(menuManager.RootItemDefinition.SubItems);
-            Assert.IsEmpty(menuManager.RootItemDefinition.SubItems);
+            menuManager.RootItemDefinition.ShouldNotBeNull();
+            menuManager.RootItemDefinition.SubItems.ShouldNotBeNull();
+            menuManager.RootItemDefinition.SubItems.ShouldBeEmpty();
 
             menuManager.AddItem("Submenu", "Submenu localized name");
 
-            Assert.AreEqual(1, menuManager.RootItemDefinition.SubItems.Count);
+            menuManager.RootItemDefinition.SubItems.Count.ShouldBe(1);
 
             var submenu = menuManager.RootItemDefinition.SubItems.First();
 
-            Assert.NotNull(submenu);
-            Assert.AreEqual("Submenu", submenu.Name);
-            Assert.AreEqual("Submenu localized name", submenu.LocalizedName);
+            submenu.ShouldNotBeNull();
+            submenu.Name.ShouldBe("Submenu");
+            submenu.LocalizedName.ShouldBe("Submenu localized name");
         }
 
-        [Test]
-        public void AddItemLeadingSlashTest()
+        [Fact]
+        public void AddItem_RemovesLeadingSlash()
         {
             var menuManager = new MenuManagerWrapper();
 
             menuManager.AddItem("/Submenu", "Submenu localized name");
 
-            Assert.AreEqual(1, menuManager.RootItemDefinition.SubItems.Count);
+            menuManager.RootItemDefinition.SubItems.Count.ShouldBe(1);
 
             var submenu = menuManager.RootItemDefinition.SubItems.First();
 
-            Assert.NotNull(submenu);
-            Assert.AreEqual("Submenu", submenu.Name);
-            Assert.AreEqual("Submenu localized name", submenu.LocalizedName);
-            Assert.AreEqual(0, submenu.SubItems.Count);
+            submenu.ShouldNotBeNull();
+            submenu.Name.ShouldBe("Submenu");
+            submenu.LocalizedName.ShouldBe("Submenu localized name");
+            submenu.SubItems.Count.ShouldBe(0);
         }
 
-        [Test]
-        public void AddItemTrailingSlashTest()
+        [Fact]
+        public void AddItem_RemovesTrailingSlash()
         {
             var menuManager = new MenuManagerWrapper();
 
             menuManager.AddItem("Submenu/", "Submenu localized name");
 
-            Assert.AreEqual(1, menuManager.RootItemDefinition.SubItems.Count);
+            menuManager.RootItemDefinition.SubItems.Count.ShouldBe(1);
 
             var submenu = menuManager.RootItemDefinition.SubItems.First();
 
-            Assert.NotNull(submenu);
-            Assert.AreEqual("Submenu", submenu.Name);
-            Assert.AreEqual("Submenu localized name", submenu.LocalizedName);
-            Assert.AreEqual(0, submenu.SubItems.Count);
+            submenu.ShouldNotBeNull();
+            submenu.Name.ShouldBe("Submenu");
+            submenu.LocalizedName.ShouldBe("Submenu localized name");
+            submenu.SubItems.Count.ShouldBe(0);
         }
 
-        [Test]
-        public void AddItemEmptyPathTest()
+        [Fact]
+        public void AddItem_Throws_WhenPathIsEmpty()
         {
             var menuManager = new MenuManagerWrapper();
 
-            Assert.Throws<ArgumentException>(() => menuManager.AddItem("", ""));
-            Assert.AreEqual(0, menuManager.RootItemDefinition.SubItems.Count);
+            var act = () => menuManager.AddItem("", "");
+            act.ShouldThrow<ArgumentException>();
+            menuManager.RootItemDefinition.SubItems.Count.ShouldBe(0);
         }
 
-        [Test]
-        public void AddItemMultipleSiblingsTest()
+        [Fact]
+        public void AddItem_AddsMultipleSiblings()
         {
             var menuManager = new MenuManagerWrapper();
 
@@ -79,225 +77,225 @@ namespace MN.Shell.Tests.Framework.Menu
             menuManager.AddItem("Submenu/Submenu1", "Submenu1 localized name");
             menuManager.AddItem("Submenu/Submenu2", "Submenu2 localized name");
 
-            Assert.AreEqual(1, menuManager.RootItemDefinition.SubItems.Count);
+            menuManager.RootItemDefinition.SubItems.Count.ShouldBe(1);
 
             var submenu = menuManager.RootItemDefinition.SubItems.First();
 
-            Assert.NotNull(submenu);
-            Assert.AreEqual("Submenu", submenu.Name);
-            Assert.AreEqual("Submenu localized name", submenu.LocalizedName);
-            Assert.AreEqual(2, submenu.SubItems.Count);
+            submenu.ShouldNotBeNull();
+            submenu.Name.ShouldBe("Submenu");
+            submenu.LocalizedName.ShouldBe("Submenu localized name");
+            submenu.SubItems.Count.ShouldBe(2);
 
             var submenu1 = submenu.SubItems[0];
 
-            Assert.NotNull(submenu1);
-            Assert.AreEqual("Submenu1", submenu1.Name);
-            Assert.AreEqual("Submenu1 localized name", submenu1.LocalizedName);
+            submenu1.ShouldNotBeNull();
+            submenu1.Name.ShouldBe("Submenu1");
+            submenu1.LocalizedName.ShouldBe("Submenu1 localized name");
 
             var submenu2 = submenu.SubItems[1];
 
-            Assert.NotNull(submenu2);
-            Assert.AreEqual("Submenu2", submenu2.Name);
-            Assert.AreEqual("Submenu2 localized name", submenu2.LocalizedName);
+            submenu2.ShouldNotBeNull();
+            submenu2.Name.ShouldBe("Submenu2");
+            submenu2.LocalizedName.ShouldBe("Submenu2 localized name");
         }
 
-        [Test]
-        public void AddItemNestedTest()
+        [Fact]
+        public void AddItem_AddsNested()
         {
             var menuManager = new MenuManagerWrapper();
 
             menuManager.AddItem("Submenu/SubmenuA/SubmenuB/SubmenuC", "SubmenuC localized name");
 
             var submenu = menuManager.RootItemDefinition.SubItems.FirstOrDefault();
-            Assert.NotNull(submenu);
-            Assert.AreEqual("Submenu", submenu?.Name);
-            Assert.AreEqual("", submenu?.LocalizedName);
-            Assert.AreEqual(1, submenu?.SubItems.Count);
+            submenu.ShouldNotBeNull();
+            submenu?.Name.ShouldBe("Submenu");
+            submenu?.LocalizedName.ShouldBe("");
+            submenu?.SubItems.Count.ShouldBe(1);
 
             var submenuA = submenu?.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuA);
-            Assert.AreEqual("SubmenuA", submenuA?.Name);
-            Assert.AreEqual("", submenuA?.LocalizedName);
-            Assert.AreEqual(1, submenuA?.SubItems.Count);
+            submenuA.ShouldNotBeNull();
+            submenuA?.Name.ShouldBe("SubmenuA");
+            submenuA?.LocalizedName.ShouldBe("");
+            submenuA?.SubItems.Count.ShouldBe(1);
 
             var submenuB = submenuA?.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuB);
-            Assert.AreEqual("SubmenuB", submenuB?.Name);
-            Assert.AreEqual("", submenuB?.LocalizedName);
-            Assert.AreEqual(1, submenuB?.SubItems.Count);
+            submenuB.ShouldNotBeNull();
+            submenuB?.Name.ShouldBe("SubmenuB");
+            submenuB?.LocalizedName.ShouldBe("");
+            submenuB?.SubItems.Count.ShouldBe(1);
 
             var submenuC = submenuB?.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuC);
-            Assert.AreEqual("SubmenuC", submenuC?.Name);
-            Assert.AreEqual("SubmenuC localized name", submenuC?.LocalizedName);
+            submenuC.ShouldNotBeNull();
+            submenuC?.Name.ShouldBe("SubmenuC");
+            submenuC?.LocalizedName.ShouldBe("SubmenuC localized name");
         }
 
-        [Test]
-        public void AddItemUpdateLocalizedNameTest()
+        [Fact]
+        public void AddItem_UpdatesLocalizedName()
         {
             var menuManager = new MenuManagerWrapper();
 
             menuManager.AddItem("SubmenuA/SubmenuB/SubmenuC", "SubmenuC localized name");
 
             var submenuA = menuManager.RootItemDefinition.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuA);
-            Assert.AreEqual("SubmenuA", submenuA?.Name);
-            Assert.AreEqual("", submenuA?.LocalizedName);
+            submenuA.ShouldNotBeNull();
+            submenuA?.Name.ShouldBe("SubmenuA");
+            submenuA?.LocalizedName.ShouldBe("");
 
             var submenuB = submenuA?.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuB);
-            Assert.AreEqual("SubmenuB", submenuB?.Name);
-            Assert.AreEqual("", submenuB?.LocalizedName);
+            submenuB.ShouldNotBeNull();
+            submenuB?.Name.ShouldBe("SubmenuB");
+            submenuB?.LocalizedName.ShouldBe("");
 
             var submenuC = submenuB?.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuC);
-            Assert.AreEqual("SubmenuC", submenuC?.Name);
-            Assert.AreEqual("SubmenuC localized name", submenuC?.LocalizedName);
+            submenuC.ShouldNotBeNull();
+            submenuC?.Name.ShouldBe("SubmenuC");
+            submenuC?.LocalizedName.ShouldBe("SubmenuC localized name");
 
             menuManager.AddItem("SubmenuA", "SubmenuA localized name");
 
             submenuA = menuManager.RootItemDefinition.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuA);
-            Assert.AreEqual("SubmenuA", submenuA?.Name);
-            Assert.AreEqual("SubmenuA localized name", submenuA?.LocalizedName);
+            submenuA.ShouldNotBeNull();
+            submenuA?.Name.ShouldBe("SubmenuA");
+            submenuA?.LocalizedName.ShouldBe("SubmenuA localized name");
 
             submenuB = submenuA?.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuB);
-            Assert.AreEqual("SubmenuB", submenuB?.Name);
-            Assert.AreEqual("", submenuB?.LocalizedName);
+            submenuB.ShouldNotBeNull();
+            submenuB?.Name.ShouldBe("SubmenuB");
+            submenuB?.LocalizedName.ShouldBe("");
 
             submenuC = submenuB?.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuC);
-            Assert.AreEqual("SubmenuC", submenuC?.Name);
-            Assert.AreEqual("SubmenuC localized name", submenuC?.LocalizedName);
+            submenuC.ShouldNotBeNull();
+            submenuC?.Name.ShouldBe("SubmenuC");
+            submenuC?.LocalizedName.ShouldBe("SubmenuC localized name");
 
             menuManager.AddItem("SubmenuA/SubmenuB", "SubmenuB localized name");
 
             submenuA = menuManager.RootItemDefinition.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuA);
-            Assert.AreEqual("SubmenuA", submenuA?.Name);
-            Assert.AreEqual("SubmenuA localized name", submenuA?.LocalizedName);
+            submenuA.ShouldNotBeNull();
+            submenuA?.Name.ShouldBe("SubmenuA");
+            submenuA?.LocalizedName.ShouldBe("SubmenuA localized name");
 
             submenuB = submenuA?.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuB);
-            Assert.AreEqual("SubmenuB", submenuB?.Name);
-            Assert.AreEqual("SubmenuB localized name", submenuB?.LocalizedName);
+            submenuB.ShouldNotBeNull();
+            submenuB?.Name.ShouldBe("SubmenuB");
+            submenuB?.LocalizedName.ShouldBe("SubmenuB localized name");
 
             submenuC = submenuB?.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuC);
-            Assert.AreEqual("SubmenuC", submenuC?.Name);
-            Assert.AreEqual("SubmenuC localized name", submenuC?.LocalizedName);
+            submenuC.ShouldNotBeNull();
+            submenuC?.Name.ShouldBe("SubmenuC");
+            submenuC?.LocalizedName.ShouldBe("SubmenuC localized name");
 
             menuManager.AddItem("SubmenuA", "Overridden SubmenuA localized name");
 
             submenuA = menuManager.RootItemDefinition.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuA);
-            Assert.AreEqual("SubmenuA", submenuA?.Name);
-            Assert.AreEqual("Overridden SubmenuA localized name", submenuA?.LocalizedName);
+            submenuA.ShouldNotBeNull();
+            submenuA?.Name.ShouldBe("SubmenuA");
+            submenuA?.LocalizedName.ShouldBe("Overridden SubmenuA localized name");
 
             submenuB = submenuA?.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuB);
-            Assert.AreEqual("SubmenuB", submenuB?.Name);
-            Assert.AreEqual("SubmenuB localized name", submenuB?.LocalizedName);
+            submenuB.ShouldNotBeNull();
+            submenuB?.Name.ShouldBe("SubmenuB");
+            submenuB?.LocalizedName.ShouldBe("SubmenuB localized name");
 
             submenuC = submenuB?.SubItems.FirstOrDefault();
-            Assert.NotNull(submenuC);
-            Assert.AreEqual("SubmenuC", submenuC?.Name);
-            Assert.AreEqual("SubmenuC localized name", submenuC?.LocalizedName);
+            submenuC.ShouldNotBeNull();
+            submenuC?.Name.ShouldBe("SubmenuC");
+            submenuC?.LocalizedName.ShouldBe("SubmenuC localized name");
         }
 
-        [Test]
-        public void AddItemUpdatePlacementTest()
+        [Fact]
+        public void AddItem_UpdatesPlacement()
         {
             var menuManager = new MenuManagerWrapper();
 
             menuManager.AddItem("SubmenuA/SubmenuB/SubmenuC", "").SetPlacement(1, 2);
 
             var submenuA = menuManager.RootItemDefinition.SubItems.FirstOrDefault();
-            Assert.AreEqual(0, submenuA?.Section);
-            Assert.AreEqual(0, submenuA?.Order);
+            submenuA?.Section.ShouldBe(0);
+            submenuA?.Order.ShouldBe(0);
 
             var submenuB = submenuA?.SubItems.FirstOrDefault();
-            Assert.AreEqual(0, submenuB?.Section);
-            Assert.AreEqual(0, submenuB?.Order);
+            submenuB?.Section.ShouldBe(0);
+            submenuB?.Order.ShouldBe(0);
 
             var submenuC = submenuB?.SubItems.FirstOrDefault();
-            Assert.AreEqual(1, submenuC?.Section);
-            Assert.AreEqual(2, submenuC?.Order);
+            submenuC?.Section.ShouldBe(1);
+            submenuC?.Order.ShouldBe(2);
 
             menuManager.AddItem("SubmenuA", "").SetPlacement(3, 4);
 
             submenuA = menuManager.RootItemDefinition.SubItems.FirstOrDefault();
-            Assert.AreEqual(3, submenuA?.Section);
-            Assert.AreEqual(4, submenuA?.Order);
+            submenuA?.Section.ShouldBe(3);
+            submenuA?.Order.ShouldBe(4);
 
             submenuB = submenuA?.SubItems.FirstOrDefault();
-            Assert.AreEqual(0, submenuB?.Section);
-            Assert.AreEqual(0, submenuB?.Order);
+            submenuB?.Section.ShouldBe(0);
+            submenuB?.Order.ShouldBe(0);
 
             submenuC = submenuB?.SubItems.FirstOrDefault();
-            Assert.AreEqual(1, submenuC?.Section);
-            Assert.AreEqual(2, submenuC?.Order);
+            submenuC?.Section.ShouldBe(1);
+            submenuC?.Order.ShouldBe(2);
 
             menuManager.AddItem("SubmenuA/SubmenuB", "").SetPlacement(5, 6);
 
             submenuA = menuManager.RootItemDefinition.SubItems.FirstOrDefault();
-            Assert.AreEqual(3, submenuA?.Section);
-            Assert.AreEqual(4, submenuA?.Order);
+            submenuA?.Section.ShouldBe(3);
+            submenuA?.Order.ShouldBe(4);
 
             submenuB = submenuA?.SubItems.FirstOrDefault();
-            Assert.AreEqual(5, submenuB?.Section);
-            Assert.AreEqual(6, submenuB?.Order);
+            submenuB?.Section.ShouldBe(5);
+            submenuB?.Order.ShouldBe(6);
 
             submenuC = submenuB?.SubItems.FirstOrDefault();
-            Assert.AreEqual(1, submenuC?.Section);
-            Assert.AreEqual(2, submenuC?.Order);
+            submenuC?.Section.ShouldBe(1);
+            submenuC?.Order.ShouldBe(2);
 
             menuManager.AddItem("SubmenuA", "").SetPlacement(7, 8);
 
             submenuA = menuManager.RootItemDefinition.SubItems.FirstOrDefault();
-            Assert.AreEqual(7, submenuA?.Section);
-            Assert.AreEqual(8, submenuA?.Order);
+            submenuA?.Section.ShouldBe(7);
+            submenuA?.Order.ShouldBe(8);
 
             submenuB = submenuA?.SubItems.FirstOrDefault();
-            Assert.AreEqual(5, submenuB?.Section);
-            Assert.AreEqual(6, submenuB?.Order);
+            submenuB?.Section.ShouldBe(5);
+            submenuB?.Order.ShouldBe(6);
 
             submenuC = submenuB?.SubItems.FirstOrDefault();
-            Assert.AreEqual(1, submenuC?.Section);
-            Assert.AreEqual(2, submenuC?.Order);
+            submenuC?.Section.ShouldBe(1);
+            submenuC?.Order.ShouldBe(2);
         }
 
-        [Test]
-        public void RemoveItemBasicTest()
+        [Fact]
+        public void RemoveItem_RemovesItem()
         {
             var menuManager = new MenuManagerWrapper();
 
             menuManager.AddItem("Submenu", "Submenu localized name");
 
-            Assert.AreEqual(1, menuManager.RootItemDefinition.SubItems.Count);
+            menuManager.RootItemDefinition.SubItems.Count.ShouldBe(1);
 
             menuManager.RemoveItem("Submenu");
 
-            Assert.AreEqual(0, menuManager.RootItemDefinition.SubItems.Count);
+            menuManager.RootItemDefinition.SubItems.Count.ShouldBe(0);
         }
 
-        [Test]
-        public void RemoveItemNotExistingTest()
+        [Fact]
+        public void RemoveItem_DoesNothing_ForNotExistingItem()
         {
             var menuManager = new MenuManagerWrapper();
 
             menuManager.AddItem("Submenu", "Submenu localized name");
 
-            Assert.AreEqual(1, menuManager.RootItemDefinition.SubItems.Count);
+            menuManager.RootItemDefinition.SubItems.Count.ShouldBe(1);
 
             menuManager.RemoveItem("SubmenuNotExisting");
 
-            Assert.AreEqual(1, menuManager.RootItemDefinition.SubItems.Count);
+            menuManager.RootItemDefinition.SubItems.Count.ShouldBe(1);
         }
 
-        [Test]
-        public void RemoveItemMultipleSiblingsTest()
+        [Fact]
+        public void RemoveItem_RemovesFromMultipleSiblings()
         {
             var menuManager = new MenuManagerWrapper();
 
@@ -307,25 +305,25 @@ namespace MN.Shell.Tests.Framework.Menu
 
             var submenu = menuManager.RootItemDefinition.SubItems.First();
 
-            Assert.NotNull(submenu);
-            Assert.AreEqual("Submenu", submenu.Name);
-            Assert.AreEqual(2, submenu.SubItems.Count);
-            Assert.True(submenu.SubItems.Any(d => d.Name == "Submenu1"));
-            Assert.True(submenu.SubItems.Any(d => d.Name == "Submenu2"));
+            submenu.ShouldNotBeNull();
+            submenu.Name.ShouldBe("Submenu");
+            submenu.SubItems.Count.ShouldBe(2);
+            submenu.SubItems.ShouldContain(d => d.Name == "Submenu1");
+            submenu.SubItems.ShouldContain(d => d.Name == "Submenu2");
 
             menuManager.RemoveItem("Submenu/Submenu1");
 
             submenu = menuManager.RootItemDefinition.SubItems.First();
 
-            Assert.NotNull(submenu);
-            Assert.AreEqual("Submenu", submenu.Name);
-            Assert.AreEqual(1, submenu.SubItems.Count);
-            Assert.False(submenu.SubItems.Any(d => d.Name == "Submenu1"));
-            Assert.True(submenu.SubItems.Any(d => d.Name == "Submenu2"));
+            submenu.ShouldNotBeNull();
+            submenu.Name.ShouldBe("Submenu");
+            submenu.SubItems.Count.ShouldBe(1);
+            submenu.SubItems.ShouldNotContain(d => d.Name == "Submenu1");
+            submenu.SubItems.ShouldContain(d => d.Name == "Submenu2");
         }
 
-        [Test]
-        public void RemoveItemNestedTest()
+        [Fact]
+        public void RemoveItem_RemovesFromNested()
         {
             var menuManager = new MenuManagerWrapper();
 
@@ -335,9 +333,9 @@ namespace MN.Shell.Tests.Framework.Menu
                 .SubItems.First()
                 .SubItems.First();
 
-            Assert.NotNull(submenuB);
-            Assert.AreEqual("SubmenuB", submenuB?.Name);
-            Assert.AreEqual(1, submenuB?.SubItems.Count);
+            submenuB.ShouldNotBeNull();
+            submenuB?.Name.ShouldBe("SubmenuB");
+            submenuB?.SubItems.Count.ShouldBe(1);
 
             menuManager.RemoveItem("Submenu/SubmenuA/SubmenuB/SubmenuC");
 
@@ -345,13 +343,13 @@ namespace MN.Shell.Tests.Framework.Menu
                 .SubItems.First()
                 .SubItems.First();
 
-            Assert.NotNull(submenuB);
-            Assert.AreEqual("SubmenuB", submenuB?.Name);
-            Assert.AreEqual(0, submenuB?.SubItems.Count);
+            submenuB.ShouldNotBeNull();
+            submenuB?.Name.ShouldBe("SubmenuB");
+            submenuB?.SubItems.Count.ShouldBe(0);
         }
 
-        [Test]
-        public void RemoveItemContainingSubItemsTest()
+        [Fact]
+        public void RemoveItem_RemovesItemContainingSubItems()
         {
             var menuManager = new MenuManagerWrapper();
 
@@ -359,29 +357,29 @@ namespace MN.Shell.Tests.Framework.Menu
 
             var submenu = menuManager.RootItemDefinition.SubItems.First();
 
-            Assert.NotNull(submenu);
-            Assert.AreEqual("Submenu", submenu.Name);
-            Assert.AreEqual(1, submenu.SubItems.Count);
+            submenu.ShouldNotBeNull();
+            submenu.Name.ShouldBe("Submenu");
+            submenu.SubItems.Count.ShouldBe(1);
 
             menuManager.RemoveItem("Submenu/SubmenuA");
 
             submenu = menuManager.RootItemDefinition.SubItems.First();
 
-            Assert.NotNull(submenu);
-            Assert.AreEqual("Submenu", submenu.Name);
-            Assert.AreEqual(1, submenu.SubItems.Count);
+            submenu.ShouldNotBeNull();
+            submenu.Name.ShouldBe("Submenu");
+            submenu.SubItems.Count.ShouldBe(1);
 
             menuManager.RemoveItem("Submenu/SubmenuA", forceRemoveIfNonEmpty: true);
 
             submenu = menuManager.RootItemDefinition.SubItems.First();
 
-            Assert.NotNull(submenu);
-            Assert.AreEqual("Submenu", submenu.Name);
-            Assert.AreEqual(0, submenu.SubItems.Count);
+            submenu.ShouldNotBeNull();
+            submenu.Name.ShouldBe("Submenu");
+            submenu.SubItems.Count.ShouldBe(0);
         }
 
-        [Test]
-        public void CompileMenuSimpleTest()
+        [Fact]
+        public void CompileMenu_CreatesMenuCorrectly()
         {
             var menuManager = new MenuManagerWrapper();
 
@@ -393,27 +391,27 @@ namespace MN.Shell.Tests.Framework.Menu
 
             menuManager.CompileMenu();
 
-            Assert.AreEqual(2, menuManager.MenuItems.Count);
+            menuManager.MenuItems.Count.ShouldBe(2);
 
             var fileMenu = menuManager.MenuItems[0];
-            Assert.AreEqual("File", fileMenu.Name);
-            Assert.AreEqual(4, fileMenu.SubItems.Count);
-            Assert.AreEqual("New Project...", fileMenu.SubItems[0].Name);
-            Assert.AreEqual("Open Project...", fileMenu.SubItems[1].Name);
-            Assert.True(fileMenu.SubItems[2].IsSeparator);
-            Assert.AreEqual("Exit", fileMenu.SubItems[3].Name);
+            fileMenu.Name.ShouldBe("File");
+            fileMenu.SubItems.Count.ShouldBe(4);
+            fileMenu.SubItems[0].Name.ShouldBe("New Project...");
+            fileMenu.SubItems[1].Name.ShouldBe("Open Project...");
+            fileMenu.SubItems[2].IsSeparator.ShouldBeTrue();
+            fileMenu.SubItems[3].Name.ShouldBe("Exit");
 
             var viewMenu = menuManager.MenuItems[1];
-            Assert.AreEqual("View", viewMenu.Name);
-            Assert.AreEqual(3, viewMenu.SubItems.Count);
-            Assert.AreEqual("Tools", viewMenu.SubItems[0].Name);
-            Assert.True(viewMenu.SubItems[1].IsSeparator);
-            Assert.AreEqual("Advanced mode", viewMenu.SubItems[2].Name);
+            viewMenu.Name.ShouldBe("View");
+            viewMenu.SubItems.Count.ShouldBe(3);
+            viewMenu.SubItems[0].Name.ShouldBe("Tools");
+            viewMenu.SubItems[1].IsSeparator.ShouldBeTrue();
+            viewMenu.SubItems[2].Name.ShouldBe("Advanced mode");
         }
 
-        private class MenuManagerWrapper : MenuManager
+        private sealed class MenuManagerWrapper : MenuManager
         {
-            public MenuManagerWrapper() : base(Enumerable.Empty<IMenuProvider>()) { }
+            public MenuManagerWrapper() : base([]) { }
 
             public new MenuItemDefinition RootItemDefinition => base.RootItemDefinition;
         }

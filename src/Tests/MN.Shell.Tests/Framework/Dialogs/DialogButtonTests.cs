@@ -1,46 +1,66 @@
 ﻿using MN.Shell.Framework.Dialogs;
-using NUnit.Framework;
+using System.Globalization;
 
 namespace MN.Shell.Tests.Framework.Dialogs
 {
-    [TestFixture]
-    public class DialogButtonTests
+    public sealed class DialogButtonTests : IDisposable
     {
-        [Test, SetUICulture("")]
-        public void DialogButtonCreateTest([Values(
-            DialogButtonType.Ok,
-            DialogButtonType.Cancel,
-            DialogButtonType.Yes,
-            DialogButtonType.No,
-            DialogButtonType.Custom)] DialogButtonType type)
+        private readonly CultureInfo _originalCulture;
+        private readonly CultureInfo _originalUiCulture;
+
+        public DialogButtonTests()
+        {
+            _originalCulture = Thread.CurrentThread.CurrentCulture;
+            _originalUiCulture = Thread.CurrentThread.CurrentUICulture;
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("");
+        }
+
+        public void Dispose()
+        {
+            Thread.CurrentThread.CurrentCulture = _originalCulture;
+            Thread.CurrentThread.CurrentUICulture = _originalUiCulture;
+        }
+
+        [Theory]
+        [InlineData(DialogButtonType.Ok)]
+        [InlineData(DialogButtonType.Cancel)]
+        [InlineData(DialogButtonType.Yes)]
+        [InlineData(DialogButtonType.No)]
+        [InlineData(DialogButtonType.Custom)]
+        public void Create_ReturnsCorrectResult(DialogButtonType type)
         {
             var dialogButton = DialogButton.Create(type);
 
-            Assert.NotNull(dialogButton);
-            Assert.AreEqual(type, dialogButton.Type);
+            dialogButton.ShouldNotBeNull();
+            dialogButton.Type.ShouldBe(type);
 
             if (type != DialogButtonType.Custom)
-                Assert.AreEqual(type.ToString().ToUpperInvariant(), dialogButton.Caption.ToUpperInvariant());
+            {
+                dialogButton.Caption.ToUpperInvariant().ShouldBe(type.ToString().ToUpperInvariant());
+            }
 
-            Assert.AreEqual(type == DialogButtonType.Ok || type == DialogButtonType.Yes ||
-                type == DialogButtonType.Custom, dialogButton.IsDefault);
-            Assert.AreEqual(type == DialogButtonType.Cancel, dialogButton.IsCancel);
+            dialogButton.IsDefault.ShouldBe(type == DialogButtonType.Ok || type == DialogButtonType.Yes || type == DialogButtonType.Custom);
+            dialogButton.IsCancel.ShouldBe(type == DialogButtonType.Cancel);
         }
 
-        [Test]
-        public void DialogButtonCreateCustomTest(
-            [Values("Caption 1", "Caption 2")] string caption)
+        [Theory]
+        [InlineData("Caption 1")]
+        [InlineData("Caption 2")]
+        public void Create_ReturnsCorrectResult_ForCustomButton(string caption)
         {
             var dialogButton = DialogButton.Create(DialogButtonType.Custom, caption);
 
-            Assert.AreEqual(DialogButtonType.Custom, dialogButton.Type);
-            Assert.AreEqual(caption, dialogButton.Caption);
+            dialogButton.Type.ShouldBe(DialogButtonType.Custom);
+            dialogButton.Caption.ShouldBe(caption);
         }
 
-        [Test]
-        public void DialogButtonCreateThrowsTest()
+        [Fact]
+        public void Create_Throws_ForInvalidType()
         {
-            Assert.Throws<ArgumentException>(() => DialogButton.Create(DialogButtonType.Unknown));
+            var act = () => DialogButton.Create(DialogButtonType.Unknown);
+            act.ShouldThrow<ArgumentException>();
         }
     }
 }
